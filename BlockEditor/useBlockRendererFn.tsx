@@ -23,7 +23,7 @@ export default function useBlockRendererFn () {
                 return <BlockWrapper
                     ref = { elem => blockRefs.current [ props.block.key ] = elem }
                     data-block-key = { props.block.key }
-                    onDragStart = { e => setImmediate ( () => setDragInfo ({ dragging: true, elem: e.target }) ) }
+                    onDragStart = { e => setImmediate ( () => setDragInfo ({ dragging: true, elem: e.target as HTMLDivElement }) ) }
                     onDragEnd = { () => setImmediate ( () => setDragInfo ({ dragging: false, elem: null }) ) }
                 >
                     <EditorBlock { ...props } />
