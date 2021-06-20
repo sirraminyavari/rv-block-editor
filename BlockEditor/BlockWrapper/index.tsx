@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 
 
 const BlockWrapper = ({ block, children }) => {
-    const { setDragInfo, blockRefs } = useEditorContext ()
+    const { setDragInfo, blockRefs, editorRef } = useEditorContext ()
     const [ isDragging, setIsDragging ] = useState ( false )
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
@@ -28,6 +28,7 @@ const BlockWrapper = ({ block, children }) => {
             />
             <div
                 className = { cn ( styles.control, styles.dragHandle ) }
+                onMouseOver = { () => editorRef.current?.focus () }
                 onMouseDown = { () => setIsDragging ( true ) }
                 onMouseUp = { () => setIsDragging ( false ) }
                 onDragEnd = { () => setIsDragging ( false ) }

@@ -3,12 +3,12 @@
     grid-template-columns: auto 1fr;
     gap: 1rem;
     padding: .5rem 0;
-    border: 1px solid darkgrey;
 
     .controls {
         display: grid;
         grid-template-columns: repeat( 2, auto );
         opacity: 0;
+        transition: opacity 200ms ease;
         .control {
             user-select: none;
             -webkit-user-modify: read-only;
