@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "forceConsistentCasingInFileNames": true,
+        "jsx": "preserve"
+    },
+    "exclude": [
+        "node_modules",
+        "vite.config.js"
+    ]
+}
