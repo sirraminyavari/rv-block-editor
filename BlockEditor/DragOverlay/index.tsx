@@ -72,7 +72,11 @@ function DropIndicator ({ overlayRect: or, closestInfo }) {
     const { rect: cr, insertionMode } = closestInfo
     return <div
         className = { styles.dropIndicator }
-        style = {{ transform: `translateY( ${ ( cr?.[ { before: 'y', after: 'bottom' } [ insertionMode ] ] || 0 ) - ( or?.y || 0 ) }px )` }}
+        style = {{ transform: `translateY( calc(
+            ${ ( cr?.[ { before: 'y', after: 'bottom' } [ insertionMode ] ] || 0 ) - ( or?.y || 0 ) }px
+            - .25rem
+            - 50%
+        ) )` }}
     />
 }
 

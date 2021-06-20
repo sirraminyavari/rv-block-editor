@@ -6,3 +6,11 @@ html {
 .DraftEditor-root {
     background-color: #F1F1F1;
 }
+
+.public-DraftEditor-content > div {
+    display: grid;
+    gap: .5rem;
+}
+
+
+figure { margin: 0 3rem; }
