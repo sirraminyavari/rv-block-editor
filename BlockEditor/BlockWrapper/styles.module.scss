@@ -2,10 +2,13 @@
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 1rem;
-    padding: .5rem 0;
+    padding: .5rem;
+    border: 1px solid darkgrey;
+    margin: .5rem 0;
 
     .controls {
         display: grid;
+        gap: .25rem;
         grid-template-columns: repeat( 2, auto );
         opacity: 0;
         transition: opacity 200ms ease;
