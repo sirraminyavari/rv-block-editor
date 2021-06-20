@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from 'draft-js'
-
 import { useEditorContext } from '../EditorContext'
 
 

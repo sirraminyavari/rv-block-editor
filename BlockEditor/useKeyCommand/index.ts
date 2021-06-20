@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
 import { RichUtils } from 'draft-js'
-
 import useEditorContext from '../EditorContext'
 
 

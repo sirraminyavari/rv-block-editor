@@ -2,8 +2,6 @@ import { FC, useState, useRef, useCallback } from 'react'
 import cn from 'classnames'
 import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState'
 import { EditorState } from 'draft-js'
-
-import findClosestDropElement from '../utils/findClosestDropElement'
 import { useEditorContext } from '../EditorContext'
 
 import styles from './styles.module.scss'
@@ -55,3 +53,17 @@ const DragOverlay: FC < any > = () => {
     </div>
 }
 export default DragOverlay
+
+
+export function findClosestDropElement ( event, draggables ) {
+    const { clientY: mouseY } = event
+    const closest = draggables.reduce ( ( closest, draggable ) => {
+        const { y: draggableY, height: draggableHeight } = draggable.getBoundingClientRect ()
+        const centerY = draggableY + draggableHeight / 2
+        const offset = centerY - mouseY
+        if ( offset >= 0 && offset < closest.offset  )
+            return { offset, elem: draggable }
+        return closest
+    }, { offset: Infinity } )
+    return closest.elem
+}

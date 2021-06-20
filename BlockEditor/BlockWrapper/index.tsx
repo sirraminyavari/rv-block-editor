@@ -1,24 +1,25 @@
-import { useState, forwardRef, HTMLAttributes } from 'react'
+import { useState } from 'react'
 import cn from 'classnames'
+import useEditorContext from '../EditorContext'
 
 import styles from './styles.module.scss'
 
 
-const BlockWrapper = forwardRef < HTMLDivElement, HTMLAttributes < HTMLDivElement > > ( ( { children, onDragEnd, ...rest }, ref ) => {
-    const [ f, setF ] = useState ( false )
-    const isDragging = f
+const BlockWrapper = ({ block, children }) => {
+    const { setDragInfo, blockRefs } = useEditorContext ()
+    const [ isDragging, setIsDragging ] = useState ( false )
     return <div
-        ref = { ref }
+        ref = { elem => blockRefs.current [ block.key ] = elem }
+        data-block-key = { block.key }
         className = { cn ( styles.blockWrapper, {
             [ styles.dragging ]: isDragging
         } ) }
         draggable = { isDragging }
-        onDragEnd = { event => {
-            setF ( false )
-            if ( typeof onDragEnd === 'function' )
-                onDragEnd ( event )
+        onDragStart = { e => setImmediate ( () => setDragInfo ({ dragging: true, elem: e.target as HTMLDivElement }) ) }
+        onDragEnd = { () => {
+            setIsDragging ( false )
+            setImmediate ( () => setDragInfo ({ dragging: false, elem: null }) )
         } }
-        { ...rest }
     >
         <div className = { styles.controls }>
             <button
@@ -27,9 +28,9 @@ const BlockWrapper = forwardRef < HTMLDivElement, HTMLAttributes < HTMLDivElemen
             />
             <div
                 className = { cn ( styles.control, styles.dragHandle ) }
-                onMouseDown = { () => setF ( true ) }
-                onMouseUp = { () => setF ( false ) }
-                onDragEnd = { () => setF ( false ) }
+                onMouseDown = { () => setIsDragging ( true ) }
+                onMouseUp = { () => setIsDragging ( false ) }
+                onDragEnd = { () => setIsDragging ( false ) }
                 children = '='
             />
         </div>
@@ -38,5 +39,5 @@ const BlockWrapper = forwardRef < HTMLDivElement, HTMLAttributes < HTMLDivElemen
             children = { children }
         />
     </div>
-} )
+}
 export default BlockWrapper
