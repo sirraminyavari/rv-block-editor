@@ -35,8 +35,14 @@ const DragOverlay: FC < any > = () => {
         onDrop = { event => {
             const closest = getClosest ( event )
             const currentContent = editorState.getCurrentContent ()
-            const blockToBeMoved = currentContent.getBlockForKey ( dragInfo.elem.getAttribute ( 'data-block-key' ) )
-            const targetBlock = currentContent.getBlockForKey ( closest.getAttribute ( 'data-block-key' ) )
+            const blockToBeMovedKey = dragInfo.elem.getAttribute ( 'data-block-key' )
+            const blockToBeMoved = currentContent.getBlockForKey ( blockToBeMovedKey )
+            const targetBlockKey = closest.getAttribute ( 'data-block-key' )
+            const targetBlock = currentContent.getBlockForKey ( targetBlockKey )
+            if ( // Block cannot be moved next to itself
+                blockToBeMoved === targetBlock ||
+                blockToBeMoved === currentContent.getBlockBefore ( targetBlockKey )
+            ) return
             const newContent = moveBlockInContentState ( currentContent, blockToBeMoved, targetBlock, 'before' )
             const newState = EditorState.push ( editorState, newContent, 'move-block' )
             setImmediate ( () => setEditorState ( newState ) )
