@@ -11,10 +11,16 @@ const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState, dragInfo, blockRefs } = useEditorContext ()
 
     const overlayRef = useRef ( null )
-    const [ overlayRect, setOverlayRect ] = useState ( null )
-    const [ closestRect, setClosestRect ] = useState ( null )
 
-    const getClosest = useCallback ( event => findClosestDropElement ( event, Object.values ( blockRefs.current ).filter ( Boolean ) ), [] )
+    const [ overlayRect, setOverlayRect ] = useState ( null )
+    const [ sortedPosInfo, setSortedPosInfo ] = useState ( null )
+    const [ closestInfo, setClosestInfo ] = useState ( null )
+
+    const getClosestInfo = useCallback ( event => {
+        if ( ! sortedPosInfo )
+            return null
+        return findClosestDropElement ( event, sortedPosInfo )
+    }, [ sortedPosInfo ] )
 
     return <div
         ref = { overlayRef }
@@ -23,48 +29,60 @@ const DragOverlay: FC < any > = () => {
         } ) }
         onDragEnter = { () => {
             setOverlayRect ( overlayRef.current.getBoundingClientRect () )
+            const elems = Object.values ( blockRefs.current ).filter ( Boolean )
+            const posInfo = elems.map ( elem => {
+                const rect = elem.getBoundingClientRect ()
+                const centerY = rect.y + rect.height / 2
+                return { elem, rect, centerY }
+            } )
+            const sortedPosInfo = posInfo.slice ().sort ( ( a, b ) => a.centerY - b.centerY )
+            setSortedPosInfo ( sortedPosInfo )
         } }
         onDragOver = { event => {
             event.preventDefault ()
-            const closest = getClosest ( event )
-            if ( ! closest )
-                return setClosestRect ( null )
-            setClosestRect ( closest.getBoundingClientRect () )
+            setClosestInfo ( getClosestInfo ( event ) )
         } }
         onDrop = { event => {
-            const closest = getClosest ( event )
+            const { elem: closestElem, insertionMode } = getClosestInfo ( event )
             const currentContent = editorState.getCurrentContent ()
             const blockToBeMovedKey = dragInfo.elem.getAttribute ( 'data-block-key' )
             const blockToBeMoved = currentContent.getBlockForKey ( blockToBeMovedKey )
-            const targetBlockKey = closest.getAttribute ( 'data-block-key' )
+            const targetBlockKey = closestElem.getAttribute ( 'data-block-key' )
             const targetBlock = currentContent.getBlockForKey ( targetBlockKey )
-            if ( // Block cannot be moved next to itself
+            const nextBlock = currentContent [ { before: 'getBlockBefore', after: 'getBlockAfter' } [ insertionMode ] ] ( targetBlockKey )
+            if ( // A block cannot be moved next to itself
                 blockToBeMoved === targetBlock ||
-                blockToBeMoved === currentContent.getBlockBefore ( targetBlockKey )
+                blockToBeMoved === nextBlock
             ) return
-            const newContent = moveBlockInContentState ( currentContent, blockToBeMoved, targetBlock, 'before' )
+            const newContent = moveBlockInContentState ( currentContent, blockToBeMoved, targetBlock, insertionMode )
             const newState = EditorState.push ( editorState, newContent, 'move-block' )
             setImmediate ( () => setEditorState ( newState ) )
         } }
     >
-        { closestRect && <div
-            className = { styles.dropIndicator }
-            style = {{ transform: `translateY( ${ ( closestRect?.y || 0 ) - overlayRect.y }px )` }}
-        /> }
+        <DropIndicator
+            overlayRect = { overlayRect }
+            closestInfo = { closestInfo }
+        />
     </div>
 }
 export default DragOverlay
 
+function DropIndicator ({ overlayRect: or, closestInfo }) {
+    if ( ! closestInfo ) return null
+    const { rect: cr, insertionMode } = closestInfo
+    return <div
+        className = { styles.dropIndicator }
+        style = {{ transform: `translateY( ${ ( cr?.[ { before: 'y', after: 'bottom' } [ insertionMode ] ] || 0 ) - ( or?.y || 0 ) }px )` }}
+    />
+}
 
-export function findClosestDropElement ( event, draggables ) {
+export function findClosestDropElement ( event, draggablesSortedPosInfo ) {
     const { clientY: mouseY } = event
-    const info = draggables.reduce ( ( info, draggable ) => {
-        const { y: draggableY, height: draggableHeight } = draggable.getBoundingClientRect ()
-        const centerY = draggableY + draggableHeight / 2
-        const offset = centerY - mouseY
-        if ( offset >= 0 && offset < info.offset )
-            return { offset, elem: draggable }
-        return info
-    }, { offset: Infinity } )
-    return info.elem
+    for ( const posInfo of draggablesSortedPosInfo )
+        if ( mouseY < posInfo.centerY )
+            return { ...posInfo, insertionMode: 'before' }
+    return {
+        ...draggablesSortedPosInfo [ draggablesSortedPosInfo.length - 1 ],
+        insertionMode: 'after'
+    }
 }
