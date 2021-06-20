@@ -1,3 +1,4 @@
+import 'draft-js/dist/Draft.css'
 import { useState } from 'react'
 import { EditorState } from 'draft-js'
 

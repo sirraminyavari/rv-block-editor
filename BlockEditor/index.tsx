@@ -1,4 +1,3 @@
-import 'draft-js/dist/Draft.css'
 import { FC } from 'react'
 import { Editor } from 'draft-js'
 
