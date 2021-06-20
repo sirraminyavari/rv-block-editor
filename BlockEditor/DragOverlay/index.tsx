@@ -11,7 +11,7 @@ const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState, dragInfo, blockRefs } = useEditorContext ()
 
     const overlayRef = useRef ( null )
-    const [ overlayRect, setOverlayRect ] = useState ({ y: 0 })
+    const [ overlayRect, setOverlayRect ] = useState ( null )
     const [ closestRect, setClosestRect ] = useState ( null )
 
     const getClosest = useCallback ( event => findClosestDropElement ( event, Object.values ( blockRefs.current ).filter ( Boolean ) ), [] )
@@ -27,7 +27,8 @@ const DragOverlay: FC < any > = () => {
         onDragOver = { event => {
             event.preventDefault ()
             const closest = getClosest ( event )
-            if ( ! closest ) return
+            if ( ! closest )
+                return setClosestRect ( null )
             setClosestRect ( closest.getBoundingClientRect () )
         } }
         onDrop = { event => {
@@ -46,10 +47,10 @@ const DragOverlay: FC < any > = () => {
             setImmediate ( () => setEditorState ( newState ) )
         } }
     >
-        <div
+        { closestRect && <div
             className = { styles.dropIndicator }
             style = {{ transform: `translateY( ${ ( closestRect?.y || 0 ) - overlayRect.y }px )` }}
-        />
+        /> }
     </div>
 }
 export default DragOverlay
@@ -57,13 +58,13 @@ export default DragOverlay
 
 export function findClosestDropElement ( event, draggables ) {
     const { clientY: mouseY } = event
-    const closest = draggables.reduce ( ( closest, draggable ) => {
+    const info = draggables.reduce ( ( info, draggable ) => {
         const { y: draggableY, height: draggableHeight } = draggable.getBoundingClientRect ()
         const centerY = draggableY + draggableHeight / 2
         const offset = centerY - mouseY
-        if ( offset >= 0 && offset < closest.offset  )
+        if ( offset >= 0 && offset < info.offset )
             return { offset, elem: draggable }
-        return closest
+        return info
     }, { offset: Infinity } )
-    return closest.elem
+    return info.elem
 }
