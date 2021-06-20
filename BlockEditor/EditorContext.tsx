@@ -1,8 +1,22 @@
-import { useState, useRef, createContext, useContext } from 'react'
+import { useState, useRef, createContext, useContext, MutableRefObject } from 'react'
+import { Editor, EditorState } from 'draft-js'
 
 
-export const EditorContext = createContext ( null )
+export interface DragInfo {
+    dragging: boolean
+    elem?: HTMLElement
+}
 
+export interface EditorContext {
+    editorState: EditorState,
+    setEditorState: React.Dispatch < React.SetStateAction < EditorState > >,
+    dragInfo: DragInfo,
+    setDragInfo: React.Dispatch < React.SetStateAction < DragInfo > >,
+    editorRef: MutableRefObject < Editor >
+    blockRefs: MutableRefObject < { [ key: string ]: HTMLElement | null } >
+}
+
+export const EditorContext = createContext < EditorContext > ( null )
 export const useEditorContext = () => useContext ( EditorContext )
 export default useEditorContext
 
