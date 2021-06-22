@@ -15,9 +15,12 @@
             user-select: none;
             -webkit-user-modify: read-only;
             -moz-user-modify: read-only;
+            padding: 0 .2rem;
             &.dragHandle {
-                padding: 0 .2rem;
-                cursor: grab !important;
+                cursor: grab;
+            }
+            &.plusAction {
+                cursor: pointer;
             }
         }
     }

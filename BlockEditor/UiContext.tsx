@@ -10,8 +10,8 @@ export interface DragInfo {
 }
 
 export interface UiContext {
-    plusMenu: PlusMenuInfo
-    setPlusMenu: SetState < PlusMenuInfo >
+    plusMenuInfo: PlusMenuInfo
+    setPlusMenuInfo: SetState < PlusMenuInfo >
     dragInfo: DragInfo,
     setDragInfo: SetState < DragInfo >,
     editorRef: MutableRefObject < Editor >
@@ -26,12 +26,12 @@ export function UiContextProvider ({ children }) {
     const [ dragInfo, setDragInfo ] = useState ({ dragging: false, elem: null })
     const editorRef = useRef ()
     const blockRefs = useRef ({})
-    const [ plusMenu, setPlusMenu ] = useState < PlusMenuInfo > ({ isOpen: false, anchor: null })
+    const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({ isOpen: false, anchor: null })
     return <UiContext.Provider
         value = {{
             dragInfo, setDragInfo,
             editorRef, blockRefs,
-            plusMenu, setPlusMenu
+            plusMenuInfo, setPlusMenuInfo
         }}
         children = { children }
     />

@@ -7,6 +7,7 @@ import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'
 
 import DragOverlay from './DragOverlay'
+import PlusMenu from './PlusMenu'
 import Controls from './Controls'
 
 import styles from './styles.module.scss'
@@ -31,6 +32,7 @@ export default function _BlockEditor () {
                 blockRendererFn = { blockRendererFn }
             />
             <DragOverlay />
+            <PlusMenu />
         </div>
     </div>
 }

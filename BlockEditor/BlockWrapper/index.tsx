@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 
 
 const BlockWrapper = ({ block, children }) => {
-    const { setDragInfo, blockRefs, editorRef } = useUiContext ()
+    const { setDragInfo, blockRefs, editorRef, setPlusMenuInfo } = useUiContext ()
     const [ isDragging, setIsDragging ] = useState ( false )
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
@@ -22,17 +22,18 @@ const BlockWrapper = ({ block, children }) => {
         } }
     >
         <div className = { styles.controls }>
-            <button
-                className = { cn ( styles.control, styles.addBlcok ) }
+            <div
                 children = '+'
+                className = { cn ( styles.control, styles.plusAction ) }
+                onClick = { e => setPlusMenuInfo ({ isOpen: true, anchor: e.target as HTMLElement }) }
             />
             <div
+                children = '='
                 className = { cn ( styles.control, styles.dragHandle ) }
                 onMouseOver = { () => editorRef.current?.focus () }
                 onMouseDown = { () => setIsDragging ( true ) }
                 onMouseUp = { () => setIsDragging ( false ) }
                 onDragEnd = { () => setIsDragging ( false ) }
-                children = '='
             />
         </div>
         <div
