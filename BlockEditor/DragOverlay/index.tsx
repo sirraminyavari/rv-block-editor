@@ -2,13 +2,15 @@ import { FC, useState, useRef, useCallback } from 'react'
 import cn from 'classnames'
 import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState'
 import { EditorState } from 'draft-js'
-import { useEditorContext } from '../EditorContext'
+import useEditorContext from '../EditorContext'
+import useUiContext from '../UiContext'
 
 import styles from './styles.module.scss'
 
 
 const DragOverlay: FC < any > = () => {
-    const { editorState, setEditorState, dragInfo, blockRefs } = useEditorContext ()
+    const { editorState, setEditorState } = useEditorContext ()
+    const { dragInfo, blockRefs } = useUiContext ()
 
     const overlayRef = useRef ( null )
 

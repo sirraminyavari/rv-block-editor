@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import cn from 'classnames'
-import useEditorContext from '../EditorContext'
+import useUiContext from '../UiContext'
 
 import styles from './styles.module.scss'
 
 
 const BlockWrapper = ({ block, children }) => {
-    const { setDragInfo, blockRefs, editorRef } = useEditorContext ()
+    const { setDragInfo, blockRefs, editorRef } = useUiContext ()
     const [ isDragging, setIsDragging ] = useState ( false )
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
