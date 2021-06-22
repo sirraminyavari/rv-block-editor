@@ -13,11 +13,7 @@
         transition: opacity 200ms ease;
     }
 
-    &:hover {
-        .controls {
-            opacity: 1;
-        }
-    }
+    &:hover .controls { opacity: 1; }
 
     &.dragging {
         opacity: .4;

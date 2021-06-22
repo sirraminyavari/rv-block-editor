@@ -4,7 +4,7 @@ import useUiContext from '../UiContext'
 
 import DragHandle from '../DragOverlay/DragHandle'
 import getWrapperHandlers from '../DragOverlay/getWrapperHandlers'
-import PlusButton from '../PlusMenu/PlusButton'
+import PlusMenuButton from '../PlusMenuButton'
 
 import styles from './styles.module.scss'
 
@@ -22,7 +22,7 @@ const BlockWrapper = ({ block, children }) => {
         { ...getWrapperHandlers ({ setIsDragging, setDragInfo }) }
     >
         <div className = { styles.controls }>
-            <PlusButton />
+            <PlusMenuButton />
             <DragHandle setIsDragging = { setIsDragging } />
         </div>
         <div
