@@ -7,8 +7,7 @@ import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'
 
 import DragOverlay from './DragOverlay'
-// import PlusMenu from './PlusMenuButton'
-import Controls from './Controls'
+// import Controls from './Controls'
 
 import styles from './styles.module.scss'
 
@@ -21,7 +20,7 @@ export default function _BlockEditor () {
     const blockRendererFn = useBlockRendererFn ()
 
     return <div onClick = { () => editorRef.current?.focus?.() }>
-        <Controls />
+        {/* <Controls /> */}
         <div className = { styles.editorWrapper }>
             <Editor
                 ref = { editorRef }
@@ -32,7 +31,6 @@ export default function _BlockEditor () {
                 blockRendererFn = { blockRendererFn }
             />
             <DragOverlay />
-            {/* <PlusMenu /> */}
         </div>
     </div>
 }
