@@ -2,11 +2,15 @@ import { useState } from 'react'
 import cn from 'classnames'
 import useUiContext from '../UiContext'
 
+import DragHandle from '../DragOverlay/DragHandle'
+import getWrapperHandlers from '../DragOverlay/getWrapperHandlers'
+import PlusButton from '../PlusMenu/PlusButton'
+
 import styles from './styles.module.scss'
 
 
 const BlockWrapper = ({ block, children }) => {
-    const { setDragInfo, blockRefs, editorRef, setPlusMenuInfo } = useUiContext ()
+    const { setDragInfo, blockRefs } = useUiContext ()
     const [ isDragging, setIsDragging ] = useState ( false )
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
@@ -15,26 +19,11 @@ const BlockWrapper = ({ block, children }) => {
             [ styles.dragging ]: isDragging
         } ) }
         draggable = { isDragging }
-        onDragStart = { e => setImmediate ( () => setDragInfo ({ dragging: true, elem: e.target as HTMLDivElement }) ) }
-        onDragEnd = { () => {
-            setIsDragging ( false )
-            setImmediate ( () => setDragInfo ({ dragging: false, elem: null }) )
-        } }
+        { ...getWrapperHandlers ({ setIsDragging, setDragInfo }) }
     >
         <div className = { styles.controls }>
-            <div
-                children = '+'
-                className = { cn ( styles.control, styles.plusAction ) }
-                onClick = { e => setPlusMenuInfo ({ isOpen: true, anchor: e.target as HTMLElement }) }
-            />
-            <div
-                children = '='
-                className = { cn ( styles.control, styles.dragHandle ) }
-                onMouseOver = { () => editorRef.current?.focus () }
-                onMouseDown = { () => setIsDragging ( true ) }
-                onMouseUp = { () => setIsDragging ( false ) }
-                onDragEnd = { () => setIsDragging ( false ) }
-            />
+            <PlusButton />
+            <DragHandle setIsDragging = { setIsDragging } />
         </div>
         <div
             className = { styles.content }

@@ -11,5 +11,13 @@
         width: 100%;
         height: 3px;
         background-color: blue;
+        transform: translateY( calc( var( --offset ) * 1px - .25rem - 50% ) )
     }
+}
+
+.dragHandle {
+    user-select: none;
+    -webkit-user-modify: read-only;
+    -moz-user-modify: read-only;
+    cursor: grab;
 }

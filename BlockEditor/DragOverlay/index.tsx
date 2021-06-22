@@ -5,6 +5,9 @@ import { EditorState } from 'draft-js'
 import useEditorContext from '../EditorContext'
 import useUiContext from '../UiContext'
 
+import DropIndicator from './DropIndicator'
+import findClosestDropElement from './findClosestDropElement'
+
 import styles from './styles.module.scss'
 
 
@@ -68,27 +71,3 @@ const DragOverlay: FC < any > = () => {
     </div>
 }
 export default DragOverlay
-
-function DropIndicator ({ overlayRect: or, closestInfo }) {
-    if ( ! closestInfo ) return null
-    const { rect: cr, insertionMode } = closestInfo
-    return <div
-        className = { styles.dropIndicator }
-        style = {{ transform: `translateY( calc(
-            ${ ( cr?.[ { before: 'y', after: 'bottom' } [ insertionMode ] ] || 0 ) - ( or?.y || 0 ) }px
-            - .25rem
-            - 50%
-        ) )` }}
-    />
-}
-
-export function findClosestDropElement ( event, draggablesSortedPosInfo ) {
-    const { clientY: mouseY } = event
-    for ( const posInfo of draggablesSortedPosInfo )
-        if ( mouseY < posInfo.centerY )
-            return { ...posInfo, insertionMode: 'before' }
-    return {
-        ...draggablesSortedPosInfo [ draggablesSortedPosInfo.length - 1 ],
-        insertionMode: 'after'
-    }
-}
