@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Menu } from '@headlessui/react'
-import useEditorContext from '../EditorContext'
-import applyPlusAction from '../lib/applyPlusAction'
+import useEditorContext from 'BlockEditor/EditorContext'
+import applyPlusAction from 'BlockEditor/lib/applyPlusAction'
 
 import styles from './styles.module.scss'
 

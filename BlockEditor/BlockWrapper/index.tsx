@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import cn from 'classnames'
-import useUiContext from '../UiContext'
+import useUiContext from 'BlockEditor/UiContext'
 
-import DragHandle from '../DragOverlay/DragHandle'
-import getWrapperHandlers from '../DragOverlay/getWrapperHandlers'
-import PlusMenuButton from '../PlusMenuButton'
+import DragHandle from 'BlockEditor/DragOverlay/DragHandle'
+import getWrapperHandlers from 'BlockEditor/DragOverlay/getWrapperHandlers'
+import PlusMenuButton from 'BlockEditor/PlusMenuButton'
 
 import styles from './styles.module.scss'
 
