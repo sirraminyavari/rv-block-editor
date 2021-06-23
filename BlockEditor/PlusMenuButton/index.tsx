@@ -1,18 +1,24 @@
-// import { useState, useEffect } from 'react'
-// import cn from 'classnames'
-// import useUiContext from '../UiContext'
+import { FC } from 'react'
 import { Menu } from '@headlessui/react'
+import useEditorContext from '../EditorContext'
+import applyPlusAction from '../lib/applyPlusAction'
 
 import styles from './styles.module.scss'
 
 
-export default function PlusMenu () {
+export interface PlusMenuProps {
+    blockKey: string
+}
+
+const PlusMenu: FC < PlusMenuProps > = ({ blockKey }) => {
+    const { editorState, setEditorState } = useEditorContext ()
     return <Menu as = 'div'>
         <Menu.Button as = 'div'>+</Menu.Button>
         <Menu.Items className = { styles.plusMenu }>
-            <Menu.Item>{ () => <label>Heading 1</label> }</Menu.Item>
-            <Menu.Item>{ () => <label>Heading 2</label> }</Menu.Item>
-            <Menu.Item>{ () => <label>Heading 3</label> }</Menu.Item>
+            <Menu.Item onClick = { () => setEditorState ( applyPlusAction ( editorState, blockKey, 'header-one' ) ) }>{ () => <label>Heading 1</label> }</Menu.Item>
+            <Menu.Item onClick = { () => setEditorState ( applyPlusAction ( editorState, blockKey, 'header-two' ) ) }>{ () => <label>Heading 2</label> }</Menu.Item>
+            <Menu.Item onClick = { () => setEditorState ( applyPlusAction ( editorState, blockKey, 'header-three' ) ) }>{ () => <label>Heading 3</label> }</Menu.Item>
         </Menu.Items>
     </Menu>
 }
+export default PlusMenu

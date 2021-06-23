@@ -7,9 +7,12 @@ export default defineConfig ( ({ mode }) => ({
     plugins: [ reactRefresh () ],
     publicDir: 'assets/public',
     resolve: {
-        alias: fs.readdirSync ( __dirname ).reduce (
-            ( acc, val ) => ({ ...acc, [ val ]: `/${ val }` })
-        , {} )
+        alias: {
+            ...fs.readdirSync ( __dirname ).reduce (
+                ( acc, val ) => ({ ...acc, [ val ]: `/${ val }` })
+            , {} ),
+            '~/': './BlockEditor'
+        }
     },
     esbuild: {
         jsxInject: `
