@@ -16,7 +16,7 @@ export default function App () {
         localStorage.setItem ( 'dir', dir )
     }, [ showState, lang, dir ] )
     return <>
-        <div style = {{ marginBottom: '1rem', display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'start' }}>
+        <div className = 'demo-ui'>
             <label>
                 <input type = 'checkbox' checked = { showState } onChange = { e => setShowState ( e.target.checked ) } />
                 Show State
