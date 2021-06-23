@@ -1,3 +1,6 @@
+// * This file is not used anywhere and is only kept for reference
+
+
 import { useCallback } from 'react'
 import { ContentBlock, EditorBlock } from 'draft-js'
 

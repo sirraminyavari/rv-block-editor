@@ -2,12 +2,12 @@ import { Editor } from 'draft-js'
 
 import useEditorContext from './EditorContext'
 import useUiContext from './UiContext'
-import useBlockRendererFn from './useBlockRendererFn'
+import blockRenderMap from './blockRenderMap'
 import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'
 
 import DragOverlay from './DragOverlay'
-// import Controls from './Controls'
+import Controls from './Controls'
 
 import styles from './styles.module.scss'
 
@@ -17,10 +17,9 @@ export default function _BlockEditor () {
     const { editorRef } = useUiContext ()
 
     const handleKeyCommand = useKeyCommand ()
-    const blockRendererFn = useBlockRendererFn ()
 
     return <div onClick = { () => editorRef.current?.focus?.() }>
-        {/* <Controls /> */}
+        <Controls />
         <div className = { styles.editorWrapper }>
             <Editor
                 ref = { editorRef }
@@ -28,7 +27,7 @@ export default function _BlockEditor () {
                 onChange = { setEditorState }
                 handleKeyCommand = { handleKeyCommand }
                 customStyleMap = { customStyleMap }
-                blockRendererFn = { blockRendererFn }
+                blockRenderMap = { blockRenderMap }
             />
             <DragOverlay />
         </div>

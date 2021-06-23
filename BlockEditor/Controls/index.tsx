@@ -41,6 +41,21 @@ const Controls: FC < any > = () => {
             } )
             setEditorState ( AtomicBlockUtils.insertAtomicBlock ( newEditorState, entityKey, '' ) )
         } }>Chips</button>
+        <button onMouseDown = { () => {
+            const newEditorState = RichUtils.toggleBlockType ( editorState, 'header-one' )
+            if ( newEditorState )
+                setEditorState ( newEditorState )
+        } }>H1</button>
+        <button onMouseDown = { () => {
+            const newEditorState = RichUtils.toggleBlockType ( editorState, 'ordered-list-item' )
+            if ( newEditorState )
+                setEditorState ( newEditorState )
+        } }>OL</button>
+        <button onMouseDown = { () => {
+            const newEditorState = RichUtils.toggleBlockType ( editorState, 'unordered-list-item' )
+            if ( newEditorState )
+                setEditorState ( newEditorState )
+        } }>UL</button>
     </div>
 }
 export default Controls

@@ -9,7 +9,9 @@ import PlusMenuButton from '../PlusMenuButton'
 import styles from './styles.module.scss'
 
 
-const BlockWrapper = ({ block, children }) => {
+const BlockWrapper = ({ Comp, ...props }) => {
+    const { children } = props
+    const { props: { block } } = children
     const { setDragInfo, blockRefs } = useUiContext ()
     const [ isDragging, setIsDragging ] = useState ( false )
     return <div
@@ -25,10 +27,14 @@ const BlockWrapper = ({ block, children }) => {
             <PlusMenuButton />
             <DragHandle setIsDragging = { setIsDragging } />
         </div>
-        <div
-            className = { styles.content }
-            children = { children }
-        />
+        <div className = { styles.content }>
+            <Comp children = { children } />
+        </div>
     </div>
 }
 export default BlockWrapper
+
+export const withBlockWrapper = Comp => props => <BlockWrapper
+    Comp = { Comp }
+    { ...props }
+/>
