@@ -24,7 +24,7 @@ const BlockWrapper = ({ Comp, ...props }) => {
         { ...getWrapperHandlers ({ setIsDragging, setDragInfo }) }
     >
         <div className = { styles.controls }>
-            <PlusMenuButton blockKey = { block.key } />
+            <PlusMenuButton block = { block } />
             <DragHandle setIsDragging = { setIsDragging } />
         </div>
         <div className = { styles.content }>
