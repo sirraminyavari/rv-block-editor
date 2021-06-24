@@ -1,9 +1,9 @@
-export interface plusAction {
+export interface PlusAction {
     label: string
     action: string
 }
 
-const plusActions: plusAction [] = [
+const plusActions: PlusAction [] = [
     ...[ 'one', 'two', 'three', 'four', 'five', 'six' ].map ( ( numStr, n ) => ({
         label: `Heading ${ n + 1 }`, action: `header-${ numStr }`
     }) ),

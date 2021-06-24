@@ -6,21 +6,22 @@ import blockRenderMap from './blockRenderMap'
 import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'
 
-import DragOverlay from './DragOverlay'
 import Controls from './Controls'
+import InlineStyleMenu from './InlineStyleMenu'
+import DragOverlay from './DragOverlay'
 
 import styles from './styles.module.scss'
 
 
 export default function _BlockEditor () {
     const { editorState, setEditorState } = useEditorContext ()
-    const { editorRef } = useUiContext ()
+    const { editorRef, wrapperRef } = useUiContext ()
 
     const handleKeyCommand = useKeyCommand ()
 
-    return <div onClick = { () => editorRef.current?.focus?.() }>
+    return <div onClick = { () => editorRef.current?.focus () }>
         <Controls />
-        <div className = { styles.editorWrapper }>
+        <div className = { styles.editorWrapper } ref = { wrapperRef }>
             <Editor
                 ref = { editorRef }
                 editorState = { editorState }
@@ -29,6 +30,7 @@ export default function _BlockEditor () {
                 customStyleMap = { customStyleMap }
                 blockRenderMap = { blockRenderMap }
             />
+            <InlineStyleMenu />
             <DragOverlay />
         </div>
     </div>
