@@ -12,7 +12,6 @@ export const useEditorContext = () => useContext ( EditorContext )
 export default useEditorContext
 
 export function EditorContextProvider ({ editorState, setEditorState, ...rest }) {
-    console.log ( ( editorState as EditorState ).getSelection ().serialize () )
     return <EditorContext.Provider
         value = {{ editorState, setEditorState }}
         { ...rest }
