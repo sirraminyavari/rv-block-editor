@@ -1,3 +1,6 @@
+// * This file is not used anywhere and is only kept for reference
+
+
 import { FC } from 'react'
 import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from 'draft-js'
 import { useEditorContext } from 'BlockEditor/EditorContext'
