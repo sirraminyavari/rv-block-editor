@@ -18,7 +18,7 @@ const PlusMenu: FC < PlusMenuProps > = ({ block }) => {
     const { editorState, setEditorState } = useEditorContext ()
     const { editorRef } = useUiContext ()
     return <Menu as = 'div'>
-        <Menu.Button as = 'div'>+</Menu.Button>
+        <Menu.Button as = 'div' className = { styles.btn }>+</Menu.Button>
         <Menu.Items className = { styles.plusMenu }>
             { plusActions.map ( ({ label, action }) => <Menu.Item as = 'label'
                 key = { action }
