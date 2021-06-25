@@ -15,7 +15,7 @@ import styles from './styles.module.scss'
 
 export default function _BlockEditor () {
     const { editorState, setEditorState } = useEditorContext ()
-    const { editorRef, wrapperRef } = useUiContext ()
+    const { editorRef, wrapperRef, setPlusMenuInfo } = useUiContext ()
 
     const handleKeyCommand = useKeyCommand ()
 
@@ -28,6 +28,9 @@ export default function _BlockEditor () {
                 handleKeyCommand = { handleKeyCommand }
                 customStyleMap = { customStyleMap }
                 blockRenderMap = { blockRenderMap }
+                onEscape = { () => {
+                    setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
+                } }
             />
             <InlineStyleMenu />
             <PlusMenu />
