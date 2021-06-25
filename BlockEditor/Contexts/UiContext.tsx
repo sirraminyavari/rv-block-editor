@@ -27,8 +27,6 @@ export interface UiContext {
     wrapperRef: MutableRefObject < HTMLDivElement >
     blockRefs: MutableRefObject < { [ key: string ]: HTMLElement | null } >
     inlineStyleMenuInfo: InlineStyleMenuInfo
-    hoveredBlock?: ContentBlock
-    setHoveredBlock: SetState < ContentBlock >
 }
 
 export const UiContext = createContext < UiContext > ( null )
@@ -39,8 +37,6 @@ export function UiContextProvider ({ children }) {
     const editorRef = useRef ()
     const wrapperRef = useRef ()
     const blockRefs = useRef ({})
-
-    const [ hoveredBlock, setHoveredBlock ] = useState < ContentBlock > ( null )
 
     const [ dragInfo, setDragInfo ] = useState ({
         dragging: false,
@@ -70,7 +66,6 @@ export function UiContextProvider ({ children }) {
         value = {{
             editorRef, wrapperRef, blockRefs,
             dragInfo, setDragInfo,
-            hoveredBlock, setHoveredBlock,
             plusMenuInfo, setPlusMenuInfo,
             inlineStyleMenuInfo
         }}

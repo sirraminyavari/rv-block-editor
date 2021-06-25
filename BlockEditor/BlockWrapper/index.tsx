@@ -11,7 +11,7 @@ import styles from './styles.module.scss'
 const BlockWrapper = ({ Comp, ...props }) => {
     const { children } = props
     const { props: { block } } = children
-    const { dragInfo, setDragInfo, blockRefs, hoveredBlock, setHoveredBlock } = useUiContext ()
+    const { dragInfo, setDragInfo, blockRefs, plusMenuInfo } = useUiContext ()
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
         data-block-key = { block.key }
@@ -23,11 +23,9 @@ const BlockWrapper = ({ Comp, ...props }) => {
         } ) }
         draggable = { dragInfo.isDraggingByHandle }
         { ...getWrapperHandlers ({ dragInfo, setDragInfo }) }
-        onMouseEnter = { () => setHoveredBlock ( block ) }
-        onMouseLeave = { () => setHoveredBlock ( null  ) }
     >
         <div className = { cn ( styles.controls, {
-            [ styles.visible ]: hoveredBlock?.getKey () === block.getKey ()
+            [ styles.invisible ]: plusMenuInfo.openedBlock
         } ) }>
             <PlusMenuButton block = { block } />
             <DragHandle block = { block } />

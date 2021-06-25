@@ -11,7 +11,18 @@
         grid-template-columns: repeat( 2, auto );
         transition: opacity 200ms ease;
         opacity: 0;
-        &.visible { opacity: 1; }
+        position: relative;
+        &::after { // Event sShield
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+    }
+
+    &:hover .controls:not( .invisible ) {
+        opacity: 1;
+        &::after { display: none; }
     }
 
     &.dragging {

@@ -11,16 +11,24 @@ import styles from './styles.module.scss'
 
 
 export default function PlusMenu () {
-    const { plusMenuInfo: { openedBlock } } = useUiContext ()
-
+    const { plusMenuInfo: { openedBlock }, blockRefs, wrapperRef } = useUiContext ()
+    if ( ! openedBlock ) return null
+    const targetRef = blockRefs.current [ openedBlock.getKey () ]
+    const targetRect = targetRef.getBoundingClientRect ()
+    const wrapperRect = wrapperRef.current.getBoundingClientRect ()
     return <Popover>
-        { openedBlock && <Popover.Panel className = { styles.plusMenu } static>
+        <Popover.Panel static
+            className = { styles.plusMenu }
+            style = {{ // @ts-ignore
+                '--x': targetRect.x - wrapperRect.x, '--y': targetRect.bottom - wrapperRect.y
+            }}
+        >
             { plusActions.map ( action => <ActionButton
                 key = { action.action }
                 action = { action }
                 block = { openedBlock }
             /> ) }
-        </Popover.Panel> }
+        </Popover.Panel>
     </Popover>
 }
 
@@ -51,13 +59,13 @@ export interface PlusMenuButtonProps {
 }
 
 export const PlusMenuButton: FC < PlusMenuButtonProps > = ({ block }) => {
-    const { plusMenuInfo: { hoveredBlock } } = useUiContext ()
+    const { setPlusMenuInfo } = useUiContext ()
     return <div
         children = '+'
         className = { styles.btn }
         onMouseDown = { e => e.preventDefault () }
         onClick = { () => {
-            // TODO:
+            setPlusMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
         } }
     />
 }
