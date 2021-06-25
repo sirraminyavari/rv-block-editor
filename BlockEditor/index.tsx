@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-import { EditorContextProvider } from './EditorContext'
-import { UiContextProvider } from './UiContext'
+import { EditorContextProvider } from './Contexts/EditorContext'
+import { UiContextProvider } from './Contexts/UiContext'
 import Editor from './Editor'
 
 

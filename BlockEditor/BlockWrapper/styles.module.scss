@@ -9,11 +9,8 @@
         display: grid;
         gap: .25rem;
         grid-template-columns: repeat( 2, auto );
-        opacity: 0;
         transition: opacity 200ms ease;
     }
-
-    &:hover .controls { opacity: 1; }
 
     &.dragging {
         opacity: .4;

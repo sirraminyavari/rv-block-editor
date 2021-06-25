@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import useUiContext from 'BlockEditor/UiContext'
+import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import DragHandle from 'BlockEditor/DragOverlay/DragHandle'
 import getWrapperHandlers from 'BlockEditor/DragOverlay/getWrapperHandlers'
@@ -23,6 +23,8 @@ const BlockWrapper = ({ Comp, ...props }) => {
         } ) }
         draggable = { dragInfo.isDraggingByHandle }
         { ...getWrapperHandlers ({ dragInfo, setDragInfo }) }
+        onMouseEnter = { () => console.log ( 'Enter', block.getKey () ) }
+        onMouseLeave = { () => console.log ( 'Leave', block.getKey () ) }
     >
         <div className = { styles.controls }>
             <PlusMenuButton block = { block } />

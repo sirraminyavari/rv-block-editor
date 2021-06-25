@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { ContentBlock } from 'draft-js'
-import useUiContext from 'BlockEditor/UiContext'
+import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import styles from './styles.module.scss'
 

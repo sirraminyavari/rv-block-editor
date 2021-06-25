@@ -1,7 +1,7 @@
 import { Editor } from 'draft-js'
 
-import useEditorContext from './EditorContext'
-import useUiContext from './UiContext'
+import useEditorContext from './Contexts/EditorContext'
+import useUiContext from './Contexts/UiContext'
 import blockRenderMap from './blockRenderMap'
 import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'

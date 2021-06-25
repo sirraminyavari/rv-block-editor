@@ -3,7 +3,7 @@
 
 import { FC } from 'react'
 import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from 'draft-js'
-import { useEditorContext } from 'BlockEditor/EditorContext'
+import { useEditorContext } from 'BlockEditor/Contexts/EditorContext'
 
 
 const Controls: FC < any > = () => {

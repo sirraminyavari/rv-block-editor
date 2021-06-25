@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { RichUtils } from 'draft-js'
-import useEditorContext from 'BlockEditor/EditorContext'
+import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 
 
 export default function useKeyCommand () {

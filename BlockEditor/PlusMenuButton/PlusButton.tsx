@@ -1,4 +1,4 @@
-import useUiContext from "BlockEditor/UiContext"
+import useUiContext from "BlockEditor/Contexts/UiContext"
 
 
 export default function PlusButton () {

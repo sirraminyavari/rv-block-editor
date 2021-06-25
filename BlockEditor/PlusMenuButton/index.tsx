@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { ContentBlock } from 'draft-js'
 import { Popover } from '@headlessui/react'
-import useEditorContext from 'BlockEditor/EditorContext'
-import applyPlusAction from 'BlockEditor/lib/applyPlusAction'
+import useEditorContext from 'BlockEditor/Contexts/EditorContext'
+import applyPlusAction from 'BlockEditor/Lib/applyPlusAction'
 
 import plusActions from './plusActions'
 

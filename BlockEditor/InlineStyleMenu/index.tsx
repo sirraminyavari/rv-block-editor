@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { RichUtils } from 'draft-js'
-import useEditorContext from 'BlockEditor/EditorContext'
-import useUiContext from 'BlockEditor/UiContext'
+import useEditorContext from 'BlockEditor/Contexts/EditorContext'
+import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import inlineStyles from './inlineStyles'
 
