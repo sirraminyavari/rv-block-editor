@@ -13,9 +13,7 @@ import styles from './styles.module.scss'
 
 const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dragInfo, blockRefs } = useUiContext ()
-
-    const overlayRef = useRef ( null )
+    const { dragInfo, blockRefs, wrapperRef } = useUiContext ()
 
     const [ overlayRect, setOverlayRect ] = useState ( null )
     const [ sortedPosInfo, setSortedPosInfo ] = useState ( null )
@@ -28,12 +26,11 @@ const DragOverlay: FC < any > = () => {
     }, [ sortedPosInfo ] )
 
     return <div
-        ref = { overlayRef }
         className = { cn ( styles.dragOverlay, {
             [ styles.dragging ]: dragInfo.dragging
         } ) }
         onDragEnter = { () => {
-            setOverlayRect ( overlayRef.current.getBoundingClientRect () )
+            setOverlayRect ( wrapperRef.current.getBoundingClientRect () )
             const elems = Object.values ( blockRefs.current ).filter ( Boolean )
             const posInfo = elems.map ( elem => {
                 const rect = elem.getBoundingClientRect ()
