@@ -16,7 +16,7 @@ export interface PlusMenuProps {
 const PlusMenu: FC < PlusMenuProps > = ({ block }) => {
     const { editorState, setEditorState } = useEditorContext ()
     return <Popover as = 'div'>
-        <Popover.Button as = 'button' className = { styles.btn } children = '+' onMouseDown = { e => e.preventDefault () } />
+        <Popover.Button as = 'div' className = { styles.btn } children = '+' onMouseDown = { e => e.preventDefault () } />
         <Popover.Panel className = { styles.plusMenu }>
             { plusActions.map ( ({ label, action }) => <label
                 key = { action }
