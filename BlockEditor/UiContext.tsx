@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useRef, MutableRefObject } from 'react'
-import { Editor } from 'draft-js'
+import { ContentBlock, Editor } from 'draft-js'
 import useEditorContext from './EditorContext'
 
 
@@ -7,6 +7,8 @@ export interface PlusMenuInfo { isOpen: boolean, anchor?: HTMLElement }
 
 export interface DragInfo {
     dragging: boolean
+    isDraggingByHandle: boolean
+    block?: ContentBlock
     elem?: HTMLElement
 }
 
@@ -32,7 +34,7 @@ export const useUiContext = () => useContext ( UiContext )
 export default useUiContext
 
 export function UiContextProvider ({ children }) {
-    const [ dragInfo, setDragInfo ] = useState ({ dragging: false, elem: null })
+    const [ dragInfo, setDragInfo ] = useState ({ dragging: false, isDraggingByHandle: false, block: null, elem: null })
     const editorRef = useRef ()
     const wrapperRef = useRef ()
     const blockRefs = useRef ({})

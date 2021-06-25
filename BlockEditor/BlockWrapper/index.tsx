@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import cn from 'classnames'
 import useUiContext from 'BlockEditor/UiContext'
 
@@ -12,20 +11,22 @@ import styles from './styles.module.scss'
 const BlockWrapper = ({ Comp, ...props }) => {
     const { children } = props
     const { props: { block } } = children
-    const { setDragInfo, blockRefs } = useUiContext ()
-    const [ isDragging, setIsDragging ] = useState ( false )
+    const { dragInfo, setDragInfo, blockRefs } = useUiContext ()
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
         data-block-key = { block.key }
         className = { cn ( styles.blockWrapper, {
-            [ styles.dragging ]: isDragging
+            [ styles.dragging ]:
+                dragInfo.dragging &&
+                dragInfo.isDraggingByHandle &&
+                dragInfo.block.getKey () === block.getKey ()
         } ) }
-        draggable = { isDragging }
-        { ...getWrapperHandlers ({ setIsDragging, setDragInfo }) }
+        draggable = { dragInfo.isDraggingByHandle }
+        { ...getWrapperHandlers ({ dragInfo, setDragInfo }) }
     >
         <div className = { styles.controls }>
             <PlusMenuButton block = { block } />
-            <DragHandle setIsDragging = { setIsDragging } />
+            <DragHandle block = { block } />
         </div>
         <div className = { styles.content }>
             <Comp children = { children } />

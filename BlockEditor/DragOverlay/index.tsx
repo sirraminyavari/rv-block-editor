@@ -27,7 +27,7 @@ const DragOverlay: FC < any > = () => {
 
     return <div
         className = { cn ( styles.dragOverlay, {
-            [ styles.dragging ]: dragInfo.dragging
+            [ styles.dragging ]: dragInfo.dragging && dragInfo.isDraggingByHandle
         } ) }
         onDragEnter = { () => {
             setOverlayRect ( wrapperRef.current.getBoundingClientRect () )

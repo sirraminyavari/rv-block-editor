@@ -1,15 +1,17 @@
 import { FC } from 'react'
+import { ContentBlock } from 'draft-js'
 import useUiContext from 'BlockEditor/UiContext'
 
 import styles from './styles.module.scss'
 
 
 export interface DragHandleProps {
-    setIsDragging: SetState < boolean >
+    block: ContentBlock
 }
 
-const DragHandle: FC < DragHandleProps > = ({ setIsDragging }) => {
-    const { editorRef } = useUiContext ()
+const DragHandle: FC < DragHandleProps > = ({ block }) => {
+    const { editorRef, setDragInfo } = useUiContext ()
+    const setIsDragging = isDraggingByHandle => setDragInfo ( prev => ({ ...prev, isDraggingByHandle, block }) )
     return <div
         children = '='
         className = { styles.dragHandle }

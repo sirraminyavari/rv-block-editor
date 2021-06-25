@@ -1,8 +1,8 @@
-const getWrapperHandlers = ({ setIsDragging, setDragInfo }) => ({
-    onDragStart: e => setImmediate ( () => setDragInfo ({ dragging: true, elem: e.target as HTMLDivElement }) ),
+const getWrapperHandlers = ({ dragInfo, setDragInfo }) => ({
+    onDragStart: e => setImmediate ( () => setDragInfo ( prev => ({ ...prev, dragging: dragInfo.isDraggingByHandle, elem: e.target }) ) ),
     onDragEnd: () => {
-        setIsDragging ( false )
-        setImmediate ( () => setDragInfo ({ dragging: false, elem: null }) )
+        setDragInfo ( prev => ({ ...prev, isDraggingByHandle: false }) )
+        setImmediate ( () => setDragInfo ( prev => ({ ...prev, dragging: false, elem: null }) ) )
     }
 })
 export default getWrapperHandlers
