@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { ContentBlock } from 'draft-js'
-import { Menu } from '@headlessui/react'
+import { Popover } from '@headlessui/react'
 import useEditorContext from 'BlockEditor/EditorContext'
-import useUiContext from 'BlockEditor/UiContext'
 import applyPlusAction from 'BlockEditor/lib/applyPlusAction'
 
 import plusActions from './plusActions'
@@ -16,19 +15,16 @@ export interface PlusMenuProps {
 
 const PlusMenu: FC < PlusMenuProps > = ({ block }) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { editorRef } = useUiContext ()
-    return <Menu as = 'div'>
-        <Menu.Button as = 'div' className = { styles.btn }>+</Menu.Button>
-        <Menu.Items className = { styles.plusMenu }>
-            { plusActions.map ( ({ label, action }) => <Menu.Item as = 'label'
+    return <Popover as = 'div'>
+        <Popover.Button as = 'button' className = { styles.btn } children = '+' onMouseDown = { e => e.preventDefault () } />
+        <Popover.Panel className = { styles.plusMenu }>
+            { plusActions.map ( ({ label, action }) => <label
                 key = { action }
                 children = { label }
-                onClick = { () => {
-                    editorRef.current?.focus ()
-                    setImmediate ( () => setEditorState ( applyPlusAction ( editorState, block, action ) ) )
-                } }
+                onMouseDown = { e => e.preventDefault () }
+                onClick = { () => setEditorState ( applyPlusAction ( editorState, block, action ) ) }
             /> ) }
-        </Menu.Items>
-    </Menu>
+        </Popover.Panel>
+    </Popover>
 }
 export default PlusMenu
