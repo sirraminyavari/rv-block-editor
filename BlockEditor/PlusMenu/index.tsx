@@ -2,8 +2,9 @@ import { FC } from 'react'
 import { ContentBlock } from 'draft-js'
 import { Popover } from '@headlessui/react'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
-import applyPlusAction from 'BlockEditor/Lib/applyPlusAction'
+import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
+import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
 
 import plusActions from './plusActions'
 
@@ -49,7 +50,7 @@ const ActionButton: FC < ActionButtonProps > = ({ action: { action, label }, blo
         key = { action }
         children = { label }
         onMouseDown = { e => e.preventDefault () }
-        onClick = { () => setEditorState ( applyPlusAction ( editorState, block, action ) ) }
+        onClick = { () => setEditorState ( applyPlusActionToSelection ( editorState, action ) ) }
     />
 }
 
@@ -59,13 +60,19 @@ export interface PlusMenuButtonProps {
 }
 
 export const PlusMenuButton: FC < PlusMenuButtonProps > = ({ block }) => {
+    const { editorState, setEditorState } = useEditorContext ()
     const { setPlusMenuInfo } = useUiContext ()
     return <div
         children = '+'
         className = { styles.btn }
         onMouseDown = { e => e.preventDefault () }
         onClick = { () => {
-            setPlusMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
+            if ( ! block.getText () ) // There is no text in the current block so we should update it's type inplace
+                return setPlusMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
+            // There is some text in the current block so we should create a new block below it and set the plusAction type for the newly created block
+            const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus ( editorState, block )
+            setEditorState ( newEditorState )
+            setImmediate ( () => setPlusMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) ) )
         } }
     />
 }
