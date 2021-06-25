@@ -3,7 +3,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import DragHandle from 'BlockEditor/DragOverlay/DragHandle'
 import getWrapperHandlers from 'BlockEditor/DragOverlay/getWrapperHandlers'
-import PlusMenuButton from 'BlockEditor/PlusMenuButton'
+import { PlusMenuButton } from 'BlockEditor/PlusMenu'
 
 import styles from './styles.module.scss'
 
@@ -11,7 +11,7 @@ import styles from './styles.module.scss'
 const BlockWrapper = ({ Comp, ...props }) => {
     const { children } = props
     const { props: { block } } = children
-    const { dragInfo, setDragInfo, blockRefs } = useUiContext ()
+    const { dragInfo, setDragInfo, blockRefs, hoveredBlock, setHoveredBlock } = useUiContext ()
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
         data-block-key = { block.key }
@@ -23,10 +23,12 @@ const BlockWrapper = ({ Comp, ...props }) => {
         } ) }
         draggable = { dragInfo.isDraggingByHandle }
         { ...getWrapperHandlers ({ dragInfo, setDragInfo }) }
-        onMouseEnter = { () => console.log ( 'Enter', block.getKey () ) }
-        onMouseLeave = { () => console.log ( 'Leave', block.getKey () ) }
+        onMouseEnter = { () => setHoveredBlock ( block ) }
+        onMouseLeave = { () => setHoveredBlock ( null  ) }
     >
-        <div className = { styles.controls }>
+        <div className = { cn ( styles.controls, {
+            [ styles.visible ]: hoveredBlock?.getKey () === block.getKey ()
+        } ) }>
             <PlusMenuButton block = { block } />
             <DragHandle block = { block } />
         </div>

@@ -1,7 +1,5 @@
-export interface PlusAction {
-    label: string
-    action: string
-}
+import { PlusAction } from '.'
+
 
 const plusActions: PlusAction [] = [
     ...[ 'one', 'two', 'three', 'four', 'five', 'six' ].map ( ( numStr, n ) => ({

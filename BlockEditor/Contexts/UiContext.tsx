@@ -3,10 +3,7 @@ import { ContentBlock, Editor } from 'draft-js'
 import useEditorContext from './EditorContext'
 
 
-export interface PlusMenuInfo {
-    hoveredBlock?: ContentBlock
-    openedBlock?: ContentBlock
-}
+export interface PlusMenuInfo { openedBlock?: ContentBlock }
 
 export interface DragInfo {
     dragging: boolean
@@ -30,6 +27,8 @@ export interface UiContext {
     wrapperRef: MutableRefObject < HTMLDivElement >
     blockRefs: MutableRefObject < { [ key: string ]: HTMLElement | null } >
     inlineStyleMenuInfo: InlineStyleMenuInfo
+    hoveredBlock?: ContentBlock
+    setHoveredBlock: SetState < ContentBlock >
 }
 
 export const UiContext = createContext < UiContext > ( null )
@@ -41,16 +40,15 @@ export function UiContextProvider ({ children }) {
     const wrapperRef = useRef ()
     const blockRefs = useRef ({})
 
+    const [ hoveredBlock, setHoveredBlock ] = useState < ContentBlock > ( null )
+
     const [ dragInfo, setDragInfo ] = useState ({
         dragging: false,
         isDraggingByHandle: false,
         block: null, elem: null
     })
 
-    const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({
-        hoveredBlock: null,
-        openedBlock: null
-    })
+    const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({ openedBlock: null })
 
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
@@ -70,8 +68,9 @@ export function UiContextProvider ({ children }) {
 
     return <UiContext.Provider
         value = {{
-            dragInfo, setDragInfo,
             editorRef, wrapperRef, blockRefs,
+            dragInfo, setDragInfo,
+            hoveredBlock, setHoveredBlock,
             plusMenuInfo, setPlusMenuInfo,
             inlineStyleMenuInfo
         }}

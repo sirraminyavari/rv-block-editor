@@ -7,6 +7,7 @@ import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'
 
 import InlineStyleMenu from './InlineStyleMenu'
+import PlusMenu from './PlusMenu'
 import DragOverlay from './DragOverlay'
 
 import styles from './styles.module.scss'
@@ -29,6 +30,7 @@ export default function _BlockEditor () {
                 blockRenderMap = { blockRenderMap }
             />
             <InlineStyleMenu />
+            <PlusMenu />
             <DragOverlay />
         </div>
     </div>

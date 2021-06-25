@@ -10,6 +10,8 @@
         gap: .25rem;
         grid-template-columns: repeat( 2, auto );
         transition: opacity 200ms ease;
+        opacity: 0;
+        &.visible { opacity: 1; }
     }
 
     &.dragging {

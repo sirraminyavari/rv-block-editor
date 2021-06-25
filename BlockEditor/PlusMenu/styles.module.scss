@@ -3,10 +3,11 @@
     box-shadow: 0 3px 9px rgba( 0,0,0, .16 );
     padding: .5rem;
     border-radius: .25rem;
-    position: absolute;
     z-index: 4;
     display: grid;
     gap: .5rem;
+    position: absolute;
+    top: 0; right: 0;
     label {
         -webkit-user-modify: read-only;
         -moz-user-modify: read-only;
