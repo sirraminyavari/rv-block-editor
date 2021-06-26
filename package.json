@@ -6,7 +6,7 @@
     "serve": "vite preview --port 80",
     "start": "yarn build && yarn serve",
     "tsc": "tsc",
-    "postinstall":"tsc"
+    "postinstall":"npm run tsc"
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
