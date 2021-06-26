@@ -14,7 +14,7 @@ export default function insertBlockBelowAndFocus (
     const selectionState = new SelectionState ({
         anchorKey: contentBlockKey, anchorOffset: 0,
         focusKey: contentBlockKey, focusOffset: 0,
-        isBackward: false, hasFocus: true,
+        isBackward: false, hasFocus: true
     })
     const editorStateAfterSelection = EditorState.forceSelection ( editorStateWithNewBlock, selectionState )
     return editorStateAfterSelection

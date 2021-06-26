@@ -1,10 +1,11 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { ContentBlock } from 'draft-js'
 import { Popover } from '@headlessui/react'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
+import { usePopper } from 'react-popper'
 
 import plusActions from './plusActions'
 
@@ -12,22 +13,27 @@ import styles from './styles.module.scss'
 
 
 export default function PlusMenu () {
-    const { plusMenuInfo: { openedBlock }, blockRefs, wrapperRef } = useUiContext ()
+    const { plusMenuInfo: { openedBlock } } = useUiContext ()
     if ( ! openedBlock ) return null
-    const targetRef = blockRefs.current [ openedBlock.getKey () ]
-    const targetRect = targetRef.getBoundingClientRect ()
-    const wrapperRect = wrapperRef.current.getBoundingClientRect ()
+    return <Popper block = { openedBlock } />
+}
+
+function Popper ({ block }) {
+    const { setPlusMenuInfo, blockRefs } = useUiContext ()
+    const targetRef = blockRefs.current [ block.getKey () ]
+    const [ pannelRef, setPannelRef ] = useState ( null )
+    const popper = usePopper ( targetRef, pannelRef, { placement: 'bottom-start' } )
     return <Popover>
         <Popover.Panel static
+            ref = { setPannelRef }
             className = { styles.plusMenu }
-            style = {{ // @ts-ignore
-                '--x': targetRect.x - wrapperRect.x, '--y': targetRect.bottom - wrapperRect.y
-            }}
+            style = { popper.styles.popper }
+            { ...popper.attributes.popper }
+            onClick = { () => setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) ) }
         >
             { plusActions.map ( action => <ActionButton
                 key = { action.action }
                 action = { action }
-                block = { openedBlock }
             /> ) }
         </Popover.Panel>
     </Popover>
@@ -41,10 +47,9 @@ export interface PlusAction {
 
 interface ActionButtonProps {
     action: PlusAction
-    block: ContentBlock
 }
 
-const ActionButton: FC < ActionButtonProps > = ({ action: { action, label }, block }) => {
+const ActionButton: FC < ActionButtonProps > = ({ action: { action, label } }) => {
     const { editorState, setEditorState } = useEditorContext ()
     return <label
         key = { action }
