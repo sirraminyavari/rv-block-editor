@@ -1,11 +1,11 @@
 {
   "version": "0.0.0",
   "scripts": {
+    "tsc": "tsc",
     "dev": "vite --port 3100 --host",
     "build": "tsc && vite build",
     "serve": "vite preview --port 80",
     "start": "yarn build && yarn serve",
-    "tsc": "tsc",
     "postinstall":"npm run tsc"
   },
   "dependencies": {
