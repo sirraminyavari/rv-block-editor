@@ -1,5 +1,4 @@
 import { FC, useState } from 'react'
-import { ContentBlock } from 'draft-js'
 import { Popover } from '@headlessui/react'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
@@ -78,7 +77,7 @@ export const PlusMenuButton: FC < PlusMenuButtonProps > = ({ blockKey }) => {
             // There is some text in the current block so we should create a new block below it and set the plusAction type for the newly created block
             const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus ( editorState, block )
             setEditorState ( newEditorState )
-            setImmediate ( () => setPlusMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) ) )
+            setPlusMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) )
         } }
     />
 }

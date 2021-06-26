@@ -1,9 +1,9 @@
-import { FC, useState, useRef, useCallback } from 'react'
+import { FC, useState, useCallback } from 'react'
 import cn from 'classnames'
-import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState'
 import { EditorState } from 'draft-js'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
+import moveBlock from 'BlockEditor/Lib/moveBlock'
 
 import DropIndicator from './DropIndicator'
 import findClosestDropElement from './findClosestDropElement'
@@ -47,18 +47,14 @@ const DragOverlay: FC < any > = () => {
         onDrop = { event => {
             const { elem: closestElem, insertionMode } = getClosestInfo ( event )
             const currentContent = editorState.getCurrentContent ()
-            const blockToBeMovedKey = dragInfo.elem.getAttribute ( 'data-block-key' )
-            const blockToBeMoved = currentContent.getBlockForKey ( blockToBeMovedKey )
-            const targetBlockKey = closestElem.getAttribute ( 'data-block-key' )
-            const targetBlock = currentContent.getBlockForKey ( targetBlockKey )
-            const nextBlock = currentContent [ { before: 'getBlockBefore', after: 'getBlockAfter' } [ insertionMode ] ] ( targetBlockKey )
-            if ( // A block cannot be moved next to itself
-                blockToBeMoved === targetBlock ||
-                blockToBeMoved === nextBlock
-            ) return
-            const newContent = moveBlockInContentState ( currentContent, blockToBeMoved, targetBlock, insertionMode )
+            const newContent = moveBlock (
+                currentContent,
+                currentContent.getBlockForKey ( dragInfo.elem.getAttribute ( 'data-block-key' ) ),
+                currentContent.getBlockForKey ( closestElem  .getAttribute ( 'data-block-key' ) ),
+                insertionMode
+            )
             const newState = EditorState.push ( editorState, newContent, 'move-block' )
-            setImmediate ( () => setEditorState ( newState ) )
+            setEditorState ( newState )
         } }
     >
         <DropIndicator

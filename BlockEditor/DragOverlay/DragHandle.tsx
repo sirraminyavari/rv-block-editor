@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { ContentBlock } from 'draft-js'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
