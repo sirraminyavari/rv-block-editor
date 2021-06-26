@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useRef, MutableRefObject, useMemo } from 'react'
+import { createContext, useContext, useState, useRef, MutableRefObject } from 'react'
 import { ContentBlock, Editor } from 'draft-js'
 import useEditorContext from './EditorContext'
 
@@ -34,6 +34,8 @@ export const useUiContext = () => useContext ( UiContext )
 export default useUiContext
 
 export function UiContextProvider ({ children }) {
+    const { editorState } = useEditorContext ()
+    const selectionState = editorState.getSelection ()
     const editorRef = useRef ()
     const wrapperRef = useRef ()
     const blockRefs = useRef ({})
@@ -45,9 +47,13 @@ export function UiContextProvider ({ children }) {
     })
 
     const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({ openedBlock: null })
+    if ( plusMenuInfo.openedBlock && (
+        ! selectionState.getHasFocus () ||
+        plusMenuInfo.openedBlock.getKey () !== selectionState.getAnchorKey () ||
+        plusMenuInfo.openedBlock.getKey () !== selectionState.getFocusKey  () ||
+        selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
+    ) ) setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
 
-    const { editorState } = useEditorContext ()
-    const selectionState = editorState.getSelection ()
     const inlineStyleMenuInfo = ( () => {
         try {
             const isOpen = selectionState.getHasFocus () && (
