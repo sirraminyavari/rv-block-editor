@@ -19,7 +19,10 @@
         "resolveJsonModule": true,
         "skipLibCheck": false,
         "strict": false,
-        "target": "ESNext"
+        "target": "ESNext",
+        "types": [
+            "node"
+        ]
     },
     "exclude": [
         "node_modules",
