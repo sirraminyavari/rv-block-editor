@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "vite --port 3100 --host",
     "build": "tsc && vite build",
-    "serve": "vite preview --port 80",
+    "serve": "vite preview --port 4444",
     "start": "yarn build && yarn serve"
   },
   "dependencies": {
