@@ -4,7 +4,8 @@
     "dev": "vite --port 3100 --host",
     "build": "tsc && vite build",
     "serve": "vite preview --port 80",
-    "start": "yarn build && yarn serve"
+    "start": "yarn build && yarn serve",
+    "postinstall":"tsc"
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
