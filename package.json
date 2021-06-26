@@ -1,7 +1,7 @@
 {
   "version": "0.0.0",
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "./node_modules/typescript/bin/tsc",
     "dev": "vite --port 3100 --host",
     "build": "tsc && vite build",
     "serve": "vite preview --port 80",
