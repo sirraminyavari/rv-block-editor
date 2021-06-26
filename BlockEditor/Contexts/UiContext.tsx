@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useRef, MutableRefObject } from 'react'
+import { createContext, useContext, useState, useRef, MutableRefObject, useMemo } from 'react'
 import { ContentBlock, Editor } from 'draft-js'
 import useEditorContext from './EditorContext'
 
@@ -15,7 +15,7 @@ export interface DragInfo {
 export interface InlineStyleMenuInfo {
     isOpen: boolean
     domSelection?: Selection
-    selectionRect?: DOMRect
+    getSelectionRect?: () => DOMRect | null
 }
 
 export interface UiContext {
@@ -48,17 +48,17 @@ export function UiContextProvider ({ children }) {
 
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
-    const inlineStyleMenuInfo: InlineStyleMenuInfo = ( () => {
+    const inlineStyleMenuInfo = ( () => {
         try {
             const isOpen = selectionState.getHasFocus () && (
                 selectionState.getAnchorKey () !== selectionState.getFocusKey () ||
                 selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
             )
             const domSelection = isOpen ? window.getSelection () : null
-            const selectionRect = domSelection?.getRangeAt ( 0 ).getBoundingClientRect ()
-            return { isOpen, domSelection, selectionRect }
+            const getSelectionRect = () => domSelection?.getRangeAt ( 0 ).getBoundingClientRect ()
+            return { isOpen, domSelection, getSelectionRect }
         } catch {
-            return { isOpen: false }
+            return { isOpen: false, getSelectionRect: () => null }
         }
     } ) ()
 

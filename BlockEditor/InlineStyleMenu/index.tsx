@@ -1,7 +1,8 @@
-import { FC } from 'react'
+import { FC, useState, useMemo } from 'react'
 import { RichUtils } from 'draft-js'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
+import { usePopper } from 'react-popper'
 
 import inlineStyles from './inlineStyles'
 
@@ -9,14 +10,23 @@ import styles from './styles.module.scss'
 
 
 const InlineStyleMenu: FC = () => {
+    if ( ! useUiContext ().inlineStyleMenuInfo.isOpen )
+        return null
+    return <Menu />
+}
+export default InlineStyleMenu
+
+function Menu () {
     const { editorState, setEditorState } = useEditorContext ()
-    const { inlineStyleMenuInfo: { isOpen, selectionRect }, wrapperRef } = useUiContext ()
-    if ( ! isOpen ) return null
-    const wrapperRect = wrapperRef.current.getBoundingClientRect ()
+    const { inlineStyleMenuInfo: { getSelectionRect } } = useUiContext ()
+    const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
+    const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect ] )
+    const popper = usePopper ( virtualReference, menuRef, { placement: 'top' } )
     return <div
+        ref = { setMenuRef }
         className = { styles.inlineStyleMenu }
-        // @ts-ignore
-        style = {{ '--x': selectionRect.x - wrapperRect.x, '--y': selectionRect.y - wrapperRect.y }}
+        style = { popper.styles.popper }
+        { ...popper.attributes.popper }
     >
         { inlineStyles.map ( ({ label, style }) => <button
             key = { style }
@@ -29,4 +39,3 @@ const InlineStyleMenu: FC = () => {
         /> ) }
     </div>
 }
-export default InlineStyleMenu

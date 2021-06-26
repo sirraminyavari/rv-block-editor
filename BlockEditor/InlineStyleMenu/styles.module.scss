@@ -5,8 +5,6 @@
     padding: .25rem 1rem;
     position: absolute;
     z-index: 2;
-    left: calc( var( --x ) * 1px );
-    top: calc( var( --y ) * 1px );
     transform: translateY( calc( -100% - .5rem ) );
     display: grid;
     gap: .5rem;
