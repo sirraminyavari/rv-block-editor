@@ -1,9 +1,9 @@
 import { FC, useState } from 'react'
 import { Popover } from '@headlessui/react'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
-import applyPlusActionToSelection from 'BlockEditor/lib/applyPlusActionToSelection'
+import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
-import insertEmptyBlockBelowAndFocus from 'BlockEditor/lib/insertEmptyBlockBelowAndFocus'
+import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
 import { usePopper } from 'react-popper'
 
 import plusActions from './plusActions'
