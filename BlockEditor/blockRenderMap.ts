@@ -16,4 +16,5 @@ export const DefaultDraftBlockRenderMapWithBlockWrapper = Map (
 const blockRenderMap: DraftBlockRenderMap = DefaultDraftBlockRenderMapWithBlockWrapper.merge ( Map ({
     // Custom Blocks
 }) )
+
 export default blockRenderMap
