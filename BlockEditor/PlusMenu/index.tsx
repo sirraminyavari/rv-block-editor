@@ -61,11 +61,12 @@ const ActionButton: FC < ActionButtonProps > = ({ action: { action, label } }) =
 
 
 export interface PlusMenuButtonProps {
-    block: ContentBlock
+    blockKey: string
 }
 
-export const PlusMenuButton: FC < PlusMenuButtonProps > = ({ block }) => {
+export const PlusMenuButton: FC < PlusMenuButtonProps > = ({ blockKey }) => {
     const { editorState, setEditorState } = useEditorContext ()
+    const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
     const { setPlusMenuInfo } = useUiContext ()
     return <div
         children = '+'

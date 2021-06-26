@@ -1,4 +1,4 @@
-import { ContentBlock, EditorState, SelectionState } from 'draft-js'
+import { ContentBlock, EditorState, SelectionState, ContentState } from 'draft-js'
 import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState'
 
 
@@ -8,14 +8,27 @@ export default function insertBlockBelowAndFocus (
     targetBlock: ContentBlock
 ): EditorState {
     const contentState = editorState.getCurrentContent ()
-    const contentStateWithNewBlock = moveBlockInContentState ( contentState, blockToBeInserted, targetBlock, 'after' )
-    const editorStateWithNewBlock = EditorState.set ( editorState, { currentContent: contentStateWithNewBlock } )
-    const contentBlockKey = blockToBeInserted.getKey ()
+    const contentStateWithNewBlock = ContentState.createFromBlockArray ([
+        ...contentState.getBlockMap ().toArray (),
+        blockToBeInserted
+    ])
+
+    const contentStateWithMovedNewBlock = ( () => { try {
+        return moveBlockInContentState (
+            contentStateWithNewBlock,
+            blockToBeInserted, targetBlock, 'after'
+        )
+    } catch {
+        return contentStateWithNewBlock
+    } } ) ()
+
+    const newEditorState = EditorState.push ( editorState, contentStateWithMovedNewBlock, 'insert-fragment' )
+    const blockToBeInsertedKey = blockToBeInserted.getKey ()
     const selectionState = new SelectionState ({
-        anchorKey: contentBlockKey, anchorOffset: 0,
-        focusKey: contentBlockKey, focusOffset: 0,
+        anchorKey: blockToBeInsertedKey, anchorOffset: 0,
+        focusKey: blockToBeInsertedKey, focusOffset: 0,
         isBackward: false, hasFocus: true
     })
-    const editorStateAfterSelection = EditorState.forceSelection ( editorStateWithNewBlock, selectionState )
+    const editorStateAfterSelection = EditorState.forceSelection ( newEditorState, selectionState )
     return editorStateAfterSelection
 }
