@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "allowJs": true,
+        "allowJs": false,
         "allowSyntheticDefaultImports": true,
         "allowUmdGlobalAccess": true,
         "baseUrl": ".",
@@ -14,7 +14,7 @@
             "ESNext"
         ],
         "module": "ESNext",
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "noEmit": true,
         "resolveJsonModule": true,
         "skipLibCheck": false,
