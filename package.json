@@ -1,12 +1,10 @@
 {
   "version": "0.0.0",
   "scripts": {
-    "tsc": "./node_modules/typescript/bin/tsc",
     "dev": "vite --port 3100 --host",
     "build": "tsc && vite build",
     "serve": "vite preview --port 80",
-    "start": "yarn build && yarn serve",
-    "postinstall":"npm run tsc"
+    "start": "yarn build && yarn serve"
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
