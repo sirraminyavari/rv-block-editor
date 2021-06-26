@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { EditorState } from 'draft-js'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
-import moveBlock from 'BlockEditor/Lib/moveBlock'
+import moveBlock from 'BlockEditor/lib/moveBlock'
 
 import DropIndicator from './DropIndicator'
 import findClosestDropElement from './findClosestDropElement'
