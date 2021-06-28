@@ -7,6 +7,9 @@ export interface EditorContext {
     setEditorState: SetState < EditorState >,
 }
 
+/**
+ * Provides access to the general state of the editor in nested components.
+ */
 export const EditorContext = createContext < EditorContext > ( null )
 export const useEditorContext = () => useContext ( EditorContext )
 export default useEditorContext

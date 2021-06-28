@@ -13,6 +13,9 @@ export const DefaultDraftBlockRenderMapWithBlockWrapper = Map (
         .reduce ( ( acc, [ key, val ] ) => ({ ...acc, [ key ]: val }), {} )
 ) as DraftBlockRenderMap
 
+/**
+ * @see {@link https://draftjs.org/docs/advanced-topics-inline-styles#mapping-a-style-string-to-css} for docs
+ */
 const blockRenderMap: DraftBlockRenderMap = DefaultDraftBlockRenderMapWithBlockWrapper.merge ( Map ({
     // Custom Blocks
 }) )
