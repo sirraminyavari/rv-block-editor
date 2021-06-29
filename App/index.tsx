@@ -7,7 +7,7 @@ import BlockEditor from 'BlockEditor'
 import ConfigControls from './ConfigControls'
 
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
-import createCodeBlockPlugin from 'CodeBlockPlugin'
+import createCodeBlockPlugin from 'Plugins/CodeBlock'
 
 
 const plugins = [
