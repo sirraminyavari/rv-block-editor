@@ -1,10 +1,11 @@
 import { FC, useState } from 'react'
 import { Popover } from '@headlessui/react'
+import { usePopper } from 'react-popper'
+import Overlay from 'BlockEditor/Ui/Overlay'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
-import { usePopper } from 'react-popper'
 
 import plusActions from './plusActions'
 
@@ -23,17 +24,19 @@ function Popper ({ block }) {
     const [ pannelRef, setPannelRef ] = useState ( null )
     const popper = usePopper ( targetRef, pannelRef, { placement: 'bottom-start' } )
     return <Popover>
-        <Popover.Panel static
+        <Popover.Panel static as = { Overlay }
             ref = { setPannelRef }
-            className = { styles.plusMenu }
             style = { popper.styles.popper }
             { ...popper.attributes.popper }
             onClick = { () => setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) ) }
         >
-            { plusActions.map ( action => <ActionButton
-                key = { action.action }
-                action = { action }
-            /> ) }
+            <div
+                className = { styles.plusMenu }
+                children = { plusActions.map ( action => <ActionButton
+                    key = { action.action }
+                    action = { action }
+                /> ) }
+            />
         </Popover.Panel>
     </Popover>
 }
