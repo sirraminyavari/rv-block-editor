@@ -3,62 +3,11 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>React RichText</title>
-
         <link rel="stylesheet" type="text/css" href="http://45.82.136.166/api/rv/theme" />
-        <link rel="stylesheet" type="text/css" href="http://45.82.136.166/api/rv/css_direction" />
-
-        <script type="text/javascript">
-            GlobalUtilities = { extend: (a, b) => b };
-        </script>
-
-        <script type="text/javascript" src="http://45.82.136.166/api/rv/language_dictionary"></script>
+        <title>React RichText</title>
     </head>
-    <body class="Direction TextAlign">
-        <div style="width:80%; margin:2rem auto;">
-            <input type="checkbox" id="chbLang" />
-            <label>تیک: فارسی - بدون تیک: انگلیسی</label>
-        </div>
-
-        <script type="text/javascript">
-            (function(){
-                const util = {
-                    set_cookie: function (c_name, value, expires, path, secure) {
-                        if (!c_name || !value) return;
-                        
-                        var c_value = escape(value) +
-                            (!expires ? "" : "; expires=" + expires) +
-                            (secure === true ? "; secure" : "") + 
-                            "; path=" + (path || "/");
-                            document.cookie = c_name + "=" + c_value;
-                    },
-
-                    get_cookie: function (c_name) {
-                        var i, x, y, ARRcookies = document.cookie.split(";");
-                        for (i = 0; i < ARRcookies.length; i++) {
-                            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
-                            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
-                            x = x.replace(/^\s+|\s+$/g, "");
-                            if (x == c_name) {
-                                return unescape(y);
-                            }
-                        }
-                    }
-                };
-
-                const chb = document.getElementById("chbLang");
-                let lang = util.get_cookie("rv_lang") != "en" ? "fa" : "en";
-                chb.checked = lang === "fa";
-
-                chb.onchange = () => {
-                    util.set_cookie("rv_lang", chb.checked ? "fa" : "en");
-                    window.location.href = window.location.href;
-                };
-            })();
-        </script>
-
-        <div id="root" style="width:80%; margin:0 auto;"></div>
-
+    <body>
+        <div id="root"></div>
         <script>
             const global = globalThis
         </script>
