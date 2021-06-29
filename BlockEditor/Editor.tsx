@@ -13,7 +13,7 @@ import DragOverlay from './DragOverlay'
 import styles from './styles.module.scss'
 
 
-export default function _BlockEditor () {
+export default function _BlockEditor ( props ) {
     const { editorState, setEditorState } = useEditorContext ()
     const { editorRef, wrapperRef, setPlusMenuInfo } = useUiContext ()
 
@@ -31,6 +31,7 @@ export default function _BlockEditor () {
                 onEscape = { () => {
                     setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
                 } }
+                { ...props }
             />
             <InlineStyleMenu />
             <PlusMenu />
