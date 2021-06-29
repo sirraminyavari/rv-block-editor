@@ -1,4 +1,4 @@
-import { Editor } from 'draft-js'
+import Editor from '@draft-js-plugins/editor'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'

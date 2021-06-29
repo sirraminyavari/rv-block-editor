@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useRef, MutableRefObject } from 'react'
-import { ContentBlock, Editor } from 'draft-js'
+import { ContentBlock } from 'draft-js'
+import Editor from '@draft-js-plugins/editor'
 import useEditorContext from './EditorContext'
 
 
