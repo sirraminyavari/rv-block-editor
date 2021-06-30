@@ -1,3 +1,5 @@
+import { forwardRef } from 'react'
+
 import Editor from '@draft-js-plugins/editor'
 
 import useEditorContext from './Contexts/EditorContext'
@@ -10,19 +12,29 @@ import InlineStyleMenu from './InlineStyleMenu'
 import PlusMenu from './PlusMenu'
 import DragOverlay from './DragOverlay'
 
-import styles from './styles.module.scss'
 
-
-export default function _BlockEditor ( props ) {
+const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, ...props }, ref ) => {
     const { editorState, setEditorState, plugins } = useEditorContext ()
     const { editorRef, wrapperRef, setPlusMenuInfo } = useUiContext ()
 
     const handleKeyCommand = useKeyCommand ()
 
-    return <div onClick = { () => editorRef.current?.focus () }>
-        <div className = { styles.editorWrapper } ref = { wrapperRef }>
+    return <div
+        onClick = { () => editorRef.current?.focus () }
+        dir = { dir } lang = { lang }
+        style = {{ isolation: 'isolate' }}
+    >
+        <div
+            ref = { wrapperRef }
+            style = {{ position: 'relative' }}
+        >
             <Editor
-                ref = { editorRef }
+                ref = { r => {
+                    editorRef.current = r
+                    if ( ref ) typeof ref === 'function'
+                        ? ref ( r )
+                        : ref.current = r
+                } }
                 editorState = { editorState }
                 onChange = { setEditorState }
                 plugins = { plugins }
@@ -39,4 +51,5 @@ export default function _BlockEditor ( props ) {
             <DragOverlay />
         </div>
     </div>
-}
+} )
+export default _BlockEditor

@@ -1,0 +1,10 @@
+.configControls {
+    transition: all 250ms ease;
+    opacity: 0;
+    margin: 1rem 0;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 1rem;
+    justify-content: center;
+    &:hover { opacity: 1; }
+}

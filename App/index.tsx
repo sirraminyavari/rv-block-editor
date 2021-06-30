@@ -1,5 +1,5 @@
 import 'draft-js/dist/Draft.css'
-import { useState } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import { EditorState } from 'draft-js'
 import useUiContext from './UiContext'
 
@@ -27,9 +27,14 @@ const plugins = [
 export default function App () {
     const [ editorState, setEditorState ] = useState ( () => EditorState.createEmpty () )
     const { showState, language, direction } = useUiContext ()
+
+    const editorRef = useRef < any > ()
+    useLayoutEffect ( () => editorRef.current?.focus (), [] )
+
     return <>
         <ConfigControls />
         <BlockEditor
+            ref = { editorRef }
             editorState = { editorState } setEditorState = { setEditorState }
             lang = { language } dir = { direction }
             plugins = { plugins }

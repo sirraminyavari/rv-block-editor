@@ -1,5 +1,6 @@
 import { FC, useState, useMemo } from 'react'
 import { RichUtils } from 'draft-js'
+import Overlay from 'BlockEditor/Ui/Overlay'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import { usePopper } from 'react-popper'
@@ -20,7 +21,7 @@ function Menu () {
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
     const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect ] )
     const popper = usePopper ( virtualReference, menuRef, { placement: 'top' } )
-    return <div
+    return <Overlay
         ref = { setMenuRef }
         className = { styles.inlineStyleMenu }
         style = { popper.styles.popper }
@@ -35,5 +36,5 @@ function Menu () {
                 setEditorState ( newEditorState )
             } }
         /> ) }
-    </div>
+    </Overlay>
 }

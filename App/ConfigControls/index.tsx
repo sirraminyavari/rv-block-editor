@@ -1,10 +1,12 @@
 
-import useUiContext from './UiContext'
+import useUiContext from 'App/UiContext'
+
+import styles from './styles.module.scss'
 
 
 export default function ConfigControls () {
     const { showState, setShowState, language, setLanguage, direction, setDirection } = useUiContext ()
-    return <div className = 'demo-ui'>
+    return <div className = { styles.configControls }>
         <label>
             <input type = 'checkbox' checked = { showState } onChange = { e => setShowState ( e.target.checked ) } />
             Show State
