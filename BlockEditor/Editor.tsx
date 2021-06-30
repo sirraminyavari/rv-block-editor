@@ -4,7 +4,6 @@ import Editor from '@draft-js-plugins/editor'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
-import useKeyCommand from './useKeyCommand'
 import useAllPlugins from './useAllPlugins'
 
 import InlineStyleMenu from './InlineStyleMenu'
@@ -15,8 +14,6 @@ import DragOverlay from './DragOverlay'
 const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, plugins, ...props }, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
     const { editorRef, wrapperRef } = useUiContext ()
-
-    const handleKeyCommand = useKeyCommand ()
     const allPlugins = useAllPlugins ( plugins )
 
     return <div
@@ -38,10 +35,9 @@ const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, plugins, ...pro
                 editorState = { editorState }
                 onChange = { setEditorState }
                 plugins = { allPlugins }
-                // defaultKeyCommands // TODO:
-                handleKeyCommand = { handleKeyCommand }
                 defaultBlockRenderMap
-                // defaultKeyBindings // TODO:
+                defaultKeyBindings
+                defaultKeyCommands
                 { ...props }
             />
             <InlineStyleMenu />
