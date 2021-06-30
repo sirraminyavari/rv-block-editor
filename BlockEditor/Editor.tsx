@@ -7,7 +7,6 @@ import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
 import useKeyCommand from './useKeyCommand'
-import customStyleMap from './customStyleMap'
 
 import InlineStyleMenu from './InlineStyleMenu'
 import PlusMenu from './PlusMenu'
@@ -57,7 +56,6 @@ const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, plugins, ...pro
                 plugins = { allPlugins }
                 // defaultKeyCommands // TODO:
                 handleKeyCommand = { handleKeyCommand }
-                customStyleMap = { customStyleMap }
                 defaultBlockRenderMap
                 // defaultKeyBindings // TODO:
                 { ...props }
