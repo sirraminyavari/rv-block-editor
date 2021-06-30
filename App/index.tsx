@@ -8,6 +8,7 @@ import ConfigControls from './ConfigControls'
 
 import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
 import createHeadingsPlugin from 'Plugins/Headings'
+import createQuotePlugin from 'Plugins/Quote'
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
 
@@ -15,7 +16,8 @@ import createCodeBlockPlugin from 'Plugins/CodeBlock'
 const plugins = [
     createBasicInlineStylesPlugin (),
     createHeadingsPlugin (),
-    createBlockBreakoutPlugin ({
+    createQuotePlugin (),
+    createBlockBreakoutPlugin ({ // TODO: Make this internal
         breakoutBlocks: [ 'header-one', 'header-two', 'header-three', 'header-four', 'header-five', 'header-six', 'blockquote' ],
         doubleBreakoutBlocks: [ 'unordered-list-item', 'ordered-list-item', 'code-block' ]
     }),
