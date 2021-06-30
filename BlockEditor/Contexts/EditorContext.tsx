@@ -1,14 +1,11 @@
-import { createContext, useContext, FC, useMemo } from 'react'
+import { createContext, useContext, FC } from 'react'
 import { EditorState } from 'draft-js'
 import { EditorPlugin, InlineStyle, PlusAction } from 'BlockEditor'
-
-import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 
 
 export interface EditorContext {
     editorState: EditorState
     setEditorState: SetState < EditorState >
-    plugins: EditorPlugin []
     inlineStyles: InlineStyle []
     plusActions: PlusAction []
 }
@@ -35,16 +32,10 @@ export const EditorContextProvider: FC < EditorContextProviderProps > = ({ edito
         ...acc, ...( plugin.plusActions || [] )
     ], [] )
 
-    const blockBreakoutPlugin = useMemo ( () => createBlockBreakoutPlugin ({ // TODO: Make this internal
-        breakoutBlocks: plusActions.filter ( pa => pa.returnBreakout ).map ( pa => pa.action ),
-        doubleBreakoutBlocks: plusActions.filter ( pa => pa.doubleBreakout ).map ( pa => pa.action )
-    }), [] )
-
     return <EditorContext.Provider
         value = {{
             editorState, setEditorState,
             inlineStyles, plusActions,
-            plugins: [ ...plugins, blockBreakoutPlugin ]
         }}
         children = { children }
     />

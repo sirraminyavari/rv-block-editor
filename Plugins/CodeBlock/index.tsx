@@ -1,20 +1,10 @@
-import { EditorPlugin } from 'BlockEditor'
-import { RichUtils, getDefaultKeyBinding } from 'draft-js'
-import CodeUtils from 'draft-js-code'
+import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import { RichUtils } from 'draft-js'
+import CodeUtils, { onTab } from 'draft-js-code'
+import { Map } from 'immutable'
 
 
 export default function createCodeBlockPlugin (): EditorPlugin {
-    function onTab ( event, { getEditorState, setEditorState } ) {
-        const editorState = getEditorState ()
-        const newState = CodeUtils.hasSelectionInBlock ( editorState )
-            ? CodeUtils.onTab ( event, editorState )
-            : null
-        if ( newState ) {
-            setEditorState ( newState )
-            return true
-        }
-    }
-
     return {
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
@@ -24,13 +14,13 @@ export default function createCodeBlockPlugin (): EditorPlugin {
             return newState ? 'handled' : 'not-handled'
         },
 
-        keyBindingFn ( event, pluginFunctions ) {
+        keyBindingFn ( event, { getEditorState, setEditorState } ) {
+            const editorState = getEditorState ()
+            if ( ! CodeUtils.hasSelectionInBlock ( editorState ) )
+                return
             if ( event.key === 'Tab' )
-                return onTab ( event, pluginFunctions )
-            const editorState = pluginFunctions.getEditorState ()
-            return CodeUtils.hasSelectionInBlock ( editorState )
-                ? CodeUtils.getKeyBinding ( event ) || getDefaultKeyBinding ( event )
-                : getDefaultKeyBinding ( event )
+                setEditorState ( onTab ( event, editorState ) )
+            return CodeUtils.getKeyBinding ( event )
         },
 
         handleReturn ( event, editorState, { setEditorState } ) {
@@ -43,6 +33,13 @@ export default function createCodeBlockPlugin (): EditorPlugin {
 
         plusActions: [
             { label: 'Code Block', action: 'code-block' }
-        ]
+        ],
+
+        blockRenderMap: Map ({
+            'code-block': {
+                element: withBlockWrapper ( 'pre' ),
+                wrapper: <pre className = { 'public/DraftStyleDefault/pre' } />
+            }
+        }) as any
     }
 }

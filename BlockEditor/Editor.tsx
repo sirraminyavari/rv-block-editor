@@ -1,11 +1,11 @@
-import { forwardRef } from 'react'
+import { forwardRef, useMemo } from 'react'
 
 import Editor from '@draft-js-plugins/editor'
-import { getDefaultKeyBinding } from 'draft-js'
+
+import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
-import blockRenderMap from './blockRenderMap'
 import useKeyCommand from './useKeyCommand'
 import customStyleMap from './customStyleMap'
 
@@ -14,11 +14,27 @@ import PlusMenu from './PlusMenu'
 import DragOverlay from './DragOverlay'
 
 
-const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, ...props }, ref ) => {
-    const { editorState, setEditorState, plugins } = useEditorContext ()
+const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, plugins, ...props }, ref ) => {
+    const { editorState, setEditorState, plusActions } = useEditorContext ()
     const { editorRef, wrapperRef, setPlusMenuInfo } = useUiContext ()
 
     const handleKeyCommand = useKeyCommand ()
+
+    const internalPlugins = useMemo ( () => {
+        const blockBreakoutPlugin = createBlockBreakoutPlugin ({
+            breakoutBlocks: plusActions.filter ( pa => pa.returnBreakout ).map ( pa => pa.action ),
+            doubleBreakoutBlocks: plusActions.filter ( pa => pa.doubleBreakout ).map ( pa => pa.action )
+        })
+        const uiHandlerPlugin = {
+            keyBindingFn ( event ) {
+                console.log ( event )
+                if ( event.key === 'Escape' )
+                    setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
+            }
+        }
+        return [ blockBreakoutPlugin, uiHandlerPlugin ]
+    }, [] )
+    const allPlugins = useMemo ( () => [ ...plugins, ...internalPlugins ], [ plugins, internalPlugins ] )
 
     return <div
         onClick = { () => editorRef.current?.focus () }
@@ -38,15 +54,12 @@ const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, ...props }, ref
                 } }
                 editorState = { editorState }
                 onChange = { setEditorState }
-                plugins = { plugins }
+                plugins = { allPlugins }
+                // defaultKeyCommands // TODO:
                 handleKeyCommand = { handleKeyCommand }
-                keyBindingFn = { event => {
-                    if ( event.key === 'Escape' )
-                        setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
-                    return getDefaultKeyBinding ( event )
-                } }
                 customStyleMap = { customStyleMap }
-                blockRenderMap = { blockRenderMap }
+                defaultBlockRenderMap
+                // defaultKeyBindings // TODO:
                 { ...props }
             />
             <InlineStyleMenu />

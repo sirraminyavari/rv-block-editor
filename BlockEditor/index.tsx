@@ -1,4 +1,4 @@
-import { FC, forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 import { EditorContextProvider } from './Contexts/EditorContext'
 import { UiContextProvider } from './Contexts/UiContext'
@@ -7,6 +7,7 @@ import Editor from './Editor'
 
 
 export * from './types'
+export { withBlockWrapper } from './BlockWrapper'
 
 
 const BlockEditor = forwardRef < PluginsEditor, any > ( ( { editorState, setEditorState, plugins, ...props }, ref ) => {
@@ -16,7 +17,11 @@ const BlockEditor = forwardRef < PluginsEditor, any > ( ( { editorState, setEdit
         plugins = { plugins }
     >
         <UiContextProvider>
-            <Editor { ...props } ref = { ref } />
+            <Editor
+                ref = { ref }
+                plugins = { plugins }
+                { ...props }
+            />
         </UiContextProvider>
     </EditorContextProvider>
 } )
