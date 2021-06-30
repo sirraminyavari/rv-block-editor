@@ -14,7 +14,7 @@ import styles from './styles.module.scss'
 
 
 export default function _BlockEditor ( props ) {
-    const { editorState, setEditorState } = useEditorContext ()
+    const { editorState, setEditorState, plugins } = useEditorContext ()
     const { editorRef, wrapperRef, setPlusMenuInfo } = useUiContext ()
 
     const handleKeyCommand = useKeyCommand ()
@@ -25,6 +25,7 @@ export default function _BlockEditor ( props ) {
                 ref = { editorRef }
                 editorState = { editorState }
                 onChange = { setEditorState }
+                plugins = { plugins }
                 handleKeyCommand = { handleKeyCommand }
                 customStyleMap = { customStyleMap }
                 blockRenderMap = { blockRenderMap }

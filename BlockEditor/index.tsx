@@ -15,10 +15,7 @@ const BlockEditor: FC < any > = ({ editorState, setEditorState, plugins, ...prop
         plugins = { plugins }
     >
         <UiContextProvider>
-            <Editor
-                plugins = { plugins }
-                { ...props }
-            />
+            <Editor { ...props } />
         </UiContextProvider>
     </EditorContextProvider>
 }

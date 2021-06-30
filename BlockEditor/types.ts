@@ -9,6 +9,8 @@ export interface InlineStyle {
 export interface PlusAction {
     label: string
     action: string
+    returnBreakout?: boolean
+    doubleBreakout?: boolean
 }
 
 export interface EditorPlugin extends _EditorPlugin {
