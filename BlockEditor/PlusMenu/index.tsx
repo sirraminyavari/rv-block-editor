@@ -6,8 +6,7 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
-
-import plusActions from './plusActions'
+import { PlusAction } from 'BlockEditor'
 
 import styles from './styles.module.scss'
 
@@ -19,6 +18,7 @@ export default function PlusMenu () {
 }
 
 function Popper ({ block }) {
+    const { plusActions }  = useEditorContext ()
     const { setPlusMenuInfo, blockRefs } = useUiContext ()
     const targetRef = blockRefs.current [ block.getKey () ]
     const [ pannelRef, setPannelRef ] = useState ( null )
@@ -41,11 +41,6 @@ function Popper ({ block }) {
     </Popover>
 }
 
-
-export interface PlusAction {
-    label: string
-    action: string
-}
 
 interface ActionButtonProps {
     action: PlusAction

@@ -1,7 +1,7 @@
 import { EditorPlugin } from 'BlockEditor'
 
 
-export default function BasicInlineStyles (): EditorPlugin {
+export default function createBasicInlineStylesPlugin (): EditorPlugin {
     return {
         inlineStyles: [
             { label: 'B', style: 'BOLD' },

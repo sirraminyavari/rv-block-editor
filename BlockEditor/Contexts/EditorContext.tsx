@@ -1,6 +1,6 @@
 import { createContext, useContext, FC } from 'react'
 import { EditorState } from 'draft-js'
-import { EditorPlugin, InlineStyle } from 'BlockEditor'
+import { EditorPlugin, InlineStyle, PlusAction } from 'BlockEditor'
 
 
 export interface EditorContext {
@@ -8,6 +8,7 @@ export interface EditorContext {
     setEditorState: SetState < EditorState >
     plugins: EditorPlugin []
     inlineStyles: InlineStyle []
+    plusActions: PlusAction []
 }
 
 /**
@@ -27,8 +28,13 @@ export const EditorContextProvider: FC < EditorContextProviderProps > = ({ edito
     const inlineStyles: InlineStyle [] = plugins.reduce ( ( acc, plugin ) => [
         ...acc, ...( plugin.inlineStyles || [] )
     ], [] )
+
+    const plusActions: PlusAction [] = plugins.reduce ( ( acc, plugin ) => [
+        ...acc, ...( plugin.plusActions || [] )
+    ], [] )
+
     return <EditorContext.Provider
-        value = {{ editorState, setEditorState, plugins, inlineStyles }}
+        value = {{ editorState, setEditorState, plugins, inlineStyles, plusActions }}
         children = { children }
     />
 }

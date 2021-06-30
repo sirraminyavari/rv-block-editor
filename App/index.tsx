@@ -6,13 +6,15 @@ import useUiContext from './UiContext'
 import BlockEditor from 'BlockEditor'
 import ConfigControls from './ConfigControls'
 
+import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
+import createHeadingsPlugin from 'Plugins/Headings'
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
-import createBasicInlineStyles from 'Plugins/BasicInlineStyles'
 
 
 const plugins = [
-    createBasicInlineStyles (),
+    createBasicInlineStylesPlugin (),
+    createHeadingsPlugin (),
     createBlockBreakoutPlugin ({
         breakoutBlocks: [ 'header-one', 'header-two', 'header-three', 'header-four', 'header-five', 'header-six', 'blockquote' ],
         doubleBreakoutBlocks: [ 'unordered-list-item', 'ordered-list-item', 'code-block' ]

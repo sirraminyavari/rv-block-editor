@@ -6,6 +6,12 @@ export interface InlineStyle {
     style: string
 }
 
+export interface PlusAction {
+    label: string
+    action: string
+}
+
 export interface EditorPlugin extends _EditorPlugin {
     inlineStyles?: InlineStyle []
+    plusActions?: PlusAction []
 }
