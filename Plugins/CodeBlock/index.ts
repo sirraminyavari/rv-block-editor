@@ -1,9 +1,20 @@
-import { getDefaultKeyBinding } from 'draft-js'
+import { EditorPlugin } from 'BlockEditor'
+import { RichUtils, getDefaultKeyBinding } from 'draft-js'
 import CodeUtils from 'draft-js-code'
-import { RichUtils } from 'draft-js'
 
 
-export default function createCodeBlockPlugin () {
+export default function createCodeBlockPlugin (): EditorPlugin {
+    function onTab ( event, { getEditorState, setEditorState } ) {
+        const editorState = getEditorState ()
+        const newState = CodeUtils.hasSelectionInBlock ( editorState )
+            ? CodeUtils.onTab ( event, editorState )
+            : null
+        if ( newState ) {
+            setEditorState ( newState )
+            return true
+        }
+    }
+
     return {
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
@@ -13,28 +24,25 @@ export default function createCodeBlockPlugin () {
             return newState ? 'handled' : 'not-handled'
         },
 
-        keyBindingFn ( evt, { getEditorState } ) {
-            const editorState = getEditorState ()
+        keyBindingFn ( event, pluginFunctions ) {
+            if ( event.key === 'Tab' )
+                return onTab ( event, pluginFunctions )
+            const editorState = pluginFunctions.getEditorState ()
             return CodeUtils.hasSelectionInBlock ( editorState )
-                ? CodeUtils.getKeyBinding ( evt ) || getDefaultKeyBinding ( evt )
-                : getDefaultKeyBinding ( evt )
+                ? CodeUtils.getKeyBinding ( event ) || getDefaultKeyBinding ( event )
+                : getDefaultKeyBinding ( event )
         },
 
-        handleReturn ( evt, editorState, { setEditorState } ) {
+        handleReturn ( event, editorState, { setEditorState } ) {
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
-                ? CodeUtils.handleReturn ( evt, editorState )
+                ? CodeUtils.handleReturn ( event, editorState )
                 : null
             if ( newState ) setEditorState ( newState )
             return newState ? 'handled' : 'not-handled'
         },
 
-        onTab ( evt, { getEditorState, setEditorState } ) {
-            const editorState = getEditorState ()
-            const newState = CodeUtils.hasSelectionInBlock ( editorState )
-                ? CodeUtils.onTab ( evt, editorState )
-                : null
-            if ( newState ) setEditorState ( newState )
-            return newState ? 'handled' : 'not-handled'
-        }
+        plusActions: [
+            { label: 'Code Block', action: 'code-block' },
+        ]
     }
 }
