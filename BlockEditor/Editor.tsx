@@ -1,6 +1,7 @@
 import { forwardRef } from 'react'
 
 import Editor from '@draft-js-plugins/editor'
+import { getDefaultKeyBinding } from 'draft-js'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
@@ -39,11 +40,13 @@ const _BlockEditor = forwardRef < Editor, any > ( ( { dir, lang, ...props }, ref
                 onChange = { setEditorState }
                 plugins = { plugins }
                 handleKeyCommand = { handleKeyCommand }
+                keyBindingFn = { event => {
+                    if ( event.key === 'Escape' )
+                        setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
+                    return getDefaultKeyBinding ( event )
+                } }
                 customStyleMap = { customStyleMap }
                 blockRenderMap = { blockRenderMap }
-                onEscape = { () => {
-                    setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
-                } }
                 { ...props }
             />
             <InlineStyleMenu />
