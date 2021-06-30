@@ -7,6 +7,7 @@ import BlockEditor from 'BlockEditor'
 import ConfigControls from './ConfigControls'
 
 import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
+import createParagraphPlugin from 'Plugins/Paragraph'
 import createHeadingsPlugin from 'Plugins/Headings'
 import createListsPlugin from 'Plugins/Lists'
 import createQuotePlugin from 'Plugins/Quote'
@@ -16,6 +17,7 @@ import createCodeBlockPlugin from 'Plugins/CodeBlock'
 
 const plugins = [
     createBasicInlineStylesPlugin (),
+    createParagraphPlugin (),
     createHeadingsPlugin (),
     createListsPlugin (),
     createQuotePlugin (),

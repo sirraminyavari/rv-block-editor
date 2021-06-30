@@ -42,7 +42,7 @@ export default function createCodeBlockPlugin (): EditorPlugin {
         },
 
         plusActions: [
-            { label: 'Code Block', action: 'code-block' },
+            { label: 'Code Block', action: 'code-block' }
         ]
     }
 }
