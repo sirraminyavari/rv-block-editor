@@ -4,8 +4,6 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import { usePopper } from 'react-popper'
 
-import inlineStyles from './inlineStyles'
-
 import styles from './styles.module.scss'
 
 
@@ -17,7 +15,7 @@ const InlineStyleMenu: FC = () => {
 export default InlineStyleMenu
 
 function Menu () {
-    const { editorState, setEditorState } = useEditorContext ()
+    const { editorState, setEditorState, inlineStyles } = useEditorContext ()
     const { inlineStyleMenuInfo: { getSelectionRect } } = useUiContext ()
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
     const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect ] )

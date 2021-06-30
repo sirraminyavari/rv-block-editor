@@ -5,10 +5,20 @@ import { UiContextProvider } from './Contexts/UiContext'
 import Editor from './Editor'
 
 
-const BlockEditor: FC < any > = ({ editorState, setEditorState, ...props }) => {
-    return <EditorContextProvider editorState = { editorState } setEditorState = { setEditorState }>
+export * from './types'
+
+
+const BlockEditor: FC < any > = ({ editorState, setEditorState, plugins, ...props }) => {
+    return <EditorContextProvider
+        editorState = { editorState }
+        setEditorState = { setEditorState }
+        plugins = { plugins }
+    >
         <UiContextProvider>
-            <Editor { ...props } />
+            <Editor
+                plugins = { plugins }
+                { ...props }
+            />
         </UiContextProvider>
     </EditorContextProvider>
 }
