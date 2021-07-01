@@ -1,11 +1,14 @@
 
+import { convertToRaw } from 'draft-js'
+
 import useUiContext from 'App/UiContext'
+import { contentPresets } from 'App/getInitialEditorState'
 
 import styles from './styles.module.scss'
 
 
-export default function ConfigControls () {
-    const { showState, setShowState, language, setLanguage, direction, setDirection } = useUiContext ()
+export default function ConfigControls ({ editorState, setEditorState }) {
+    const { showState, setShowState, language, setLanguage, direction, setDirection, contentPreset, setContentPreset } = useUiContext ()
     return <div className = { styles.configControls }>
         <label>
             <input type = 'checkbox' checked = { showState } onChange = { e => setShowState ( e.target.checked ) } />
@@ -25,5 +28,20 @@ export default function ConfigControls () {
                 <option value = 'rtl' children = 'Right to Left' />
             </select>
         </label>
+        <label>
+            Content Preset: { ' ' }
+            <select value = { contentPreset } onChange = { e => {
+                const presetName = e.target.value
+                setContentPreset ( presetName )
+                setEditorState ( contentPresets [ presetName ] () )
+            } }>
+                { Object.keys ( contentPresets ).map ( presetName => <option
+                    key = { presetName }
+                    value = { presetName }
+                    children = { presetName }
+                /> ) }
+            </select>
+        </label>
+        <button onClick = { () => console.log ( JSON.stringify ( convertToRaw ( editorState.getCurrentContent () ) ) ) }>Log Raw Content</button>
     </div>
 }

@@ -1,7 +1,7 @@
 import 'draft-js/dist/Draft.css'
 import { useState, useRef, useLayoutEffect } from 'react'
-import { EditorState } from 'draft-js'
 import useUiContext from './UiContext'
+import getInitialEditorState from './getInitialEditorState'
 
 import BlockEditor from 'BlockEditor'
 import editorTheme from './editorTheme.module.scss'
@@ -26,20 +26,20 @@ const plugins = [
 
 
 export default function App () {
-    const [ editorState, setEditorState ] = useState ( () => EditorState.createEmpty () )
+    const [ editorState, setEditorState ] = useState ( getInitialEditorState ( localStorage.getItem ( 'contentPreset' ) || 'empty' ) )
     const { showState, language, direction } = useUiContext ()
 
     const editorRef = useRef < any > ()
     useLayoutEffect ( () => editorRef.current?.focus (), [] )
 
     return <>
-        <ConfigControls />
-            <BlockEditor
-                ref = { editorRef }
-                editorState = { editorState } onChange = { setEditorState }
-                lang = { language } dir = { direction }
-                plugins = { plugins } styles = { editorTheme }
-            />
+        <ConfigControls editorState = { editorState } setEditorState = { setEditorState } />
+        <BlockEditor
+            ref = { editorRef }
+            editorState = { editorState } onChange = { setEditorState }
+            lang = { language } dir = { direction }
+            plugins = { plugins } styles = { editorTheme }
+        />
         { showState && <pre children = { JSON.stringify ( editorState, null, 4 ) } /> }
     </>
 }
