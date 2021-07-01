@@ -31,8 +31,10 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
         <div className = { cn ( styles.controls, {
             [ styles.invisible ]: plusMenuInfo.openedBlock
         } ) }>
-            <PlusMenuButton blockKey = { blockKey } />
-            <DragHandle blockKey = { blockKey } />
+            <div>
+                <PlusMenuButton blockKey = { blockKey } />
+                <DragHandle blockKey = { blockKey } />
+            </div>
         </div>
         <div className = { cn ( styles.content, c ( externalStyles, config.styles?.contentWrapper ) ) }>
             <Comp
