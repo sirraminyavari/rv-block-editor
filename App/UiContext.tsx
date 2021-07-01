@@ -1,9 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { language, direction } from 'BlockEditor'
 
 
-export type language = 'en' | 'fa'
-
-export type direction = 'ltr' | 'rtl'
 
 export interface UiContext {
     showControls: boolean

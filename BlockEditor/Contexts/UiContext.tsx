@@ -66,13 +66,14 @@ export interface UiContext {
     wrapperRef: MutableRefObject < HTMLDivElement >
     blockRefs: MutableRefObject < { [ key: string ]: HTMLElement | null } >
     inlineStyleMenuInfo: InlineStyleMenuInfo
+    externalStyles: { [ key: string ]: string }
 }
 
 export const UiContext = createContext < UiContext > ( null )
 export const useUiContext = () => useContext ( UiContext )
 export default useUiContext
 
-export function UiContextProvider ({ children }) {
+export function UiContextProvider ({ styles, children }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
     const editorRef = useRef ()
@@ -112,7 +113,8 @@ export function UiContextProvider ({ children }) {
             editorRef, wrapperRef, blockRefs,
             dragInfo, setDragInfo,
             plusMenuInfo, setPlusMenuInfo,
-            inlineStyleMenuInfo
+            inlineStyleMenuInfo,
+            externalStyles: styles
         }}
         children = { children }
     />

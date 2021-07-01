@@ -4,6 +4,7 @@ import { EditorState } from 'draft-js'
 import useUiContext from './UiContext'
 
 import BlockEditor from 'BlockEditor'
+import editorTheme from './editorTheme.module.scss'
 import ConfigControls from './ConfigControls'
 
 import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
@@ -33,12 +34,12 @@ export default function App () {
 
     return <>
         <ConfigControls />
-        <BlockEditor
-            ref = { editorRef }
-            editorState = { editorState } setEditorState = { setEditorState }
-            lang = { language } dir = { direction }
-            plugins = { plugins }
-        />
+            <BlockEditor
+                ref = { editorRef }
+                editorState = { editorState } onChange = { setEditorState }
+                lang = { language } dir = { direction }
+                plugins = { plugins } styles = { editorTheme }
+            />
         { showState && <pre children = { JSON.stringify ( editorState, null, 4 ) } /> }
     </>
 }

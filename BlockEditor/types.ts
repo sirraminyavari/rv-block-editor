@@ -1,6 +1,9 @@
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
 
 
+export type language = 'en' | 'fa'
+export type direction = 'ltr' | 'rtl'
+
 export interface InlineStyle {
     label: string
     style: string
