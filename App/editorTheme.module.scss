@@ -5,4 +5,60 @@
     padding: 1.5rem 1rem;
     border-radius: .5rem;
     box-shadow: 0 3px 10px rgba( black, .1 );
+    font-family: IRANSans;
+}
+
+
+.blockElement {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+
+.heading {
+    &.heading1 {
+        // text-decoration: underline;
+    }
+}
+
+.heading-wrapper {
+    &.heading1-wrapper {
+        margin: 2rem 0 1rem;
+    }
+    &.heading2-wrapper {
+        margin: 1.5rem 0 1rem;
+    }
+    &.heading3-wrapper {
+        margin: 1.5rem 0 1rem;
+    }
+}
+
+
+.paragraph {
+    margin: 1rem 0;
+}
+
+
+.ul, .ol {
+    padding: 0;
+    margin: 1rem 0;
+    li {
+        margin: .25rem 0;
+        margin-inline-start: 1.5rem;
+    }
+}
+
+
+.pre {
+    margin: 0;
+    padding: 0;
+}
+
+.pre-content-wrapper {
+    background-color: #062E32;
+    color: rgba( white, .8 );
+    padding: 1.5rem;
+    border-radius: .25rem;
+    box-shadow: 0 3px 10px rgba( black, .1 );
 }

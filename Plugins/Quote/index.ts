@@ -8,7 +8,9 @@ export default function createQuotePlugin (): EditorPlugin {
             { label: 'Quote', action: 'blockquote', returnBreakout: true }
         ],
         blockRenderMap: Map ({
-            element: withBlockWrapper ( 'blockquote' )
+            blockquote: {
+                element: withBlockWrapper ( 'blockquote' )
+            }
         }) as any
     }
 }

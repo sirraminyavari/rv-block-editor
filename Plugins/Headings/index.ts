@@ -1,8 +1,10 @@
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { Map } from 'immutable'
 
+import getHeadingComponent from './getHeadingComponent'
 
-const headings = [ 'one', 'two', 'three', 'four', 'five', 'six' ]
+
+const headings = [ 'one', 'two', 'three' ]
 
 export default function createHeadingsPlugin (): EditorPlugin {
     return {
@@ -14,7 +16,12 @@ export default function createHeadingsPlugin (): EditorPlugin {
         blockRenderMap: Map ( headings
             .map ( ( heading, i ) => ({
                 key: `header-${ heading }`,
-                element: withBlockWrapper ( `h${ i + 1 }` )
+                element: withBlockWrapper (
+                    getHeadingComponent ( i + 1 ), {
+                        styles: {
+                            wrapper: [ 'heading-wrapper', `heading${ i + 1 }-wrapper` ]
+                        }
+                    } )
             }) )
             .reduce ( ( acc, { key, ...val } ) => ({ ...acc, [ key ]: val }), {} )
         )

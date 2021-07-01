@@ -1,10 +1,11 @@
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { RichUtils } from 'draft-js'
 import CodeUtils, { onTab } from 'draft-js-code'
+import cn from 'classnames'
 import { Map } from 'immutable'
 
 
-export default function createCodeBlockPlugin (): EditorPlugin {
+export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin {
     return {
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
@@ -37,8 +38,8 @@ export default function createCodeBlockPlugin (): EditorPlugin {
 
         blockRenderMap: Map ({
             'code-block': {
-                element: withBlockWrapper ( 'pre' ),
-                wrapper: <pre className = { 'public/DraftStyleDefault/pre' } />
+                element: withBlockWrapper ( 'pre', { styles: { wrapper: [ 'pre-wrapper' ], contentWrapper: [ 'pre-content-wrapper' ] } } ),
+                wrapper: <pre className = { cn ( 'public/DraftStyleDefault/pre', config.styles?.pre ) } />
             }
         }) as any
     }

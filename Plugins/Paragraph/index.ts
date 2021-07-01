@@ -9,7 +9,7 @@ export default function createParagraphPlugin (): EditorPlugin {
         ],
         blockRenderMap: Map ({
             unstyled: {
-                element: withBlockWrapper ( 'div' ),
+                element: withBlockWrapper ( 'div', { styles: { wrapper: [ 'paragraph' ] } } ),
                 aliasedElements: [ 'p' ]
             }
         }) as any

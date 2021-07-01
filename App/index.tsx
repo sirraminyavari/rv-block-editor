@@ -19,9 +19,9 @@ const plugins = [
     createBasicInlineStylesPlugin (),
     createParagraphPlugin (),
     createHeadingsPlugin (),
-    createListsPlugin (),
+    createListsPlugin ({ styles: editorTheme }),
     createQuotePlugin (),
-    createCodeBlockPlugin ()
+    createCodeBlockPlugin ({ styles: editorTheme })
 ]
 
 
