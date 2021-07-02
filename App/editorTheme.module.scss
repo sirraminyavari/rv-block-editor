@@ -62,3 +62,18 @@
     border-radius: .25rem;
     box-shadow: 0 3px 10px rgba( black, .1 );
 }
+
+
+.quote-content-wrapper {
+    margin: 2rem 3rem;
+    blockquote {
+        font-weight: bold;
+        font-size: 2rem;
+        color: rgba( black, .55 );
+        font-style: italic;
+        display: block;
+        * {
+            text-align: center;
+        }
+    }
+}

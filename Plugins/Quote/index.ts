@@ -9,7 +9,12 @@ export default function createQuotePlugin (): EditorPlugin {
         ],
         blockRenderMap: Map ({
             blockquote: {
-                element: withBlockWrapper ( 'blockquote' )
+                element: withBlockWrapper ( 'blockquote', {
+                    styles: {
+                        wrapper: [ 'quote-wrapper' ],
+                        contentWrapper: [ 'quote-content-wrapper' ]
+                    }
+                } )
             }
         }) as any
     }
