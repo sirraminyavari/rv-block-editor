@@ -1,8 +1,18 @@
+// TODO: Organize order
+
 import { createContext, useContext, useState, useRef, MutableRefObject } from 'react'
 import { ContentBlock } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import useEditorContext from './EditorContext'
 
+
+// TODO: Docs
+export interface BlockControlsInfo {
+    isMouseOnEditor?: boolean
+    hoveredBlockKey?: string
+    hoveredBlockElem?: HTMLDivElement
+    hoveredBlockRect?: DOMRect
+}
 
 /**
  * Information regarding the Plus Menu UI.
@@ -58,14 +68,17 @@ export interface InlineStyleMenuInfo {
  * General information regarding the Block Editor user interface.
  */
 export interface UiContext {
+    blockControlsInfo: BlockControlsInfo
+    setBlockControlsInfo: SetState < BlockControlsInfo >
     plusMenuInfo: PlusMenuInfo
     setPlusMenuInfo: SetState < PlusMenuInfo >
     dragInfo: DragInfo
     setDragInfo: SetState < DragInfo >
+    inlineStyleMenuInfo: InlineStyleMenuInfo
     editorRef: MutableRefObject < Editor >
     wrapperRef: MutableRefObject < HTMLDivElement >
+    innerWrapperRef: MutableRefObject < HTMLDivElement >
     blockRefs: MutableRefObject < { [ key: string ]: HTMLElement | null } >
-    inlineStyleMenuInfo: InlineStyleMenuInfo
     externalStyles: { [ key: string ]: string }
 }
 
@@ -78,6 +91,7 @@ export function UiContextProvider ({ styles, children }) {
     const selectionState = editorState.getSelection ()
     const editorRef = useRef ()
     const wrapperRef = useRef ()
+    const innerWrapperRef = useRef ()
     const blockRefs = useRef ({})
 
     const [ dragInfo, setDragInfo ] = useState ({
@@ -86,7 +100,7 @@ export function UiContextProvider ({ styles, children }) {
         block: null, elem: null
     })
 
-    const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({ openedBlock: null })
+    const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({})
     if ( plusMenuInfo.openedBlock && (
         ! selectionState.getHasFocus () ||
         plusMenuInfo.openedBlock.getKey () !== selectionState.getAnchorKey () ||
@@ -108,11 +122,14 @@ export function UiContextProvider ({ styles, children }) {
         }
     } ) ()
 
+    const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ({})
+
     return <UiContext.Provider
         value = {{
-            editorRef, wrapperRef, blockRefs,
+            editorRef, wrapperRef, innerWrapperRef, blockRefs,
             dragInfo, setDragInfo,
             plusMenuInfo, setPlusMenuInfo,
+            blockControlsInfo, setBlockControlsInfo,
             inlineStyleMenuInfo,
             externalStyles: styles
         }}

@@ -1,8 +1,10 @@
 .wrapper {
+    --block-controls-offset: .8rem;
+
     width: 100%;
-    max-width: 42rem;
+    max-width: 48rem;
     margin: 4rem auto;
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 0;
     border-radius: .5rem;
     box-shadow: 0 3px 10px rgba( black, .1 );
     font-family: IRANSans;
@@ -11,8 +13,12 @@
     *::selection {
         background-color: rgba( #2B7BE4, .25 );
     }
-}
 
+    [data-block-key] {
+        display: block;
+        padding: 0 3rem;
+    }
+}
 
 .blockElement {
     margin: 0;
@@ -59,6 +65,7 @@
     margin: 1.5rem 0;
     padding: 0;
 }
+
 
 .pre-content-wrapper {
     background-color: #062E32;

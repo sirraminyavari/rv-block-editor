@@ -42,7 +42,8 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
                     styles: {
                         wrapper: [ 'pre-wrapper' ],
                         contentWrapper: [ 'pre-content-wrapper' ]
-                } } ),
+                    }
+                } ),
                 wrapper: <pre className = { cn ( 'public/DraftStyleDefault/pre', config.styles?.pre ) } />
             }
         }) as any

@@ -1,9 +1,8 @@
 import cn from 'classnames'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
-import DragHandle from 'BlockEditor/DragOverlay/DragHandle'
-import getWrapperHandlers from 'BlockEditor/DragOverlay/getWrapperHandlers'
-import { PlusMenuButton } from 'BlockEditor/PlusMenu'
+import getWrapperHandlersForDragOverlay from 'BlockEditor/DragOverlay/getWrapperHandlers'
+import getWrapperHandlersForBlockControls from 'BlockEditor/BlockControls/getWrapperHandlers'
 
 import styles from './styles.module.scss'
 
@@ -15,7 +14,7 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
     const { children } = props
     const { props: { block } } = children
     const blockKey = block.getKey ()
-    const { dragInfo, setDragInfo, blockRefs, plusMenuInfo, externalStyles } = useUiContext ()
+    const { dragInfo, setDragInfo, blockRefs, externalStyles, setBlockControlsInfo } = useUiContext ()
     return <div
         ref = { elem => blockRefs.current [ block.key ] = elem }
         data-block-key = { block.key }
@@ -23,20 +22,13 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
             [ styles.dragging ]:
                 dragInfo.dragging &&
                 dragInfo.isDraggingByHandle &&
-                dragInfo.block.getKey () === block.getKey ()
+                dragInfo.block.getKey () === blockKey
         } ) }
         draggable = { dragInfo.isDraggingByHandle }
-        { ...getWrapperHandlers ({ dragInfo, setDragInfo }) }
+        { ...getWrapperHandlersForDragOverlay ({ dragInfo, setDragInfo }) }
+        { ...getWrapperHandlersForBlockControls ({ blockKey, setBlockControlsInfo }) }
     >
-        <div className = { cn ( styles.controls, {
-            [ styles.invisible ]: plusMenuInfo.openedBlock
-        } ) }>
-            <div>
-                <PlusMenuButton blockKey = { blockKey } />
-                <DragHandle blockKey = { blockKey } />
-            </div>
-        </div>
-        <div className = { cn ( styles.content, c ( externalStyles, config.styles?.contentWrapper ) ) }>
+        <div className = { c ( externalStyles, config.styles?.contentWrapper ) }>
             <Comp
                 className = { externalStyles.blockElement }
                 children = { children }

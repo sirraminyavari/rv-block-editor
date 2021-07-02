@@ -1,36 +1,3 @@
-.blockWrapper {
-    position: relative;
-
-    .controls {
-        position: absolute;
-        top: 0; inset-inline-start: 0;
-        --offset: 1rem;
-        transform: translateX( calc( -100% - var( --offset ) ) );
-        [ dir = rtl ] & {
-            transform: translateX( calc( 100% + var( --offset ) ) );
-        }
-        > div {
-            display: grid;
-            gap: .25rem;
-            grid-template-columns: repeat( 2, auto );
-            transition: opacity 200ms ease;
-            opacity: 0;
-            position: relative;
-            &::after { // Event Shield
-                content: '';
-                position: absolute;
-                top: 0; left: 0;
-                width: 100%; height: 100%;
-            }
-        }
-    }
-
-    &:hover .controls:not( .invisible ) > div {
-        opacity: 1;
-        &::after { display: none; }
-    }
-
-    &.dragging {
-        opacity: .4;
-    }
+.blockWrapper.dragging {
+    opacity: .4;
 }

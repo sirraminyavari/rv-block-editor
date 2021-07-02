@@ -5,7 +5,6 @@ import { UiContextProvider } from './Contexts/UiContext'
 import PluginsEditor from '@draft-js-plugins/editor'
 import Editor, { BlockEditorProps as _BlockEditorProps } from './Editor'
 
-
 export * from './types'
 export { withBlockWrapper } from './BlockWrapper'
 
