@@ -1,4 +1,5 @@
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
+import { IconType } from 'react-icons'
 
 
 export type language = 'en' | 'fa'
@@ -6,6 +7,7 @@ export type direction = 'ltr' | 'rtl'
 
 export interface InlineStyle {
     label: string
+    Icon: IconType
     style: string
 }
 

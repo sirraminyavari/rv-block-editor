@@ -1,7 +1,7 @@
 .inlineStyleMenu {
     display: grid;
-    gap: .5rem;
     grid-auto-flow: column;
+    padding: .5rem;
     button {
         cursor: pointer;
     }

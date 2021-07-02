@@ -1,9 +1,11 @@
 import { FC, useState, useMemo } from 'react'
 import { RichUtils } from 'draft-js'
+import { getSelectionInlineStyle } from 'draftjs-utils'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import { usePopper } from 'react-popper'
+import Button from 'BlockEditor/Ui/Button'
 
 import styles from './styles.module.scss'
 
@@ -21,16 +23,17 @@ function Menu () {
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
     const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect ] )
     const popper = usePopper ( virtualReference, menuRef, { placement: 'top' } )
+    const activeInlineStyles = getSelectionInlineStyle ( editorState )
     return <Overlay
         ref = { setMenuRef }
         className = { styles.inlineStyleMenu }
         style = { popper.styles.popper }
         { ...popper.attributes.popper }
     >
-        { inlineStyles.map ( ({ label, style }) => <button
+        { inlineStyles.map ( ({ Icon, style }) => <Button
             key = { style }
-            children = { label }
-            onMouseDown = { e => e.preventDefault () }
+            Icon = { Icon }
+            active = { activeInlineStyles [ style ] }
             onClick = { () => {
                 const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
                 setEditorState ( newEditorState )

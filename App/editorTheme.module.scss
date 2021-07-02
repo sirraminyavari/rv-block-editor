@@ -6,6 +6,11 @@
     border-radius: .5rem;
     box-shadow: 0 3px 10px rgba( black, .1 );
     font-family: IRANSans;
+    color: rgba( black, .85 );
+
+    *::selection {
+        background-color: rgba( #2B7BE4, .25 );
+    }
 }
 
 
@@ -59,7 +64,7 @@
     background-color: #062E32;
     color: rgba( white, .8 );
     padding: 1.5rem;
-    border-radius: .25rem;
+    border-radius: .5rem;
     box-shadow: 0 3px 10px rgba( black, .1 );
 }
 

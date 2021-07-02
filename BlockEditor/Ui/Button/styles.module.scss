@@ -1,1 +1,26 @@
-.button {}
+.button {
+    -webkit-user-modify: read-only;
+    -moz-user-modify: read-only;
+    -ms-user-modify: read-only;
+    user-select: none;
+    cursor: pointer;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    padding: .25rem;
+    color: rgba( black, .7 );
+    border-radius: .5rem;
+    transition: all 100ms ease;
+    border: 1px solid transparent;
+
+    &:hover {
+        color: rgba( #2B7BE4, .4 );
+    }
+
+    &.active {
+        color: #2B7BE4;
+    }
+}
