@@ -1,6 +1,8 @@
 import { FC } from 'react'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
+import Button from 'BlockEditor/Ui/Button'
+import { FaGripVertical as DragIcon } from 'react-icons/fa'
 
 import styles from './styles.module.scss'
 
@@ -13,10 +15,11 @@ const DragHandle: FC < DragHandleProps > = ({ blockKey }) => {
     const { editorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
     const { editorRef, setDragInfo, wrapperRef } = useUiContext ()
-    return <div
+    return <Button
+        Icon = { DragIcon }
         draggable = 'true'
-        children = '='
         className = { styles.dragHandle }
+        onMouseDown = { () => void 0 } // Override
         onMouseOver = { () => editorRef.current?.focus () }
         onDragStart = { () => setImmediate ( () => setDragInfo ( prev => ({
             ...prev, dragging: true, isDraggingByHandle: true, block,

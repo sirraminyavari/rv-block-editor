@@ -7,7 +7,10 @@ import styles from './styles.module.scss'
 
 
 export default function BlockControls () {
-    const { blockControlsInfo: { isMouseOnEditor, hoveredBlockKey, hoveredBlockRect: rect }, plusMenuInfo, wrapperRef, innerWrapperRef } = useUiContext ()
+    const {
+        blockControlsInfo: { isMouseOnEditor, hoveredBlockKey, hoveredBlockRect: rect },
+        plusMenuInfo, wrapperRef, innerWrapperRef
+    } = useUiContext ()
     const owRect = wrapperRef.current.getBoundingClientRect ()
     const iwRect = innerWrapperRef.current.getBoundingClientRect ()
     return <div

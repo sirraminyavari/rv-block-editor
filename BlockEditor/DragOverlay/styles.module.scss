@@ -16,9 +16,5 @@
 }
 
 .dragHandle {
-    -webkit-user-modify: read-only;
-    -moz-user-modify: read-only;
-    -ms-user-modify: read-only;
-    user-select: none;
     cursor: grab;
 }

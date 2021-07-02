@@ -10,7 +10,9 @@ export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
     active?: boolean
 }
 
-const Button = forwardRef < HTMLDivElement, ButtonProps > ( ( { className, Icon, active, children, ...props }, ref ) => <div
+const Button = forwardRef < HTMLDivElement, ButtonProps > ( (
+    { className, Icon, active, children, ...props }, ref
+) => <div
     ref = { ref }
     className = { cn ( styles.button, className, {
         [ styles.active ]: active

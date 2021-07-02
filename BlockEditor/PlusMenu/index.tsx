@@ -7,6 +7,8 @@ import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelecti
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
 import { PlusAction } from 'BlockEditor'
+import Button from 'BlockEditor/Ui/Button'
+import { FaPlusCircle as PlusIcon } from 'react-icons/fa'
 
 import styles from './styles.module.scss'
 
@@ -65,8 +67,8 @@ export const PlusMenuButton: FC < PlusMenuButtonProps > = ({ blockKey }) => {
     const { editorState, setEditorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
     const { setPlusMenuInfo } = useUiContext ()
-    return <div
-        children = '+'
+    return <Button
+        Icon = { PlusIcon }
         className = { styles.btn }
         onMouseDown = { e => e.preventDefault () }
         onClick = { () => {
