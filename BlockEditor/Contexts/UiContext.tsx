@@ -1,6 +1,6 @@
 // TODO: Organize order
 
-import { createContext, useContext, useState, useRef, MutableRefObject } from 'react'
+import { createContext, useContext, useState, useLayoutEffect, useRef, MutableRefObject } from 'react'
 import { ContentBlock } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import useEditorContext from './EditorContext'
@@ -90,8 +90,8 @@ export function UiContextProvider ({ styles, children }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
     const editorRef = useRef ()
-    const wrapperRef = useRef ()
-    const innerWrapperRef = useRef ()
+    const wrapperRef = useRef < HTMLDivElement > ()
+    const innerWrapperRef = useRef < HTMLDivElement > ()
     const blockRefs = useRef ({})
 
     const [ dragInfo, setDragInfo ] = useState ({
@@ -123,6 +123,14 @@ export function UiContextProvider ({ styles, children }) {
     } ) ()
 
     const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ({})
+    useLayoutEffect ( () => { // Set Block Controls on the first block initialy
+        const firstBlockElem = wrapperRef.current?.querySelector ( '[data-block-key]' ) as HTMLDivElement
+        setBlockControlsInfo ( prev => ({ ...prev,
+            hoveredBlockElem: firstBlockElem,
+            hoveredBlockKey: firstBlockElem.getAttribute ( 'data-block-key' ),
+            hoveredBlockRect: firstBlockElem.getBoundingClientRect ()
+        }) )
+    }, [] )
 
     return <UiContext.Provider
         value = {{

@@ -13,7 +13,7 @@ import styles from './styles.module.scss'
 
 const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dragInfo, blockRefs, wrapperRef } = useUiContext ()
+    const { dragInfo, blockRefs, wrapperRef, setBlockControlsInfo } = useUiContext ()
 
     const [ overlayRect, setOverlayRect ] = useState ( null )
     const [ sortedPosInfo, setSortedPosInfo ] = useState ( null )
@@ -47,14 +47,20 @@ const DragOverlay: FC < any > = () => {
         onDrop = { event => {
             const { elem: closestElem, insertionMode } = getClosestInfo ( event )
             const currentContent = editorState.getCurrentContent ()
+            const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
             const newContent = moveBlock (
                 currentContent,
-                currentContent.getBlockForKey ( dragInfo.elem.getAttribute ( 'data-block-key' ) ),
-                currentContent.getBlockForKey ( closestElem  .getAttribute ( 'data-block-key' ) ),
+                currentContent.getBlockForKey ( draggedBlockKey ),
+                currentContent.getBlockForKey ( closestElem.getAttribute ( 'data-block-key' ) ),
                 insertionMode
             )
             const newState = EditorState.push ( editorState, newContent, 'move-block' )
             setEditorState ( newState )
+            setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
+                hoveredBlockElem: dragInfo.elem as any,
+                hoveredBlockKey: draggedBlockKey,
+                hoveredBlockRect: dragInfo.elem.getBoundingClientRect ()
+            }) ) )
         } }
     >
         <DropIndicator
