@@ -35,6 +35,17 @@ export function UiContextProvider ({ children }) {
         localStorage.setItem ( 'contentPreset', contentPreset )
     }, [ showControls, showState, language, direction, contentPreset ] )
 
+    useEffect ( () => ({
+        'englishText' () {
+            setDirection ( 'ltr' )
+            setLanguage ( 'en' )
+        },
+        'persianText' () {
+            setDirection ( 'rtl' )
+            setLanguage ( 'fa' )
+        }
+    }) [ contentPreset ]?.(), [ contentPreset ] )
+
     return <UiContext.Provider
         value = {{
             showControls, setShowControls,
