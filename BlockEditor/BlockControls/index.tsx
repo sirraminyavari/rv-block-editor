@@ -18,7 +18,7 @@ export default function BlockControls () {
             [ styles.visible ]: isMouseOnEditor && ! plusMenuInfo.openedBlock
         } ) }
         style = {{ // @ts-ignore
-            '--x': iwRect.x - owRect.x, '--y': rect?.y ? rect.y - owRect.y : iwRect.y - owRect.y
+            '--x': iwRect.x - owRect.x, '--y': rect?.y ? ( rect.y + rect.bottom ) / 2 - owRect.y : iwRect.y - owRect.y
         }}
     >
         <PlusMenuButton blockKey = { hoveredBlockKey } />

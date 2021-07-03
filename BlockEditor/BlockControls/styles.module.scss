@@ -6,9 +6,10 @@
     font-size: .8rem;
     z-index: 4;
     transition: all 100ms ease;
-    transform: translate( calc( var( --x ) * 1px + var( --block-controls-offset ) ), calc( var( --y ) * 1px ) );
+    transform: translate( calc( var( --x ) * 1px + var( --block-controls-offset ) ), calc( var( --y ) * 1px - 50% ) );
+    color: rgba( black, .4 );
     [ dir = rtl ] & {
-        transform: translate( calc( var( --x ) * -1px - var( --block-controls-offset ) ), calc( var( --y ) * 1px ) );
+        transform: translate( calc( var( --x ) * -1px - var( --block-controls-offset ) ), calc( var( --y ) * 1px - 50% ) );
     }
     opacity: 0;
     &.visible { opacity: 1; }
