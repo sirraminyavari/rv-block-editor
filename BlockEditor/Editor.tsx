@@ -23,8 +23,8 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { dir, lang, plu
     const { editorRef, wrapperRef, innerWrapperRef, externalStyles, setBlockControlsInfo } = useUiContext ()
     const allPlugins = useAllPlugins ( plugins )
 
-    const [ showRefDependentComps, setShowRefDependentComps ] = useState ( false )
-    useLayoutEffect ( () => setShowRefDependentComps ( true ), [] )
+    const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
+    useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
 
     return <div
         ref = { wrapperRef }
@@ -55,7 +55,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { dir, lang, plu
                 { ...props }
             />
         </div>
-        { showRefDependentComps && <>
+        { renderRefDependentComps && <>
             <BlockControls />
             <InlineStyleMenu />
             <PlusMenu />
