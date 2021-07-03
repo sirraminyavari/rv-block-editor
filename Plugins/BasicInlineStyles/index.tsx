@@ -1,5 +1,5 @@
 import { EditorPlugin } from 'BlockEditor'
-import { GrBold as BoldIcon, GrUnderline as UnderlineIcon, GrItalic as ItalicIcon, GrStrikeThrough as StrikethroughIcon } from 'react-icons/gr'
+import { BoldIcon, ItalicIcon, UnderlineIcon, StrikethroughIcon } from './icons'
 
 
 export default function createBasicInlineStylesPlugin (): EditorPlugin {

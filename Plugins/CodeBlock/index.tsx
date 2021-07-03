@@ -3,6 +3,7 @@ import { RichUtils } from 'draft-js'
 import CodeUtils, { onTab } from 'draft-js-code'
 import cn from 'classnames'
 import { Map } from 'immutable'
+import { CodeBlockIcon } from './icons'
 
 
 export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin {
@@ -33,7 +34,7 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
         },
 
         plusActions: [
-            { label: 'Code Block', action: 'code-block' }
+            { label: 'Code Block', action: 'code-block', Icon: CodeBlockIcon }
         ],
 
         blockRenderMap: Map ({

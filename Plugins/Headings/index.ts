@@ -1,5 +1,6 @@
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { Map } from 'immutable'
+import { HeadingIcons } from './icons'
 
 import getHeadingComponent from './getHeadingComponent'
 
@@ -12,6 +13,7 @@ export default function createHeadingsPlugin (): EditorPlugin {
             label: `Heading ${ n + 1 }`,
             action: `header-${ heading }`,
             returnBreakout: true,
+            Icon: HeadingIcons [ n ]
         }) ),
         blockRenderMap: Map ( headings
             .map ( ( heading, i ) => ({

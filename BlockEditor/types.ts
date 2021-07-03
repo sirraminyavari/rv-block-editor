@@ -14,6 +14,7 @@ export interface InlineStyle {
 export interface PlusAction {
     label: string
     action: string
+    Icon: IconType
     returnBreakout?: boolean
     doubleBreakout?: boolean
 }
