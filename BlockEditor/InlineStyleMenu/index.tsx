@@ -21,7 +21,7 @@ function Menu () {
     const { editorState, setEditorState, inlineStyles } = useEditorContext ()
     const { inlineStyleMenuInfo: { getSelectionRect } } = useUiContext ()
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
-    const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect ] )
+    const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [] )
     const popper = usePopper ( virtualReference, menuRef, { placement: 'top' } )
     const activeInlineStyles = getSelectionInlineStyle ( editorState )
     return <Overlay
