@@ -48,14 +48,19 @@ interface ActionButtonProps {
     action: PlusAction
 }
 
-const ActionButton: FC < ActionButtonProps > = ({ action: { action, label } }) => {
+const ActionButton: FC < ActionButtonProps > = ({ action: { action, Icon, label } }) => {
     const { editorState, setEditorState } = useEditorContext ()
     return <label
         key = { action }
-        children = { label }
+        className = { styles.actionButton }
         onMouseDown = { e => e.preventDefault () }
         onClick = { () => setEditorState ( applyPlusActionToSelection ( editorState, action ) ) }
-    />
+    >
+        <div className = { styles.iconWrapper }>
+            <Icon />
+        </div>
+        <span className = { styles.label } children = { label } />
+    </label>
 }
 
 

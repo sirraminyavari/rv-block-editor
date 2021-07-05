@@ -1,20 +1,39 @@
 .plusMenu {
     display: grid;
     gap: .5rem;
-    label {
-        -webkit-user-modify: read-only;
-        -moz-user-modify: read-only;
-        -ms-user-modify: read-only;
-        user-select: none;
+    padding: .5rem 0;
+    .actionButton {
         cursor: pointer;
+        padding: 1rem { right: 2rem };
+        display: grid;
+        gap: 1rem;
+        grid-auto-flow: column;
+        justify-content: start;
+        justify-items: start;
+        align-content: center;
+        align-items: center;
+        .iconWrapper {
+            // padding: 1rem;
+            $s: 2.5rem; width: $s; height: $s;
+            display: grid;
+            justify-content: center;
+            justify-items: center;
+            align-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: #F3F6FD;
+            color: #2B7BE4;
+        }
+        .label {
+            color: lighten( black, 30% );
+        }
+        &:hover {
+            background-color: #F3F6FD;
+        }
     }
 }
 
 .btn {
-    -webkit-user-modify: read-only;
-    -moz-user-modify: read-only;
-    -ms-user-modify: read-only;
-    user-select: none;
     cursor: pointer;
     color: inherit;
 }
