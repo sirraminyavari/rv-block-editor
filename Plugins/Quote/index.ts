@@ -1,11 +1,12 @@
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { Map } from 'immutable'
+import { QuoteIcon } from './icons'
 
 
 export default function createQuotePlugin (): EditorPlugin {
     return {
         plusActions: [
-            { label: 'Quote', action: 'blockquote', returnBreakout: true }
+            { label: 'Quote', action: 'blockquote', Icon: QuoteIcon, returnBreakout: true }
         ],
         blockRenderMap: Map ({
             blockquote: {

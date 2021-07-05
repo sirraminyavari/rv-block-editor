@@ -8,7 +8,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
 import { PlusAction } from 'BlockEditor'
 import Button from 'BlockEditor/Ui/Button'
-import { FaPlusCircle as PlusIcon } from 'react-icons/fa'
+import { PlusIcon } from 'BlockEditor/icons'
 
 import styles from './styles.module.scss'
 

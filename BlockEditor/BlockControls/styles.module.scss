@@ -1,9 +1,10 @@
 .controls {
     display: grid;
+    gap: .05rem;
     grid-auto-flow: column;
     position: absolute;
     top: 0; inset-inline-start: 0;
-    font-size: .8rem;
+    font-size: .9rem;
     z-index: 4;
     transition: all 100ms ease;
     transform: translate( calc( var( --x ) * 1px + var( --block-controls-offset ) ), calc( var( --y ) * 1px - 50% ) );
