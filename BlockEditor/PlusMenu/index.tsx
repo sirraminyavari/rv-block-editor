@@ -23,8 +23,8 @@ function Popper ({ block }) {
     const { plusActions }  = useEditorContext ()
     const { setPlusMenuInfo, blockRefs } = useUiContext ()
     const targetRef = blockRefs.current [ block.getKey () ]
-    const [ pannelRef, setPannelRef ] = useState ( null )
-    const popper = usePopper ( targetRef, pannelRef, { placement: 'bottom-start' } )
+    const [ pannelRef, setPannelRef ] = useState < HTMLDivElement > ( null )
+    const popper = usePopper ( targetRef?.querySelector ( '*' ), pannelRef, { placement: 'bottom-start' } )
     return <Popover>
         <Popover.Panel static as = { Overlay }
             ref = { setPannelRef }
