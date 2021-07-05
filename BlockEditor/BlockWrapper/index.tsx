@@ -16,8 +16,8 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
     const blockKey = block.getKey ()
     const { dragInfo, setDragInfo, blockRefs, externalStyles, setBlockControlsInfo } = useUiContext ()
     return <div
-        ref = { elem => blockRefs.current [ block.key ] = elem }
-        data-block-key = { block.key }
+        ref = { elem => blockRefs.current [ blockKey ] = elem }
+        data-block-key = { blockKey }
         className = { cn ( styles.blockWrapper, c ( externalStyles, config.styles?.wrapper ), {
             [ styles.dragging ]:
                 dragInfo.dragging &&

@@ -7,11 +7,10 @@ export interface Params {
 }
 
 const getWrapperHandlers = ( { blockKey, setBlockControlsInfo }: Params ) => ({
-    onMouseEnter: e => setBlockControlsInfo ( prev => ({
+    onMouseMove: e => setBlockControlsInfo ( prev => ({
         ...prev,
         hoveredBlockKey: blockKey,
-        hoveredBlockElem: e.target,
-        hoveredBlockRect: e.target.getBoundingClientRect ()
+        hoveredBlockElem: e.target
     }) )
 })
 export default getWrapperHandlers

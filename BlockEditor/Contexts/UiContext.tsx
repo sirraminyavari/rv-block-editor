@@ -11,7 +11,6 @@ export interface BlockControlsInfo {
     isMouseOnEditor?: boolean
     hoveredBlockKey?: string
     hoveredBlockElem?: HTMLDivElement
-    hoveredBlockRect?: DOMRect
 }
 
 /**
@@ -127,8 +126,7 @@ export function UiContextProvider ({ styles, children }) {
         const firstBlockElem = wrapperRef.current?.querySelector ( '[data-block-key]' ) as HTMLDivElement
         setBlockControlsInfo ( prev => ({ ...prev,
             hoveredBlockElem: firstBlockElem,
-            hoveredBlockKey: firstBlockElem.getAttribute ( 'data-block-key' ),
-            hoveredBlockRect: firstBlockElem.getBoundingClientRect ()
+            hoveredBlockKey: firstBlockElem.getAttribute ( 'data-block-key' )
         }) )
     }, [] )
 
