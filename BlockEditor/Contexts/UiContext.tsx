@@ -130,6 +130,18 @@ export function UiContextProvider ({ styles, children }) {
         }) )
     }, [] )
 
+    // useLayoutEffect ( () => {
+    //     const callback = ( ...params ) => console.log ( ...params )
+    //     const observer = new MutationObserver ( callback )
+    //     observer.observe ( wrapperRef.current, { attributes: true, childList: true, subtree: true } )
+    //     const mm = event => { console.log ( event.offsetY ) }
+    //     document.addEventListener ( 'mousemove', mm )
+    //     return () => {
+    //         observer.disconnect ()
+    //         document.removeEventListener ( 'mousemove', mm )
+    //     }
+    // }, [] )
+
     return <UiContext.Provider
         value = {{
             editorRef, wrapperRef, innerWrapperRef, blockRefs,

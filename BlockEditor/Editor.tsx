@@ -25,6 +25,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { dir, lang, plu
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
     useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
+    console.log ('rendered')
 
     return <div
         ref = { wrapperRef }
