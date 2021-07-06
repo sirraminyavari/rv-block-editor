@@ -25,18 +25,15 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { dir, lang, plu
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
     useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
-    console.log ('rendered')
 
-    return <div
+    return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
         onClick = { () => editorRef.current?.focus () }
         className = { externalStyles.wrapper }
         style = {{ isolation: 'isolate', position: 'relative' }}
         dir = { dir } lang = { lang }
-        onMouseEnter = { () => setBlockControlsInfo ( prev => ({ ...prev, isMouseOnEditor: true  }) ) }
-        onMouseLeave = { () => setBlockControlsInfo ( prev => ({ ...prev, isMouseOnEditor: false }) ) }
     >
-        <div
+        <div data-block-editor-inner-wrapper
             ref = { innerWrapperRef }
             className = { externalStyles.innerWrapper }
         >

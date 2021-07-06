@@ -58,8 +58,7 @@ const DragOverlay: FC < any > = () => {
             setEditorState ( newState )
             setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
                 hoveredBlockElem: dragInfo.elem as any,
-                hoveredBlockKey: draggedBlockKey,
-                hoveredBlockRect: dragInfo.elem.getBoundingClientRect ()
+                hoveredBlockKey: draggedBlockKey
             }) ) )
         } }
     >

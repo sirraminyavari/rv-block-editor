@@ -1,8 +1,6 @@
 import cn from 'classnames'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
-import getWrapperHandlersForBlockControls from 'BlockEditor/BlockControls/getWrapperHandlers'
-
 import styles from './styles.module.scss'
 
 
@@ -13,7 +11,7 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
     const { children } = props
     const { props: { block } } = children
     const blockKey = block.getKey ()
-    const { dragInfo, blockRefs, externalStyles, blockControlsInfo, setBlockControlsInfo } = useUiContext ()
+    const { dragInfo, blockRefs, externalStyles } = useUiContext ()
     return <div
         ref = { elem => blockRefs.current [ blockKey ] = elem }
         data-block-key = { blockKey }
@@ -24,7 +22,6 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
                 dragInfo.block.getKey () === blockKey
         } ) }
         draggable = { dragInfo.isDraggingByHandle }
-        { ...getWrapperHandlersForBlockControls ({ blockKey, blockControlsInfo, setBlockControlsInfo }) }
     >
         <div className = { c ( externalStyles, config.styles?.contentWrapper ) }>
             <Comp

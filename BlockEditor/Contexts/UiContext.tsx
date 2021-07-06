@@ -8,9 +8,9 @@ import useEditorContext from './EditorContext'
 
 // TODO: Docs
 export interface BlockControlsInfo {
-    isMouseOnEditor?: boolean
     hoveredBlockKey?: string
     hoveredBlockElem?: HTMLDivElement
+    hash: number
 }
 
 /**
@@ -63,6 +63,8 @@ export interface InlineStyleMenuInfo {
     getSelectionRect?: () => DOMRect | null
 }
 
+type BlockRefs = MutableRefObject < { [ key: string ]: HTMLDivElement | null } >
+
 /**
  * General information regarding the Block Editor user interface.
  */
@@ -77,7 +79,7 @@ export interface UiContext {
     editorRef: MutableRefObject < Editor >
     wrapperRef: MutableRefObject < HTMLDivElement >
     innerWrapperRef: MutableRefObject < HTMLDivElement >
-    blockRefs: MutableRefObject < { [ key: string ]: HTMLElement | null } >
+    blockRefs: BlockRefs
     externalStyles: { [ key: string ]: string }
 }
 
@@ -91,7 +93,7 @@ export function UiContextProvider ({ styles, children }) {
     const editorRef = useRef ()
     const wrapperRef = useRef < HTMLDivElement > ()
     const innerWrapperRef = useRef < HTMLDivElement > ()
-    const blockRefs = useRef ({})
+    const blockRefs: BlockRefs = useRef ({})
 
     const [ dragInfo, setDragInfo ] = useState ({
         dragging: false,
@@ -121,26 +123,40 @@ export function UiContextProvider ({ styles, children }) {
         }
     } ) ()
 
-    const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ({})
+    const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ({ hash: 0 })
     useLayoutEffect ( () => { // Set Block Controls on the first block initialy
-        const firstBlockElem = wrapperRef.current?.querySelector ( '[data-block-key]' ) as HTMLDivElement
+        const firstBlockElem = wrapperRef.current.querySelector ( '[data-block-key]' ) as HTMLDivElement
         setBlockControlsInfo ( prev => ({ ...prev,
             hoveredBlockElem: firstBlockElem,
             hoveredBlockKey: firstBlockElem.getAttribute ( 'data-block-key' )
         }) )
     }, [] )
-
-    // useLayoutEffect ( () => {
-    //     const callback = ( ...params ) => console.log ( ...params )
-    //     const observer = new MutationObserver ( callback )
-    //     observer.observe ( wrapperRef.current, { attributes: true, childList: true, subtree: true } )
-    //     const mm = event => { console.log ( event.offsetY ) }
-    //     document.addEventListener ( 'mousemove', mm )
-    //     return () => {
-    //         observer.disconnect ()
-    //         document.removeEventListener ( 'mousemove', mm )
-    //     }
-    // }, [] )
+    useLayoutEffect ( () => {
+        const handler = ({ clientY: y }) => {
+            const hoveredBlockElem: HTMLDivElement | null = ( () => {
+                const blocks = Object.values ( blockRefs.current ).filter ( Boolean )
+                for ( const block of blocks ) {
+                    const rect = block.getBoundingClientRect ()
+                    if ( rect.y <= y && rect.bottom >= y )
+                        return block
+                }
+                return null
+            } ) ()
+            if ( ! hoveredBlockElem ) return
+            const hoveredBlockKey = hoveredBlockElem.getAttribute ( 'data-block-key' )
+            setBlockControlsInfo (
+                prev => prev.hoveredBlockElem === hoveredBlockElem && prev.hoveredBlockKey === hoveredBlockKey
+                    ? prev : { ...prev, hoveredBlockElem, hoveredBlockKey }
+            )
+        }
+        document.addEventListener ( 'mousemove', handler )
+        const observer = new MutationObserver ( () => setBlockControlsInfo ( prev => ({ ...prev }) ) )
+        observer.observe ( wrapperRef.current, { attributes: true, childList: true, subtree: true } )
+        return () => {
+            document.removeEventListener ( 'mousemove', handler )
+            observer.disconnect ()
+        }
+    }, [] )
 
     return <UiContext.Provider
         value = {{

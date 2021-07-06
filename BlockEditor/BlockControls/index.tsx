@@ -11,7 +11,7 @@ import styles from './styles.module.scss'
 export default function BlockControls () {
     const { editorState } = useEditorContext ()
     const {
-        blockControlsInfo: { isMouseOnEditor, hoveredBlockKey, hoveredBlockElem },
+        blockControlsInfo: { hoveredBlockKey, hoveredBlockElem },
         plusMenuInfo, wrapperRef, innerWrapperRef
     } = useUiContext ()
 
@@ -22,11 +22,11 @@ export default function BlockControls () {
         setRect ( hoveredBlockElem.getBoundingClientRect () )
         setOwRect ( wrapperRef.current.getBoundingClientRect () )
         setIwRect ( innerWrapperRef.current.getBoundingClientRect () )
-    }, [ editorState, hoveredBlockKey ] )
+    }, [ editorState, hoveredBlockKey, hoveredBlockElem ] )
 
     return <div
         className = { cn ( styles.controls, {
-            [ styles.visible ]: isMouseOnEditor && ! plusMenuInfo.openedBlock
+            [ styles.invisible ]: plusMenuInfo.openedBlock
         } ) }
         style = {{ // @ts-ignore
             '--x': iwRect.x - owRect.x,
