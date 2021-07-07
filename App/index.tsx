@@ -1,4 +1,6 @@
 import 'draft-js/dist/Draft.css'
+import 'BlockEditor/global.scss'
+
 import { useState, useRef, useLayoutEffect } from 'react'
 import useUiContext from './UiContext'
 import getInitialEditorState from './getInitialEditorState'
