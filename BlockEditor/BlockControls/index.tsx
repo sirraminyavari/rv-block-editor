@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import cn from 'classnames'
-import { PlusMenuButton } from 'BlockEditor/PlusMenu'
+import PlusMenuButton from 'BlockEditor/PlusMenu/PlusMenuButton'
 import DragHandle from 'BlockEditor/DragOverlay/DragHandle'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
