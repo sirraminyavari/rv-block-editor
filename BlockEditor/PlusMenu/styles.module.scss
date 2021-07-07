@@ -1,33 +1,38 @@
 .plusMenu {
-    display: grid;
-    gap: .5rem;
-    padding: .5rem 0;
-    .actionButton {
-        cursor: pointer;
-        padding: 1rem { right: 2rem };
+    z-index: 4;
+    .overlay {
         display: grid;
-        gap: 1rem;
-        grid-auto-flow: column;
-        justify-content: start;
-        justify-items: start;
-        align-content: center;
-        align-items: center;
-        .iconWrapper {
-            $s: 2.5rem; width: $s; height: $s;
+        padding: .5rem 0;
+        transform: translateY( .5rem );
+        min-width: 16rem;
+        .actionButton {
+            cursor: pointer;
+            padding: 1.25rem { right: 2rem };
             display: grid;
-            justify-content: center;
-            justify-items: center;
+            gap: 1rem;
+            grid-auto-flow: column;
+            justify-content: start;
+            justify-items: start;
             align-content: center;
             align-items: center;
-            border-radius: 50%;
-            background-color: #F3F6FD;
-            color: #2B7BE4;
-        }
-        .label {
-            color: lighten( black, 30% );
-        }
-        &:hover {
-            background-color: #F3F6FD;
+            transition: all 250ms ease;
+            .iconWrapper {
+                $s: 2.5rem; width: $s; height: $s;
+                display: grid;
+                justify-content: center;
+                justify-items: center;
+                align-content: center;
+                align-items: center;
+                border-radius: 50%;
+                background-color: #F3F6FD;
+                color: #2B7BE4;
+            }
+            .label {
+                color: lighten( black, 30% );
+            }
+            &:hover {
+                background-color: #F3F6FD;
+            }
         }
     }
 }

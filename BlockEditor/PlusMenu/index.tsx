@@ -27,13 +27,14 @@ function Popper ({ block }) {
         { placement: `bottom-${ { ltr: 'start', rtl: 'end' } [ dir ] }` as any }
     )
     return <Popover>
-        <Popover.Panel static as = { Overlay }
+        <Popover.Panel static
+            className = { styles.plusMenu }
             ref = { setPannelRef }
             style = { popper.styles.popper }
             { ...popper.attributes.popper }
         >
-            <div
-                className = { styles.plusMenu }
+            <Overlay
+                className = { styles.overlay }
                 children = { plusActions.map ( action => <ActionButton
                     key = { action.action }
                     action = { action }

@@ -24,20 +24,22 @@ function Menu () {
     const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect, domSelection ] )
     const popper = usePopper ( virtualReference, menuRef, { placement: `top-${ { ltr: 'start', rtl: 'end' } [ dir ] }` as any } )
     const activeInlineStyles = getSelectionInlineStyle ( editorState )
-    return <Overlay
-        ref = { setMenuRef }
+    return <div
         className = { styles.inlineStyleMenu }
+        ref = { setMenuRef }
         style = { popper.styles.popper }
         { ...popper.attributes.popper }
     >
-        { inlineStyles.map ( ({ Icon, style }) => <Button
-            key = { style }
-            Icon = { Icon }
-            active = { activeInlineStyles [ style ] }
-            onClick = { () => {
-                const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
-                setEditorState ( newEditorState )
-            } }
-        /> ) }
-    </Overlay>
+        <Overlay className = { styles.overlay }>
+            { inlineStyles.map ( ({ Icon, style }) => <Button
+                key = { style }
+                Icon = { Icon }
+                active = { activeInlineStyles [ style ] }
+                onClick = { () => {
+                    const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
+                    setEditorState ( newEditorState )
+                } }
+            /> ) }
+        </Overlay>
+    </div>
 }
