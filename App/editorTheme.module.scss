@@ -11,7 +11,7 @@
     color: rgba( black, .85 );
 
     *::selection {
-        background-color: rgba( #2B7BE4, .25 );
+        background-color: lighten( #2B7BE4, 35% );
     }
 
     [data-block-key] {
@@ -84,6 +84,7 @@
         color: rgba( black, .55 );
         font-style: italic;
         display: block;
+        line-height: 1.8;
         * {
             text-align: center;
         }
