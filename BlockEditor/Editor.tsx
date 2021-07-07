@@ -1,5 +1,4 @@
 import { forwardRef, useState, useLayoutEffect } from 'react'
-import { language, direction } from 'BlockEditor'
 
 import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
 
@@ -13,14 +12,11 @@ import PlusMenu from './PlusMenu'
 import DragOverlay from './DragOverlay'
 
 
-export interface BlockEditorProps extends Partial < PluginEditorProps > {
-    dir: direction
-    lang: language
-}
+export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 
-const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { dir, lang, plugins, ...props }, ref ) => {
+const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { plugins, ...props }, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()
+    const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()
     const allPlugins = useAllPlugins ( plugins )
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )

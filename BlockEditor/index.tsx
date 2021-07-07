@@ -1,4 +1,5 @@
 import { forwardRef } from 'react'
+import { language, direction } from 'BlockEditor'
 
 import { EditorContextProvider } from './Contexts/EditorContext'
 import { UiContextProvider } from './Contexts/UiContext'
@@ -11,17 +12,19 @@ export { withBlockWrapper } from './BlockWrapper'
 
 export interface BlockEditorProps extends _BlockEditorProps {
     styles?: { [ key: string ]: string }
+    dir: direction
+    lang: language
 }
 
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
-    editorState, onChange: setEditorState, plugins, styles = {}, ...props }, ref
+    editorState, onChange: setEditorState, dir, lang, plugins, styles = {}, ...props }, ref
 ) => {
     return <EditorContextProvider
         editorState = { editorState }
         setEditorState = { setEditorState }
         plugins = { plugins }
     >
-        <UiContextProvider styles = { styles }>
+        <UiContextProvider styles = { styles } dir = { dir } lang = { lang }>
             <Editor
                 ref = { ref }
                 plugins = { plugins }

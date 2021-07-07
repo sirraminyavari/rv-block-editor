@@ -4,9 +4,9 @@ import { createContext, useContext, useState, useLayoutEffect, useRef, MutableRe
 import { ContentBlock } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import useEditorContext from './EditorContext'
+import { language, direction } from 'BlockEditor'
 
 
-// TODO: Docs
 export interface BlockControlsInfo {
     hoveredBlockKey?: string
     hoveredBlockElem?: HTMLDivElement
@@ -69,6 +69,8 @@ type BlockRefs = MutableRefObject < { [ key: string ]: HTMLDivElement | null } >
  * General information regarding the Block Editor user interface.
  */
 export interface UiContext {
+    dir: direction
+    lang: language
     blockControlsInfo: BlockControlsInfo
     setBlockControlsInfo: SetState < BlockControlsInfo >
     plusMenuInfo: PlusMenuInfo
@@ -81,13 +83,14 @@ export interface UiContext {
     innerWrapperRef: MutableRefObject < HTMLDivElement >
     blockRefs: BlockRefs
     externalStyles: { [ key: string ]: string }
+
 }
 
 export const UiContext = createContext < UiContext > ( null )
 export const useUiContext = () => useContext ( UiContext )
 export default useUiContext
 
-export function UiContextProvider ({ styles, children }) {
+export function UiContextProvider ({ styles, dir, lang, children }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
     const editorRef = useRef ()
@@ -160,6 +163,7 @@ export function UiContextProvider ({ styles, children }) {
 
     return <UiContext.Provider
         value = {{
+            dir, lang,
             editorRef, wrapperRef, innerWrapperRef, blockRefs,
             dragInfo, setDragInfo,
             plusMenuInfo, setPlusMenuInfo,
