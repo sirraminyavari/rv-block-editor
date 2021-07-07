@@ -30,7 +30,12 @@ function Menu () {
         style = { popper.styles.popper }
         { ...popper.attributes.popper }
     >
-        <Overlay className = { styles.overlay }>
+        <Overlay
+            className = { styles.overlay }
+            style = {{
+                transform: `translateY( calc( ${ popper.styles.popper.top === '0' ? 1 : -1 } * .3rem ) )`
+            }}
+        >
             { inlineStyles.map ( ({ Icon, style }) => <Button
                 key = { style }
                 Icon = { Icon }

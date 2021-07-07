@@ -35,6 +35,9 @@ function Popper ({ block }) {
         >
             <Overlay
                 className = { styles.overlay }
+                style = {{
+                    transform: `translateY( calc( ${ popper.styles.popper.top === '0' ? 1 : -1 } * .5rem ) )`
+                }}
                 children = { plusActions.map ( action => <ActionButton
                     key = { action.action }
                     action = { action }

@@ -1,7 +1,6 @@
 .inlineStyleMenu {
     z-index: 4;
     .overlay {
-        transform: translateY( -.3rem );
         display: grid;
         grid-auto-flow: column;
         padding: .5rem;
