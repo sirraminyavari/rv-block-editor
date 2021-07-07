@@ -29,11 +29,10 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
         } ) }
         draggable = { dragInfo.isDraggingByHandle }
     >
-        <div className = { c ( externalStyles, config.styles?.contentWrapper ) }>
+        <div className = { c ( externalStyles, config.styles?.contentWrapper ) } dir = { direction === 'neutral' ? dir : direction }>
             <Comp
                 className = { externalStyles.blockElement }
                 children = { children }
-                dir = { direction === 'neutral' ? dir : direction }
             />
         </div>
     </div>
