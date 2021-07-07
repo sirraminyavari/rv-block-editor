@@ -1,4 +1,6 @@
 import cn from 'classnames'
+import { direction as detectDirection } from 'direction'
+import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import styles from './styles.module.scss'
@@ -6,12 +8,16 @@ import styles from './styles.module.scss'
 
 const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).join ( ' ' ) : ''
 
-// * Caveat: Wrappers will not stay in sync with editorState; Pass everything by key
-const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
-    const { children } = props
-    const { props: { block } } = children
-    const blockKey = block.getKey ()
-    const { dragInfo, blockRefs, externalStyles } = useUiContext ()
+const BlockWrapper = ({ Comp, config = {} as any, children }) => {
+    const { editorState } = useEditorContext ()
+    const { dragInfo, blockRefs, externalStyles, dir } = useUiContext ()
+
+    const { props: { block: outOfSyncBlock } } = children
+    const blockKey = outOfSyncBlock.getKey ()
+    const syncedBlock = editorState.getCurrentContent ().getBlockForKey ( blockKey )
+    const text = syncedBlock.getText ()
+    const direction = detectDirection ( text )
+
     return <div
         ref = { elem => blockRefs.current [ blockKey ] = elem }
         data-block-key = { blockKey }
@@ -27,6 +33,7 @@ const BlockWrapper = ({ Comp, config = {} as any, ...props }) => {
             <Comp
                 className = { externalStyles.blockElement }
                 children = { children }
+                dir = { direction === 'neutral' ? dir : direction }
             />
         </div>
     </div>

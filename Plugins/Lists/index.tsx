@@ -4,8 +4,6 @@ import { Map } from 'immutable'
 import { UnorderedListIcon, OrderedListIcon } from './icons'
 
 
-const Li = props => <li dir = 'auto' { ...props } />
-
 export default function createListsPlugin ( config: any = {} ): EditorPlugin {
     return {
         plusActions: [
@@ -14,11 +12,11 @@ export default function createListsPlugin ( config: any = {} ): EditorPlugin {
         ],
         blockRenderMap: Map ({
             'unordered-list-item': {
-                element: withBlockWrapper ( Li ),
+                element: withBlockWrapper ( 'li' ),
                 wrapper: <ul className = { cn ( 'public/DraftStyleDefault/ul', config.styles?.ul ) } />
             },
             'ordered-list-item': {
-                element: withBlockWrapper ( Li ),
+                element: withBlockWrapper ( 'li' ),
                 wrapper: <ol className = { cn ( 'public/DraftStyleDefault/ol', config.styles?.ol ) } />
             }
         }) as any
