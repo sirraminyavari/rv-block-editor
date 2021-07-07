@@ -6,14 +6,13 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import { usePopper } from 'react-popper'
 import Button from 'BlockEditor/Ui/Button'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import styles from './styles.module.scss'
 
 
 const InlineStyleMenu: FC = () => {
-    if ( ! useUiContext ().inlineStyleMenuInfo.isOpen )
-        return null
-    return <Menu />
+    return <AnimatePresence children = { useUiContext ().inlineStyleMenuInfo.isOpen && <Menu /> } />
 }
 export default InlineStyleMenu
 
@@ -21,10 +20,15 @@ function Menu () {
     const { editorState, setEditorState, inlineStyles } = useEditorContext ()
     const { inlineStyleMenuInfo: { getSelectionRect, domSelection }, dir } = useUiContext ()
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
-    const virtualReference = useMemo ( () => ({ getBoundingClientRect: getSelectionRect }), [ getSelectionRect, domSelection ] )
+    const virtualReference = useMemo ( () => ({
+        getBoundingClientRect: () => getSelectionRect () || new DOMRect ()
+    }), [ getSelectionRect, domSelection ] )
     const popper = usePopper ( virtualReference, menuRef, { placement: `top-${ { ltr: 'start', rtl: 'end' } [ dir ] }` as any } )
     const activeInlineStyles = getSelectionInlineStyle ( editorState )
-    return <div
+    return <motion.div
+        initial = 'initial' animate = 'animate' exit = 'exit'
+        variants = {{ initial: {}, animate: {}, exit: {} }}
+        transition = {{ staggerChildren: .02 }}
         className = { styles.inlineStyleMenu }
         ref = { setMenuRef }
         style = { popper.styles.popper }
@@ -38,6 +42,10 @@ function Menu () {
         >
             { inlineStyles.map ( ({ Icon, style }) => <Button
                 key = { style }
+                variants = {{
+                    initial: { opacity: 0, scale: .4 },
+                    animate: { opacity: 1, scale: 1 },
+                }}
                 Icon = { Icon }
                 active = { activeInlineStyles [ style ] }
                 onClick = { () => {
@@ -46,5 +54,5 @@ function Menu () {
                 } }
             /> ) }
         </Overlay>
-    </div>
+    </motion.div>
 }
