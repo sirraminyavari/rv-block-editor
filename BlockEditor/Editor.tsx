@@ -1,4 +1,5 @@
 import { forwardRef, useState, useLayoutEffect } from 'react'
+import cn from 'classnames'
 
 import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
 
@@ -10,6 +11,8 @@ import BlockControls from './BlockControls'
 import InlineStyleMenu from './InlineStyleMenu'
 import PlusMenu from './PlusMenu'
 import DragOverlay from './DragOverlay'
+
+import styles from './styles.module.scss'
 
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}
@@ -25,7 +28,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { plugins, ...pr
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
         onClick = { () => editorRef.current?.focus () }
-        className = { externalStyles.wrapper }
+        className = { cn ( styles.wrapper, externalStyles.wrapper ) }
         style = {{ isolation: 'isolate', position: 'relative' }}
         dir = { dir } lang = { lang }
     >
