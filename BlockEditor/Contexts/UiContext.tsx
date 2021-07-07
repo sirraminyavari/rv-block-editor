@@ -172,13 +172,12 @@ export function UiContextProvider ({ dir, lang, styles, children }) {
 
     return <UiContext.Provider
         value = {{
-            dir, lang,
+            dir, lang, externalStyles: styles,
             editorRef, wrapperRef, innerWrapperRef, blockRefs,
-            dragInfo, setDragInfo,
-            plusMenuInfo, setPlusMenuInfo,
             blockControlsInfo, setBlockControlsInfo,
-            inlineStyleMenuInfo,
-            externalStyles: styles
+            plusMenuInfo, setPlusMenuInfo,
+            dragInfo, setDragInfo,
+            inlineStyleMenuInfo
         }}
         children = { children }
     />

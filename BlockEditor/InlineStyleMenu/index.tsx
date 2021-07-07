@@ -40,19 +40,22 @@ function Menu () {
                 transform: `translateY( calc( ${ popper.styles.popper.top === '0' ? 1 : -1 } * .3rem ) )`
             }}
         >
-            { inlineStyles.map ( ({ Icon, style }) => <Button
+            { inlineStyles.map ( ({ Icon, style }) => <motion.div
                 key = { style }
                 variants = {{
                     initial: { opacity: 0, scale: .4 },
                     animate: { opacity: 1, scale: 1 },
                 }}
-                Icon = { Icon }
-                active = { activeInlineStyles [ style ] }
-                onClick = { () => {
-                    const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
-                    setEditorState ( newEditorState )
-                } }
-            /> ) }
+            >
+                <Button
+                    Icon = { Icon }
+                    active = { activeInlineStyles [ style ] }
+                    onClick = { () => {
+                        const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
+                        setEditorState ( newEditorState )
+                    } }
+                />
+            </motion.div> ) }
         </Overlay>
     </motion.div>
 }
