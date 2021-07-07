@@ -1,6 +1,7 @@
-import { ContentBlock, EditorState, SelectionState } from 'draft-js'
+import { ContentBlock, EditorState } from 'draft-js'
 import appendBlock from './appendBlock'
 import moveBlock from './moveBlock'
+import forceSelectionToBlock from './forceSelectionToBlock'
 
 
 /**
@@ -20,14 +21,6 @@ export default function insertBlockBelowAndFocus (
     const contentStateWithNewBlock = appendBlock ( editorState.getCurrentContent (), blockToBeInserted )
     const contentStateWithNewBlockMoved = moveBlock ( contentStateWithNewBlock, blockToBeInserted, targetBlock, 'after' )
     const newEditorState = EditorState.push ( editorState, contentStateWithNewBlockMoved, 'insert-fragment' )
-
-    const blockToBeInsertedKey = blockToBeInserted.getKey ()
-    const selectionState = new SelectionState ({
-        anchorKey: blockToBeInsertedKey, anchorOffset: 0,
-        focusKey: blockToBeInsertedKey, focusOffset: 0,
-        isBackward: false, hasFocus: true
-    })
-    const editorStateAfterSelection = EditorState.forceSelection ( newEditorState, selectionState )
-
+    const editorStateAfterSelection = forceSelectionToBlock ( newEditorState, blockToBeInserted.getKey () )
     return editorStateAfterSelection
 }
