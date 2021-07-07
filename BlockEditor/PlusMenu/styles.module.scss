@@ -6,7 +6,6 @@
         min-width: 16rem;
         .actionButton {
             cursor: pointer;
-            padding: 1.25rem { right: 2rem };
             display: grid;
             gap: 1rem;
             grid-auto-flow: column;
@@ -15,6 +14,9 @@
             align-content: center;
             align-items: center;
             transition: all 250ms ease;
+            padding: .75rem 1.25rem;
+            [ dir = ltr ] & { padding-right: 2rem; }
+            [ dir = rtl ] & { padding-left: 2rem; }
             .iconWrapper {
                 $s: 2.5rem; width: $s; height: $s;
                 display: grid;
