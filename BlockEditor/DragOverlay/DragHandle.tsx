@@ -14,13 +14,12 @@ export interface DragHandleProps {
 const DragHandle: FC < DragHandleProps > = ({ blockKey }) => {
     const { editorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
-    const { editorRef, setDragInfo, wrapperRef } = useUiContext ()
+    const { setDragInfo, wrapperRef } = useUiContext ()
     return <Button
         Icon = { DragHandleIcon }
         draggable = 'true'
         className = { styles.dragHandle }
         onMouseDown = { () => void 0 } // Override
-        onMouseOver = { () => editorRef.current?.focus () }
         onDragStart = { e => {
             e.dataTransfer.setDragImage ( new Image (), 0, 0 )
             setImmediate ( () => setDragInfo ( prev => ({

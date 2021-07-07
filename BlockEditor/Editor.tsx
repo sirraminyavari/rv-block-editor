@@ -20,7 +20,7 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {
 
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { dir, lang, plugins, ...props }, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { editorRef, wrapperRef, innerWrapperRef, externalStyles, setBlockControlsInfo } = useUiContext ()
+    const { editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()
     const allPlugins = useAllPlugins ( plugins )
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
