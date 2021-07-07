@@ -23,13 +23,15 @@ const PlusMenuButton: FC < PlusMenuButtonProps > = ({ blockKey }) => {
         className = { styles.btn }
         onMouseDown = { e => e.preventDefault () }
         onClick = { () => {
-            if ( ! block.getText () ) { // There is no text in the current block so we should update it's type inplace
-                setEditorState ( forceSelectionToBlock ( editorState, blockKey ) )
-                setPlusMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
-            } else { // There is some text in the current block so we should create a new block below it and set the plusAction type for the newly created block
+            if ( block.getText () ) {
+                // There is some text in the current block so we should create a new block below it and set the plusAction type for the newly created block
                 const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus ( editorState, block )
                 setEditorState ( newEditorState )
                 setPlusMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) )
+            } else {
+                // There is no text in the current block so we should update it's type inplace
+                setEditorState ( forceSelectionToBlock ( editorState, blockKey ) )
+                setPlusMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
             }
         } }
     />
