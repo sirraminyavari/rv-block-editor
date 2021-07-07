@@ -19,10 +19,13 @@ export default function PlusMenu () {
 
 function Popper ({ block }) {
     const { plusActions }  = useEditorContext ()
-    const { blockRefs } = useUiContext ()
+    const { blockRefs, dir } = useUiContext ()
     const targetRef = blockRefs.current [ block.getKey () ]
     const [ pannelRef, setPannelRef ] = useState < HTMLDivElement > ( null )
-    const popper = usePopper ( targetRef?.querySelector ( '*' ), pannelRef, { placement: 'bottom-start' } )
+    const popper = usePopper (
+        targetRef?.querySelector ( '*' ), pannelRef,
+        { placement: `bottom-${ { ltr: 'start', rtl: 'end' } [ dir ] }` as any }
+    )
     return <Popover>
         <Popover.Panel static as = { Overlay }
             ref = { setPannelRef }

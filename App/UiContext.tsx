@@ -35,6 +35,11 @@ export function UiContextProvider ({ children }) {
         localStorage.setItem ( 'contentPreset', contentPreset )
     }, [ showControls, showState, language, direction, contentPreset ] )
 
+    useEffect ( () => {
+        document.documentElement.setAttribute ( 'dir', direction )
+        document.documentElement.setAttribute ( 'lang', language )
+    }, [ direction, language ] )
+
     useEffect ( () => ({
         'englishText' () {
             setDirection ( 'ltr' )

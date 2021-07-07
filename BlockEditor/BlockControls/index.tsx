@@ -33,7 +33,9 @@ export default function BlockControls () {
             '--y': rect?.y ? ( rect.y + rect.bottom ) / 2 - owRect.y : iwRect.y - owRect.y
         }}
     >
-        <PlusMenuButton blockKey = { hoveredBlockKey } />
-        <DragHandle blockKey = { hoveredBlockKey } />
+        <div>
+            <PlusMenuButton blockKey = { hoveredBlockKey } />
+            <DragHandle blockKey = { hoveredBlockKey } />
+        </div>
     </div>
 }
