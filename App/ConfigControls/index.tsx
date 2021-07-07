@@ -9,7 +9,7 @@ import styles from './styles.module.scss'
 
 export default function ConfigControls ({ editorState, setEditorState }) {
     const { showState, setShowState, language, setLanguage, direction, setDirection, contentPreset, setContentPreset } = useUiContext ()
-    return <div className = { styles.configControls }>
+    return <div className = { styles.configControls } dir = 'ltr'>
         <label>
             <input type = 'checkbox' checked = { showState } onChange = { e => setShowState ( e.target.checked ) } />
             Show State
