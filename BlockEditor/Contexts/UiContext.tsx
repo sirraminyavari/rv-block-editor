@@ -7,10 +7,18 @@ import { language, direction } from 'BlockEditor'
 
 type BlockRefs = MutableRefObject < { [ key: string ]: HTMLDivElement | null } >
 
+/**
+ * Information regarding the Block Controls UI.
+ */
 export interface BlockControlsInfo {
+    /**
+     * Indicates which block we need to display the Block Controls UI on.
+     */
     hoveredBlockKey?: string
+    /**
+     * Reference to the block on which the Block Controls UI needs to render.
+     */
     hoveredBlockElem?: HTMLDivElement
-    hash: number
 }
 
 /**
@@ -67,21 +75,22 @@ export interface InlineStyleMenuInfo {
  * General information regarding the Block Editor user interface.
  */
 export interface UiContext {
+    // Layout & Styles:
     dir: direction, lang: language
     externalStyles: { [ key: string ]: string }
-
+    // Refs:
     editorRef: MutableRefObject < Editor >
     wrapperRef: MutableRefObject < HTMLDivElement >
     innerWrapperRef: MutableRefObject < HTMLDivElement >
     blockRefs: BlockRefs
-
+    // Block Functionality:
     blockControlsInfo: BlockControlsInfo
     setBlockControlsInfo: SetState < BlockControlsInfo >
     plusMenuInfo: PlusMenuInfo
     setPlusMenuInfo: SetState < PlusMenuInfo >
     dragInfo: DragInfo
     setDragInfo: SetState < DragInfo >
-
+    // Inline Functionality:
     inlineStyleMenuInfo: InlineStyleMenuInfo
 }
 
@@ -91,13 +100,14 @@ export default useUiContext
 
 export function UiContextProvider ({ dir, lang, styles, children }) {
     const { editorState } = useEditorContext ()
+    const selectionState = editorState.getSelection ()
 
     const editorRef = useRef ()
     const wrapperRef = useRef < HTMLDivElement > ()
     const innerWrapperRef = useRef < HTMLDivElement > ()
     const blockRefs: BlockRefs = useRef ({})
 
-    const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ({ hash: 0 })
+    const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ()
     useLayoutEffect ( () => { // Set Block Controls on the first block initialy
         const firstBlockElem = wrapperRef.current.querySelector ( '[data-block-key]' ) as HTMLDivElement
         setBlockControlsInfo ( prev => ({ ...prev,
@@ -133,7 +143,6 @@ export function UiContextProvider ({ dir, lang, styles, children }) {
     }, [] )
 
     const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({})
-    const selectionState = editorState.getSelection ()
     if ( plusMenuInfo.openedBlock && (
         ! selectionState.getHasFocus () ||
         plusMenuInfo.openedBlock.getKey () !== selectionState.getAnchorKey () ||
