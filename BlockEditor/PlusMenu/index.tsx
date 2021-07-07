@@ -41,6 +41,9 @@ function Popper ({ block }) {
                     animate: { opacity: 1, transition: { duration: .5, ease: 'easeIn', staggerChildren: .05 } },
                     exit: { opacity: 0, transition: { duration: .2, ease: 'easeOut' } }
                 }}
+                style = {{
+                    transform: `translateY( ${ .5 * c }rem )`
+                }}
                 className = { styles.overlay }
                 children = { plusActions.map ( action => <ActionButton
                     key = { action.action }
