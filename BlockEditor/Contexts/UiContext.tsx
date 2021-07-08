@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useLayoutEffect, useRef, MutableRefObject } from 'react'
+import { createContext, useContext, useState, useLayoutEffect, useRef, MutableRefObject, useCallback } from 'react'
 import { ContentBlock } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import useEditorContext from './EditorContext'
@@ -115,32 +115,40 @@ export function UiContextProvider ({ dir, lang, styles, children }) {
             hoveredBlockKey: firstBlockElem.getAttribute ( 'data-block-key' )
         }) )
     }, [] )
+    const mouseY = useRef ( 0 )
+    const positionBlockControls = useCallback ( ({ clientY: y }) => {
+        mouseY.current = y
+        const hoveredBlockElem: HTMLDivElement | null = ( () => {
+            const blocks = Object.values ( blockRefs.current ).filter ( Boolean )
+            for ( const block of blocks ) {
+                const rect = block.getBoundingClientRect ()
+                if ( rect.y <= y && rect.bottom >= y )
+                    return block
+            }
+            return null
+        } ) ()
+        if ( ! hoveredBlockElem ) return setBlockControlsInfo ( prev => ({
+            ...prev,
+            hoveredBlockElem: blockRefs.current [ prev.hoveredBlockKey ]
+        }) )
+        const hoveredBlockKey = hoveredBlockElem.getAttribute ( 'data-block-key' )
+        setBlockControlsInfo (
+            prev => prev.hoveredBlockElem === hoveredBlockElem && prev.hoveredBlockKey === hoveredBlockKey
+                ? prev : { ...prev, hoveredBlockElem, hoveredBlockKey }
+        )
+    }, [] )
     useLayoutEffect ( () => {
-        const handler = ({ clientY: y }) => {
-            const hoveredBlockElem: HTMLDivElement | null = ( () => {
-                const blocks = Object.values ( blockRefs.current ).filter ( Boolean )
-                for ( const block of blocks ) {
-                    const rect = block.getBoundingClientRect ()
-                    if ( rect.y <= y && rect.bottom >= y )
-                        return block
-                }
-                return null
-            } ) ()
-            if ( ! hoveredBlockElem ) return
-            const hoveredBlockKey = hoveredBlockElem.getAttribute ( 'data-block-key' )
-            setBlockControlsInfo (
-                prev => prev.hoveredBlockElem === hoveredBlockElem && prev.hoveredBlockKey === hoveredBlockKey
-                    ? prev : { ...prev, hoveredBlockElem, hoveredBlockKey }
-            )
-        }
-        document.addEventListener ( 'mousemove', handler )
+        document.addEventListener ( 'mousemove', positionBlockControls )
         const observer = new MutationObserver ( () => setBlockControlsInfo ( prev => ({ ...prev }) ) )
         observer.observe ( wrapperRef.current, { attributes: true, childList: true, subtree: true } )
         return () => {
-            document.removeEventListener ( 'mousemove', handler )
+            document.removeEventListener ( 'mousemove', positionBlockControls )
             observer.disconnect ()
         }
     }, [] )
+    useLayoutEffect ( () => {
+        positionBlockControls ({ clientY: mouseY.current })
+    }, [ editorState ] )
 
     const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({})
     if ( plusMenuInfo.openedBlock && (
