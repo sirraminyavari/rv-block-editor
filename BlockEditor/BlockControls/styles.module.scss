@@ -12,7 +12,7 @@
 
     > div {
         display: grid;
-        gap: .05rem;
+        gap: .1rem;
         grid-auto-flow: column;
         position: relative;
         &::after {
