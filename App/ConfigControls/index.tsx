@@ -1,5 +1,6 @@
 
 import { convertToRaw } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
 
 import useUiContext from 'App/UiContext'
 import { contentPresets } from 'App/getInitialEditorState'
@@ -43,5 +44,6 @@ export default function ConfigControls ({ editorState, setEditorState }) {
             </select>
         </label>
         <button onClick = { () => console.log ( JSON.stringify ( convertToRaw ( editorState.getCurrentContent () ) ) ) }>Log Raw Content</button>
+        <button onClick = { () => console.log ( stateToHTML ( editorState.getCurrentContent () ) ) }>Log HTML Content</button>
     </div>
 }
