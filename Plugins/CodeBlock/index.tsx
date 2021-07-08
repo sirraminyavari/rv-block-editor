@@ -8,7 +8,8 @@ import { CodeBlockIcon } from './icons'
 
 export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin {
     return {
-        handleKeyCommand ( command, editorState, _, { setEditorState } ) {
+        handleKeyCommand ( command, _, _2, { getEditorState, setEditorState } ) {
+            const editorState = getEditorState ()
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
                 ? CodeUtils.handleKeyCommand ( editorState, command )
                 : RichUtils.handleKeyCommand ( editorState, command )
@@ -25,7 +26,8 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
             return CodeUtils.getKeyBinding ( event )
         },
 
-        handleReturn ( event, editorState, { setEditorState } ) {
+        handleReturn ( event, _, { getEditorState, setEditorState } ) {
+            const editorState = getEditorState ()
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
                 ? CodeUtils.handleReturn ( event, editorState )
                 : null
