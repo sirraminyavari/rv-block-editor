@@ -1,5 +1,5 @@
 .wrapper {
-    --block-controls-offset: .6rem;
+    --block-controls-offset: -2.4rem;
 
     width: 100%;
     max-width: 48rem;
@@ -14,10 +14,14 @@
         background-color: lighten( #2B7BE4, 35% );
     }
 
-    [data-block-key] {
-        display: block;
-        padding: 0 3rem;
+    .innerWrapper {
+        margin: 0 3rem;
     }
+
+    // [data-block-key] {
+    //     display: block;
+    //     margin: 0 3rem;
+    // }
 }
 
 .blockElement {

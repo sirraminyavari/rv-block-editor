@@ -13,9 +13,10 @@ import styles from './styles.module.scss'
 
 const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dragInfo, blockRefs, wrapperRef, setBlockControlsInfo } = useUiContext ()
+    const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo } = useUiContext ()
 
-    const [ overlayRect, setOverlayRect ] = useState ( null )
+    const [ wrapperRect, setWrapperRect ] = useState ( null )
+    const [ innerWrapperRect, setInnerWrapperRect ] = useState ( null )
     const [ sortedPosInfo, setSortedPosInfo ] = useState ( null )
     const [ closestInfo, setClosestInfo ] = useState ( null )
 
@@ -30,7 +31,8 @@ const DragOverlay: FC < any > = () => {
             [ styles.dragging ]: dragInfo.dragging && dragInfo.isDraggingByHandle
         } ) }
         onDragEnter = { () => {
-            setOverlayRect ( wrapperRef.current.getBoundingClientRect () )
+            setWrapperRect ( wrapperRef.current.getBoundingClientRect () )
+            setInnerWrapperRect ( innerWrapperRef.current.getBoundingClientRect () )
             const elems = Object.values ( blockRefs.current ).filter ( Boolean )
             const posInfo = elems.map ( elem => {
                 const rect = elem.getBoundingClientRect ()
@@ -63,7 +65,8 @@ const DragOverlay: FC < any > = () => {
         } }
     >
         <DropIndicator
-            overlayRect = { overlayRect }
+            wrapperRect = { wrapperRect }
+            innerWrapperRect = { innerWrapperRect }
             closestInfo = { closestInfo }
         />
     </div>
