@@ -33,11 +33,11 @@ const DragOverlay: FC < any > = () => {
         onDragEnter = { () => {
             setWrapperRect ( wrapperRef.current.getBoundingClientRect () )
             setInnerWrapperRect ( innerWrapperRef.current.getBoundingClientRect () )
-            const elems = Object.values ( blockRefs.current ).filter ( Boolean )
-            const posInfo = elems.map ( elem => {
+            const elems = Object.entries ( blockRefs.current ).filter ( ([ , e ]) => e )
+            const posInfo = elems.map ( ([ blockKey, elem ]) => {
                 const rect = elem.getBoundingClientRect ()
                 const centerY = rect.y + rect.height / 2
-                return { elem, rect, centerY }
+                return { blockKey, elem, rect, centerY }
             } )
             const sortedPosInfo = posInfo.slice ().sort ( ( a, b ) => a.centerY - b.centerY )
             setSortedPosInfo ( sortedPosInfo )
@@ -65,6 +65,7 @@ const DragOverlay: FC < any > = () => {
         } }
     >
         <DropIndicator
+            draggingBlockKey = { dragInfo?.block?.getKey () }
             wrapperRect = { wrapperRect }
             innerWrapperRect = { innerWrapperRect }
             closestInfo = { closestInfo }

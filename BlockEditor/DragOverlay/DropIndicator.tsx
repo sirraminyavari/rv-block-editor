@@ -1,9 +1,10 @@
 import styles from './styles.module.scss'
 
 
-export default function DropIndicator ({ wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) {
+export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) {
     if ( ! closestInfo ) return null
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo
+    if ( [ closestInfo, prevPosInfo ].map ( i => i?.blockKey ).indexOf ( draggingBlockKey ) >= 0 ) return null
     if ( ! cr || ! wr || ! iwr ) return null
     const offset = ( () => {
         if ( insertionMode === 'after' )
