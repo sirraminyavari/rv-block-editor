@@ -1,4 +1,5 @@
 import 'draft-js/dist/Draft.css'
+import 'react-perfect-scrollbar/dist/css/styles.css'
 import 'BlockEditor/global.scss'
 
 import { useState, useRef, useLayoutEffect } from 'react'

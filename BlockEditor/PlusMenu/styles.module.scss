@@ -2,8 +2,11 @@
     z-index: 4;
     .overlay {
         display: grid;
-        padding: .5rem 0;
         min-width: 16rem;
+        .scroll {
+            padding: .5rem 0;
+            height: 350px;
+        }
         .actionButton {
             cursor: pointer;
             display: grid;
