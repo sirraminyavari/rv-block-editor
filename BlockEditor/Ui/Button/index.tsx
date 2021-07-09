@@ -9,20 +9,24 @@ import styles from './styles.module.scss'
 export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
     Icon?: IconType
     active?: boolean
+    noMotion?: boolean
     [ key: string ]: any
 }
 
 const Button = forwardRef < HTMLDivElement, ButtonProps > ( (
-    { className, Icon, active, children, ...props }: any, ref
-) => <motion.div
-    ref = { ref }
-    className = { cn ( styles.button, className, {
-        [ styles.active ]: active
-    } ) }
-    onMouseDown = { e => e.preventDefault () }
-    { ...props }
->
-    { Icon && <Icon /> }
-    { children && <span children = { children } /> }
-</motion.div> )
+    { className, Icon, active, noMotion, children, ...props }: any, ref
+) => {
+    const Comp = noMotion ? 'div' : motion.div
+    return <Comp
+        ref = { ref }
+        className = { cn ( styles.button, className, {
+            [ styles.active ]: active
+        } ) }
+        onMouseDown = { e => e.preventDefault () }
+        { ...props }
+    >
+        { Icon && <Icon /> }
+        { children && <span children = { children } /> }
+    </Comp>
+} )
 export default Button

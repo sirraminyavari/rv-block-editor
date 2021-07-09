@@ -15,7 +15,7 @@ const DragHandle: FC < DragHandleProps > = ({ blockKey }) => {
     const { editorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
     const { setDragInfo, wrapperRef } = useUiContext ()
-    return <Button
+    return <Button noMotion
         Icon = { DragHandleIcon }
         draggable = 'true'
         className = { styles.dragHandle }
