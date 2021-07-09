@@ -28,14 +28,14 @@
                 align-content: center;
                 align-items: center;
                 border-radius: 50%;
-                background-color: #F3F6FD;
-                color: #2B7BE4;
+                background-color: var( --color-primary-lighter );
+                color: var( --color-primary );
             }
             .label {
                 color: lighten( black, 30% );
             }
             &:hover {
-                background-color: #F3F6FD;
+                background-color: var( --color-primary-lighter );
             }
         }
     }

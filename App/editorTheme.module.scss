@@ -1,5 +1,10 @@
 .wrapper {
     --block-controls-offset: -2.9rem;
+    --color-primary: #2B7BE4;
+    --color-primary-light: #DFE9F5;
+    --color-primary-lighter: #F3F6FD;
+    --color-primary-darkest: #15113C;
+
 
     width: 100%;
     max-width: 48rem;
@@ -9,10 +14,6 @@
     box-shadow: 0 3px 10px rgba( black, .1 );
     font-family: IRANSans;
     color: rgba( black, .85 );
-
-    *::selection {
-        background-color: lighten( #2B7BE4, 35% );
-    }
 
     .innerWrapper {
         margin: 0 3.5rem;
@@ -75,8 +76,8 @@
 
 
 .pre-content-wrapper {
-    background-color: #062E32;
-    color: rgba( white, .8 );
+    background-color: var( --color-primary-darkest );
+    color: var( --color-primary-light );
     padding: 1.5rem;
     border-radius: .5rem;
     box-shadow: 0 3px 10px rgba( black, .1 );

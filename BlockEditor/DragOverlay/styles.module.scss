@@ -9,7 +9,7 @@
     }
     .dropIndicator {
         height: 0px;
-        outline: 1.5px solid lighten( #2B7BE4, 10% );
+        outline: 1.5px solid var( --color-primary );
         transform: translateY( calc( var( --offset ) * 1px - 50% ) );
         position: absolute;
         --margin: -.5rem;

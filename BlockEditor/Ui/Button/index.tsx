@@ -1,6 +1,7 @@
 import { forwardRef, HTMLAttributes } from 'react'
 import cn from 'classnames'
 import { IconType } from 'react-icons'
+import { motion } from 'framer-motion'
 
 import styles from './styles.module.scss'
 
@@ -13,7 +14,7 @@ export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
 
 const Button = forwardRef < HTMLDivElement, ButtonProps > ( (
     { className, Icon, active, children, ...props }: any, ref
-) => <div
+) => <motion.div
     ref = { ref }
     className = { cn ( styles.button, className, {
         [ styles.active ]: active
@@ -23,5 +24,5 @@ const Button = forwardRef < HTMLDivElement, ButtonProps > ( (
 >
     { Icon && <Icon /> }
     { children && <span children = { children } /> }
-</div> )
+</motion.div> )
 export default Button

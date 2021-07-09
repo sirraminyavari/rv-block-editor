@@ -4,6 +4,7 @@ import { getSelectionInlineStyle } from 'draftjs-utils'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
+import useTransformedPluginsContext from 'BlockEditor/Contexts/TransformedPlugins'
 import { usePopper } from 'react-popper'
 import Button from 'BlockEditor/Ui/Button'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -17,8 +18,9 @@ const InlineStyleMenu: FC = () => {
 export default InlineStyleMenu
 
 function Menu () {
-    const { editorState, setEditorState, inlineStyles } = useEditorContext ()
+    const { editorState, setEditorState } = useEditorContext ()
     const { inlineStyleMenuInfo: { getSelectionRect, domSelection }, dir } = useUiContext ()
+    const { inlineStyles } = useTransformedPluginsContext ()
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
     const virtualReference = useMemo ( () => ({
         getBoundingClientRect: () => getSelectionRect () || new DOMRect ()
@@ -40,22 +42,19 @@ function Menu () {
                 transform: `translateY( calc( ${ popper.styles.popper.top === '0' ? 1 : -1 } * .3rem ) )`
             }}
         >
-            { inlineStyles.map ( ({ Icon, style }) => <motion.div
+            { inlineStyles.map ( ({ Icon, style }) => <Button
                 key = { style }
                 variants = {{
                     initial: { opacity: 0, scale: .4 },
                     animate: { opacity: 1, scale: 1 },
                 }}
-            >
-                <Button
-                    Icon = { Icon }
-                    active = { activeInlineStyles [ style ] }
-                    onClick = { () => {
-                        const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
-                        setEditorState ( newEditorState )
-                    } }
-                />
-            </motion.div> ) }
+                Icon = { Icon }
+                active = { activeInlineStyles [ style ] }
+                onClick = { () => {
+                    const newEditorState = RichUtils.toggleInlineStyle ( editorState, style )
+                    setEditorState ( newEditorState )
+                } }
+            /> ) }
         </Overlay>
     </motion.div>
 }
