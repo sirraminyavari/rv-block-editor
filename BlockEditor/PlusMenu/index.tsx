@@ -40,8 +40,8 @@ const Popper = memo ( ( { blockKey, plusActions, blockRefs, dir }: any ) => {
             initial = 'initial' animate = 'animate' exit = 'exit'
             variants = {{
                 initial: { opacity: 0 },
-                animate: { opacity: 1, transition: { duration: .5, ease: 'easeIn', staggerChildren: .05 } },
-                exit: { opacity: 0, transition: { duration: .2, ease: 'easeOut' } }
+                animate: { opacity: 1, transition: { duration: .5, staggerChildren: .05 } },
+                exit: { opacity: 0, transition: { duration: .2 } }
             }}
             style = {{
                 transform: `translateY( ${ .5 * c }rem )`
