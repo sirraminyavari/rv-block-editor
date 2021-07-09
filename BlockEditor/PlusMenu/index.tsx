@@ -1,13 +1,12 @@
-import { FC, useState, memo } from 'react'
-import { TransformedPlusAction } from 'BlockEditor'
+import { useState, memo } from 'react'
 import { usePopper } from 'react-popper'
 import Overlay from 'BlockEditor/Ui/Overlay'
-import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useTransformedPluginsContext from 'BlockEditor/Contexts/TransformedPlugins'
-import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import Scrollbar from 'react-perfect-scrollbar'
+
+import PlusActionButton from './PlusActionButton'
 
 import styles from './styles.module.scss'
 
@@ -56,7 +55,7 @@ const Popper = memo ( ( { blockKey, plusActions, blockRefs, dir }: any ) => {
                     suppressScrollX: true,
                     scrollingThreshold: 400
                 }}
-                children = { plusActions.map ( action => <ActionButton
+                children = { plusActions.map ( action => <PlusActionButton
                     key = { action.action }
                     action = { action }
                     blockKey = { blockKey }
@@ -65,36 +64,3 @@ const Popper = memo ( ( { blockKey, plusActions, blockRefs, dir }: any ) => {
         </Overlay>
     </div>
 } )
-
-
-interface ActionButtonProps {
-    action: TransformedPlusAction
-    blockKey: string
-}
-
-const ActionButton: FC < ActionButtonProps > = ({ action: { action, Icon, label }, blockKey }) => {
-    const { editorState, setEditorState } = useEditorContext ()
-    const { blockRefs, setBlockControlsInfo, setPlusMenuInfo } = useUiContext ()
-    return <motion.label
-        variants = {{
-            initial: { opacity: 0, x: 40 },
-            animate: { opacity: 1, x: 0 },
-        }}
-        transition = {{ ease: 'easeIn' }}
-        className = { styles.actionButton }
-        onMouseDown = { e => e.preventDefault () }
-        onClick = { () => {
-            setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
-            setEditorState ( applyPlusActionToSelection ( editorState, action ) )
-            setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
-                hoveredBlockKey: blockKey,
-                hoveredBlockElem: blockRefs.current [ blockKey ]
-            }) ) )
-        } }
-    >
-        <div className = { styles.iconWrapper }>
-            <Icon />
-        </div>
-        <span className = { styles.label } children = { label } />
-    </motion.label>
-}
