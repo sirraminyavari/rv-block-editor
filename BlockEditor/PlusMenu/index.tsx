@@ -1,8 +1,9 @@
 import { FC, useState, memo } from 'react'
-import { PlusAction } from 'BlockEditor'
+import { TransformedPlusAction } from 'BlockEditor'
 import { usePopper } from 'react-popper'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
+import useTransformedPluginsContext from 'BlockEditor/Contexts/TransformedPlugins'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -12,7 +13,7 @@ import styles from './styles.module.scss'
 
 
 export default function PlusMenu () {
-    const { plusActions }  = useEditorContext ()
+    const { plusActions }  = useTransformedPluginsContext ()
     const { plusMenuInfo: { openedBlock }, blockRefs, dir } = useUiContext ()
     return <AnimatePresence children = { !! openedBlock && <Popper
         blockKey = { openedBlock.getKey () }
@@ -67,7 +68,7 @@ const Popper = memo ( ( { blockKey, plusActions, blockRefs, dir }: any ) => {
 
 
 interface ActionButtonProps {
-    action: PlusAction
+    action: TransformedPlusAction
     blockKey: string
 }
 

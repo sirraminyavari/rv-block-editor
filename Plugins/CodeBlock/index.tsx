@@ -8,6 +8,8 @@ import { CodeBlockIcon } from './icons'
 
 export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin {
     return {
+        id: 'code-block',
+
         handleKeyCommand ( command, _, _2, { getEditorState, setEditorState } ) {
             const editorState = getEditorState ()
             const newState = CodeUtils.hasSelectionInBlock ( editorState )
@@ -36,7 +38,7 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
         },
 
         plusActions: [
-            { label: 'Code Block', action: 'code-block', Icon: CodeBlockIcon }
+            { action: 'code-block', Icon: CodeBlockIcon }
         ],
 
         blockRenderMap: Map ({

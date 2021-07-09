@@ -17,6 +17,8 @@ import createListsPlugin from 'Plugins/Lists'
 import createQuotePlugin from 'Plugins/Quote'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
 
+import dict from './dict'
+
 
 const plugins = [
     createBasicInlineStylesPlugin (),
@@ -40,7 +42,7 @@ export default function App () {
         <BlockEditor
             ref = { editorRef }
             editorState = { editorState } onChange = { setEditorState }
-            lang = { language } dir = { direction }
+            dict = { dict } lang = { language } dir = { direction }
             plugins = { plugins } styles = { editorTheme }
         />
         { showState && <pre children = { JSON.stringify ( editorState, null, 4 ) } /> }

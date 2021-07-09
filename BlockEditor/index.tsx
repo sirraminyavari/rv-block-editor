@@ -1,8 +1,9 @@
 import { forwardRef } from 'react'
-import { language, direction } from 'BlockEditor'
+import { Language, Direction, Dict, EditorPlugin } from 'BlockEditor'
 
 import { EditorContextProvider } from './Contexts/EditorContext'
 import { UiContextProvider } from './Contexts/UiContext'
+import { TransformedPluginsContextProvider } from './Contexts/TransformedPlugins'
 import PluginsEditor from '@draft-js-plugins/editor'
 import Editor, { BlockEditorProps as _BlockEditorProps } from './Editor'
 
@@ -12,24 +13,27 @@ export { withBlockWrapper } from './BlockWrapper'
 
 export interface BlockEditorProps extends _BlockEditorProps {
     styles?: { [ key: string ]: string }
-    dir: direction
-    lang: language
+    dict: Dict
+    dir: Direction
+    lang: Language
+    plugins: EditorPlugin []
 }
 
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
-    editorState, onChange: setEditorState, dir, lang, plugins, styles = {}, ...props }, ref
-) => {
+    editorState, onChange: setEditorState, styles = {}, dict, dir, lang, plugins, ...props
+}, ref ) => {
     return <EditorContextProvider
         editorState = { editorState }
         setEditorState = { setEditorState }
-        plugins = { plugins }
     >
-        <UiContextProvider styles = { styles } dir = { dir } lang = { lang }>
-            <Editor
-                ref = { ref }
-                plugins = { plugins }
-                { ...props }
-            />
+        <UiContextProvider styles = { styles } dict = { dict } dir = { dir } lang = { lang }>
+            <TransformedPluginsContextProvider plugins = { plugins }>
+                <Editor
+                    ref = { ref }
+                    plugins = { plugins }
+                    { ...props }
+                />
+            </TransformedPluginsContextProvider>
         </UiContextProvider>
     </EditorContextProvider>
 } )

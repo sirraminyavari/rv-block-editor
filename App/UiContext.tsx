@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { language, direction } from 'BlockEditor'
+import { Language, Direction } from 'BlockEditor'
 
 
 
@@ -8,10 +8,10 @@ export interface UiContext {
     setShowControls: SetState < boolean >
     showState: boolean
     setShowState: SetState < boolean >
-    language: language
-    setLanguage: SetState < language >
-    direction: direction
-    setDirection: SetState < direction >
+    language: Language
+    setLanguage: SetState < Language >
+    direction: Direction
+    setDirection: SetState < Direction >
     contentPreset: string
     setContentPreset: SetState < string >
 }
@@ -23,8 +23,8 @@ export default useUiContext
 export function UiContextProvider ({ children }) {
     const [ showControls, setShowControls ] = useState < boolean > ( () => localStorage.getItem ( 'showControls' ) === 'true' )
     const [ showState, setShowState ] = useState < boolean > ( () => localStorage.getItem ( 'showState' ) === 'true' )
-    const [ language, setLanguage ] = useState < language > ( () => localStorage.getItem ( 'lang' ) as language || 'en' )
-    const [ direction, setDirection ] = useState < direction > ( () => localStorage.getItem ( 'dir' ) as direction || 'ltr' )
+    const [ language, setLanguage ] = useState < Language > ( () => localStorage.getItem ( 'lang' ) as Language || 'en' )
+    const [ direction, setDirection ] = useState < Direction > ( () => localStorage.getItem ( 'dir' ) as Direction || 'ltr' )
     const [ contentPreset, setContentPreset ] = useState < string > ( () => localStorage.getItem ( 'contentPreset' ) || 'empty' )
 
     useEffect ( () => {

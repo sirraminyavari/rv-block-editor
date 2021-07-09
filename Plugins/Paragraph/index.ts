@@ -4,6 +4,8 @@ import { Map } from 'immutable'
 
 export default function createParagraphPlugin (): EditorPlugin {
     return {
+        id: 'paragraph',
+
         blockRenderMap: Map ({
             unstyled: {
                 element: withBlockWrapper ( 'div', { styles: { wrapper: [ 'paragraph' ] } } ),

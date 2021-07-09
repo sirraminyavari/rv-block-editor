@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 
-import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
+import useTransformedPluginsContext from './Contexts/TransformedPlugins'
 
 
 const useAllPlugins = plugins => {
-    const { plusActions } = useEditorContext ()
+    const { plusActions } = useTransformedPluginsContext ()
     const { setPlusMenuInfo } = useUiContext ()
 
     return useMemo ( () => {

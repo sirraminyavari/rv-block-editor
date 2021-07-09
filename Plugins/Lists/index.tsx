@@ -6,10 +6,13 @@ import { UnorderedListIcon, OrderedListIcon } from './icons'
 
 export default function createListsPlugin ( config: any = {} ): EditorPlugin {
     return {
+        id: 'lists',
+
         plusActions: [
-            { label: 'Unordered List', action: 'unordered-list-item', doubleBreakout: true, Icon: OrderedListIcon },
-            { label: 'Ordered List', action: 'ordered-list-item', doubleBreakout: true, Icon: UnorderedListIcon }
+            { action: 'unordered-list-item', doubleBreakout: true, Icon: OrderedListIcon },
+            { action: 'ordered-list-item', doubleBreakout: true, Icon: UnorderedListIcon }
         ],
+
         blockRenderMap: Map ({
             'unordered-list-item': {
                 element: withBlockWrapper ( 'li' ),

@@ -9,12 +9,14 @@ const headings = [ 'one', 'two', 'three' ]
 
 export default function createHeadingsPlugin (): EditorPlugin {
     return {
+        id: 'headings',
+
         plusActions: headings.map ( ( heading, n ) => ({
-            label: `Heading ${ n + 1 }`,
             action: `header-${ heading }`,
             returnBreakout: true,
             Icon: HeadingIcons [ n ]
         }) ),
+
         blockRenderMap: Map ( headings
             .map ( ( heading, i ) => ({
                 key: `header-${ heading }`,

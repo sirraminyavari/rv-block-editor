@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useLayoutEffect, useRef, MutableRe
 import { ContentBlock } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import useEditorContext from './EditorContext'
-import { language, direction } from 'BlockEditor'
+import { Language, Direction, Dict } from 'BlockEditor'
 
 
 type BlockRefs = MutableRefObject < { [ key: string ]: HTMLDivElement | null } >
@@ -76,7 +76,7 @@ export interface InlineStyleMenuInfo {
  */
 export interface UiContext {
     // Layout & Styles:
-    dir: direction, lang: language
+    dict: Dict, dir: Direction, lang: Language
     externalStyles: { [ key: string ]: string }
     // Refs:
     editorRef: MutableRefObject < Editor >
@@ -98,7 +98,7 @@ export const UiContext = createContext < UiContext > ( null )
 export const useUiContext = () => useContext ( UiContext )
 export default useUiContext
 
-export function UiContextProvider ({ dir, lang, styles, children }) {
+export function UiContextProvider ({ styles, dict, dir, lang, children }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
 
@@ -180,7 +180,7 @@ export function UiContextProvider ({ dir, lang, styles, children }) {
 
     return <UiContext.Provider
         value = {{
-            dir, lang, externalStyles: styles,
+            dict, dir, lang, externalStyles: styles,
             editorRef, wrapperRef, innerWrapperRef, blockRefs,
             blockControlsInfo, setBlockControlsInfo,
             plusMenuInfo, setPlusMenuInfo,

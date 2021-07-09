@@ -19,10 +19,11 @@ export default function BlockControls () {
     const [ owRect, setOwRect ] = useState < DOMRect > ( () => new DOMRect () )
     const [ iwRect, setIwRect ] = useState < DOMRect > ( () => new DOMRect () )
     useEffect ( () => {
-        setRect ( hoveredBlockElem.getBoundingClientRect () )
-        setOwRect ( wrapperRef.current.getBoundingClientRect () )
-        setIwRect ( innerWrapperRef.current.getBoundingClientRect () )
+        setRect ( hoveredBlockElem?.getBoundingClientRect () )
+        setOwRect ( wrapperRef.current?.getBoundingClientRect () )
+        setIwRect ( innerWrapperRef.current?.getBoundingClientRect () )
     }, [ editorState, hoveredBlockKey, hoveredBlockElem ] )
+    if ( ! ( rect && owRect && iwRect ) ) return null
 
     return <div
         className = { cn ( styles.controls, {

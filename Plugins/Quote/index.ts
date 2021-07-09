@@ -5,9 +5,12 @@ import { QuoteIcon } from './icons'
 
 export default function createQuotePlugin (): EditorPlugin {
     return {
+        id: 'quote',
+
         plusActions: [
-            { label: 'Quote', action: 'blockquote', Icon: QuoteIcon, returnBreakout: true }
+            { action: 'blockquote', Icon: QuoteIcon, returnBreakout: true }
         ],
+
         blockRenderMap: Map ({
             blockquote: {
                 element: withBlockWrapper ( 'blockquote', {
