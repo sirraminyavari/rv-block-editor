@@ -8,6 +8,9 @@ import styles from './styles.module.scss'
 
 const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).join ( ' ' ) : ''
 
+/**
+ * This component wraps all the Content Blocks and provides a great deal of block editing functionality to them.
+ */
 const BlockWrapper = ({ Comp, config = {} as any, children }) => {
     const { editorState } = useEditorContext ()
     const { dragInfo, blockRefs, externalStyles, dir } = useUiContext ()
@@ -39,6 +42,9 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
 }
 export default BlockWrapper
 
+/**
+ * An HOC to help wrap custom component inside a `BlockWrapper` and style them properly.
+ */
 export const withBlockWrapper = ( Comp, config?: any ) => props => {
     return <BlockWrapper
         Comp = { Comp }

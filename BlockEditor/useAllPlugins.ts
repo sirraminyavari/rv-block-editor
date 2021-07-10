@@ -6,9 +6,16 @@ import useUiContext from './Contexts/UiContext'
 import useTransformedPluginsContext from './Contexts/TransformedPlugins'
 
 
+/**
+ * Utilizes internal plugins.
+ *
+ * @param plugins - All the external plugins
+ *
+ * @returns All the internal and external plugins ready to use in a Plugin Editor component.
+ */
 const useAllPlugins = plugins => {
     const { plusActions } = useTransformedPluginsContext ()
-    const { setPlusMenuInfo } = useUiContext ()
+    const { setPlusActionMenuInfo } = useUiContext ()
 
     return useMemo ( () => {
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({
@@ -19,7 +26,7 @@ const useAllPlugins = plugins => {
         const uiHandlerPlugin = {
             keyBindingFn ( event ) {
                 if ( event.key === 'Escape' )
-                    setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
+                    setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
             }
         }
 

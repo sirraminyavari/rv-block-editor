@@ -19,20 +19,16 @@ export interface BlockEditorProps extends _BlockEditorProps {
     plugins: EditorPlugin []
 }
 
+/**
+ * Provides the editor with all the required global contexts.
+ */
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
     editorState, onChange: setEditorState, styles = {}, dict, dir, lang, plugins, ...props
 }, ref ) => {
-    return <EditorContextProvider
-        editorState = { editorState }
-        setEditorState = { setEditorState }
-    >
+    return <EditorContextProvider editorState = { editorState } setEditorState = { setEditorState }>
         <UiContextProvider styles = { styles } dict = { dict } dir = { dir } lang = { lang }>
             <TransformedPluginsContextProvider plugins = { plugins }>
-                <Editor
-                    ref = { ref }
-                    plugins = { plugins }
-                    { ...props }
-                />
+                <Editor ref = { ref } { ...props } />
             </TransformedPluginsContextProvider>
         </UiContextProvider>
     </EditorContextProvider>

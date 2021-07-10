@@ -1,5 +1,5 @@
 import { createContext, useContext, FC, useMemo } from 'react'
-import { EditorPlugin, InlineStyle, TransformedPlusAction } from 'BlockEditor'
+import { EditorPlugin, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 
@@ -7,7 +7,7 @@ export interface TransformedPluginsContext {
     /**
      * All the Inline Styles extracted from plugins
      */
-    inlineStyles: InlineStyle []
+    inlineStyles: TransformedInlineStyle []
     /**
      * All the Plus Actions extracted from plugins
      */
@@ -32,7 +32,7 @@ export interface TransformedPluginsContextProviderProps {
 export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, children }) => {
     const { dict, lang } = useUiContext ()
 
-    const inlineStyles: InlineStyle [] = plugins.reduce ( ( acc, plugin ) =>
+    const inlineStyles: TransformedInlineStyle [] = plugins.reduce ( ( acc, plugin ) =>
         [ ...acc, ...( plugin.inlineStyles || [] ) ]
     , [] )
 

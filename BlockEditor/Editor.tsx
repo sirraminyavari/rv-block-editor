@@ -4,19 +4,21 @@ import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
+import TransformedPlugins from './Contexts/TransformedPlugins'
 import useAllPlugins from './useAllPlugins'
 
 import BlockControls from './BlockControls'
 import InlineStyleMenu from './InlineStyleMenu'
-import PlusMenu from './PlusMenu'
+import PlusActionMenu from './PlusActionMenu'
 import DragOverlay from './DragOverlay'
 
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 
-const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { plugins, ...props }, ref ) => {
+const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()
+    const { plugins } = TransformedPlugins ()
     const allPlugins = useAllPlugins ( plugins )
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
@@ -52,7 +54,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { plugins, ...pr
         { renderRefDependentComps && <>
             <BlockControls />
             <InlineStyleMenu />
-            <PlusMenu />
+            <PlusActionMenu />
             <DragOverlay />
         </> }
     </div>

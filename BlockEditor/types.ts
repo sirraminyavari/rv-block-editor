@@ -1,35 +1,101 @@
-// TODO: Docs
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
 import { IconType } from 'react-icons'
 
 
+/**
+ * Supported language codes.
+ */
 export type Language = 'en' | 'fa'
+
+/**
+ * Layout directions.
+ */
 export type Direction = 'ltr' | 'rtl'
 
+/**
+ * Dictionary of lables for all supported languages.
+ */
 export type Dict = {
     [ key in Language ]: {
         [ key: string ]: string
     }
 }
 
+/**
+ * Defines an Inline Style.
+ * * Ojects of this interface will be transformed to `TransformedInlineStyle`s by the TrasformedPlugins Context for internal use.
+ */
 export interface InlineStyle {
-    label: string
+    /**
+     * The SVG icon associated with the Inline Style.
+     */
     Icon: IconType
+    /**
+     * The style name to get passed to `RichUtils.toggleInlineStyle`.
+     */
     style: string
 }
 
-export interface PlusAction {
-    action: string
-    Icon: IconType
-    returnBreakout?: boolean
-    doubleBreakout?: boolean
-}
-export interface TransformedPlusAction extends PlusAction {
+/**
+ * Inline Style after being transformed by TrasformedPlugins Context.
+ * * This interface will be used throughout the internal implementation of this editor instead of `InlineStyle`.
+ */
+export interface TransformedInlineStyle extends InlineStyle {
+    /**
+     * TODO: This property will be utilized later.
+     */
     label: string
 }
 
+/**
+ * Defines a Plus Action.
+ * * Ojects of this interface will be transformed to `TransformedPlusAction`s by the TrasformedPlugins Context for internal use.
+ */
+export interface PlusAction {
+    /**
+     * The Block Type of the Plus Action.
+     */
+    action: string
+    /**
+     * The SVG icon associated with the Plus Action.
+     */
+    Icon: IconType
+    /**
+     * Whether to break out of a Content Block of this Plus Action on return. (e.g. H1)
+     */
+    returnBreakout?: boolean
+    /**
+     * Whether to break out of a Content Block of this Plus Action on double return. (e.g. OL)
+     */
+    doubleBreakout?: boolean
+}
+
+/**
+ * Plus Action after being transformed by TrasformedPlugins Context.
+ * * This interface will be used throughout the internal implementation of this editor instead of `PlusAction`.
+ */
+export interface TransformedPlusAction extends PlusAction {
+    /**
+     * The i18ned label of the Plus Action.
+     */
+    label: string
+}
+
+/**
+ * Defines an Editor Plugin.
+ * * All plugins are also compatible with `@draft-js-plugins` though they might lose some functionality.
+ */
 export interface EditorPlugin extends _EditorPlugin {
+    /**
+     * A unique indentifier for the Plugin.
+     */
     id: string
+    /**
+     * All the Inline Styles of the Plugin.
+     */
     inlineStyles?: InlineStyle []
+    /**
+     * All the Plus Actions of the Plugin.
+     */
     plusActions?: PlusAction []
 }

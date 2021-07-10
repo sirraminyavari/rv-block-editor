@@ -8,7 +8,7 @@ export interface EditorContext {
 }
 
 /**
- * Provides access to the general state of the editor in nested components.
+ * Provides access to the general state of the editor for the nested components.
  */
 export const EditorContext = createContext < EditorContext > ( null )
 export const useEditorContext = () => useContext ( EditorContext )

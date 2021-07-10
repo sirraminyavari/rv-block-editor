@@ -11,9 +11,13 @@ import PlusActionButton from './PlusActionButton'
 import styles from './styles.module.scss'
 
 
-export default function PlusMenu () {
+/**
+ * An overlay menu containing all the Plus Actions.
+ * It appears whenever users clicks on the `PlusActionMenuButton`.
+ */
+export default function PlusActionMenu () {
     const { plusActions }  = useTransformedPluginsContext ()
-    const { plusMenuInfo: { openedBlock }, blockRefs, dir } = useUiContext ()
+    const { plusActionMenuInfo: { openedBlock }, blockRefs, dir } = useUiContext ()
     return <AnimatePresence children = { !! openedBlock && <Popper
         blockKey = { openedBlock.getKey () }
         plusActions = { plusActions }
@@ -31,7 +35,7 @@ const Popper = memo ( ( { blockKey, plusActions, blockRefs, dir }: any ) => {
     )
     const c = popper.styles.popper.top === '0' ? 1 : -1
     return <div
-        className = { styles.plusMenu }
+        className = { styles.plusActionMenu }
         ref = { setPannelRef }
         style = { popper.styles.popper }
         { ...popper.attributes.popper }

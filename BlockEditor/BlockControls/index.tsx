@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import cn from 'classnames'
-import PlusMenuButton from 'BlockEditor/PlusMenu/PlusMenuButton'
+import PlusActionMenuButton from 'BlockEditor/PlusActionMenu/PlusActionMenuButton'
 import DragHandle from 'BlockEditor/DragOverlay/DragHandle'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
@@ -8,11 +8,15 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 import styles from './styles.module.scss'
 
 
+/**
+ * The general block controls that apear at the beggining of blocks when the user hovers on them.
+ * * It will not appear when `PlusActionMenu` is open.
+ */
 export default function BlockControls () {
     const { editorState } = useEditorContext ()
     const {
         blockControlsInfo: { hoveredBlockKey, hoveredBlockElem },
-        plusMenuInfo, wrapperRef, innerWrapperRef
+        plusActionMenuInfo, wrapperRef, innerWrapperRef
     } = useUiContext ()
 
     const [ rect  , setRect   ] = useState < DOMRect > ( () => new DOMRect () )
@@ -27,7 +31,7 @@ export default function BlockControls () {
 
     return <div
         className = { cn ( styles.controls, {
-            [ styles.invisible ]: plusMenuInfo.openedBlock
+            [ styles.invisible ]: plusActionMenuInfo.openedBlock
         } ) }
         style = {{ // @ts-ignore
             '--x': iwRect.x - owRect.x,
@@ -35,7 +39,7 @@ export default function BlockControls () {
         }}
     >
         <div>
-            <PlusMenuButton blockKey = { hoveredBlockKey } />
+            <PlusActionMenuButton blockKey = { hoveredBlockKey } />
             <DragHandle blockKey = { hoveredBlockKey } />
         </div>
     </div>

@@ -5,6 +5,10 @@ import useEditorContext from './EditorContext'
 import { Language, Direction, Dict } from 'BlockEditor'
 
 
+/**
+ * Refs to wrappers of all Content Blocks.
+ * * Caveat: The refs of deleted blocks will be nulled. Always use `.filter ( Boolean )` or something.
+ */
 type BlockRefs = MutableRefObject < { [ key: string ]: HTMLDivElement | null } >
 
 /**
@@ -24,7 +28,7 @@ export interface BlockControlsInfo {
 /**
  * Information regarding the Plus Menu UI.
  */
-export interface PlusMenuInfo {
+export interface PlusActionMenuInfo {
     /**
      * Determines wich block has its Plus Menu currently openned.
      */
@@ -75,7 +79,7 @@ export interface InlineStyleMenuInfo {
  * General information regarding the Block Editor user interface.
  */
 export interface UiContext {
-    // Layout & Styles:
+    // Dictionary, Layout & Styles:
     dict: Dict, dir: Direction, lang: Language
     externalStyles: { [ key: string ]: string }
     // Refs:
@@ -86,8 +90,8 @@ export interface UiContext {
     // Block Functionality:
     blockControlsInfo: BlockControlsInfo
     setBlockControlsInfo: SetState < BlockControlsInfo >
-    plusMenuInfo: PlusMenuInfo
-    setPlusMenuInfo: SetState < PlusMenuInfo >
+    plusActionMenuInfo: PlusActionMenuInfo
+    setPlusActionMenuInfo: SetState < PlusActionMenuInfo >
     dragInfo: DragInfo
     setDragInfo: SetState < DragInfo >
     // Inline Functionality:
@@ -150,13 +154,13 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
         positionBlockControls ({ clientY: mouseY.current })
     }, [ editorState ] )
 
-    const [ plusMenuInfo, setPlusMenuInfo ] = useState < PlusMenuInfo > ({})
-    if ( plusMenuInfo.openedBlock && (
+    const [ plusActionMenuInfo, setPlusActionMenuInfo ] = useState < PlusActionMenuInfo > ({})
+    if ( plusActionMenuInfo.openedBlock && (
         ! selectionState.getHasFocus () ||
-        plusMenuInfo.openedBlock.getKey () !== selectionState.getAnchorKey () ||
-        plusMenuInfo.openedBlock.getKey () !== selectionState.getFocusKey  () ||
+        plusActionMenuInfo.openedBlock.getKey () !== selectionState.getAnchorKey () ||
+        plusActionMenuInfo.openedBlock.getKey () !== selectionState.getFocusKey  () ||
         selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
-    ) ) setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
+    ) ) setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
 
     const [ dragInfo, setDragInfo ] = useState ({
         dragging: false,
@@ -183,7 +187,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
             dict, dir, lang, externalStyles: styles,
             editorRef, wrapperRef, innerWrapperRef, blockRefs,
             blockControlsInfo, setBlockControlsInfo,
-            plusMenuInfo, setPlusMenuInfo,
+            plusActionMenuInfo, setPlusActionMenuInfo,
             dragInfo, setDragInfo,
             inlineStyleMenuInfo
         }}

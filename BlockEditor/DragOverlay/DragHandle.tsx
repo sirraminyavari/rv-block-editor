@@ -11,6 +11,9 @@ export interface DragHandleProps {
     blockKey: string
 }
 
+/**
+ * A block control that starts dragging procedures on a given Content Block.
+ */
 const DragHandle: FC < DragHandleProps > = ({ blockKey }) => {
     const { editorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )

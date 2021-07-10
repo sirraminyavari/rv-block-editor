@@ -1,6 +1,9 @@
 import styles from './styles.module.scss'
 
 
+/**
+ * A horizontal line indicating where the current dragging Content Block will appear after dropping it.
+ */
 export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) {
     if ( ! closestInfo ) return null
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo

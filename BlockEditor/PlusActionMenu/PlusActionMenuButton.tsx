@@ -10,14 +10,17 @@ import { PlusIcon } from 'BlockEditor/icons'
 import styles from './styles.module.scss'
 
 
-export interface PlusMenuButtonProps {
+export interface PlusActionMenuButtonProps {
     blockKey: string
 }
 
-const PlusMenuButton: FC < PlusMenuButtonProps > = ({ blockKey }) => {
+/**
+ * Opens the `PlusActionMenu` on the current Content Block if it's empty. Otherwise creates a new empty block below and opens the said menu on that.
+ */
+const PlusActionMenuButton: FC < PlusActionMenuButtonProps > = ({ blockKey }) => {
     const { editorState, setEditorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
-    const { setPlusMenuInfo } = useUiContext ()
+    const { setPlusActionMenuInfo } = useUiContext ()
     return <Button
         Icon = { PlusIcon }
         className = { styles.btn }
@@ -27,13 +30,13 @@ const PlusMenuButton: FC < PlusMenuButtonProps > = ({ blockKey }) => {
                 // There is some text in the current block so we should create a new block below it and set the Plus Action type for the newly created block
                 const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus ( editorState, block )
                 setEditorState ( newEditorState )
-                setPlusMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) )
+                setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) )
             } else {
                 // There is no text in the current block so we should update it's type inplace
                 setEditorState ( forceSelectionToBlock ( editorState, blockKey ) )
-                setPlusMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
+                setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
             }
         } }
     />
 }
-export default PlusMenuButton
+export default PlusActionMenuButton

@@ -11,6 +11,10 @@ import findClosestDropElement from './findClosestDropElement'
 import styles from './styles.module.scss'
 
 
+/**
+ * This componen overlays the entire outer wrapper when the user starts dragging a Content Block
+ * and handles most of the dragging functionality and UI.
+ */
 const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo } = useUiContext ()

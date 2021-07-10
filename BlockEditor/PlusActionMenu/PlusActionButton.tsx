@@ -13,9 +13,12 @@ export interface PlusActionButtonProps {
     blockKey: string
 }
 
+/**
+ * Toggles a Plus Action on the focused Content Block.
+ */
 const PlusActionButton: FC < PlusActionButtonProps > = ({ action: { action, Icon, label }, blockKey }) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { blockRefs, setBlockControlsInfo, setPlusMenuInfo } = useUiContext ()
+    const { blockRefs, setBlockControlsInfo, setPlusActionMenuInfo } = useUiContext ()
     return <motion.label
         variants = {{
             initial: { opacity: 0, x: 40 },
@@ -25,7 +28,7 @@ const PlusActionButton: FC < PlusActionButtonProps > = ({ action: { action, Icon
         className = { styles.plusActionButton }
         onMouseDown = { e => e.preventDefault () }
         onClick = { () => {
-            setPlusMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
+            setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
             setEditorState ( applyPlusActionToSelection ( editorState, action ) )
             setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
                 hoveredBlockKey: blockKey,
