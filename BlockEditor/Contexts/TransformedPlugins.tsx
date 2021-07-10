@@ -16,14 +16,11 @@ export interface TransformedPluginsContext {
      */
     plusActions: TransformedPlusAction []
     /**
-     * TODO:
+     * All the external and internal plugins ready to be fed to the Plugin Editor.
      */
      allPlugins: EditorPlugin []
 }
 
-/**
- * TODO:
- */
 export const TransformedPluginsContext = createContext < TransformedPluginsContext > ( null )
 export const useTransformedPluginsContext = () => useContext ( TransformedPluginsContext )
 export default useTransformedPluginsContext
@@ -32,6 +29,9 @@ export interface TransformedPluginsContextProviderProps {
     plugins: EditorPlugin []
 }
 
+/**
+ * Transformes external plugins, utilizes internal plugins & provides access to them all.
+ */
 export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, children }) => {
     const { dict, lang, setPlusActionMenuInfo } = useUiContext ()
 

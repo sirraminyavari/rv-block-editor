@@ -6,6 +6,9 @@ export interface Config {
     plusActions: TransformedPlusAction []
 }
 
+/**
+ * Provides functionality for breaking out of Block Types on return keypress.
+ */
 export default function createBlockBreakoutPlugin ( { plusActions }: Config ): EditorPlugin {
     return {
         id: '__internal__block-breakout',

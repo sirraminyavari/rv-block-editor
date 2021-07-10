@@ -14,6 +14,9 @@ import DragOverlay from './DragOverlay'
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 
+/**
+ * This is the most important component of the entire project and everything comes together in here.
+ */
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()

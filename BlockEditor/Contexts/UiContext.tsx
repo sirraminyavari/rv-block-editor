@@ -75,9 +75,6 @@ export interface InlineStyleMenuInfo {
     getSelectionRect?: () => DOMRect | null
 }
 
-/**
- * General information regarding the Block Editor user interface.
- */
 export interface UiContext {
     // Dictionary, Layout & Styles:
     dict: Dict, dir: Direction, lang: Language
@@ -102,6 +99,9 @@ export const UiContext = createContext < UiContext > ( null )
 export const useUiContext = () => useContext ( UiContext )
 export default useUiContext
 
+/**
+ * Provides general information and calculated values regarding the Block Editor user interface.
+ */
 export function UiContextProvider ({ styles, dict, dir, lang, children }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()

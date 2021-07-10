@@ -6,6 +6,9 @@ export interface Config {
     setPlusActionMenuInfo: SetState < PlusActionMenuInfo >
 }
 
+/**
+ * Provides some User Interface functionality and keyboard shortcuts.
+ */
 export default function createUiHandlerPlugin ( { setPlusActionMenuInfo }: Config ): EditorPlugin {
     return {
         id: '__internal__ui-handler',
