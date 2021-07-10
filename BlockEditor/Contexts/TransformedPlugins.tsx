@@ -2,6 +2,9 @@ import { createContext, useContext, FC, useMemo } from 'react'
 import { EditorPlugin, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
+import createBlockBreakoutPlugin from 'BlockEditor/InternalPlugins/BlockBreakout'
+import createUiHandlerPlugin from 'BlockEditor/InternalPlugins/UiHandler'
+
 
 export interface TransformedPluginsContext {
     /**
@@ -15,7 +18,7 @@ export interface TransformedPluginsContext {
     /**
      * TODO:
      */
-    plugins: EditorPlugin []
+     allPlugins: EditorPlugin []
 }
 
 /**
@@ -30,11 +33,13 @@ export interface TransformedPluginsContextProviderProps {
 }
 
 export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, children }) => {
-    const { dict, lang } = useUiContext ()
+    const { dict, lang, setPlusActionMenuInfo } = useUiContext ()
 
-    const inlineStyles: TransformedInlineStyle [] = plugins.reduce ( ( acc, plugin ) =>
-        [ ...acc, ...( plugin.inlineStyles || [] ) ]
-    , [] )
+    const inlineStyles: TransformedInlineStyle [] = useMemo ( () =>
+        plugins.reduce ( ( acc, plugin ) =>
+            [ ...acc, ...( plugin.inlineStyles || [] ) ]
+        , [] )
+    , [ plugins ] )
 
     const plusActions: TransformedPlusAction [] = useMemo ( () =>
         plugins.reduce ( ( acc, plugin ) => [
@@ -45,11 +50,14 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
         ], [] )
     , [ plugins, dict, lang ] )
 
+    const allPlugins = useMemo ( () => {
+        const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
+        const uiHandlerPlugin = createUiHandlerPlugin ({ setPlusActionMenuInfo })
+        return [ ...plugins, blockBreakoutPlugin, uiHandlerPlugin ]
+    }, [ plusActions ] )
 
     return <TransformedPluginsContext.Provider
-        value = {{
-            inlineStyles, plusActions, plugins
-        }}
+        value = {{ inlineStyles, plusActions, allPlugins }}
         children = { children }
     />
 }

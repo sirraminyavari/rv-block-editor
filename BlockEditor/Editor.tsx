@@ -5,7 +5,6 @@ import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
 import TransformedPlugins from './Contexts/TransformedPlugins'
-import useAllPlugins from './useAllPlugins'
 
 import BlockControls from './BlockControls'
 import InlineStyleMenu from './InlineStyleMenu'
@@ -18,8 +17,7 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()
-    const { plugins } = TransformedPlugins ()
-    const allPlugins = useAllPlugins ( plugins )
+    const { allPlugins } = TransformedPlugins ()
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
     useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
