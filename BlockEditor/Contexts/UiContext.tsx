@@ -159,6 +159,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
         ! selectionState.getHasFocus () ||
         plusActionMenuInfo.openedBlock.getKey () !== selectionState.getAnchorKey () ||
         plusActionMenuInfo.openedBlock.getKey () !== selectionState.getFocusKey  () ||
+        selectionState.getAnchorOffset () !== 0 ||
         selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
     ) ) setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
 
