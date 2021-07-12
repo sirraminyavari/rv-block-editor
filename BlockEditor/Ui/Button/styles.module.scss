@@ -16,7 +16,17 @@
     border-radius: .5rem;
     transition: all 100ms ease;
 
+    svg {
+        stroke-width: .03rem;
+        stroke: transparent;
+        transition: all 100ms ease;
+        overflow: visible;
+    }
+
     &.active, &.active:hover {
         color: var( --color-primary );
+        svg {
+            stroke: var( --color-primary );
+        }
     }
 }
