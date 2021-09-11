@@ -1,3 +1,7 @@
+.blockWrapper {
+    padding-inline-start: calc( var( --nest-padding ) * var( --depth ) );
+}
+
 .blockWrapper.dragging {
     opacity: .4;
 }

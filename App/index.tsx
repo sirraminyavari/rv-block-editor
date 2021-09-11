@@ -44,6 +44,7 @@ export default function App () {
             editorState = { editorState } onChange = { setEditorState }
             dict = { dict } lang = { language } dir = { direction }
             plugins = { plugins } styles = { editorTheme }
+            maxDepth = { 6 }
         />
         { showState && <pre children = { JSON.stringify ( editorState, null, 4 ) } /> }
     </>

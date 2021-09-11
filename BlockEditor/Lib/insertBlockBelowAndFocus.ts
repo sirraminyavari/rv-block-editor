@@ -1,4 +1,5 @@
 import { ContentBlock, EditorState } from 'draft-js'
+
 import appendBlock from './appendBlock'
 import moveBlock from './moveBlock'
 import forceSelectionToBlock from './forceSelectionToBlock'

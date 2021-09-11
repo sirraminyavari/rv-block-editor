@@ -4,6 +4,7 @@
     --color-primary-light: #DFE9F5;
     --color-primary-lighter: #F3F6FD;
     --color-primary-darkest: #15113C;
+    --nest-padding: 2rem;
 
 
     width: 100%;
@@ -71,7 +72,7 @@
 
 .pre-wrapper {
     margin: 1.5rem 0;
-    padding: 0;
+    padding-block: 0;
 }
 
 

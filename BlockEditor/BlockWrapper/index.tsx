@@ -20,6 +20,7 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
     const syncedBlock = editorState.getCurrentContent ().getBlockForKey ( blockKey )
     const text = syncedBlock.getText ()
     const direction = detectDirection ( text )
+    const depth = syncedBlock.getDepth ()
 
     return <div
         ref = { elem => blockRefs.current [ blockKey ] = elem }
@@ -30,9 +31,14 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
                 dragInfo.isDraggingByHandle &&
                 dragInfo.block.getKey () === blockKey
         } ) }
+        // @ts-ignore
+        style = {{ '--depth': depth }}
         draggable = { dragInfo.isDraggingByHandle }
     >
-        <div className = { c ( externalStyles, config.styles?.contentWrapper ) } dir = { direction === 'neutral' ? dir : direction }>
+        <div
+            className = { c ( externalStyles, config.styles?.contentWrapper ) }
+            dir = { direction === 'neutral' ? dir : direction }
+        >
             <Comp
                 className = { externalStyles.blockElement }
                 children = { children }

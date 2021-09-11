@@ -2,6 +2,7 @@ import { createContext, useContext, FC, useMemo } from 'react'
 import { EditorPlugin, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
+import createNestingPlugin from 'BlockEditor/InternalPlugins/Nesting'
 import createBlockBreakoutPlugin from 'BlockEditor/InternalPlugins/BlockBreakout'
 import createUiHandlerPlugin from 'BlockEditor/InternalPlugins/UiHandler'
 
@@ -27,12 +28,13 @@ export default useTransformedPluginsContext
 
 export interface TransformedPluginsContextProviderProps {
     plugins: EditorPlugin []
+    maxDepth: number
 }
 
 /**
  * Transformes external plugins, utilizes internal plugins & provides access to them all.
  */
-export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, children }) => {
+export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, maxDepth, children }) => {
     const { dict, lang, setPlusActionMenuInfo } = useUiContext ()
 
     const inlineStyles: TransformedInlineStyle [] = useMemo ( () =>
@@ -51,9 +53,10 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
     , [ plugins, dict, lang ] )
 
     const allPlugins = useMemo ( () => {
+        const nestingPlugin = createNestingPlugin ({ maxDepth })
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
         const uiHandlerPlugin = createUiHandlerPlugin ({ setPlusActionMenuInfo })
-        return [ ...plugins, blockBreakoutPlugin, uiHandlerPlugin ]
+        return [ nestingPlugin, ...plugins, blockBreakoutPlugin, uiHandlerPlugin ]
     }, [ plusActions ] )
 
     return <TransformedPluginsContext.Provider
