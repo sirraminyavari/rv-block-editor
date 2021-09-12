@@ -21,9 +21,7 @@ export interface EditorContextProviderProps {
  */
 export const EditorContextProvider: FC < EditorContextProviderProps > = ({ editorState, setEditorState, children }) => {
     return <EditorContext.Provider
-        value = {{
-            editorState, setEditorState
-        }}
+        value = {{ editorState, setEditorState }}
         children = { children }
     />
 }
