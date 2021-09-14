@@ -9,6 +9,7 @@ import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
 import useDrag, { DragInfo } from './useDrag'
 import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
+import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
 
 
 export interface UiContext {
@@ -29,6 +30,9 @@ export interface UiContext {
     setDragInfo: SetState < DragInfo >
     // Inline Functionality:
     inlineStyleMenuInfo: InlineStyleMenuInfo
+    // Block Level Selection:
+    blockLevelSelectionInfo: BlockLevelSelectionInfo
+    setBlockLevelSelectionInfo: SetState < BlockLevelSelectionInfo >
 }
 
 export const UiContext = createContext < UiContext > ( null )
@@ -41,12 +45,14 @@ export default useUiContext
 export function UiContextProvider ({ styles, dict, dir, lang, children }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
+    const contentState = editorState.getCurrentContent ()
 
     const { editorRef, wrapperRef, innerWrapperRef, blockRefs } = useGlobalRefs ()
     const [ blockControlsInfo, setBlockControlsInfo ] = useBlockControls ( editorState, wrapperRef, blockRefs )
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState )
     const [ dragInfo, setDragInfo ] = useDrag ()
-    const inlineStyleMenuInfo = useInlineStyleMenu ( selectionState )
+    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( contentState, selectionState, wrapperRef )
+    const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState )
 
     return <UiContext.Provider
         value = {{
@@ -55,7 +61,8 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
             blockControlsInfo, setBlockControlsInfo,
             plusActionMenuInfo, setPlusActionMenuInfo,
             dragInfo, setDragInfo,
-            inlineStyleMenuInfo
+            inlineStyleMenuInfo,
+            blockLevelSelectionInfo, setBlockLevelSelectionInfo
         }}
         children = { children }
     />

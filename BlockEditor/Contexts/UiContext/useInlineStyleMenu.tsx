@@ -19,13 +19,15 @@ import { SelectionState } from 'draft-js'
     getSelectionRect?: () => DOMRect | null
 }
 
-export default function useInlineStyleMenu ( selectionState: SelectionState ): InlineStyleMenuInfo {
+export default function useInlineStyleMenu ( isBlockLevelSelecting: boolean, selectionState: SelectionState ): InlineStyleMenuInfo {
     try {
-        const isOpen = selectionState.getHasFocus () && (
-            selectionState.getAnchorKey () !== selectionState.getFocusKey () ||
-            selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
-        )
-        const domSelection = isOpen ? window.getSelection () : null
+        const isOpen =
+            ! isBlockLevelSelecting &&
+            selectionState.getHasFocus () && (
+                selectionState.getAnchorKey () !== selectionState.getFocusKey () ||
+                selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
+            )
+        const domSelection = isOpen ? getSelection () : null
         const getSelectionRect = () => domSelection?.getRangeAt ( 0 ).getBoundingClientRect ()
         return { isOpen, domSelection, getSelectionRect }
     } catch {

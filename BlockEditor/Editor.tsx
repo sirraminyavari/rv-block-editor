@@ -1,4 +1,5 @@
 import { forwardRef, useState, useLayoutEffect } from 'react'
+import cn from 'classnames'
 
 import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
 
@@ -19,7 +20,7 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
  */
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles } = useUiContext ()
+    const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles, blockLevelSelectionInfo } = useUiContext ()
     const { allPlugins } = TransformedPlugins ()
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
@@ -28,7 +29,11 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
         onClick = { () => editorRef.current?.focus () }
-        className = { externalStyles.wrapper }
+        className = { cn (
+            externalStyles.wrapper, {
+                [ externalStyles.blockLevelSelection ]: blockLevelSelectionInfo.enabled
+            } )
+        }
         style = {{ isolation: 'isolate', position: 'relative' }}
         dir = { dir } lang = { lang }
     >

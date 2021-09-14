@@ -13,7 +13,7 @@ const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).joi
  */
 const BlockWrapper = ({ Comp, config = {} as any, children }) => {
     const { editorState } = useEditorContext ()
-    const { dragInfo, blockRefs, externalStyles, dir } = useUiContext ()
+    const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo } = useUiContext ()
 
     const { props: { block: outOfSyncBlock } } = children
     const blockKey = outOfSyncBlock.getKey ()
@@ -30,6 +30,9 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
                 dragInfo.dragging &&
                 dragInfo.isDraggingByHandle &&
                 dragInfo.block.getKey () === blockKey
+            ,
+            [ externalStyles.blockLevelSelected ]:
+                blockLevelSelectionInfo.selectedBlockKeys.some ( k => k === blockKey )
         } ) }
         // @ts-ignore
         style = {{ '--depth': depth }}
