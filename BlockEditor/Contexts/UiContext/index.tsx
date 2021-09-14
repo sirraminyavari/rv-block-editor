@@ -11,6 +11,13 @@ import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
 import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
 
+export * from './useBlockControls'
+export * from './usePlusActionMenu'
+export * from './useDrag'
+export * from './useInlineStyleMenu'
+export * from './useGlobalRefs'
+export * from './useBlockLevelSelection'
+
 
 export interface UiContext {
     // Dictionary, Layout & Styles:
