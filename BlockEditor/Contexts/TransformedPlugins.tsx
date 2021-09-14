@@ -56,7 +56,7 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
         const nestingPlugin = createNestingPlugin ({ maxDepth })
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
         const uiHandlerPlugin = createUiHandlerPlugin ({ setPlusActionMenuInfo })
-        return [ nestingPlugin, ...plugins, blockBreakoutPlugin, uiHandlerPlugin ]
+        return [ ...plugins, nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin ]
     }, [ plusActions ] )
 
     return <TransformedPluginsContext.Provider

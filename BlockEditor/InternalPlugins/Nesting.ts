@@ -15,13 +15,8 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
     return {
         id: '__internal__nesting',
         keyBindingFn ( event ) {
-            return event.ctrlKey
-                ? event.key === ']'
-                    ? 'indent-blocks'
-                    : event.key === '['
-                        ? 'outdent-blocks'
-                        : null
-                : null
+            if ( ! event.ctrlKey ) return
+            return { ']': 'indent-blocks', '[': 'outdent-blocks' } [ event.key ]
         },
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
             if ( command !== 'indent-blocks' && command !== 'outdent-blocks' )
