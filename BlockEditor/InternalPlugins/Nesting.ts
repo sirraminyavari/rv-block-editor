@@ -1,7 +1,8 @@
 import { EditorState, ContentState, BlockMap, ContentBlock } from 'draft-js'
-import { getSelectedBlocksMap } from 'draftjs-utils'
 import { EditorPlugin } from 'BlockEditor'
 import clamp from 'clamp'
+
+import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
 
 
 export interface Config {
@@ -23,10 +24,14 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
                 return 'not-handled'
 
             const contentState = editorState.getCurrentContent ()
+            const blockMap = contentState.getBlockMap ()
             const selectionState = editorState.getSelection ()
 
-            const selectedBlocks = getSelectedBlocksMap ( editorState ) as BlockMap
+            const selectedBlocks = blsAwareGetBlockRange ( blockMap, selectionState.getStartKey (), selectionState.getEndKey () )
             const adjust = { 'indent-blocks': 1, 'outdent-blocks': -1 } [ command ]
+
+            if ( command === 'indent-blocks' && ! validateIndentation ( contentState, selectedBlocks ) )
+                return 'not-handled'
 
             const newBlocks = selectedBlocks.map ( block => adjustDepth ( block, adjust, maxDepth ) )
             const newBlockMap = contentState.getBlockMap ().merge ( newBlocks as any )
@@ -41,6 +46,13 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
             return 'not-handled'
         }
     }
+}
+
+function validateIndentation ( contentState: ContentState, selectedBlocks: BlockMap ): boolean {
+    const firstBlock = selectedBlocks.first ()
+    const prevBlock = contentState.getBlockBefore ( firstBlock.getKey () )
+    if ( ! prevBlock ) return false
+    return firstBlock.getDepth () <= prevBlock.getDepth ()
 }
 
 function adjustDepth ( block: ContentBlock, adjust: number, maxDepth: number ): ContentBlock {
