@@ -29,13 +29,18 @@ export default function BlockControls () {
     }, [ editorState, hoveredBlockKey, hoveredBlockElem ] )
     if ( ! ( rect && owRect && iwRect ) ) return null
 
+    const hoveredBlockDepth = editorState
+        .getCurrentContent ()
+        .getBlockForKey ( hoveredBlockKey )
+        .getDepth ()
+
     return <div
         className = { cn ( styles.controls, {
             [ styles.invisible ]: plusActionMenuInfo.openedBlock
         } ) }
         style = {{ // @ts-ignore
-            '--x': iwRect.x - owRect.x,
-            '--y': rect?.y ? ( rect.y + rect.bottom ) / 2 - owRect.y : iwRect.y - owRect.y
+            '--x': `calc( ${ iwRect.x - owRect.x }px + var( --nest-padding ) * ${ hoveredBlockDepth } )`,
+            '--y': `${ rect?.y ? ( rect.y + rect.bottom ) / 2 - owRect.y : iwRect.y - owRect.y }px`
         }}
     >
         <div>
