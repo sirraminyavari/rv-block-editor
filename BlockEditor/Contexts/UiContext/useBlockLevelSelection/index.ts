@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import { ContentState, EditorState, SelectionState } from 'draft-js'
+import { ContentState, SelectionState } from 'draft-js'
 
-import { WrapperRef } from 'BlockEditor/Contexts/UiContext/useGlobalRefs'
 import calcRtblSelectionState from './calcRtblSelectionState'
 import getBlockRange from 'BlockEditor/Lib/getBlockRange'
 import getFirstAncestorByDepth from 'BlockEditor/Lib/getFirstAncestorByDepth'
@@ -36,7 +35,6 @@ const defaultBlockLevelSelectionInfo = {
 export default function useBlockLevelSelection (
     contentState: ContentState,
     selectionState: SelectionState,
-    outerWrapperRef: WrapperRef
 ): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo > ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
     const [ rtblSelectionState, setRtblSelectionState ] = useState ( defaultRtblSelectionState )
