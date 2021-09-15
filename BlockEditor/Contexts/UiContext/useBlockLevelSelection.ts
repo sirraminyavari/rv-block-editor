@@ -1,31 +1,15 @@
 import { useState, useEffect } from 'react'
 import { ContentState, SelectionState } from 'draft-js'
 
-import calcRtblSelectionState from './calcRtblSelectionState'
 import getBlockRange from 'BlockEditor/Lib/getBlockRange'
 import getFirstAncestorByDepth from 'BlockEditor/Lib/getFirstAncestorByDepth'
 import getLastCousinShallowerThan from 'BlockEditor/Lib/getLastCousinShallowerThan'
+import { RtblSelectionState } from './useRtblSelectionState'
 
 
 export interface BlockLevelSelectionInfo {
     enabled: boolean
     selectedBlockKeys: string []
-}
-
-// Real-Time Selection State
-export interface RtblSelectionState {
-    anchorKey: string
-    focusKey: string
-    startKey: string
-    endKey: string
-    // isBackward only takes blocks into account and is false for any in-block selection
-    isBackward: boolean
-}
-
-const defaultRtblSelectionState: RtblSelectionState = {
-    anchorKey: '', focusKey: '',
-    startKey: '', endKey: '',
-    isBackward: false,
 }
 
 const defaultBlockLevelSelectionInfo = {
@@ -35,22 +19,12 @@ const defaultBlockLevelSelectionInfo = {
 export default function useBlockLevelSelection (
     contentState: ContentState,
     selectionState: SelectionState,
+    rtblSelectionState: RtblSelectionState,
+    updateRtblSelectionState: () => void
 ): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo > ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
-    const [ rtblSelectionState, setRtblSelectionState ] = useState ( defaultRtblSelectionState )
 
     const hasFocus = selectionState.getHasFocus ()
-
-    // Track Selection
-    useEffect ( () => {
-        if ( ! hasFocus ) return
-        function handler () {
-            const domSelection = getSelection ()
-            setRtblSelectionState ( calcRtblSelectionState ( contentState, domSelection ) )
-        }
-        document.addEventListener ( 'selectionchange', handler )
-        return () => document.removeEventListener ( 'selectionchange', handler )
-    }, [ hasFocus ] )
 
     // Enable Trigger
     useEffect ( () => {
@@ -85,8 +59,7 @@ export default function useBlockLevelSelection (
         if ( ! blockLevelSelectionInfo.enabled ) return
         function handler () {
             setImmediate ( () => {
-                const domSelection = getSelection ()
-                setRtblSelectionState ( calcRtblSelectionState ( contentState, domSelection ) )
+                updateRtblSelectionState ()
                 setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
             } )
         }

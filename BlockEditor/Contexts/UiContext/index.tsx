@@ -7,16 +7,18 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'
 import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
 import useDrag, { DragInfo } from './useDrag'
-import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
+import useRtblSelectionState from './useRtblSelectionState'
 import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
+import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 
 export * from './useBlockControls'
 export * from './usePlusActionMenu'
 export * from './useDrag'
-export * from './useInlineStyleMenu'
 export * from './useGlobalRefs'
+export * from './useRtblSelectionState'
 export * from './useBlockLevelSelection'
+export * from './useInlineStyleMenu'
 
 
 export interface UiContext {
@@ -58,7 +60,8 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
     const [ blockControlsInfo, setBlockControlsInfo ] = useBlockControls ( editorState, wrapperRef, blockRefs )
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState )
     const [ dragInfo, setDragInfo ] = useDrag ()
-    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( contentState, selectionState )
+    const [ rtblSelectionState, , updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState )
+    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( contentState, selectionState, rtblSelectionState, updateRtblSelectionState )
     const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState )
 
     return <UiContext.Provider
