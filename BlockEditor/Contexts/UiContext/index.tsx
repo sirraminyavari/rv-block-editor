@@ -62,7 +62,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
     const [ dragInfo, setDragInfo ] = useDrag ()
     const [ rtblSelectionState, , updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState )
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( contentState, selectionState, rtblSelectionState, updateRtblSelectionState )
-    const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState )
+    const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState )
 
     return <UiContext.Provider
         value = {{

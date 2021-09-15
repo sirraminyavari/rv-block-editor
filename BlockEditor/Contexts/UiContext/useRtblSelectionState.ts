@@ -4,6 +4,7 @@ import { ContentState, SelectionState } from 'draft-js'
 
 // Real-Time Selection State
 export interface RtblSelectionState {
+    domSelection: Selection
     anchorKey: string
     focusKey: string
     startKey: string
@@ -13,6 +14,7 @@ export interface RtblSelectionState {
 }
 
 const defaultRtblSelectionState: RtblSelectionState = {
+    domSelection: getSelection (),
     anchorKey: '', focusKey: '',
     startKey: '', endKey: '',
     isBackward: false,
@@ -44,6 +46,7 @@ export function calcRtblSelectionState ( contentState: ContentState, domSelectio
     const focusKey = getParentBlockKey ( domSelection.focusNode )
     const isBackward = calcIsBackward ( contentState, anchorKey, focusKey )
     return {
+        domSelection,
         anchorKey, focusKey, isBackward,
         startKey: isBackward ? focusKey : anchorKey,
         endKey: isBackward ? anchorKey : focusKey

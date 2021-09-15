@@ -1,5 +1,7 @@
 import { SelectionState } from 'draft-js'
 
+import { RtblSelectionState } from './useRtblSelectionState'
+
 
 /**
  * Information regarding the Inline Style Menu UI.
@@ -19,15 +21,18 @@ import { SelectionState } from 'draft-js'
     getSelectionRect?: () => DOMRect | null
 }
 
-export default function useInlineStyleMenu ( isBlockLevelSelecting: boolean, selectionState: SelectionState ): InlineStyleMenuInfo {
+export default function useInlineStyleMenu (
+    isBlockLevelSelecting: boolean,
+    selectionState: SelectionState,
+    { domSelection }: RtblSelectionState
+): InlineStyleMenuInfo {
     try {
         const isOpen =
-            ! isBlockLevelSelecting &&
+            ! isBlockLevelSelecting && ! domSelection.isCollapsed &&
             selectionState.getHasFocus () && (
                 selectionState.getAnchorKey () !== selectionState.getFocusKey () ||
                 selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
             )
-        const domSelection = isOpen ? getSelection () : null
         const getSelectionRect = () => domSelection?.getRangeAt ( 0 ).getBoundingClientRect ()
         return { isOpen, domSelection, getSelectionRect }
     } catch {
