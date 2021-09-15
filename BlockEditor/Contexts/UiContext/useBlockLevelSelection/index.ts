@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ContentState, SelectionState } from 'draft-js'
+import { ContentState, EditorState, SelectionState } from 'draft-js'
 
 import { WrapperRef } from 'BlockEditor/Contexts/UiContext/useGlobalRefs'
 import calcRtblSelectionState from './calcRtblSelectionState'
@@ -88,16 +88,13 @@ export default function useBlockLevelSelection (
         function handler () {
             setImmediate ( () => {
                 const domSelection = getSelection ()
-                const { isCollapsed } = domSelection
-                if ( ! isCollapsed ) return
-                // This line is necessary to prevent bugs
                 setRtblSelectionState ( calcRtblSelectionState ( contentState, domSelection ) )
                 setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
             } )
         }
-        outerWrapperRef.current.addEventListener ( 'mousedown', handler )
-        return () => outerWrapperRef.current.removeEventListener ( 'click', handler )
-    }, [ hasFocus, blockLevelSelectionInfo.enabled ] )
+        document.addEventListener ( 'selectstart', handler )
+        return () => document.removeEventListener ( 'selectstart', handler )
+    }, [ hasFocus, blockLevelSelectionInfo.enabled, contentState ] )
 
     return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ]
 }

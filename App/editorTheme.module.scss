@@ -23,12 +23,13 @@
     ::selection {
         color: inherit;
         background-color: #DAEEF7;
+        background-color: blue;
     }
     &.blockLevelSelection {
-        ::selection {
-            color: inherit;
-            background-color: inherit;
-        }
+        // ::selection {
+        //     color: inherit;
+        //     background-color: inherit;
+        // }
 
         [data-block-key] {
             transition: all 250ms ease;
