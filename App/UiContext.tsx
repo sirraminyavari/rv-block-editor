@@ -48,6 +48,10 @@ export function UiContextProvider ({ children }) {
         'persianText' () {
             setDirection ( 'rtl' )
             setLanguage ( 'fa' )
+        },
+        'theNestedMess' () {
+            setDirection ( 'ltr' )
+            setLanguage ( 'en' )
         }
     }) [ contentPreset ]?.(), [ contentPreset ] )
 
