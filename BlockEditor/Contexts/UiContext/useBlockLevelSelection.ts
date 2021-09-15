@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ContentState, SelectionState, BlockMap } from 'draft-js'
+import { ContentState, SelectionState, BlockMap, ContentBlock } from 'draft-js'
 
 import { WrapperRef } from './useGlobalRefs'
 
@@ -62,15 +62,19 @@ export default function useBlockLevelSelection (
     // Selection Handler
     useEffect ( () => {
         if ( ! hasFocus || ! blockLevelSelectionInfo.enabled ) return
+
         const blockMap = contentState.getBlockMap ()
         const { startKey, endKey } = rtblSelectionState
-        const selectedBlocks: BlockMap = blockMap
-            .toSeq ()
-            .skipUntil ( ( _, key ) => key === startKey )
-            .takeUntil ( ( _, key ) => key === endKey )
-            .concat ([[ endKey, blockMap.get ( endKey ) ]])
-            .toOrderedMap ()
+
+        const rawSelectedBlocks = selectBlokRange ( blockMap, startKey, endKey )
+        const selectionDepth = rawSelectedBlocks.toArray ().map ( b => b.getDepth () ).sort () [ 0 ]
+
+        const adjustedStartKey = getFirstAncestorByDepth ( blockMap, startKey, selectionDepth ).getKey ()
+        const adjustedEndKey = getLastCousinShallowerThan ( blockMap, endKey, selectionDepth ).getKey ()
+
+        const selectedBlocks = selectBlokRange ( blockMap, adjustedStartKey, adjustedEndKey )
         const selectedBlockKeys = selectedBlocks.keySeq ().toArray ()
+
         setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectedBlockKeys }) )
     }, [ hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
 
@@ -120,4 +124,41 @@ function calcIsBackward ( contentState: ContentState, anchorKey: string, focusKe
     const startKey = blockMap.toSeq ().skipUntil ( ( _, key ) => key === anchorKey || key === focusKey ).first ().getKey ()
     const isBackward = anchorKey !== startKey
     return isBackward
+}
+
+function selectBlokRange ( blockMap: BlockMap, startKey: string, endKey: string ): BlockMap {
+    return blockMap
+        .toSeq ()
+        .skipUntil ( ( _, key ) => key === startKey )
+        .takeUntil ( ( _, key ) => key === endKey )
+        .concat ([[ endKey, blockMap.get ( endKey ) ]])
+        .toOrderedMap ()
+}
+
+// Self included
+function getFirstAncestorByDepth ( blockMap: BlockMap, targetKey: string, depth: number ): ContentBlock {
+    const targetBlock = blockMap.get ( targetKey )
+    if ( targetBlock.getDepth () === depth )
+        return targetBlock
+
+    const blocks = blockMap.toArray ()
+    let parent: ContentBlock
+    for ( const block of blocks ) {
+        if ( block.getKey () === targetKey ) return parent
+        if ( block.getDepth () === depth ) parent = block
+    }
+}
+
+// Self included
+function getLastCousinShallowerThan ( blockMap: BlockMap, targetKey: string, depth: number ): ContentBlock {
+    const trimmedBlockSeq = blockMap.toSeq ().skipUntil ( ( _, key ) => key === targetKey )
+    const targetBlock = trimmedBlockSeq.first ()
+    if ( targetBlock.getDepth () === depth ) {
+        const remainingBlockSeq = trimmedBlockSeq.skip ( 1 )
+        const nextBlock = remainingBlockSeq.first ()
+        if ( ! nextBlock ) return targetBlock
+        if ( nextBlock.getDepth () <= depth ) return targetBlock
+        return getLastCousinShallowerThan ( remainingBlockSeq.toOrderedMap (), nextBlock.getKey (), depth )
+    }
+    return trimmedBlockSeq.takeUntil ( block => block.getDepth () <= depth ).last ()
 }
