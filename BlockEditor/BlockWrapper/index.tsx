@@ -37,6 +37,7 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
         // @ts-ignore
         style = {{ '--depth': depth }}
         draggable = { dragInfo.isDraggingByHandle }
+        title = { blockKey } // TODO: Remove Me
     >
         <div
             className = { c ( externalStyles, config.styles?.contentWrapper ) }

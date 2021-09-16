@@ -29,7 +29,7 @@ export default function useRtblSelectionState (
     const updateRtblSelectionState = useCallback ( () => {
         const domSelection = getSelection ()
         setRtblSelectionState ( calcRtblSelectionState ( contentState, domSelection ) )
-    }, [ setRtblSelectionState ] )
+    }, [ setRtblSelectionState, contentState ] )
 
     const hasFocus = selectionState.getHasFocus ()
     useEffect ( () => {
