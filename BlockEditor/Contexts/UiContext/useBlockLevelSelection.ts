@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ContentState, SelectionState } from 'draft-js'
 
+import getSelectionDepth from 'BlockEditor/Lib/getSelectionDepth'
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
 import { RtblSelectionState } from './useRtblSelectionState'
 
@@ -8,10 +9,11 @@ import { RtblSelectionState } from './useRtblSelectionState'
 export interface BlockLevelSelectionInfo {
     enabled: boolean
     selectedBlockKeys: string []
+    selectionDepth: number
 }
 
-const defaultBlockLevelSelectionInfo = {
-    enabled: false, selectedBlockKeys: []
+const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
+    enabled: false, selectedBlockKeys: [], selectionDepth: 0
 }
 
 export default function useBlockLevelSelection (
@@ -39,10 +41,11 @@ export default function useBlockLevelSelection (
 
         const blockMap = contentState.getBlockMap ()
         const { startKey, endKey } = rtblSelectionState
-        const selectedBlocks = blsAwareGetBlockRange ( blockMap, startKey, endKey )
+        const selectionDepth = getSelectionDepth ( blockMap, startKey, endKey )
+        const selectedBlocks = blsAwareGetBlockRange ( blockMap, startKey, endKey, selectionDepth )
         const selectedBlockKeys = selectedBlocks.keySeq ().toArray ()
 
-        setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectedBlockKeys }) )
+        setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectionDepth, selectedBlockKeys }) )
     }, [ hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
 
     // Disable Trigger
