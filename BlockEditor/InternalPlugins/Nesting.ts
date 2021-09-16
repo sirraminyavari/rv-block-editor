@@ -1,6 +1,5 @@
 import { EditorState, ContentState, BlockMap, ContentBlock } from 'draft-js'
 import { EditorPlugin } from 'BlockEditor'
-import clamp from 'clamp'
 
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
 
@@ -30,10 +29,10 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
             const selectedBlocks = blsAwareGetBlockRange ( blockMap, selectionState.getStartKey (), selectionState.getEndKey () )
             const adjust = { 'indent-blocks': 1, 'outdent-blocks': -1 } [ command ]
 
-            if ( command === 'indent-blocks' && ! validateIndentation ( contentState, selectedBlocks ) )
+            if ( ! validateNesting ( contentState, selectedBlocks, adjust, maxDepth ) )
                 return 'not-handled'
 
-            const newBlocks = selectedBlocks.map ( block => adjustDepth ( block, adjust, maxDepth ) )
+            const newBlocks = selectedBlocks.map ( block => block.set ( 'depth', block.getDepth () + adjust ) )
             const newBlockMap = contentState.getBlockMap ().merge ( newBlocks as any )
             const newContentState = contentState.merge ({ blockMap: newBlockMap }) as ContentState
 
@@ -44,15 +43,16 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
     }
 }
 
-function validateIndentation ( contentState: ContentState, selectedBlocks: BlockMap ): boolean {
+function validateNesting ( contentState: ContentState, selectedBlocks: BlockMap, adjust: number, maxDepth: number ): boolean {
     const firstBlock = selectedBlocks.first ()
+    const firstBlockDepth = firstBlock.getDepth ()
+    if ( adjust === -1 && firstBlockDepth <= 0 ) return false
+
+    const deepestBlock = selectedBlocks.sortBy ( block => block.getDepth () ).last ()
+    const rangeDepth = deepestBlock.getDepth ()
+    if ( adjust === 1 && rangeDepth >= maxDepth ) return false
+
     const prevBlock = contentState.getBlockBefore ( firstBlock.getKey () )
     if ( ! prevBlock ) return false
-    return firstBlock.getDepth () <= prevBlock.getDepth ()
-}
-
-function adjustDepth ( block: ContentBlock, adjust: number, maxDepth: number ): ContentBlock {
-    const currentDepth = block.getDepth ()
-    const adjustedDepth = clamp ( currentDepth + adjust, 0, maxDepth )
-    return block.set ( 'depth', adjustedDepth ) as ContentBlock
+    return firstBlockDepth <= prevBlock.getDepth ()
 }

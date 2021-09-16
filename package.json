@@ -9,7 +9,6 @@
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
     "@popperjs/core": "^2.9.2",
-    "clamp": "^1.0.1",
     "classnames": "^2.3.1",
     "direction": "^2.0.0",
     "draft-js": "^0.11.7",
@@ -25,7 +24,6 @@
     "react-popper": "^2.2.5"
   },
   "devDependencies": {
-    "@types/clamp": "^1.0.0",
     "@types/draft-js": "^0.11.3",
     "@types/node": "^15.12.4",
     "@types/react": "^17.0.11",
