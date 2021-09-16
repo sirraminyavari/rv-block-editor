@@ -1,4 +1,4 @@
-import { EditorState, ContentState, BlockMap, ContentBlock } from 'draft-js'
+import { EditorState, ContentState, BlockMap } from 'draft-js'
 import { EditorPlugin } from 'BlockEditor'
 
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'

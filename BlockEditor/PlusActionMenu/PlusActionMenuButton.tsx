@@ -2,7 +2,7 @@
 import { FC } from 'react'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
-import insertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/insertEmptyBlockBelowAndFocus'
+import nestAwareInsertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/nestAwareInsertEmptyBlockBelowAndFocus'
 import forceSelectionToBlock from 'BlockEditor/Lib/forceSelectionToBlock'
 import Button from 'BlockEditor/Ui/Button'
 import { PlusIcon } from 'BlockEditor/icons'
@@ -28,7 +28,7 @@ const PlusActionMenuButton: FC < PlusActionMenuButtonProps > = ({ blockKey }) =>
         onClick = { () => {
             if ( block.getText () ) {
                 // There is some text in the current block so we should create a new block below it and set the Plus Action type for the newly created block
-                const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus ( editorState, block, block.getDepth () )
+                const { newEditorState, newContentBlock } = nestAwareInsertEmptyBlockBelowAndFocus ( editorState, block, block.getDepth () )
                 setEditorState ( newEditorState )
                 setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) )
             } else {
