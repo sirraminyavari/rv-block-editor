@@ -17,14 +17,16 @@ export interface BlockEditorProps extends _BlockEditorProps {
     dir: Direction
     lang: Language
     plugins: EditorPlugin []
-    maxDepth: number
+    maxDepth?: number
 }
 
 /**
  * Provides the editor with all the required global contexts.
  */
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
-    editorState, onChange: setEditorState, styles = {}, dict, dir, lang, plugins, maxDepth, ...props
+    editorState, onChange: setEditorState, styles = {},
+    dict, dir, lang, plugins, maxDepth = Infinity,
+    ...props
 }, ref ) => {
     return <EditorContextProvider editorState = { editorState } setEditorState = { setEditorState }>
         <UiContextProvider styles = { styles } dict = { dict } dir = { dir } lang = { lang }>

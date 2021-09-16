@@ -38,7 +38,7 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
 
             const newEditorState = EditorState.push ( editorState, newContentState, 'adjust-depth' )
             setEditorState ( newEditorState )
-            return 'not-handled'
+            return 'handled'
         }
     }
 }
