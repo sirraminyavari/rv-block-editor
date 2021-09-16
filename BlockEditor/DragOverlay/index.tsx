@@ -1,14 +1,11 @@
 import { FC, useState, useCallback } from 'react'
 import cn from 'classnames'
-import { BlockMap, ContentState, DraftInsertionType, EditorState, SelectionState } from 'draft-js'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
-import useUiContext, { BlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
-
-import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
-import getBlockRange from 'BlockEditor/Lib/getBlockRange'
+import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import DropIndicator from './DropIndicator'
 import findClosestDropElement from './findClosestDropElement'
+import handleDrop from './handleDrop'
 
 import styles from './styles.module.scss'
 
@@ -73,90 +70,3 @@ const DragOverlay: FC < any > = () => {
     </div>
 }
 export default DragOverlay
-
-
-function handleDrop (
-    editorState: EditorState,
-    blockLevelSelectionInfo: BlockLevelSelectionInfo,
-    draggedBlockKey: string,
-    dropTargetKey: string,
-    insertionMode: DraftInsertionType
-): EditorState {
-    const contentState = editorState.getCurrentContent ()
-    const blockMap = contentState.getBlockMap ()
-
-    const { startKey, endKey } = getDragRange ( blockMap, blockLevelSelectionInfo, draggedBlockKey )
-    const newBlockMap = moveBlockRange ( blockMap, startKey, endKey, dropTargetKey, insertionMode )
-
-    const selection = new SelectionState ({
-        anchorKey: startKey, focusKey: endKey,
-        anchorOffset: 0, focusOffset: 0,
-        isBackward: false, hasFocus: true
-    })
-
-    const newContentState = contentState.merge ({
-        blockMap: newBlockMap,
-        selectionBefore: editorState.getSelection (),
-        selectionAfter: selection
-    }) as ContentState
-    return EditorState.push ( editorState, newContentState, 'move-block' )
-}
-
-
-interface DragRange {
-    startKey: string
-    endKey: string
-}
-
-function getDragRange (
-    blockMap: BlockMap,
-    { selectionDepth, selectedBlockKeys }: BlockLevelSelectionInfo,
-    draggedBlockKey: string
-): DragRange {
-    const block = blockMap.get ( draggedBlockKey )
-    const blockDepth = block.getDepth ()
-
-    if ( blockDepth === selectionDepth )
-        return {
-            startKey: selectedBlockKeys [ 0 ],
-            endKey: selectedBlockKeys [ selectedBlockKeys.length - 1 ]
-        }
-
-    const range = blsAwareGetBlockRange ( blockMap, draggedBlockKey, draggedBlockKey, blockDepth )
-    return {
-        startKey: range.first ().getKey (),
-        endKey: range.last ().getKey ()
-    }
-}
-
-function moveBlockRange (
-    blockMap: BlockMap,
-    startKey: string,
-    endKey: string,
-    targetKey: string,
-    insertionMode: DraftInsertionType
-): BlockMap {
-    const range = getBlockRange ( blockMap, startKey, endKey )
-    const withoutRangeBlockMap = removeBlockRange ( blockMap, startKey, endKey )
-
-    const before = withoutRangeBlockMap.takeUntil ( ( _, key ) => key === targetKey )
-    const after = withoutRangeBlockMap.skipUntil ( ( _, key ) => key === targetKey )
-
-    const borderBlock = after.first ()
-    const adjustedBefore = insertionMode === 'before' ? before : before.concat ([[ borderBlock.getKey (), borderBlock ]])
-    const adjustedAfter = insertionMode === 'before' ? after : after.skip ( 1 )
-
-    const newBlockMap = adjustedBefore.concat ( range, adjustedAfter ).toOrderedMap ()
-    return newBlockMap
-}
-
-function removeBlockRange (
-    blockMap: BlockMap,
-    startKey: string,
-    endKey: string
-): BlockMap {
-    const before = blockMap.takeUntil ( ( _, key ) => key === startKey )
-    const after = blockMap.skipUntil ( ( _, key ) => key === endKey ).skip ( 1 )
-    const newBlockMap = before.concat ( after ).toOrderedMap ()
-    return newBlockMap
-}
