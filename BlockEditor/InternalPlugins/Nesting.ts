@@ -35,11 +35,7 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
 
             const newBlocks = selectedBlocks.map ( block => adjustDepth ( block, adjust, maxDepth ) )
             const newBlockMap = contentState.getBlockMap ().merge ( newBlocks as any )
-            const newContentState = contentState.merge ({
-                blockMap: newBlockMap,
-                selectionBefore: selectionState,
-                selectionAfter: selectionState
-            }) as ContentState
+            const newContentState = contentState.merge ({ blockMap: newBlockMap }) as ContentState
 
             const newEditorState = EditorState.push ( editorState, newContentState, 'adjust-depth' )
             setEditorState ( newEditorState )

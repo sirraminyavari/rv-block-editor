@@ -1,4 +1,5 @@
-import { EditorState, RichUtils } from 'draft-js'
+import { EditorState, ContentState, ContentBlock, RichUtils } from 'draft-js'
+import { getSelectedBlock } from 'draftjs-utils'
 
 
 /**
@@ -13,6 +14,17 @@ export default function applyPlusActionToSelection (
     editorState: EditorState,
     plusAction: string
 ): EditorState {
+    const selectedBlock = getSelectedBlock ( editorState ) as ContentBlock
+    const selectedBlockKey = selectedBlock.getKey ()
+
     const editorStateAfterPlusAction = RichUtils.toggleBlockType ( editorState, plusAction )
-    return editorStateAfterPlusAction
+    const alteredContentState = editorStateAfterPlusAction.getCurrentContent ()
+    const alteredSelectedBlock = alteredContentState.getBlockForKey ( selectedBlockKey )
+
+    const depthAdjustedSelectedBlock = alteredSelectedBlock.set ( 'depth', selectedBlock.getDepth () ) as ContentBlock
+    const depthAdjustedContentState = alteredContentState.merge ({
+        blockMap: alteredContentState.getBlockMap ().set ( selectedBlockKey, depthAdjustedSelectedBlock ),
+    }) as ContentState
+
+    return EditorState.push ( editorState, depthAdjustedContentState, 'change-block-type' )
 }

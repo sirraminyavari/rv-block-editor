@@ -14,12 +14,13 @@ import insertBlockBelowAndFocus from './insertBlockBelowAndFocus'
  */
 export default function insertEmptyBlockBelowAndFocus (
     editorState: EditorState,
-    targetBlock: ContentBlock
+    targetBlock: ContentBlock,
+    depth: number = 0
 ): {
     newEditorState: EditorState
     newContentBlock: ContentBlock
 } {
-    const newContentBlock = createEmptyBlock ()
+    const newContentBlock = createEmptyBlock ( depth )
     const newEditorState = insertBlockBelowAndFocus ( editorState, newContentBlock, targetBlock )
     return { newEditorState, newContentBlock }
 }
