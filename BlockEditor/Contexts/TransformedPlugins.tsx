@@ -19,7 +19,7 @@ export interface TransformedPluginsContext {
     /**
      * All the external and internal plugins ready to be fed to the Plugin Editor.
      */
-     allPlugins: EditorPlugin []
+    allPlugins: EditorPlugin []
 }
 
 export const TransformedPluginsContext = createContext < TransformedPluginsContext > ( null )

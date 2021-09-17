@@ -29,11 +29,9 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
         onClick = { () => editorRef.current?.focus () }
-        className = { cn (
-            externalStyles.wrapper, {
-                [ externalStyles.blockLevelSelection ]: blockLevelSelectionInfo.enabled
-            } )
-        }
+        className = { cn ( externalStyles.wrapper, {
+            [ externalStyles.blockLevelSelection ]: blockLevelSelectionInfo.enabled
+        } ) }
         style = {{ isolation: 'isolate', position: 'relative' }}
         dir = { dir } lang = { lang }
     >
