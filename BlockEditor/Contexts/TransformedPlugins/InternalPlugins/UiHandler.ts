@@ -10,12 +10,12 @@ export interface Config {
  * Provides some User Interface functionality and keyboard shortcuts.
  */
 export default function createUiHandlerPlugin ( { setPlusActionMenuInfo }: Config ): EditorPlugin {
-    return {
+    return ({ getUiContext }) => ({
         id: '__internal__ui-handler',
         keyBindingFn ( event ) {
             if ( event.key === 'Escape' )
                 setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
             return undefined
         }
-    }
+    })
 }

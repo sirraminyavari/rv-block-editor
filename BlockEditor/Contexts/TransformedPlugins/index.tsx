@@ -1,5 +1,6 @@
-import { createContext, useContext, FC, useMemo } from 'react'
-import { EditorPlugin, EditorPluginObject, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
+import { createContext, useContext, FC, useMemo, useRef, useEffect } from 'react'
+
+import { EditorPlugin, EditorPluginObject, EditorPluginFunctionArg, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import createNestingPlugin from './InternalPlugins/Nesting'
@@ -35,9 +36,16 @@ export interface TransformedPluginsContextProviderProps {
  * Transformes external plugins, utilizes internal plugins & provides access to them all.
  */
 export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, maxDepth, children }) => {
-    const { dict, lang, setPlusActionMenuInfo } = useUiContext ()
+    const uiContext = useUiContext ()
+    const { dict, lang, setPlusActionMenuInfo } = uiContext
+    const uiContextRef = useRef ( uiContext )
+    useEffect ( () => void ( uiContextRef.current = uiContext ), [ uiContext ] )
 
-    const pluginObjects = useMemo < EditorPluginObject [] > ( () => toPluginObject ( plugins ) , [ plugins ] )
+    const pluginArgs = useMemo < EditorPluginFunctionArg > ( () => ({
+        getUiContext: () => uiContextRef.current
+    }), [] )
+
+    const pluginObjects = useMemo < EditorPluginObject [] > ( () => toPluginObject ( plugins, pluginArgs ) , [ plugins ] )
 
     const inlineStyles: TransformedInlineStyle [] = useMemo ( () =>
         pluginObjects.reduce ( ( acc, plugin ) =>
@@ -59,7 +67,7 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
         const uiHandlerPlugin = createUiHandlerPlugin ({ setPlusActionMenuInfo })
 
-        const internalPlugins = toPluginObject ([ nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin ])
+        const internalPlugins = toPluginObject ( [ nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin ], pluginArgs )
         return [ ...pluginObjects, ...internalPlugins ]
     }, [ pluginObjects, plusActions ] )
 
@@ -69,6 +77,6 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
     />
 }
 
-function toPluginObject ( plugins, args = [] ): EditorPluginObject [] {
-    return plugins.map ( plugin => typeof plugin === 'function' ? plugin ( ...args ) : plugin )
+function toPluginObject ( plugins: EditorPlugin [], args: EditorPluginFunctionArg ): EditorPluginObject [] {
+    return plugins.map ( plugin => typeof plugin === 'function' ? plugin ( args ) : plugin )
 }
