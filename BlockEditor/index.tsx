@@ -11,7 +11,7 @@ export * from './types'
 export { withBlockWrapper } from './BlockWrapper'
 
 
-export interface BlockEditorProps extends _BlockEditorProps {
+export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > {
     styles?: { [ key: string ]: string }
     dict: Dict
     dir: Direction

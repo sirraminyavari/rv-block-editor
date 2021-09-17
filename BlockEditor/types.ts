@@ -85,7 +85,7 @@ export interface TransformedPlusAction extends PlusAction {
  * Defines an Editor Plugin.
  * * All plugins are also compatible with `@draft-js-plugins` though they might lose some functionality.
  */
-export interface EditorPlugin extends _EditorPlugin {
+export interface EditorPluginObject extends _EditorPlugin {
     /**
      * A unique indentifier for the Plugin.
      */
@@ -99,3 +99,7 @@ export interface EditorPlugin extends _EditorPlugin {
      */
     plusActions?: PlusAction []
 }
+
+export type EditorPluginFunction = () => EditorPluginObject
+
+export type EditorPlugin = EditorPluginObject | EditorPluginFunction
