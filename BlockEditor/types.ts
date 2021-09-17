@@ -1,6 +1,8 @@
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
 import { IconType } from 'react-icons'
 
+import { UiContext } from 'BlockEditor/Contexts/UiContext'
+
 
 /**
  * Supported language codes.
@@ -100,6 +102,9 @@ export interface EditorPluginObject extends _EditorPlugin {
     plusActions?: PlusAction []
 }
 
-export type EditorPluginFunction = () => EditorPluginObject
+export interface EditorPluginFunctionArg {
+    getUiContext: () => UiContext
+}
+export type EditorPluginFunction = ( arg: EditorPluginFunctionArg ) => EditorPluginObject
 
 export type EditorPlugin = EditorPluginObject | EditorPluginFunction
