@@ -37,7 +37,7 @@ export interface TransformedPluginsContextProviderProps {
  */
 export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, maxDepth, children }) => {
     const uiContext = useUiContext ()
-    const { dict, lang, setPlusActionMenuInfo } = uiContext
+    const { dict, lang } = uiContext
     const uiContextRef = useRef ( uiContext )
     useEffect ( () => void ( uiContextRef.current = uiContext ), [ uiContext ] )
 
@@ -65,7 +65,7 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
     const allPlugins = useMemo ( () => {
         const nestingPlugin = createNestingPlugin ({ maxDepth })
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
-        const uiHandlerPlugin = createUiHandlerPlugin ({ setPlusActionMenuInfo })
+        const uiHandlerPlugin = createUiHandlerPlugin ()
 
         const internalPlugins = toPluginObject ( [ nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin ], pluginArgs )
         return [ ...pluginObjects, ...internalPlugins ]

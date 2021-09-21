@@ -8,7 +8,7 @@ import useBlockControls, { BlockControlsInfo } from './useBlockControls'
 import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
 import useDrag, { DragInfo } from './useDrag'
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
-import useRtblSelectionState from './useRtblSelectionState'
+import useRtblSelectionState, { RtblSelectionState } from './useRtblSelectionState'
 import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
 import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 
@@ -40,6 +40,8 @@ export interface UiContext {
     // Inline Functionality:
     inlineStyleMenuInfo: InlineStyleMenuInfo
     // Block Level Selection:
+    rtblSelectionState: RtblSelectionState
+    updateRtblSelectionState: () => void
     blockLevelSelectionInfo: BlockLevelSelectionInfo
     setBlockLevelSelectionInfo: SetState < BlockLevelSelectionInfo >
 }
@@ -60,7 +62,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
     const [ blockControlsInfo, setBlockControlsInfo ] = useBlockControls ( editorState, wrapperRef, blockRefs )
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState )
     const [ dragInfo, setDragInfo ] = useDrag ()
-    const [ rtblSelectionState, , updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState )
+    const [ rtblSelectionState, updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState )
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( contentState, selectionState, rtblSelectionState, updateRtblSelectionState )
     const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState )
 
@@ -72,6 +74,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children }) {
             plusActionMenuInfo, setPlusActionMenuInfo,
             dragInfo, setDragInfo,
             inlineStyleMenuInfo,
+            rtblSelectionState, updateRtblSelectionState,
             blockLevelSelectionInfo, setBlockLevelSelectionInfo
         }}
         children = { children }

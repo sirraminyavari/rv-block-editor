@@ -23,7 +23,7 @@ const defaultRtblSelectionState: RtblSelectionState = {
 export default function useRtblSelectionState (
     contentState: ContentState,
     selectionState: SelectionState
-): [ RtblSelectionState, SetState < RtblSelectionState >, () => void ] {
+): [ RtblSelectionState, () => void ] {
     const [ rtblSelectionState, setRtblSelectionState ] = useState ( defaultRtblSelectionState )
 
     const updateRtblSelectionState = useCallback ( () => {
@@ -38,7 +38,7 @@ export default function useRtblSelectionState (
         return () => document.removeEventListener ( 'selectionchange', updateRtblSelectionState )
     }, [ hasFocus ] )
 
-    return [ rtblSelectionState, setRtblSelectionState, updateRtblSelectionState ]
+    return [ rtblSelectionState, updateRtblSelectionState ]
 }
 
 export function calcRtblSelectionState ( contentState: ContentState, domSelection: Selection ): RtblSelectionState {

@@ -12,8 +12,8 @@ export interface BlockLevelSelectionInfo {
     selectionDepth: number
 }
 
-const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
-    enabled: false, selectedBlockKeys: [], selectionDepth: 0
+export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
+    enabled: false, selectedBlockKeys: [], selectionDepth: null
 }
 
 export default function useBlockLevelSelection (
