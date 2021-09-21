@@ -17,6 +17,13 @@ export default function createUiHandlerPlugin (): EditorPlugin {
             if ( blockLevelSelectionInfo.enabled ) {
                 if ( event.key === 'Escape' )
                     return 'disable-blockLevelSelection'
+                if ( event.ctrlKey ) {
+                    return {
+                        c: 'blockLevel-copy',
+                        x: 'bockLevel-cut',
+                        v: 'blockLevel-paste'
+                    } [ event.key ]
+                }
             }
 
             if ( plusActionMenuInfo.openedBlock ) {
@@ -51,6 +58,21 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                         setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
                     } )
 
+                    return 'handled'
+                },
+
+                'blockLevel-copy' () {
+                    console.log ( 'blc' )
+                    return 'handled'
+                },
+
+                'bockLevel-cut' () {
+                    console.log ( 'blx' )
+                    return 'handled'
+                },
+
+                'blockLevel-paste' () {
+                    console.log ( 'blv' )
                     return 'handled'
                 }
             } [ command ]?.() || 'not-handled'
