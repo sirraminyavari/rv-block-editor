@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 
 import { DropTarget } from '.'
 
@@ -9,15 +9,30 @@ export interface DropIndicatorProps {
     draggingBlockKey: string
     wrapperRect: DOMRect
     innerWrapperRect: DOMRect
-    closestInfo: DropTarget
+    closestInfo?: DropTarget
+    onSectorRectsChange ( sectorRects: DOMRect [] ): void
 }
 
 /**
  * A horizontal line indicating where the current dragging Content Block will appear after dropping it.
  */
-const DropIndicator: FC < DropIndicatorProps > = ({ draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) => {
+const DropIndicator: FC < DropIndicatorProps > = ({
+    draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr,
+    closestInfo, onSectorRectsChange
+}) => {
+    const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
+    const maxDepth = prevPosInfo?.contentBlock.getDepth () + 1 // FIXME: Handle the first block scenario
+
+    const dropIndicatorRef = useRef < HTMLDivElement > ()
+    useEffect ( () => {
+        if ( ! dropIndicatorRef.current ) return onSectorRectsChange ([])
+        const sectorElemes = [ ...dropIndicatorRef.current.querySelectorAll ( `div.${ styles.dropSector }` ) ]
+        const sectorRects = sectorElemes.map ( s => s.getBoundingClientRect () )
+        onSectorRectsChange ( sectorRects )
+    }, [ maxDepth ] )
+
     if ( ! closestInfo ) return null
-    const { rect: cr, insertionMode, prevPosInfo } = closestInfo
+
     if ( [ closestInfo, prevPosInfo ].map ( i => i?.blockKey ).indexOf ( draggingBlockKey ) >= 0 ) return null
     if ( ! cr || ! wr || ! iwr ) return null
 
@@ -30,9 +45,9 @@ const DropIndicator: FC < DropIndicatorProps > = ({ draggingBlockKey, wrapperRec
         return ( pr.bottom + cr.y ) / 2 - wr.y
     } ) ()
 
-    const maxDepth = prevPosInfo.contentBlock.getDepth () + 1
 
     return <div
+        ref = { dropIndicatorRef }
         className = { styles.dropIndicator }
         style = {{ // @ts-ignore
             '--offset': offset,
@@ -40,7 +55,8 @@ const DropIndicator: FC < DropIndicatorProps > = ({ draggingBlockKey, wrapperRec
             '--inner-wrapper-width': iwr.width
         }}
     >
-        { ( new Array ( maxDepth ) ).fill ( null ).map ( () => <div
+        { ( new Array ( maxDepth ) ).fill ( null ).map ( ( _, i ) => <div
+            key = { i }
             className = { styles.dropSector }
         /> ) }
     </div>

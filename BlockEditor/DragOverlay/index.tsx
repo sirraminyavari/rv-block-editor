@@ -37,6 +37,7 @@ const DragOverlay: FC = () => {
     const [ innerWrapperRect, setInnerWrapperRect ] = useState < DOMRect > ( null )
     const [ sortedPosInfo, setSortedPosInfo ] = useState < PosInfoItem [] > ( null )
     const [ closestInfo, setClosestInfo ] = useState < DropTarget > ( null )
+    const [ sectorRects, setSectorRects ] = useState < DOMRect [] > ([])
 
     const getClosestInfo = useCallback ( event => {
         if ( ! sortedPosInfo )
@@ -87,6 +88,7 @@ const DragOverlay: FC = () => {
             wrapperRect = { wrapperRect }
             innerWrapperRect = { innerWrapperRect }
             closestInfo = { closestInfo }
+            onSectorRectsChange = { setSectorRects }
         />
     </div>
 }

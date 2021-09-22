@@ -7,18 +7,28 @@
     &.dragging {
         display: block;
     }
-    .dropIndicator {
-        height: 0px;
-        outline: 1.5px solid var( --color-primary );
-        transform: translateY( calc( var( --offset ) * 1px - 50% ) );
-        position: absolute;
-        --margin: -.5rem;
-        left: calc( var( --x ) * 1px + var( --margin ) );
-        width: calc( var( --inner-wrapper-width ) * 1px - var( --margin ) * 2 );
-    }
 }
 
 .dragHandle {
     cursor: grab;
     color: inherit;
+}
+
+.dropIndicator {
+    height: 0px;
+    transform: translateY( calc( var( --offset ) * 1px - 50% ) );
+    position: absolute;
+    left: calc( var( --x ) * 1px );
+    width: calc( var( --inner-wrapper-width ) * 1px );
+    display: flex;
+    > .dropSector {
+        --outline-width: .12rem;
+        --margin: calc( 4 * var( --outline-width ) );
+        outline: var( --outline-width ) solid var( --color-primary-light );
+        flex: 0 0 calc( var( --nest-padding ) - var( --margin ) );
+        margin-right: var( --margin );
+        &:last-child {
+            flex: 1 1 auto;
+        }
+    }
 }
