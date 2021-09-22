@@ -22,7 +22,7 @@ export interface PosInfoItem {
 
 export interface DropTarget extends PosInfoItem {
     insertionMode: DraftInsertionType
-    prevPosInfo: PosInfoItem
+    prevPosInfo?: PosInfoItem
 }
 
 /**

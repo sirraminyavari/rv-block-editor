@@ -21,7 +21,7 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     closestInfo, onSectorRectsChange
 }) => {
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
-    const maxDepth = prevPosInfo?.contentBlock.getDepth () + 1 // FIXME: Handle the first block scenario
+    const maxDepth = calcMaxDepth ( closestInfo )
 
     const dropIndicatorRef = useRef < HTMLDivElement > ()
     useEffect ( () => {
@@ -55,10 +55,20 @@ const DropIndicator: FC < DropIndicatorProps > = ({
             '--inner-wrapper-width': iwr.width
         }}
     >
-        { ( new Array ( maxDepth ) ).fill ( null ).map ( ( _, i ) => <div
+        { ( new Array ( maxDepth + 1 ) ).fill ( null ).map ( ( _, i ) => <div
             key = { i }
             className = { styles.dropSector }
         /> ) }
     </div>
 }
 export default DropIndicator
+
+function calcMaxDepth ( dropTarget?: DropTarget ) {
+    if ( ! dropTarget ) return 0
+    const { insertionMode, contentBlock, prevPosInfo } = dropTarget
+    if ( ! insertionMode ) return 0
+    return {
+        before: () => prevPosInfo?.contentBlock.getDepth () + 1 || 0,
+        after: () => contentBlock.getDepth () + 1
+    } [ insertionMode ] ()
+}
