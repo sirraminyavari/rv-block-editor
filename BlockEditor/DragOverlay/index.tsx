@@ -1,5 +1,7 @@
 import { FC, useState, useCallback } from 'react'
+import { ContentBlock, DraftInsertionType } from 'draft-js'
 import cn from 'classnames'
+
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
@@ -10,18 +12,31 @@ import handleDrop from './handleDrop'
 import styles from './styles.module.scss'
 
 
+export interface PosInfoItem {
+    blockKey: string
+    contentBlock: ContentBlock
+    elem: HTMLElement
+    rect: DOMRect
+    centerY: number
+}
+
+export interface DropTarget extends PosInfoItem {
+    insertionMode: DraftInsertionType
+    prevPosInfo: PosInfoItem
+}
+
 /**
- * This componen overlays the entire outer wrapper when the user starts dragging a Content Block
+ * This component overlays the entire outer wrapper when the user starts dragging a Content Block
  * and handles most of the dragging functionality and UI.
  */
 const DragOverlay: FC < any > = () => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo } = useUiContext ()
 
-    const [ wrapperRect, setWrapperRect ] = useState ( null )
-    const [ innerWrapperRect, setInnerWrapperRect ] = useState ( null )
-    const [ sortedPosInfo, setSortedPosInfo ] = useState ( null )
-    const [ closestInfo, setClosestInfo ] = useState ( null )
+    const [ wrapperRect, setWrapperRect ] = useState < DOMRect > ( null )
+    const [ innerWrapperRect, setInnerWrapperRect ] = useState < DOMRect > ( null )
+    const [ sortedPosInfo, setSortedPosInfo ] = useState < PosInfoItem [] > ( null )
+    const [ closestInfo, setClosestInfo ] = useState < PosInfoItem > ( null )
 
     const getClosestInfo = useCallback ( event => {
         if ( ! sortedPosInfo )
@@ -35,7 +50,7 @@ const DragOverlay: FC < any > = () => {
         } ) }
         onDragEnter = { () => {
             const blockMap = editorState.getCurrentContent ().getBlockMap ()
-            const sortedPosInfo = blockMap.map ( ( contentBlock, blockKey ) => {
+            const sortedPosInfo: PosInfoItem [] = blockMap.map ( ( contentBlock, blockKey ) => {
                 const elem = blockRefs.current [ blockKey ]
                 const rect = elem.getBoundingClientRect ()
                 const centerY = rect.y + rect.height / 2

@@ -1,7 +1,10 @@
+import { PosInfoItem, DropTarget } from '.'
+
+
 /**
  * Finds the Content Block before or after which the current draggin Content Block must move.
  */
-export default function findClosestDropElement ( event, draggablesSortedPosInfo ) {
+export default function findClosestDropElement ( event: DragEvent, draggablesSortedPosInfo: PosInfoItem [] ): DropTarget {
     const { clientY: mouseY } = event
     let prevPosInfo = null
     for ( const posInfo of draggablesSortedPosInfo ) {
@@ -11,6 +14,6 @@ export default function findClosestDropElement ( event, draggablesSortedPosInfo 
     }
     return {
         ...draggablesSortedPosInfo [ draggablesSortedPosInfo.length - 1 ],
-        insertionMode: 'after'
+        prevPosInfo, insertionMode: 'after'
     }
 }
