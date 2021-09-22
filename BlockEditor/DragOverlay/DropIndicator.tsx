@@ -6,9 +6,10 @@ import styles from './styles.module.scss'
  */
 export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) {
     if ( ! closestInfo ) return null
-    const { rect: cr, insertionMode, prevPosInfo } = closestInfo
+    const { rect: cr, insertionMode, prevPosInfo, contentBlock: cBlock } = closestInfo
     if ( [ closestInfo, prevPosInfo ].map ( i => i?.blockKey ).indexOf ( draggingBlockKey ) >= 0 ) return null
     if ( ! cr || ! wr || ! iwr ) return null
+
     const offset = ( () => {
         if ( insertionMode === 'after' )
             return cr.bottom + 10 - wr.y
@@ -17,6 +18,10 @@ export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, inne
         const { rect: pr } = prevPosInfo
         return ( pr.bottom + cr.y ) / 2 - wr.y
     } ) ()
+
+    const maxDepth = cBlock.getDepth () + 1
+    console.log ( maxDepth )
+
     return <div
         className = { styles.dropIndicator }
         style = {{ // @ts-ignore

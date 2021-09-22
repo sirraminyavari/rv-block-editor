@@ -34,16 +34,17 @@ const DragOverlay: FC < any > = () => {
             [ styles.dragging ]: dragInfo.dragging && dragInfo.isDraggingByHandle
         } ) }
         onDragEnter = { () => {
-            setWrapperRect ( wrapperRef.current.getBoundingClientRect () )
-            setInnerWrapperRect ( innerWrapperRef.current.getBoundingClientRect () )
-            const elems = Object.entries ( blockRefs.current ).filter ( ([ , e ]) => e )
-            const posInfo = elems.map ( ([ blockKey, elem ]) => {
+            const blockMap = editorState.getCurrentContent ().getBlockMap ()
+            const sortedPosInfo = blockMap.map ( ( contentBlock, blockKey ) => {
+                const elem = blockRefs.current [ blockKey ]
                 const rect = elem.getBoundingClientRect ()
                 const centerY = rect.y + rect.height / 2
-                return { blockKey, elem, rect, centerY }
-            } )
-            const sortedPosInfo = posInfo.slice ().sort ( ( a, b ) => a.centerY - b.centerY )
+                return { blockKey, contentBlock, elem, rect, centerY }
+            } ).toArray ()
+
             setSortedPosInfo ( sortedPosInfo )
+            setWrapperRect ( wrapperRef.current.getBoundingClientRect () )
+            setInnerWrapperRect ( innerWrapperRef.current.getBoundingClientRect () )
         } }
         onDragOver = { event => {
             event.preventDefault ()
@@ -54,7 +55,12 @@ const DragOverlay: FC < any > = () => {
             const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
             const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
             const newState = handleDrop ( editorState, blockLevelSelectionInfo, draggedBlockKey, dropTargetKey, insertionMode )
+
             setEditorState ( newState )
+            setWrapperRect ( null )
+            setInnerWrapperRect ( null )
+            setSortedPosInfo ( null )
+            setClosestInfo ( null )
             setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
                 hoveredBlockElem: dragInfo.elem as any,
                 hoveredBlockKey: draggedBlockKey
