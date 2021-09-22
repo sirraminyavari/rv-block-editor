@@ -1,12 +1,23 @@
+import { FC } from 'react'
+
+import { DropTarget } from '.'
+
 import styles from './styles.module.scss'
 
+
+export interface DropIndicatorProps {
+    draggingBlockKey: string
+    wrapperRect: DOMRect
+    innerWrapperRect: DOMRect
+    closestInfo: DropTarget
+}
 
 /**
  * A horizontal line indicating where the current dragging Content Block will appear after dropping it.
  */
-export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) {
+const DropIndicator: FC < DropIndicatorProps > = ({ draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr, closestInfo }) => {
     if ( ! closestInfo ) return null
-    const { rect: cr, insertionMode, prevPosInfo, contentBlock: cBlock } = closestInfo
+    const { rect: cr, insertionMode, prevPosInfo } = closestInfo
     if ( [ closestInfo, prevPosInfo ].map ( i => i?.blockKey ).indexOf ( draggingBlockKey ) >= 0 ) return null
     if ( ! cr || ! wr || ! iwr ) return null
 
@@ -19,8 +30,7 @@ export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, inne
         return ( pr.bottom + cr.y ) / 2 - wr.y
     } ) ()
 
-    const maxDepth = cBlock.getDepth () + 1
-    console.log ( maxDepth )
+    const maxDepth = prevPosInfo.contentBlock.getDepth () + 1
 
     return <div
         className = { styles.dropIndicator }
@@ -29,5 +39,10 @@ export default function DropIndicator ({ draggingBlockKey, wrapperRect: wr, inne
             '--x': iwr.x - wr.x,
             '--inner-wrapper-width': iwr.width
         }}
-    />
+    >
+        { ( new Array ( maxDepth ) ).fill ( null ).map ( () => <div
+            className = { styles.dropSector }
+        /> ) }
+    </div>
 }
+export default DropIndicator

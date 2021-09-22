@@ -29,14 +29,14 @@ export interface DropTarget extends PosInfoItem {
  * This component overlays the entire outer wrapper when the user starts dragging a Content Block
  * and handles most of the dragging functionality and UI.
  */
-const DragOverlay: FC < any > = () => {
+const DragOverlay: FC = () => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo } = useUiContext ()
 
     const [ wrapperRect, setWrapperRect ] = useState < DOMRect > ( null )
     const [ innerWrapperRect, setInnerWrapperRect ] = useState < DOMRect > ( null )
     const [ sortedPosInfo, setSortedPosInfo ] = useState < PosInfoItem [] > ( null )
-    const [ closestInfo, setClosestInfo ] = useState < PosInfoItem > ( null )
+    const [ closestInfo, setClosestInfo ] = useState < DropTarget > ( null )
 
     const getClosestInfo = useCallback ( event => {
         if ( ! sortedPosInfo )
