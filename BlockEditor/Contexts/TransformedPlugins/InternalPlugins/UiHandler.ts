@@ -24,6 +24,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                         v: 'blockLevel-paste'
                     } [ event.key ]
                 }
+                return 'blockLevel-ignoredKey'
             }
 
             if ( plusActionMenuInfo.openedBlock ) {
@@ -73,6 +74,10 @@ export default function createUiHandlerPlugin (): EditorPlugin {
 
                 'blockLevel-paste' () {
                     console.log ( 'blv' )
+                    return 'handled'
+                },
+
+                'blockLevel-ignoredKey' () {
                     return 'handled'
                 }
             } [ command ]?.() || 'not-handled'
