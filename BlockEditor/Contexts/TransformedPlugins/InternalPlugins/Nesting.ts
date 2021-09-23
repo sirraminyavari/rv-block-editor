@@ -46,7 +46,10 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
 function validateNesting ( contentState: ContentState, selectedBlocks: BlockMap, adjust: number, maxDepth: number ): boolean {
     const firstBlock = selectedBlocks.first ()
     const firstBlockDepth = firstBlock.getDepth ()
-    if ( adjust === -1 && firstBlockDepth <= 0 ) return false
+    if ( adjust === -1 ) {
+        if ( firstBlockDepth <= 0 ) return false
+        return true
+    }
 
     const deepestBlock = selectedBlocks.sortBy ( block => block.getDepth () ).last ()
     const rangeDepth = deepestBlock.getDepth ()
