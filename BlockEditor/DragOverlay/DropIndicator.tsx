@@ -2,6 +2,7 @@ import { FC, useLayoutEffect, useRef } from 'react'
 import cn from 'classnames'
 
 import { DropTarget } from '.'
+import calcMaxDepth from './calcMaxDepth'
 
 import styles from './styles.module.scss'
 
@@ -34,7 +35,6 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     }, [ maxDepth, dropIndicatorRef.current ] )
 
     if ( ! closestInfo ) return null
-
     if ( [ closestInfo, prevPosInfo ].map ( i => i?.blockKey ).indexOf ( draggingBlockKey ) >= 0 ) return null
     if ( ! cr || ! wr || ! iwr ) return null
 
@@ -46,7 +46,6 @@ const DropIndicator: FC < DropIndicatorProps > = ({
         const { rect: pr } = prevPosInfo
         return ( pr.bottom + cr.y ) / 2 - wr.y
     } ) ()
-
 
     return <div
         ref = { dropIndicatorRef }
@@ -66,13 +65,3 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     </div>
 }
 export default DropIndicator
-
-function calcMaxDepth ( dropTarget?: DropTarget ) {
-    if ( ! dropTarget ) return null
-    const { insertionMode, contentBlock, prevPosInfo } = dropTarget
-    if ( ! insertionMode ) return null
-    return {
-        before: () => prevPosInfo?.contentBlock.getDepth () + 1 || 0,
-        after: () => contentBlock.getDepth () + 1
-    } [ insertionMode ] ()
-}

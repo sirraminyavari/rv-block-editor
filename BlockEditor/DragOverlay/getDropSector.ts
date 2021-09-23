@@ -6,7 +6,6 @@ export default function getDropSector (
     sectorRects: DOMRect []
 ): number | null {
     if ( ! sectorRects.length ) return null
-    console.log ( 'wef2' )
     const len = sectorRects.length
     for ( let i = 0; i < len; i ++ ) {
         const sectorRect = sectorRects [ i ]
