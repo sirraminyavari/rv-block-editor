@@ -27,8 +27,12 @@
         outline: var( --outline-width ) solid var( --color-primary-light );
         flex: 0 0 calc( var( --nest-padding ) - var( --margin ) );
         margin-right: var( --margin );
+        transition: outline-color 200ms ease;
         &:last-child {
             flex: 1 1 auto;
+        }
+        &.active {
+            outline-color: var( --color-primary );
         }
     }
 }

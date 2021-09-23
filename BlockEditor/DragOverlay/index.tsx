@@ -1,4 +1,4 @@
-import { FC, useState, useCallback } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { ContentBlock, DraftInsertionType } from 'draft-js'
 import cn from 'classnames'
 
@@ -7,6 +7,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import DropIndicator from './DropIndicator'
 import findClosestDropElement from './findClosestDropElement'
+import getDropSector from './getDropSector'
 import handleDrop from './handleDrop'
 
 import styles from './styles.module.scss'
@@ -38,12 +39,7 @@ const DragOverlay: FC = () => {
     const [ sortedPosInfo, setSortedPosInfo ] = useState < PosInfoItem [] > ( null )
     const [ closestInfo, setClosestInfo ] = useState < DropTarget > ( null )
     const [ sectorRects, setSectorRects ] = useState < DOMRect [] > ([])
-
-    const getClosestInfo = useCallback ( event => {
-        if ( ! sortedPosInfo )
-            return null
-        return findClosestDropElement ( event, sortedPosInfo )
-    }, [ sortedPosInfo ] )
+    const [ activeDropSector, setActiveDropSector ] = useState < number > ( null )
 
     return <div
         className = { cn ( styles.dragOverlay, {
@@ -64,10 +60,11 @@ const DragOverlay: FC = () => {
         } }
         onDragOver = { event => {
             event.preventDefault ()
-            setClosestInfo ( getClosestInfo ( event ) )
+            setClosestInfo ( findClosestDropElement ( event, sortedPosInfo ) )
+            setImmediate ( () => setActiveDropSector ( getDropSector ( event, sectorRects ) ) )
         } }
         onDrop = { event => {
-            const { elem: closestElem, insertionMode } = getClosestInfo ( event )
+            const { elem: closestElem, insertionMode } = findClosestDropElement ( event, sortedPosInfo )
             const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
             const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
             const newState = handleDrop ( editorState, blockLevelSelectionInfo, draggedBlockKey, dropTargetKey, insertionMode )
@@ -77,6 +74,7 @@ const DragOverlay: FC = () => {
             setInnerWrapperRect ( null )
             setSortedPosInfo ( null )
             setClosestInfo ( null )
+            setActiveDropSector ( null )
             setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
                 hoveredBlockElem: dragInfo.elem as any,
                 hoveredBlockKey: draggedBlockKey
@@ -89,6 +87,7 @@ const DragOverlay: FC = () => {
             innerWrapperRect = { innerWrapperRect }
             closestInfo = { closestInfo }
             onSectorRectsChange = { setSectorRects }
+            activeSector = { activeDropSector }
         />
     </div>
 }

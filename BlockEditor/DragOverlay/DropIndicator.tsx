@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useLayoutEffect, useRef } from 'react'
+import cn from 'classnames'
 
 import { DropTarget } from '.'
 
@@ -11,6 +12,7 @@ export interface DropIndicatorProps {
     innerWrapperRect: DOMRect
     closestInfo?: DropTarget
     onSectorRectsChange ( sectorRects: DOMRect [] ): void
+    activeSector: number | null
 }
 
 /**
@@ -18,18 +20,18 @@ export interface DropIndicatorProps {
  */
 const DropIndicator: FC < DropIndicatorProps > = ({
     draggingBlockKey, wrapperRect: wr, innerWrapperRect: iwr,
-    closestInfo, onSectorRectsChange
+    closestInfo, onSectorRectsChange, activeSector
 }) => {
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
     const maxDepth = calcMaxDepth ( closestInfo )
 
     const dropIndicatorRef = useRef < HTMLDivElement > ()
-    useEffect ( () => {
+    useLayoutEffect ( () => {
         if ( ! dropIndicatorRef.current ) return onSectorRectsChange ([])
-        const sectorElemes = [ ...dropIndicatorRef.current.querySelectorAll ( `div.${ styles.dropSector }` ) ]
+        const sectorElemes = [ ...dropIndicatorRef.current.getElementsByClassName ( styles.dropSector ) ]
         const sectorRects = sectorElemes.map ( s => s.getBoundingClientRect () )
         onSectorRectsChange ( sectorRects )
-    }, [ maxDepth ] )
+    }, [ maxDepth, dropIndicatorRef.current ] )
 
     if ( ! closestInfo ) return null
 
@@ -55,18 +57,20 @@ const DropIndicator: FC < DropIndicatorProps > = ({
             '--inner-wrapper-width': iwr.width
         }}
     >
-        { ( new Array ( maxDepth + 1 ) ).fill ( null ).map ( ( _, i ) => <div
+        { ( new Array ( maxDepth ? maxDepth + 1 : 0 ) ).fill ( null ).map ( ( _, i ) => <div
             key = { i }
-            className = { styles.dropSector }
+            className = { cn ( styles.dropSector, {
+                [ styles.active ]: activeSector === i
+            } ) }
         /> ) }
     </div>
 }
 export default DropIndicator
 
 function calcMaxDepth ( dropTarget?: DropTarget ) {
-    if ( ! dropTarget ) return 0
+    if ( ! dropTarget ) return null
     const { insertionMode, contentBlock, prevPosInfo } = dropTarget
-    if ( ! insertionMode ) return 0
+    if ( ! insertionMode ) return null
     return {
         before: () => prevPosInfo?.contentBlock.getDepth () + 1 || 0,
         after: () => contentBlock.getDepth () + 1
