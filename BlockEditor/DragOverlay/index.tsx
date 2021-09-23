@@ -65,15 +65,25 @@ const DragOverlay: FC = () => {
         } }
         onDrop = { event => {
             const { elem: closestElem, insertionMode } = findClosestDropElement ( event, sortedPosInfo )
+            const dropSector = getDropSector ( event, sectorRects )
             const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
             const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
-            const newState = handleDrop ( editorState, blockLevelSelectionInfo, draggedBlockKey, dropTargetKey, insertionMode )
+
+            const newState = handleDrop (
+                editorState,
+                blockLevelSelectionInfo,
+                draggedBlockKey,
+                dropSector,
+                dropTargetKey,
+                insertionMode
+            )
 
             setEditorState ( newState )
             setWrapperRect ( null )
             setInnerWrapperRect ( null )
             setSortedPosInfo ( null )
             setClosestInfo ( null )
+            setSectorRects ([])
             setActiveDropSector ( null )
             setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
                 hoveredBlockElem: dragInfo.elem as any,

@@ -2,6 +2,7 @@ import { EditorState, ContentState, SelectionState, BlockMap, DraftInsertionType
 import { BlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
 
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
+import setBlockRangeDepth from 'BlockEditor/Lib/setBlockRangeDepth'
 import moveBlockRange from 'BlockEditor/Lib/moveBlockRange'
 
 
@@ -9,6 +10,7 @@ export default function handleDrop (
     editorState: EditorState,
     blockLevelSelectionInfo: BlockLevelSelectionInfo,
     draggedBlockKey: string,
+    sector: number,
     dropTargetKey: string,
     insertionMode: DraftInsertionType
 ): EditorState {
@@ -16,7 +18,8 @@ export default function handleDrop (
     const blockMap = contentState.getBlockMap ()
 
     const { startKey, endKey } = getDragRange ( blockMap, blockLevelSelectionInfo, draggedBlockKey )
-    const newBlockMap = moveBlockRange ( blockMap, startKey, endKey, dropTargetKey, insertionMode )
+    const depthAdjustedBlockMap = setBlockRangeDepth ( blockMap, startKey, endKey, sector )
+    const movedBlockMap = moveBlockRange ( depthAdjustedBlockMap, startKey, endKey, dropTargetKey, insertionMode )
 
     const selection = new SelectionState ({
         anchorKey: startKey, focusKey: endKey,
@@ -25,7 +28,7 @@ export default function handleDrop (
     })
 
     const newContentState = contentState.merge ({
-        blockMap: newBlockMap,
+        blockMap: movedBlockMap,
         selectionBefore: editorState.getSelection (),
         selectionAfter: selection
     }) as ContentState
