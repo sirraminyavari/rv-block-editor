@@ -32,7 +32,7 @@ const plugins = [
 
 export default function App () {
     const [ editorState, setEditorState ] = useState ( getInitialEditorState ( localStorage.getItem ( 'contentPreset' ) || 'empty' ) )
-    const { showState, language, direction } = useUiContext ()
+    const { showState, readOnly, language, direction } = useUiContext ()
 
     const editorRef = useRef < any > ()
     useLayoutEffect ( () => editorRef.current?.focus (), [] )
@@ -45,6 +45,7 @@ export default function App () {
             dict = { dict } lang = { language } dir = { direction }
             plugins = { plugins } styles = { editorTheme }
             maxDepth = { 6 }
+            readOnly = { readOnly }
         />
         { showState && <pre children = { JSON.stringify ( editorState, null, 4 ) } /> }
     </>

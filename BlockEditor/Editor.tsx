@@ -18,7 +18,7 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 /**
  * This is the most important component of the entire project and everything comes together in here.
  */
-const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
+const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...props }, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
     const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles, blockLevelSelectionInfo } = useUiContext ()
     const { allPlugins } = useTransformedPluginsContext ()
@@ -52,10 +52,11 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
                 defaultBlockRenderMap
                 defaultKeyBindings
                 defaultKeyCommands
+                readOnly = { readOnly }
                 { ...props }
             />
         </div>
-        { renderRefDependentComps && <>
+        { ! readOnly && renderRefDependentComps && <>
             <BlockControls />
             <InlineStyleMenu />
             <PlusActionMenu />

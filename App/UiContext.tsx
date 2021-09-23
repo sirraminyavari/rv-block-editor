@@ -8,6 +8,8 @@ export interface UiContext {
     setShowControls: SetState < boolean >
     showState: boolean
     setShowState: SetState < boolean >
+    readOnly: boolean,
+    setReadOnly: SetState < boolean >
     language: Language
     setLanguage: SetState < Language >
     direction: Direction
@@ -23,6 +25,7 @@ export default useUiContext
 export function UiContextProvider ({ children }) {
     const [ showControls, setShowControls ] = useState < boolean > ( () => localStorage.getItem ( 'showControls' ) === 'true' )
     const [ showState, setShowState ] = useState < boolean > ( () => localStorage.getItem ( 'showState' ) === 'true' )
+    const [ readOnly, setReadOnly ] = useState < boolean > ( () => localStorage.getItem ( 'readOnly' ) === 'true' )
     const [ language, setLanguage ] = useState < Language > ( () => localStorage.getItem ( 'lang' ) as Language || 'en' )
     const [ direction, setDirection ] = useState < Direction > ( () => localStorage.getItem ( 'dir' ) as Direction || 'ltr' )
     const [ contentPreset, setContentPreset ] = useState < string > ( () => localStorage.getItem ( 'contentPreset' ) || 'empty' )
@@ -30,10 +33,11 @@ export function UiContextProvider ({ children }) {
     useEffect ( () => {
         localStorage.setItem ( 'showControls', showControls.toString () )
         localStorage.setItem ( 'showState', showState.toString () )
+        localStorage.setItem ( 'readOnly', readOnly.toString () )
         localStorage.setItem ( 'lang', language )
         localStorage.setItem ( 'dir', direction )
         localStorage.setItem ( 'contentPreset', contentPreset )
-    }, [ showControls, showState, language, direction, contentPreset ] )
+    }, [ showControls, showState, readOnly, language, direction, contentPreset ] )
 
     useEffect ( () => {
         document.documentElement.setAttribute ( 'dir', direction )
@@ -59,6 +63,7 @@ export function UiContextProvider ({ children }) {
         value = {{
             showControls, setShowControls,
             showState, setShowState,
+            readOnly, setReadOnly,
             language, setLanguage,
             direction, setDirection,
             contentPreset, setContentPreset
