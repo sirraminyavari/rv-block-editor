@@ -1,7 +1,7 @@
 import { createContext, useContext, MutableRefObject } from 'react'
 import Editor from '@draft-js-plugins/editor'
-import { Language, Direction, Dict } from 'BlockEditor'
 
+import { Language, Direction, Dict } from 'BlockEditor'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'

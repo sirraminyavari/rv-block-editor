@@ -1,10 +1,11 @@
 import { useState, memo } from 'react'
 import { usePopper } from 'react-popper'
+import { AnimatePresence } from 'framer-motion'
+import Scrollbar from 'react-perfect-scrollbar'
+
 import Overlay from 'BlockEditor/Ui/Overlay'
 import useTransformedPluginsContext from 'BlockEditor/Contexts/TransformedPlugins'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
-import { AnimatePresence } from 'framer-motion'
-import Scrollbar from 'react-perfect-scrollbar'
 
 import PlusActionButton from './PlusActionButton'
 

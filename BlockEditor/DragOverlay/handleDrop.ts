@@ -1,4 +1,5 @@
 import { EditorState, ContentState, SelectionState, BlockMap, DraftInsertionType } from 'draft-js'
+
 import { BlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
 
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'

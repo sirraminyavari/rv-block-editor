@@ -1,5 +1,6 @@
-import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { Map } from 'immutable'
+
+import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { QuoteIcon } from './icons'
 
 

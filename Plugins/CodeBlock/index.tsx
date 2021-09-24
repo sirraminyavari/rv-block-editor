@@ -1,8 +1,9 @@
-import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { RichUtils } from 'draft-js'
 import CodeUtils, { onTab } from 'draft-js-code'
 import cn from 'classnames'
 import { Map } from 'immutable'
+
+import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { CodeBlockIcon } from './icons'
 
 

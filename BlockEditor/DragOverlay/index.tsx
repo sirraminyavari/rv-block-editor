@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { ContentBlock, DraftInsertionType } from 'draft-js'
 import cn from 'classnames'
 

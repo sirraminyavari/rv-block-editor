@@ -1,11 +1,11 @@
 import { forwardRef } from 'react'
-import { Language, Direction, Dict, EditorPlugin } from 'BlockEditor'
-
-import { EditorContextProvider } from './Contexts/EditorContext'
-import { UiContextProvider } from './Contexts/UiContext'
-import { TransformedPluginsContextProvider } from './Contexts/TransformedPlugins'
 import PluginsEditor from '@draft-js-plugins/editor'
-import Editor, { BlockEditorProps as _BlockEditorProps } from './Editor'
+
+import { Language, Direction, Dict, EditorPlugin } from 'BlockEditor'
+import { EditorContextProvider } from 'BlockEditor/Contexts/EditorContext'
+import { UiContextProvider } from 'BlockEditor/Contexts/UiContext'
+import { TransformedPluginsContextProvider } from 'BlockEditor/Contexts/TransformedPlugins'
+import Editor, { BlockEditorProps as _BlockEditorProps } from 'BlockEditor/Editor'
 
 export * from './types'
 export { withBlockWrapper } from './BlockWrapper'

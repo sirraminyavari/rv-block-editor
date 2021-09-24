@@ -1,9 +1,10 @@
 import { FC } from 'react'
+import { motion } from 'framer-motion'
+
 import { TransformedPlusAction } from 'BlockEditor'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
-import { motion } from 'framer-motion'
 
 import styles from './styles.module.scss'
 

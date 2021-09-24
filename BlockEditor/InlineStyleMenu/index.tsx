@@ -1,11 +1,12 @@
 import { FC, useState, useMemo } from 'react'
 import { getSelectionInlineStyle } from 'draftjs-utils'
+import { motion, AnimatePresence } from 'framer-motion'
+import { usePopper } from 'react-popper'
+
 import Overlay from 'BlockEditor/Ui/Overlay'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 import useTransformedPluginsContext from 'BlockEditor/Contexts/TransformedPlugins'
-import { usePopper } from 'react-popper'
-import { motion, AnimatePresence } from 'framer-motion'
 
 import ToggleInlineStyleButton from './ToggleInlineStyleButton'
 

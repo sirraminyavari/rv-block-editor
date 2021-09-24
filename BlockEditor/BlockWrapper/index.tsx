@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import { direction as detectDirection } from 'direction'
+
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
