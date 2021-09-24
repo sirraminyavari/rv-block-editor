@@ -33,7 +33,7 @@ export default function BlockControls () {
     const hoveredBlockDepth = editorState
         .getCurrentContent ()
         .getBlockForKey ( hoveredBlockKey )
-        .getDepth ()
+        ?.getDepth () | 0
 
     return <div
         className = { cn ( styles.controls, {

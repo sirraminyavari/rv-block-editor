@@ -19,10 +19,11 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
             if ( ! event.ctrlKey ) return
             return { ']': 'indent-blocks', '[': 'outdent-blocks' } [ event.key ]
         },
-        handleKeyCommand ( command, editorState, _, { setEditorState } ) {
+        handleKeyCommand ( command, _, _2, { getEditorState, setEditorState } ) {
             if ( command !== 'indent-blocks' && command !== 'outdent-blocks' )
                 return 'not-handled'
 
+            const editorState = getEditorState ()
             const contentState = editorState.getCurrentContent ()
             const blockMap = contentState.getBlockMap ()
             const selectionState = editorState.getSelection ()
