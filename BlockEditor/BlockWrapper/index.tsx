@@ -46,6 +46,9 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
             <Comp
                 className = { externalStyles.blockElement }
                 children = { children }
+                { ...( config.sendAdditionalProps ? {
+                    editorState, block: syncedBlock
+                } : {} ) }
             />
         </div>
     </div>

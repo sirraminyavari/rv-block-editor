@@ -1,0 +1,12 @@
+.ol {
+    list-style: none;
+}
+
+.olItem {
+    &::before {
+        position: absolute;
+        transform: translateX( calc( -100% ) );
+        counter-reset: c var( --i );
+        content: counter( c ) '. ';
+    }
+}
