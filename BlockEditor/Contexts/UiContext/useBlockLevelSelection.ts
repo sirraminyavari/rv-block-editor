@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { ContentState, SelectionState } from 'draft-js'
+import { EditorState } from 'draft-js'
 
 import getSelectionDepth from 'BlockEditor/Lib/getSelectionDepth'
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
+import { MouseState } from './useMouseState'
 import { RtblSelectionState } from './useRtblSelectionState'
 
 
@@ -17,14 +18,18 @@ export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
 }
 
 export default function useBlockLevelSelection (
-    contentState: ContentState,
-    selectionState: SelectionState,
+    editorState: EditorState,
+    setEditorState: SetState < EditorState >,
+    mouseState: MouseState,
     rtblSelectionState: RtblSelectionState,
     updateRtblSelectionState: () => void
 ): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo > ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
 
+    const contentState = editorState.getCurrentContent ()
+    const selectionState = editorState.getSelection ()
     const hasFocus = selectionState.getHasFocus ()
+    const { isDown: isMouseDown } = mouseState
 
     // Enable Trigger
     useEffect ( () => {
@@ -46,7 +51,23 @@ export default function useBlockLevelSelection (
         const selectedBlockKeys = selectedBlocks.keySeq ().toArray ()
 
         setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectionDepth, selectedBlockKeys }) )
-    }, [ hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
+
+        // if ( isMouseDown ) return
+        // const isBackward = selectionState.getIsBackward ()
+        // const startBlock = selectedBlocks.first ()
+        // const endBlock = selectedBlocks.last ()
+        // const newSelectionStartKey = startBlock.getKey ()
+        // const newSelectionEndKey = endBlock.getKey ()
+        // const endLength = endBlock.getLength ()
+        // const newSelection = selectionState.merge ({
+        //     anchorKey: isBackward ? newSelectionEndKey : newSelectionStartKey,
+        //     anchorOffset: isBackward ? endLength : 0,
+        //     focusKey: isBackward ? newSelectionStartKey : newSelectionEndKey,
+        //     focusOffset: isBackward ? 0 : endLength
+        // })
+        // const blsSelectionAdjustedEditorState = EditorState.forceSelection ( editorState, newSelection )
+        // setEditorState ( blsSelectionAdjustedEditorState )
+    }, [ hasFocus, isMouseDown, blockLevelSelectionInfo.enabled, rtblSelectionState, isMouseDown ] )
 
     // Disable Trigger
     useEffect ( () => {
