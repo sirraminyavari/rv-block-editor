@@ -10,7 +10,7 @@ import useTransformedPluginsContext from './Contexts/TransformedPlugins'
 import BlockControls from './BlockControls'
 import InlineStyleMenu from './InlineStyleMenu'
 import PlusActionMenu from './PlusActionMenu'
-import DragOverlay from './DragOverlay'
+import DragOverlay from './DnD'
 
 import useClipboardHandlers, { handlePastedText } from './Clipboard'
 
