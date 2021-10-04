@@ -12,6 +12,8 @@ import InlineStyleMenu from './InlineStyleMenu'
 import PlusActionMenu from './PlusActionMenu'
 import DragOverlay from './DragOverlay'
 
+import useClipboardHandlers, { handlePastedText } from './Clipboard'
+
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 
@@ -25,6 +27,8 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
     useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
+
+    useClipboardHandlers ()
 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
@@ -53,6 +57,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
                 defaultKeyBindings
                 defaultKeyCommands
                 readOnly = { readOnly }
+                handlePastedText = { handlePastedText }
                 { ...props }
             />
         </div>

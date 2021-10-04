@@ -14,18 +14,18 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         keyBindingFn ( event ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
-            if ( blockLevelSelectionInfo.enabled ) {
-                if ( event.key === 'Escape' )
-                    return 'disable-blockLevelSelection'
-                if ( event.ctrlKey ) {
-                    return {
-                        c: 'blockLevel-copy',
-                        x: 'bockLevel-cut',
-                        v: 'blockLevel-paste'
-                    } [ event.key ]
-                }
-                return 'blockLevel-ignoredKey'
-            }
+            // if ( blockLevelSelectionInfo.enabled ) {
+            //     if ( event.key === 'Escape' )
+            //         return 'disable-blockLevelSelection'
+            //     if ( event.ctrlKey ) {
+            //         return {
+            //             c: 'blockLevel-copy',
+            //             x: 'bockLevel-cut',
+            //             v: 'blockLevel-paste'
+            //         } [ event.key ]
+            //     }
+            //     return 'blockLevel-ignoredKey'
+            // }
 
             if ( plusActionMenuInfo.openedBlock ) {
                 if ( event.key === 'Escape' )
