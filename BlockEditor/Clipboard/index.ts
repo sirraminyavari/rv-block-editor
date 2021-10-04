@@ -10,6 +10,8 @@ import cutHandler from './cut'
 import pasteHandler from './paste'
 
 
+const rawHandlers = { copy: copyHandler, cut: cutHandler, pasteHandler: pasteHandler }
+
 export type ClipboardEventHandler = (
     editor: Editor,
     getUiState: () => UiContext,
@@ -30,13 +32,11 @@ function registerClipboardHandlers (
 ): () => void {
     const editor = uiStateRef.current.editorRef.current
     const { editor: editorElemRef } = editor.getEditorRef ()
-    const handlers = { // FIXME: DRY
-        copy: copyHandler.bind ( null, editor, () => uiStateRef.current, setEditorState ),
-        cut: cutHandler.bind ( null, editor, () => uiStateRef.current, setEditorState ),
-        paste: pasteHandler.bind ( null, editor, () => uiStateRef.current, setEditorState )
-    }
-    for ( const eventName in handlers )
+    const handlers = {}
+    for ( const eventName in rawHandlers ) {
+        handlers [ eventName ] = rawHandlers [ eventName ].bind ( null, editor, () => uiStateRef.current, setEditorState )
         editorElemRef.addEventListener ( eventName, handlers [ eventName ] )
+    }
     return () => {
         for ( const eventName in handlers )
             editorElemRef.removeEventListener ( eventName, handlers [ eventName ] )
