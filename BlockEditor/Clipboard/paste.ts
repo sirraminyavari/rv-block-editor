@@ -86,6 +86,7 @@ const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState
         })
     } ) ()
 
+    // TODO: Use selectionBefore & selectionAfter instead of forceSelection
     const newEditorState = EditorState.forceSelection (
         EditorState.push ( editorState, newContentState, 'insert-fragment' ),
         newSelectionState
