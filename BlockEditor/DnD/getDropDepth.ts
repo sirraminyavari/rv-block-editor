@@ -1,7 +1,7 @@
 import { DragEvent } from 'react'
 
 
-export default function getDropSector (
+export default function getDropDepth (
     { clientX: mouseX }: DragEvent,
     sectorRects: DOMRect []
 ): number | null {

@@ -7,7 +7,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import DropIndicator from './DropIndicator'
 import findClosestDropElement from './findClosestDropElement'
-import getDropSector from './getDropSector'
+import getDropDepth from './getDropDepth'
 import handleDrop from './handleDrop'
 
 import styles from './styles.module.scss'
@@ -61,11 +61,11 @@ const DragOverlay: FC = () => {
         onDragOver = { event => {
             event.preventDefault ()
             setClosestInfo ( findClosestDropElement ( event, sortedPosInfo ) )
-            setImmediate ( () => setActiveDropSector ( getDropSector ( event, sectorRects ) ) )
+            setImmediate ( () => setActiveDropSector ( getDropDepth ( event, sectorRects ) ) )
         } }
         onDrop = { event => {
             const { elem: closestElem, insertionMode } = findClosestDropElement ( event, sortedPosInfo )
-            const dropSector = getDropSector ( event, sectorRects )
+            const dropSector = getDropDepth ( event, sectorRects )
             const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
             const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
 
