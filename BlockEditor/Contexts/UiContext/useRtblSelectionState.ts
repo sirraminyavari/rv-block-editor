@@ -64,7 +64,7 @@ export function calcIsBackward ( contentState: ContentState, anchorKey: string, 
     if ( ! anchorKey || ! focusKey ) return false
     if ( anchorKey === focusKey ) return false
     const blockMap = contentState.getBlockMap ()
-    const startKey = blockMap.toSeq ().skipUntil ( ( _, key ) => key === anchorKey || key === focusKey ).first ()?.getKey ()
+    const startKey = blockMap.skipUntil ( ( _, key ) => key === anchorKey || key === focusKey ).first ()?.getKey ()
     const isBackward = anchorKey !== startKey
     return isBackward
 }
