@@ -56,7 +56,7 @@ const DropIndicator: FC < DropIndicatorProps > = ({
             '--inner-wrapper-width': iwr.width
         }}
     >
-        { ( new Array ( maxDepth ? maxDepth + 1 : 0 ) ).fill ( null ).map ( ( _, i ) => <div
+        { ( new Array ( maxDepth + 1 ) ).fill ( null ).map ( ( _, i ) => <div
             key = { i }
             className = { cn ( styles.dropSector, {
                 [ styles.active ]: activeSector === i

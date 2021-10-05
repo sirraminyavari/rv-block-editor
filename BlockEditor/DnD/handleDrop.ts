@@ -19,7 +19,6 @@ export default function handleDrop (
     const blockMap = contentState.getBlockMap ()
 
     const { startKey, endKey } = getDragRange ( blockMap, blockLevelSelectionInfo, draggedBlockKey )
-    console.log (draggedBlockKey)
     const depthAdjustedBlockMap = setBlockRangeDepth ( blockMap, startKey, endKey, sector )
     const movedBlockMap = moveBlockRange ( depthAdjustedBlockMap, startKey, endKey, dropTargetKey, insertionMode )
 
