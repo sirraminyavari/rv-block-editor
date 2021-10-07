@@ -35,7 +35,7 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     }, [ maxDepth, dropIndicatorRef.current ] )
 
     if ( ! closestInfo ) return null
-    if ( [ closestInfo, prevPosInfo ].map ( i => i?.blockKey ).indexOf ( draggingBlockKey ) >= 0 ) return null
+    if ( prevPosInfo.blockKey === draggingBlockKey ) return null
     if ( ! cr || ! wr || ! iwr ) return null
 
     const offset = ( () => {

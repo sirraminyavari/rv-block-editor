@@ -14,18 +14,15 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         keyBindingFn ( event ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
-            // if ( blockLevelSelectionInfo.enabled ) {
-            //     if ( event.key === 'Escape' )
-            //         return 'disable-blockLevelSelection'
-            //     if ( event.ctrlKey ) {
-            //         return {
-            //             c: 'blockLevel-copy',
-            //             x: 'bockLevel-cut',
-            //             v: 'blockLevel-paste'
-            //         } [ event.key ]
-            //     }
-            //     return 'blockLevel-ignoredKey'
-            // }
+            if ( blockLevelSelectionInfo.enabled ) {
+                if ( event.key === 'Escape' )
+                    return 'disable-blockLevelSelection'
+                if ( event.ctrlKey && (
+                    [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
+                    ( event.shiftKey && event.key === 'z' )
+                ) ) return undefined
+                return 'blockLevel-ignoredKey'
+            }
 
             if ( plusActionMenuInfo.openedBlock ) {
                 if ( event.key === 'Escape' )
@@ -62,24 +59,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     return 'handled'
                 },
 
-                'blockLevel-copy' () {
-                    console.log ( 'blc' )
-                    return 'handled'
-                },
-
-                'bockLevel-cut' () {
-                    console.log ( 'blx' )
-                    return 'handled'
-                },
-
-                'blockLevel-paste' () {
-                    console.log ( 'blv' )
-                    return 'handled'
-                },
-
-                'blockLevel-ignoredKey' () {
-                    return 'handled'
-                }
+                'blockLevel-ignoredKey': () => 'handled'
             } [ command ]?.() || 'not-handled'
         }
     })
