@@ -16,17 +16,24 @@ export default function createUiHandlerPlugin (): EditorPlugin {
 
             if ( blockLevelSelectionInfo.enabled ) {
                 if ( event.key === 'Escape' )
-                    return 'disable-blockLevelSelection'
+                    return 'bls-disable'
                 if ( event.ctrlKey && (
                     [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
                     ( event.shiftKey && event.key === 'z' )
                 ) ) return undefined
-                return 'blockLevel-ignoredKey'
+                if ( event.shiftKey ) {
+                    if ( event.key === 'ArrowDown' )
+                        return 'bls-goDown'
+                    if ( event.key === 'ArrowUp' )
+                        return 'bls-goUp'
+                    return 'bls-ignoreKey'
+                }
+                return 'bls-ignoreKey'
             }
 
             if ( plusActionMenuInfo.openedBlock ) {
                 if ( event.key === 'Escape' )
-                    return 'close-plusActionMenu'
+                    return 'plusActionMenu-close'
             }
 
             return undefined
@@ -36,12 +43,12 @@ export default function createUiHandlerPlugin (): EditorPlugin {
             const { setPlusActionMenuInfo, setBlockLevelSelectionInfo, updateRtblSelectionState } = getUiContext ()
 
             return {
-                'close-plusActionMenu' () {
+                'plusActionMenu-close' () {
                     setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
                     return 'handled'
                 },
 
-                'disable-blockLevelSelection' () {
+                'bls-disable' () {
                     const selection = editorState.getSelection ()
                     const newSelection = new SelectionState ({
                         anchorKey: selection.getAnchorKey (), anchorOffset: selection.getAnchorOffset (),
@@ -59,7 +66,18 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     return 'handled'
                 },
 
-                'blockLevel-ignoredKey': () => 'handled'
+                'bls-goDown' () {
+                    const newEditorState = editorState
+                    setEditorState ( newEditorState )
+                    return 'handled'
+                },
+                'bls-goUp' () {
+                    const newEditorState = editorState
+                    setEditorState ( newEditorState )
+                    return 'handled'
+                },
+
+                'bls-ignoreKey': () => 'handled'
             } [ command ]?.() || 'not-handled'
         }
     })
