@@ -16,13 +16,22 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         keyBindingFn ( event, { getEditorState } ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
+            // Block-Level Selection
             if ( blockLevelSelectionInfo.enabled ) {
-                if ( event.key === 'Escape' )
-                    return 'bls-disable'
+                // Cancelation
+                if (
+                    event.key === 'Escape' ||
+                    ( ! event.shiftKey && [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ].indexOf ( event.key ) >= 0 )
+                ) return 'bls-disable'
+                // Function Keys
+                if ( event.key [ 0 ] === 'F' && ! isNaN ( + event.key [ 1 ] ) )
+                    return undefined
+                // Verified Commands
                 if ( event.ctrlKey && (
                     [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
                     ( event.shiftKey && event.key === 'z' )
                 ) ) return undefined
+                // Selection Modification
                 if ( event.shiftKey ) {
                     const isBackward = getEditorState ().getSelection ().getIsBackward ()
                     if ( event.key === 'ArrowDown' )
@@ -31,11 +40,12 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     if ( event.key === 'ArrowUp' )
                         return ! isBackward && blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goUp' : undefined
-                    return 'bls-ignoreKey'
                 }
+                // Ignoring all other cases
                 return 'bls-ignoreKey'
             }
 
+            // Plus-Action Menu
             if ( plusActionMenuInfo.openedBlock ) {
                 if ( event.key === 'Escape' )
                     return 'plusActionMenu-close'
