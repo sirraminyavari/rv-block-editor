@@ -49,24 +49,22 @@ export default function useBlockLevelSelection (
         const selectionDepth = getSelectionDepth ( blockMap, startKey, endKey )
         const selectedBlocks = blsAwareGetBlockRange ( blockMap, startKey, endKey, selectionDepth )
         const selectedBlockKeys = selectedBlocks.keySeq ().toArray ()
-
         setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectionDepth, selectedBlockKeys }) )
 
-        // if ( isMouseDown ) return
-        // const isBackward = selectionState.getIsBackward ()
-        // const startBlock = selectedBlocks.first ()
-        // const endBlock = selectedBlocks.last ()
-        // const newSelectionStartKey = startBlock.getKey ()
-        // const newSelectionEndKey = endBlock.getKey ()
-        // const endLength = endBlock.getLength ()
-        // const newSelection = selectionState.merge ({
-        //     anchorKey: isBackward ? newSelectionEndKey : newSelectionStartKey,
-        //     anchorOffset: isBackward ? endLength : 0,
-        //     focusKey: isBackward ? newSelectionStartKey : newSelectionEndKey,
-        //     focusOffset: isBackward ? 0 : endLength
-        // })
-        // const blsSelectionAdjustedEditorState = EditorState.forceSelection ( editorState, newSelection )
-        // setEditorState ( blsSelectionAdjustedEditorState )
+        if ( isMouseDown ) return
+        const isBackward = selectionState.getIsBackward ()
+        const startBlock = selectedBlocks.first ()
+        const endBlock = selectedBlocks.last ()
+        const newSelectionStartKey = startBlock.getKey ()
+        const newSelectionEndKey = endBlock.getKey ()
+        const endLength = endBlock.getLength ()
+        const newSelection = selectionState.merge ({
+            focusKey: isBackward ? newSelectionStartKey : newSelectionEndKey,
+            focusOffset: isBackward ? 0 : endLength
+        })
+        if ( selectionState.equals ( newSelection ) ) return
+        const blsSelectionAdjustedEditorState = EditorState.forceSelection ( editorState, newSelection )
+        setEditorState ( blsSelectionAdjustedEditorState )
     }, [ hasFocus, isMouseDown, blockLevelSelectionInfo.enabled, rtblSelectionState, isMouseDown ] )
 
     // Disable Trigger

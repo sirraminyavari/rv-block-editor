@@ -3,6 +3,8 @@ import { EditorState, SelectionState } from 'draft-js'
 import { EditorPlugin } from 'BlockEditor'
 import { defaultBlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
 
+import * as NASM from 'BlockEditor/Lib/nestAwareSelectionModifier'
+
 
 /**
  * Provides some User Interface functionality and keyboard shortcuts.
@@ -11,7 +13,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
     return ({ getUiContext }) => ({
         id: '__internal__ui-handler',
 
-        keyBindingFn ( event ) {
+        keyBindingFn ( event, { getEditorState } ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
             if ( blockLevelSelectionInfo.enabled ) {
@@ -22,10 +24,13 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     ( event.shiftKey && event.key === 'z' )
                 ) ) return undefined
                 if ( event.shiftKey ) {
+                    const isBackward = getEditorState ().getSelection ().getIsBackward ()
                     if ( event.key === 'ArrowDown' )
-                        return 'bls-goDown'
+                        return isBackward && blockLevelSelectionInfo.selectedBlockKeys.length > 1
+                            ? 'bls-goDown' : undefined
                     if ( event.key === 'ArrowUp' )
-                        return 'bls-goUp'
+                        return ! isBackward && blockLevelSelectionInfo.selectedBlockKeys.length > 1
+                            ? 'bls-goUp' : undefined
                     return 'bls-ignoreKey'
                 }
                 return 'bls-ignoreKey'
@@ -40,7 +45,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         },
 
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
-            const { setPlusActionMenuInfo, setBlockLevelSelectionInfo, updateRtblSelectionState } = getUiContext ()
+            const { setPlusActionMenuInfo, blockLevelSelectionInfo, setBlockLevelSelectionInfo, updateRtblSelectionState } = getUiContext ()
 
             return {
                 'plusActionMenu-close' () {
@@ -67,12 +72,12 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 },
 
                 'bls-goDown' () {
-                    const newEditorState = editorState
+                    const newEditorState = NASM.goDown ( editorState, blockLevelSelectionInfo )
                     setEditorState ( newEditorState )
                     return 'handled'
                 },
                 'bls-goUp' () {
-                    const newEditorState = editorState
+                    const newEditorState = NASM.goUp ( editorState, blockLevelSelectionInfo )
                     setEditorState ( newEditorState )
                     return 'handled'
                 },
