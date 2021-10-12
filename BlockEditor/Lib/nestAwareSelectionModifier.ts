@@ -32,7 +32,7 @@ export function goUp ( editorState: EditorState, blsInfo: BlockLevelSelectionInf
     const trimmedSelectedBlockKeys = selectedBlockKeys.slice ( selectedBlockKeys.indexOf ( selectionState.getAnchorKey () ) )
     const outerSelectedBlocks = trimmedSelectedBlockKeys.map ( k => blockMap.get ( k ) ).filter ( b => b.getDepth () === selectionDepth )
     const l = outerSelectedBlocks.length
-    const newFocusBlock = outerSelectedBlocks [ l - 2 ] || contentState.getBlockBefore ( outerSelectedBlocks [ l - 1 ].getKey () )
+    const newFocusBlock = blockMap.get ( selectedBlockKeys [ selectedBlockKeys.indexOf ( outerSelectedBlocks [ l - 1 ].getKey () ) - 1 ] )
 
     const newSelectionState = selectionState.merge ({
         focusKey: newFocusBlock.getKey (),
