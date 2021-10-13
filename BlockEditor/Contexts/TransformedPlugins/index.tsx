@@ -29,13 +29,12 @@ export default useTransformedPluginsContext
 
 export interface TransformedPluginsContextProviderProps {
     plugins: EditorPlugin []
-    maxDepth: number
 }
 
 /**
  * Transformes external plugins, utilizes internal plugins & provides access to them all.
  */
-export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, maxDepth, children }) => {
+export const TransformedPluginsContextProvider: FC < TransformedPluginsContextProviderProps > = ({ plugins, children }) => {
     const uiContext = useUiContext ()
     const { dict, lang } = uiContext
     const uiContextRef = useRef ( uiContext )
@@ -63,7 +62,7 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
     , [ pluginObjects, dict, lang ] )
 
     const allPlugins = useMemo ( () => {
-        const nestingPlugin = createNestingPlugin ({ maxDepth })
+        const nestingPlugin = createNestingPlugin ()
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
         const uiHandlerPlugin = createUiHandlerPlugin ()
 

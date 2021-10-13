@@ -5,14 +5,10 @@ import { EditorPlugin } from 'BlockEditor'
 import blsAwareGetBlockRange from 'BlockEditor/Lib/blsAwareGetBlockRange'
 
 
-export interface Config {
-    maxDepth: number
-}
-
 /**
  * Proviedes block-nesting functionality for the entire editor.
  */
-export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlugin {
+export default function createNestingPlugin (): EditorPlugin {
     return {
         id: '__internal__nesting',
 
@@ -33,7 +29,7 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
             const selectedBlocks = blsAwareGetBlockRange ( blockMap, selectionState.getStartKey (), selectionState.getEndKey () )
             const adjust = { 'indent-blocks': 1, 'outdent-blocks': -1 } [ command ]
 
-            if ( ! validateNesting ( contentState, selectedBlocks, adjust, maxDepth ) )
+            if ( ! validateNesting ( contentState, selectedBlocks, adjust ) )
                 return 'not-handled'
 
             const newBlocks = selectedBlocks.map ( block => block.set ( 'depth', block.getDepth () + adjust ) )
@@ -47,17 +43,13 @@ export default function createNestingPlugin ( { maxDepth }: Config ): EditorPlug
     }
 }
 
-function validateNesting ( contentState: ContentState, selectedBlocks: BlockMap, adjust: number, maxDepth: number ): boolean {
+function validateNesting ( contentState: ContentState, selectedBlocks: BlockMap, adjust: number ): boolean {
     const firstBlock = selectedBlocks.first ()
     const firstBlockDepth = firstBlock.getDepth ()
     if ( adjust === -1 ) {
         if ( firstBlockDepth <= 0 ) return false
         return true
     }
-
-    const deepestBlock = selectedBlocks.sortBy ( block => block.getDepth () ).last ()
-    const rangeDepth = deepestBlock.getDepth ()
-    if ( adjust === 1 && rangeDepth >= maxDepth ) return false
 
     const prevBlock = contentState.getBlockBefore ( firstBlock.getKey () )
     if ( ! prevBlock ) return false
