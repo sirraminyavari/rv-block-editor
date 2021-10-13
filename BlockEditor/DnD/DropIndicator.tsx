@@ -34,10 +34,14 @@ const DropIndicator: FC < DropIndicatorProps > = ({
         onSectorRectsChange ( sectorRects )
     }, [ maxDepth, dropIndicatorRef.current ] )
 
-    if ( ! closestInfo ) return null
-    if ( ! prevPosInfo && closestInfo.blockKey === draggingBlockKey ) return null
-    if ( prevPosInfo?.blockKey === draggingBlockKey ) return null
-    if ( ! cr || ! wr || ! iwr ) return null
+    if ( // Illegal Cases
+        ! closestInfo ||
+        // Dragging the first block before itself
+        ( ! prevPosInfo && closestInfo.blockKey === draggingBlockKey ) ||
+        // Dragging a block next to itself
+        prevPosInfo?.blockKey === draggingBlockKey ||
+        ! cr || ! wr || ! iwr
+    ) return null
 
     const offset = ( () => {
         if ( insertionMode === 'after' )
