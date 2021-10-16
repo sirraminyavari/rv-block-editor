@@ -1,4 +1,5 @@
-import { FC, useState } from 'react'
+import { FC, useLayoutEffect, useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { ContentBlock, DraftInsertionType } from 'draft-js'
 import cn from 'classnames'
 
@@ -28,11 +29,11 @@ export interface DropTarget extends PosInfoItem {
 
 /**
  * This component overlays the entire outer wrapper when the user starts dragging a Content Block
- * and handles most of the dragging functionality and UI.
+ * and handles most of DnD's functionality and UI.
  */
 const DragOverlay: FC = () => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo } = useUiContext ()
+    const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo, portalNode } = useUiContext ()
 
     const [ wrapperRect, setWrapperRect ] = useState < DOMRect > ( null )
     const [ innerWrapperRect, setInnerWrapperRect ] = useState < DOMRect > ( null )
@@ -40,6 +41,21 @@ const DragOverlay: FC = () => {
     const [ closestInfo, setClosestInfo ] = useState < DropTarget > ( null )
     const [ sectorRects, setSectorRects ] = useState < DOMRect [] > ([])
     const [ activeDropSector, setActiveDropSector ] = useState < number > ( null )
+
+    const shieldRef = useRef ()
+    useLayoutEffect ( () => {
+        // shieldRef.current.
+        // if ( ! dragInfo.dragging ) return
+        // const cancelDnD = () => {
+        //     console.log ( 'dd' )
+        // }
+        // document.addEventListener ( 'drop', cancelDnD )
+        // document.addEventListener ( 'mouseup', cancelDnD )
+        // return () => {
+        //     document.removeEventListener ( 'drop', cancelDnD )
+        //     document.removeEventListener ( 'mouseup', cancelDnD )
+        // }
+    }, [ dragInfo.dragging ] )
 
     return <div
         className = { cn ( styles.dragOverlay, {
@@ -85,20 +101,27 @@ const DragOverlay: FC = () => {
             setClosestInfo ( null )
             setSectorRects ([])
             setActiveDropSector ( null )
-            setImmediate ( () => setBlockControlsInfo ( prev => ({ ...prev,
+            setImmediate ( () => setBlockControlsInfo ( prev => ({
+                ...prev,
                 hoveredBlockElem: dragInfo.elem as any,
                 hoveredBlockKey: draggedBlockKey
             }) ) )
         } }
     >
-        <DropIndicator
-            draggingBlockKey = { dragInfo?.block?.getKey () }
-            wrapperRect = { wrapperRect }
-            innerWrapperRect = { innerWrapperRect }
-            closestInfo = { closestInfo }
-            onSectorRectsChange = { setSectorRects }
-            activeSector = { activeDropSector }
-        />
+        { dragInfo.dragging && <>
+            <DropIndicator
+                draggingBlockKey = { dragInfo?.block?.getKey () }
+                wrapperRect = { wrapperRect }
+                innerWrapperRect = { innerWrapperRect }
+                closestInfo = { closestInfo }
+                onSectorRectsChange = { setSectorRects }
+                activeSector = { activeDropSector }
+            />
+            { createPortal ( <div
+                ref = { shieldRef }
+                className = { styles.dndShield }
+            />, portalNode ) }
+        </> }
     </div>
 }
 export default DragOverlay

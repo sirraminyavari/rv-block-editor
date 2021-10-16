@@ -17,6 +17,7 @@ export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > 
     dir: Direction
     lang: Language
     plugins: EditorPlugin []
+    portalNode: HTMLElement
 }
 
 /**
@@ -24,11 +25,11 @@ export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > 
  */
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
     editorState, onChange: setEditorState, styles = {},
-    dict, dir, lang, plugins,
+    dict, dir, lang, plugins, portalNode,
     ...props
 }, ref ) => {
     return <EditorContextProvider editorState = { editorState } setEditorState = { setEditorState }>
-        <UiContextProvider styles = { styles } dict = { dict } dir = { dir } lang = { lang }>
+        <UiContextProvider styles = { styles } dict = { dict } dir = { dir } lang = { lang } portalNode = { portalNode }>
             <TransformedPluginsContextProvider plugins = { plugins }>
                 <Editor ref = { ref } { ...props } />
             </TransformedPluginsContextProvider>

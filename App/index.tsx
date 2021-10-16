@@ -45,6 +45,7 @@ export default function App () {
             dict = { dict } lang = { language } dir = { direction }
             plugins = { plugins } styles = { editorTheme }
             readOnly = { readOnly }
+            portalNode = { document.getElementById ( 'block-editor-portal' ) }
         />
         { showState && <pre children = { JSON.stringify ( editorState, null, 4 ) } /> }
     </>
