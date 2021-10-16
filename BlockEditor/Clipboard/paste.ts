@@ -1,14 +1,14 @@
-import { EditorState, convertFromRaw, Modifier, SelectionState, ContentState, BlockMap } from 'draft-js'
+import { EditorState, convertFromRaw, SelectionState, ContentState, BlockMap } from 'draft-js'
 import randomizeBlockMapKeys from 'draft-js/lib/randomizeBlockMapKeys'
 
 import getSelectionDepth from 'BlockEditor/Lib/getSelectionDepth'
 import setBlockRangeDepth from 'BlockEditor/Lib/setBlockRangeDepth'
-import createEmptyBlock from 'BlockEditor/Lib/createEmptyBlock'
 
 import { ClipboardEventHandler, ClipboardData } from '.'
 
 
 const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState, event ) => {
+    console.log ('paste')
     const { blockLevelSelectionInfo  } = getUiState ()
     const { getEditorState } = editor
     const editorState = getEditorState ()

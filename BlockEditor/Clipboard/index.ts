@@ -10,7 +10,7 @@ import cutHandler from './cut'
 import pasteHandler from './paste'
 
 
-const rawHandlers = { copy: copyHandler, cut: cutHandler, pasteHandler: pasteHandler }
+const rawHandlers = { copy: copyHandler, cut: cutHandler, paste: pasteHandler }
 
 export type ClipboardEventHandler = (
     editor: Editor,

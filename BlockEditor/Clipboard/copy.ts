@@ -1,4 +1,4 @@
-import { EditorState, ContentState, convertToRaw } from 'draft-js'
+import { ContentState, convertToRaw } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
 import { ClipboardEventHandler, ClipboardData } from '.'
