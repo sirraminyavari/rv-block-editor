@@ -76,12 +76,31 @@
 }
 
 
-.ul, .ol {
+.ul, .ol, .cl {
     padding: 0;
     margin: 1rem 0;
+}
+
+
+.ul, .ol {
     li {
         margin: .25rem 0;
         margin-inline-start: 1.5rem;
+    }
+}
+
+
+.cl {
+    :global( .checkable-list-item-block ) {
+        display: grid;
+        align-items: center;
+        align-content: center;
+    }
+
+    :global( .checkable-list-item-block__checkbox ) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 

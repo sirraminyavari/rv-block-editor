@@ -14,6 +14,7 @@ import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
 import createParagraphPlugin from 'Plugins/Paragraph'
 import createHeadingsPlugin from 'Plugins/Headings'
 import createListsPlugin from 'Plugins/Lists'
+import createCheckableListPlugin from 'Plugins/CheckableList'
 import createQuotePlugin from 'Plugins/Quote'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
 
@@ -25,6 +26,7 @@ const plugins = [
     createParagraphPlugin (),
     createHeadingsPlugin (),
     createListsPlugin ({ styles: editorTheme }),
+    createCheckableListPlugin ({ styles: editorTheme }),
     createQuotePlugin (),
     createCodeBlockPlugin ({ styles: editorTheme })
 ]

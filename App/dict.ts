@@ -9,6 +9,7 @@ const dict: Dict = {
         'plugins.headings.header-three': 'Heading 3',
         'plugins.lists.unordered-list-item': 'Unordered List',
         'plugins.lists.ordered-list-item': 'Ordered List',
+        'plugins.checkable-list.checkable-list-item': 'Checkable List',
         'plugins.quote.blockquote': 'Quotation'
     },
     'fa': {
@@ -18,6 +19,7 @@ const dict: Dict = {
         'plugins.headings.header-three': 'زیرعنوان',
         'plugins.lists.unordered-list-item': 'لیست بدون ترتیب',
         'plugins.lists.ordered-list-item': 'لیست ترتیبی',
+        'plugins.checkable-list.checkable-list-item': 'لیست تیکی؟',
         'plugins.quote.blockquote': 'نقل قول'
     }
 }
