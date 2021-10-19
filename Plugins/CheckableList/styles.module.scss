@@ -1,3 +1,8 @@
 .cl {
     list-style: none;
+
+    :global( .checkable-list-item-block__text ) {
+        padding: 0;
+        padding-inline-start: 1.5em;
+    }
 }
