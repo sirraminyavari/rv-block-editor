@@ -1,7 +1,10 @@
 import cn from 'classnames'
 import { direction as detectDirection } from 'direction'
+
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
+
+import getAncestors from 'BlockEditor/Lib/getAncestors'
 
 import styles from './styles.module.scss'
 
@@ -17,10 +20,14 @@ const BlockWrapper = ({ Comp, config = {} as any, children }) => {
 
     const { props: { block: outOfSyncBlock } } = children
     const blockKey = outOfSyncBlock.getKey ()
-    const syncedBlock = editorState.getCurrentContent ().getBlockForKey ( blockKey )
+    const blockMap = editorState.getCurrentContent ().getBlockMap ()
+    const syncedBlock = blockMap.get ( blockKey )
     const text = syncedBlock.getText ()
     const direction = detectDirection ( text )
     const depth = syncedBlock.getDepth ()
+
+    if ( getAncestors ( blockMap, blockKey ).some ( b => b.getData ().get ( '_collapsed' ) ) )
+        return null
 
     return <div
         ref = { elem => blockRefs.current [ blockKey ] = elem }
