@@ -1,0 +1,22 @@
+.accordion {
+    display: grid;
+    gap: .7rem;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+
+    .chevronWrapper {
+        cursor: pointer;
+        > * {
+            transition: all 250ms ease;
+        }
+    }
+
+    &.collapsed {
+        .chevronWrapper > * {
+            transform: rotate( -90deg );
+            [ dir = rtl ] & {
+                transform: rotate( 90deg );
+            }
+        }
+    }
+}

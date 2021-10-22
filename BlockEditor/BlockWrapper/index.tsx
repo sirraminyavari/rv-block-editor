@@ -14,11 +14,11 @@ const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).joi
 /**
  * This component wraps all the Content Blocks and provides a great deal of block editing functionality to them.
  */
-const BlockWrapper = ({ Comp, config = {} as any, children }) => {
+const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
     const { editorState } = useEditorContext ()
     const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo } = useUiContext ()
 
-    const { props: { block: outOfSyncBlock } } = children
+    const { block: outOfSyncBlock } = children?.props || rest
     const blockKey = outOfSyncBlock.getKey ()
     const blockMap = editorState.getCurrentContent ().getBlockMap ()
     const syncedBlock = blockMap.get ( blockKey )
