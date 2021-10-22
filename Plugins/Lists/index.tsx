@@ -2,10 +2,10 @@ import cn from 'classnames'
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import { UnorderedListIcon, OrderedListIcon } from './icons'
 
 import OrderedListItem from './OrderedListItem'
 
+import { UnorderedListIcon, OrderedListIcon } from './icons'
 import styles from './styles.module.scss'
 
 

@@ -2,11 +2,11 @@ import cn from 'classnames'
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import { CheckableListIcon } from './icons'
 
 import _createCheckableListPlugin from 'draft-js-checkable-list-plugin'
 import 'draft-js-checkable-list-plugin/lib/plugin.css'
 
+import { CheckableListIcon } from './icons'
 import styles from './styles.module.scss'
 
 

@@ -1,9 +1,10 @@
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import { HeadingIcons } from './icons'
 
 import getHeadingComponent from './getHeadingComponent'
+
+import { HeadingIcons } from './icons'
 
 
 const headings = [ 'one', 'two', 'three' ]
