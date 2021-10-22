@@ -66,8 +66,9 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
         const uiHandlerPlugin = createUiHandlerPlugin ()
 
-        const internalPlugins = toPluginObject ( [ nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin ], pluginArgs )
-        return [ ...pluginObjects, ...internalPlugins ]
+        const internalPlugins = [ nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin ]
+        const internalPluginObjects = toPluginObject ( internalPlugins, pluginArgs )
+        return [ ...pluginObjects, ...internalPluginObjects ]
     }, [ pluginObjects, plusActions ] )
 
     return <TransformedPluginsContext.Provider

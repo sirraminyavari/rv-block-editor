@@ -1,4 +1,4 @@
-import { forwardRef, useState, useLayoutEffect } from 'react'
+import { forwardRef, useState, useLayoutEffect, useMemo, useEffect } from 'react'
 import cn from 'classnames'
 
 import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
@@ -13,6 +13,7 @@ import PlusActionMenu from './PlusActionMenu'
 import DragOverlay from './DnD'
 
 import useClipboardHandlers, { handlePastedText } from './Clipboard'
+import { CompositeDecorator, EditorState } from 'draft-js'
 
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}
@@ -29,6 +30,18 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
     useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
 
     useClipboardHandlers ()
+
+    // This is a hack that needs to be done otherwise no plugin decorator will work.
+    const decorators = useMemo ( () => {
+        return new CompositeDecorator ( allPlugins
+            .map ( p => p.decorators )
+            .filter ( Boolean )
+            .reduce ( ( acc, val ) => [ ...acc, ...val ], [] ) as any
+        )
+    }, [ allPlugins ] )
+    useEffect ( () => {
+        setEditorState ( EditorState.set ( editorState, { decorator: decorators } ) )
+    }, [ decorators ] )
 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
