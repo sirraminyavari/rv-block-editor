@@ -1,3 +1,4 @@
+import { EditorState } from 'draft-js'
 import { mergeBlockDataByKey } from 'draft-js-modifiers'
 import { Map } from 'immutable'
 
@@ -8,7 +9,7 @@ import Accordion from './Accordion'
 
 
 export default function createAccordionPlugin ( config: any = {} ): EditorPlugin {
-    return {
+    return ({ getUiContext }) => ({
         id: 'accordion',
 
         plusActions: [
@@ -30,11 +31,15 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
                     collapsed,
                     toggleCollapsed () {
                         const editorState = getEditorState ()
-                        const newEditorState = mergeBlockDataByKey ( editorState, contentBlcok.getKey (), { _collapsed: ! collapsed } )
+                        const newEditorState = EditorState.forceSelection (
+                            mergeBlockDataByKey ( editorState, contentBlcok.getKey (), { _collapsed: ! collapsed } ),
+                            editorState.getSelection ()
+                        )
                         setImmediate ( () => setEditorState ( newEditorState ) )
+
                     }
                 }
             }
         }
-    }
+    })
 }
