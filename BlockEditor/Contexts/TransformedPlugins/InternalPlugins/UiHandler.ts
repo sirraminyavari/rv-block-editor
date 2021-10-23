@@ -41,8 +41,6 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                         return ! isBackward && blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goUp' : undefined
                 }
-                // Ignoring all other cases
-                return 'bls-ignoreKey'
             }
 
             // Plus-Action Menu
@@ -90,9 +88,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     const newEditorState = NASM.goUp ( editorState, blockLevelSelectionInfo )
                     setEditorState ( newEditorState )
                     return 'handled'
-                },
-
-                'bls-ignoreKey': () => 'handled'
+                }
             } [ command ]?.() || 'not-handled'
         }
     })

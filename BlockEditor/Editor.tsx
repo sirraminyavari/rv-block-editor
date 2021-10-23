@@ -69,7 +69,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
                 defaultBlockRenderMap
                 defaultKeyBindings
                 defaultKeyCommands
-                readOnly = { readOnly }
+                readOnly = { readOnly || blockLevelSelectionInfo.enabled }
                 handlePastedText = { handlePastedText }
                 { ...props }
             />
