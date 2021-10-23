@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useState, useRef } from 'react'
+import { FC, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ContentBlock, DraftInsertionType } from 'draft-js'
 import cn from 'classnames'
@@ -41,21 +41,6 @@ const DragOverlay: FC = () => {
     const [ closestInfo, setClosestInfo ] = useState < DropTarget > ( null )
     const [ sectorRects, setSectorRects ] = useState < DOMRect [] > ([])
     const [ activeDropSector, setActiveDropSector ] = useState < number > ( null )
-
-    const shieldRef = useRef ()
-    useLayoutEffect ( () => {
-        // shieldRef.current.
-        // if ( ! dragInfo.dragging ) return
-        // const cancelDnD = () => {
-        //     console.log ( 'dd' )
-        // }
-        // document.addEventListener ( 'drop', cancelDnD )
-        // document.addEventListener ( 'mouseup', cancelDnD )
-        // return () => {
-        //     document.removeEventListener ( 'drop', cancelDnD )
-        //     document.removeEventListener ( 'mouseup', cancelDnD )
-        // }
-    }, [ dragInfo.dragging ] )
 
     return <div
         className = { cn ( styles.dragOverlay, {
@@ -117,10 +102,7 @@ const DragOverlay: FC = () => {
                 onSectorRectsChange = { setSectorRects }
                 activeSector = { activeDropSector }
             />
-            { createPortal ( <div
-                ref = { shieldRef }
-                className = { styles.dndShield }
-            />, portalNode ) }
+            { createPortal ( <div className = { styles.dndShield } />, portalNode ) }
         </> }
     </div>
 }
