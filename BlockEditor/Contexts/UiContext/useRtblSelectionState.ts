@@ -42,6 +42,7 @@ export default function useRtblSelectionState (
 }
 
 export function calcRtblSelectionState ( contentState: ContentState, domSelection: Selection ): RtblSelectionState {
+    if ( ! domSelection.anchorNode || ! domSelection.focusNode ) return defaultRtblSelectionState
     const anchorKey = getParentBlockKey ( domSelection.anchorNode )
     const focusKey = getParentBlockKey ( domSelection.focusNode )
     const isBackward = calcIsBackward ( contentState, anchorKey, focusKey )
