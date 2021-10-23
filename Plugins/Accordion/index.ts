@@ -9,7 +9,7 @@ import Accordion from './Accordion'
 
 
 export default function createAccordionPlugin ( config: any = {} ): EditorPlugin {
-    return ({ getUiContext }) => ({
+    return {
         id: 'accordion',
 
         plusActions: [
@@ -41,5 +41,5 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
                 }
             }
         }
-    })
+    }
 }
