@@ -11,14 +11,17 @@ export default function findClosestDropElement (
     draggablesSortedPosInfo: PosInfoItem []
 ): DropTarget | null {
     if ( ! draggablesSortedPosInfo ) return null
+
     let prevPosInfo = null
     for ( const posInfo of draggablesSortedPosInfo ) {
-        if ( mouseY < posInfo.centerY )
+        if ( mouseY < posInfo.centerY ) {
+            if ( prevPosInfo?.notAcceptingChildren ) return null
             return { ...posInfo, prevPosInfo, insertionMode: 'before' }
+        }
         prevPosInfo = posInfo
     }
-    return {
-        ...draggablesSortedPosInfo [ draggablesSortedPosInfo.length - 1 ],
-        prevPosInfo, insertionMode: 'after'
-    }
+
+    const lastPosInfo = draggablesSortedPosInfo [ draggablesSortedPosInfo.length - 1 ]
+    if ( lastPosInfo.notAcceptingChildren ) return null
+    return { ...lastPosInfo, prevPosInfo, insertionMode: 'after' }
 }

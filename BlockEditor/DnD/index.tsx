@@ -20,6 +20,7 @@ export interface PosInfoItem {
     elem: HTMLElement
     rect: DOMRect
     centerY: number
+    notAcceptingChildren: boolean
 }
 
 export interface DropTarget extends PosInfoItem {
@@ -53,7 +54,10 @@ const DragOverlay: FC = () => {
                 if ( ! elem ) return null
                 const rect = elem.getBoundingClientRect ()
                 const centerY = rect.y + rect.height / 2
-                return { blockKey, contentBlock, elem, rect, centerY }
+                return {
+                    blockKey, contentBlock, elem, rect, centerY,
+                    notAcceptingChildren: !! contentBlock.getData ().get ( '_collapsed' )
+                }
             } ).toArray ().filter ( Boolean )
 
             setSortedPosInfo ( sortedPosInfo )
@@ -66,32 +70,36 @@ const DragOverlay: FC = () => {
             setImmediate ( () => setActiveDropSector ( getDropDepth ( event, sectorRects ) ) )
         } }
         onDrop = { event => {
-            const { elem: closestElem, insertionMode } = findClosestDropElement ( event, sortedPosInfo )
-            const dropSector = getDropDepth ( event, sectorRects )
-            const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
-            const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
+            const closestDropElement = findClosestDropElement ( event, sortedPosInfo )
+            if ( closestDropElement ) {
+                const { elem: closestElem, insertionMode } = closestDropElement
+                const dropSector = getDropDepth ( event, sectorRects )
+                const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
+                const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
 
-            const newState = handleDrop (
-                editorState,
-                blockLevelSelectionInfo,
-                draggedBlockKey,
-                dropSector,
-                dropTargetKey,
-                insertionMode
-            )
+                const newState = handleDrop (
+                    editorState,
+                    blockLevelSelectionInfo,
+                    draggedBlockKey,
+                    dropSector,
+                    dropTargetKey,
+                    insertionMode
+                )
+                setEditorState ( newState )
 
-            setEditorState ( newState )
+                setImmediate ( () => setBlockControlsInfo ( prev => ({
+                    ...prev,
+                    hoveredBlockElem: dragInfo.elem as any,
+                    hoveredBlockKey: draggedBlockKey
+                }) ) )
+            }
+
             setWrapperRect ( null )
             setInnerWrapperRect ( null )
             setSortedPosInfo ( null )
             setClosestInfo ( null )
             setSectorRects ([])
             setActiveDropSector ( null )
-            setImmediate ( () => setBlockControlsInfo ( prev => ({
-                ...prev,
-                hoveredBlockElem: dragInfo.elem as any,
-                hoveredBlockKey: draggedBlockKey
-            }) ) )
         } }
     >
         { dragInfo.dragging && <>
