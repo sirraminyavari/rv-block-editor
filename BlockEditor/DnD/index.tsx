@@ -50,10 +50,11 @@ const DragOverlay: FC = () => {
             const blockMap = editorState.getCurrentContent ().getBlockMap ()
             const sortedPosInfo: PosInfoItem [] = blockMap.map ( ( contentBlock, blockKey ) => {
                 const elem = blockRefs.current [ blockKey ]
+                if ( ! elem ) return null
                 const rect = elem.getBoundingClientRect ()
                 const centerY = rect.y + rect.height / 2
                 return { blockKey, contentBlock, elem, rect, centerY }
-            } ).toArray ()
+            } ).toArray ().filter ( Boolean )
 
             setSortedPosInfo ( sortedPosInfo )
             setWrapperRect ( wrapperRef.current.getBoundingClientRect () )
