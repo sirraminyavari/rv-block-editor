@@ -22,9 +22,9 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
             }
         }) as any,
 
-        blockRendererFn ( contentBlcok, { getEditorState, setEditorState } ) {
-            if ( contentBlcok.getType () !== 'accordion' ) return
-            const collapsed = !! contentBlcok.getData ().get ( '_collapsed' )
+        blockRendererFn ( contentBlock, { getEditorState, setEditorState } ) {
+            if ( contentBlock.getType () !== 'accordion' ) return
+            const collapsed = !! contentBlock.getData ().get ( '_collapsed' )
             return {
                 component: Accordion,
                 props: {
@@ -32,11 +32,10 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
                     toggleCollapsed () {
                         const editorState = getEditorState ()
                         const newEditorState = EditorState.forceSelection (
-                            mergeBlockDataByKey ( editorState, contentBlcok.getKey (), { _collapsed: ! collapsed } ),
+                            mergeBlockDataByKey ( editorState, contentBlock.getKey (), { _collapsed: ! collapsed } ),
                             editorState.getSelection ()
                         )
-                        setImmediate ( () => setEditorState ( newEditorState ) )
-
+                        setEditorState ( newEditorState )
                     }
                 }
             }

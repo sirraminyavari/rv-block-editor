@@ -1,4 +1,7 @@
+import _ from 'lodash'
 import cn from 'classnames'
+import { EditorState } from 'draft-js'
+import { mergeBlockDataByKey } from 'draft-js-modifiers'
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
@@ -11,27 +14,47 @@ import styles from './styles.module.scss'
 
 
 const _plugin = _createCheckableListPlugin ()
-const checkableListItem = _plugin.blockRenderMap.get ( 'checkable-list-item' )
+const _checkableListItem = _plugin.blockRenderMap.get ( 'checkable-list-item' )
 
 export default function createCheckableListPlugin ( config: any = {} ): EditorPlugin {
     return {
         id: 'checkable-list',
 
-        ..._plugin,
+        ..._.omit ( _plugin, [ 'onTab' ] ),
 
         blockRenderMap: Map ({
             'checkable-list-item': {
-                ...checkableListItem,
-                element: withBlockWrapper ( checkableListItem.element ),
+                ..._checkableListItem,
+                element: withBlockWrapper ( _checkableListItem.element ),
                 wrapper: {
-                    ...checkableListItem.wrapper,
+                    ..._checkableListItem.wrapper,
                     props: {
-                        ...checkableListItem.wrapper.props,
-                        className: cn ( checkableListItem.wrapper.props.className, config.styles?.cl, styles.cl )
+                        ..._checkableListItem.wrapper.props,
+                        className: cn ( _checkableListItem.wrapper.props.className, config.styles?.cl, styles.cl )
                     }
                 }
             }
         }),
+
+        blockRendererFn ( contentBlock, pfs ) {
+            const original = _plugin.blockRendererFn ( contentBlock, pfs )
+            if ( ! original ) return
+            const checked = contentBlock.getData ().get ( 'checked' )
+            return {
+                ...original,
+                props: {
+                    ...original.props,
+                    onChangeChecked () {
+                        const editorState = pfs.getEditorState ()
+                        const newEditorState = EditorState.forceSelection (
+                            mergeBlockDataByKey ( editorState, contentBlock.getKey (), { checked: ! checked } ),
+                            editorState.getSelection ()
+                        )
+                        pfs.setEditorState ( newEditorState )
+                    }
+                }
+            }
+        },
 
         plusActions: [
             { action: 'checkable-list-item', Icon: CheckableListIcon }
