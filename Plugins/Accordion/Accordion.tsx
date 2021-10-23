@@ -12,6 +12,7 @@ export default function Accordion ({ ...props }) {
             className = { styles.chevronWrapper }
             onMouseDown = { e => e.preventDefault () }
             onClick = { () => toggleCollapsed () }
+            contentEditable = { false }
         >
             <AccordionIcon />
         </div>
