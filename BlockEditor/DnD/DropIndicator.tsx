@@ -2,7 +2,7 @@ import { FC, useLayoutEffect, useRef } from 'react'
 import cn from 'classnames'
 
 import { DropTarget } from '.'
-import calcMaxDepth from './calcMaxDepth'
+import { calcMinDepth, calcMaxDepth } from './calcDepthConstraints'
 
 import styles from './styles.module.scss'
 
@@ -24,6 +24,8 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     closestInfo, onSectorRectsChange, activeSector
 }) => {
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
+
+    const minDepth = calcMinDepth ( closestInfo )
     const maxDepth = calcMaxDepth ( closestInfo )
 
     const dropIndicatorRef = useRef < HTMLDivElement > ()
@@ -58,10 +60,11 @@ const DropIndicator: FC < DropIndicatorProps > = ({
         style = {{ // @ts-ignore
             '--offset': offset,
             '--x': iwr.x - wr.x,
-            '--inner-wrapper-width': iwr.width
+            '--inner-wrapper-width': iwr.width,
+            '--min-depth': minDepth
         }}
     >
-        { ( new Array ( maxDepth + 1 ) ).fill ( null ).map ( ( _, i ) => <div
+        { ( new Array ( maxDepth - minDepth + 1 ) ).fill ( null ).map ( ( _, i ) => <div
             key = { i }
             className = { cn ( styles.dropSector, {
                 [ styles.active ]: activeSector === i

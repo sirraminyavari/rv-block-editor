@@ -16,7 +16,12 @@ export default function findClosestDropElement (
     for ( const posInfo of draggablesSortedPosInfo ) {
         if ( mouseY < posInfo.centerY ) {
             if ( prevPosInfo?.notAcceptingChildren ) return null
-            return { ...posInfo, prevPosInfo, insertionMode: 'before' }
+            return {
+                ...posInfo,
+                prevPosInfo,
+                nextPosInfo: draggablesSortedPosInfo [ draggablesSortedPosInfo.indexOf ( posInfo ) + 1 ],
+                insertionMode: 'before'
+            }
         }
         prevPosInfo = posInfo
     }

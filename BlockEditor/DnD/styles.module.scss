@@ -28,6 +28,9 @@
         flex: 0 0 calc( var( --nest-padding ) - var( --margin ) );
         margin-right: var( --margin );
         transition: outline-color 200ms ease;
+        &:first-child {
+            flex: 0 0 calc( ( var( --min-depth ) + 1 ) * var( --nest-padding ) - var( --margin ) );
+        }
         &:last-child {
             flex: 1 1 auto;
         }
