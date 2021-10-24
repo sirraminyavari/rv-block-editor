@@ -3,14 +3,13 @@ import { BlockMap, ContentBlock } from 'draft-js'
 
 // Self included
 export default function getLastCousinShallowerThan ( blockMap: BlockMap, targetKey: string, depth: number ): ContentBlock {
-    const trimmedBlockSeq = blockMap.skipUntil ( ( _, key ) => key === targetKey )
-    const targetBlock = trimmedBlockSeq.first ()
+    const trimmedBlockMap = blockMap.skipUntil ( ( _, key ) => key === targetKey )
+    const targetBlock = trimmedBlockMap.first ()
     if ( targetBlock.getDepth () === depth ) {
-        const remainingBlockSeq = trimmedBlockSeq.skip ( 1 )
-        const nextBlock = remainingBlockSeq.first ()
-        if ( ! nextBlock ) return targetBlock
-        if ( nextBlock.getDepth () <= depth ) return targetBlock
-        return getLastCousinShallowerThan ( remainingBlockSeq.toOrderedMap (), nextBlock.getKey (), depth )
+        const restBlockMap = trimmedBlockMap.skip ( 1 )
+        const nextBlock = restBlockMap.first ()
+        if ( ! nextBlock || nextBlock.getDepth () <= depth ) return targetBlock
+        return getLastCousinShallowerThan ( restBlockMap as BlockMap, nextBlock.getKey (), depth )
     }
-    return trimmedBlockSeq.takeUntil ( block => block.getDepth () <= depth ).last ()
+    return trimmedBlockMap.takeUntil ( block => block.getDepth () <= depth ).last ()
 }
