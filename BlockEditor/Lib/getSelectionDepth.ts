@@ -5,6 +5,6 @@ import getBlockRange from 'BlockEditor/Lib/getBlockRange'
 
 export default function getSelectionDepth ( blockMap: BlockMap, startKey: string, endKey: string ): number {
     const rawSelectedBlocks = getBlockRange ( blockMap, startKey, endKey )
-    const selectionDepth = rawSelectedBlocks.toArray ().map ( b => b.getDepth () ).sort () [ 0 ]
+    const selectionDepth = Math.min ( ...rawSelectedBlocks.map ( b => b.getDepth () ).toArray () )
     return selectionDepth
 }
