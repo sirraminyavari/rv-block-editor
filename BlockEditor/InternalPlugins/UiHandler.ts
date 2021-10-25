@@ -32,10 +32,10 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 if ( event.shiftKey ) {
                     if ( event.key === 'ArrowDown' )
                         return blockLevelSelectionInfo.selectedBlockKeys.length > 1
-                            ? 'bls-goDown' : undefined
+                            ? 'bls-goDown' : 'bls-goDown-singleBlock'
                     if ( event.key === 'ArrowUp' )
                         return blockLevelSelectionInfo.selectedBlockKeys.length > 1
-                            ? 'bls-goUp' : undefined
+                            ? 'bls-goUp' : 'bls-goUp-singleBlock'
                 }
             }
 
@@ -76,15 +76,21 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 },
 
                 'bls-goDown' () {
-                    const newEditorState = NASM.goDown ( editorState, blockLevelSelectionInfo )
-                    setEditorState ( newEditorState )
+                    setEditorState ( NASM.goDown ( editorState, blockLevelSelectionInfo ) )
                     return 'handled'
                 },
                 'bls-goUp' () {
-                    const newEditorState = NASM.goUp ( editorState, blockLevelSelectionInfo )
-                    setEditorState ( newEditorState )
+                    setEditorState ( NASM.goUp ( editorState, blockLevelSelectionInfo ) )
                     return 'handled'
-                }
+                },
+                'bls-goDown-singleBlock' () {
+                    setEditorState ( NASM.goDownSingleBlock ( editorState, blockLevelSelectionInfo ) )
+                    return 'handled'
+                },
+                'bls-goUp-singleBlock' () {
+                    setEditorState ( NASM.goUpSingleBlock ( editorState, blockLevelSelectionInfo ) )
+                    return 'handled'
+                },
             } [ command ]?.() || 'not-handled'
         }
     })
