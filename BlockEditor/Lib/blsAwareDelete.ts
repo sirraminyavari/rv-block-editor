@@ -3,6 +3,7 @@ import { EditorState, SelectionState, ContentState } from 'draft-js'
 import { BlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
 
 import removeBlockRange from './removeBlockRange'
+import trimCollapsedBlocks from './trimCollapsedBlocks'
 
 
 export default function blsAwareDelete ( editorState: EditorState, blsInfo: BlockLevelSelectionInfo ): EditorState {
@@ -14,7 +15,8 @@ export default function blsAwareDelete ( editorState: EditorState, blsInfo: Bloc
         blsInfo.selectedBlockKeys [ blsInfo.selectedBlockKeys.length - 1 ]
     )
 
-    const anchorBlock = contentState.getBlockBefore ( blsInfo.selectedBlockKeys [ 0 ] )
+    const firstSelectedBlockKey = blsInfo.selectedBlockKeys [ 0 ]
+    const anchorBlock = trimCollapsedBlocks ( contentState.getBlockMap () ).takeUntil ( b => b.getKey () === firstSelectedBlockKey ).last ()
     const newSelectionState = new SelectionState ({
         anchorKey: anchorBlock.getKey (),
         anchorOffset: anchorBlock.getLength (),

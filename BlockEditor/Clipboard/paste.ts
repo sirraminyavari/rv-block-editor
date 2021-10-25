@@ -8,7 +8,6 @@ import { ClipboardEventHandler, ClipboardData } from '.'
 
 
 const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState, event ) => {
-    console.log ('paste')
     const { blockLevelSelectionInfo  } = getUiState ()
     const { getEditorState } = editor
     const editorState = getEditorState ()

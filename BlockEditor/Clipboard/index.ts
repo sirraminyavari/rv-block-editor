@@ -31,10 +31,11 @@ function registerClipboardHandlers (
     setEditorState: SetState < EditorState >
 ): () => void {
     const editor = uiStateRef.current.editorRef.current
+    const getUiState = () => uiStateRef.current
     const { editor: editorElemRef } = editor.getEditorRef ()
     const handlers = {}
     for ( const eventName in rawHandlers ) {
-        handlers [ eventName ] = rawHandlers [ eventName ].bind ( null, editor, () => uiStateRef.current, setEditorState )
+        handlers [ eventName ] = rawHandlers [ eventName ].bind ( null, editor, getUiState, setEditorState )
         editorElemRef.addEventListener ( eventName, handlers [ eventName ] )
     }
     return () => {
