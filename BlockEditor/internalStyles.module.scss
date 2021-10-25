@@ -1,6 +1,5 @@
 .blockLevelSelectionHideRealSelection {
     ::selection {
-        color: inherit;
-        background-color: transparent;
+        background-color: transparent !important;
     }
 }

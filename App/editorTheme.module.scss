@@ -19,6 +19,11 @@
         margin: 0 3.5rem;
     }
 
+    ::selection {
+        color: inherit;
+        background-color: #DAEEF7;
+        background-color: blue;
+    }
     &.blockLevelSelection {
         [data-block-key] {
             transition: all 250ms ease;

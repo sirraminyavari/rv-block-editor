@@ -23,6 +23,9 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     event.key === 'Escape' ||
                     ( ! event.shiftKey && [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ].indexOf ( event.key ) >= 0 )
                 ) return 'bls-disable'
+                // Delete
+                if ( [ 'Backspace', 'Delete' ].indexOf ( event.key ) >= 0 )
+                    return 'bls-delete'
                 // Verified Commands
                 if ( event.ctrlKey && (
                     [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
@@ -91,6 +94,10 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     setEditorState ( NASM.goUpSingleBlock ( editorState, blockLevelSelectionInfo ) )
                     return 'handled'
                 },
+
+                'bls-delete' () {
+                    setEditorState (  )
+                }
             } [ command ]?.() || 'not-handled'
         }
     })
