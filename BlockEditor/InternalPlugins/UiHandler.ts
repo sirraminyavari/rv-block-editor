@@ -23,9 +23,6 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     event.key === 'Escape' ||
                     ( ! event.shiftKey && [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ].indexOf ( event.key ) >= 0 )
                 ) return 'bls-disable'
-                // Function Keys
-                if ( event.key [ 0 ] === 'F' && ! isNaN ( + event.key [ 1 ] ) )
-                    return undefined
                 // Verified Commands
                 if ( event.ctrlKey && (
                     [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||

@@ -70,7 +70,8 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
                 defaultBlockRenderMap
                 defaultKeyBindings
                 defaultKeyCommands
-                readOnly = { readOnly || blockLevelSelectionInfo.enabled }
+                readOnly = { readOnly }
+                handleBeforeInput = { () => blockLevelSelectionInfo.enabled ? 'handled' : 'not-handled' }
                 handlePastedText = { handlePastedText }
                 { ...props }
             />
