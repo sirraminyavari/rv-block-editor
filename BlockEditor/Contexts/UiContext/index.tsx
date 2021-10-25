@@ -58,7 +58,7 @@ export default useUiContext
  * Provides general information and calculated values regarding the Block Editor user interface.
  */
 export function UiContextProvider ({ styles, dict, dir, lang, children, portalNode }) {
-    const { editorState, setEditorState } = useEditorContext ()
+    const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
     const contentState = editorState.getCurrentContent ()
 
@@ -68,7 +68,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState )
     const [ dragInfo, setDragInfo ] = useDrag ()
     const [ rtblSelectionState, updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState )
-    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( editorState, setEditorState, mouseState, rtblSelectionState, updateRtblSelectionState )
+    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( editorState, rtblSelectionState, updateRtblSelectionState )
     const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState )
 
     return <UiContext.Provider
