@@ -45,6 +45,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
+        onMouseDown = { () => editorRef.current?.focus () }
         onClick = { () => editorRef.current?.focus () }
         className = { cn ( externalStyles.wrapper, {
             [ externalStyles.blockLevelSelection ]: blockLevelSelectionInfo.enabled
