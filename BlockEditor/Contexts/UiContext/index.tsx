@@ -49,6 +49,7 @@ export interface UiContext {
     // Block Level Selection:
     blockLevelSelectionInfo: BlockLevelSelectionInfo
     setBlockLevelSelectionInfo: SetState < BlockLevelSelectionInfo >
+    disableBls: () => void
 }
 
 export const UiContext = createContext < UiContext > ( null )
@@ -69,7 +70,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState )
     const [ dragInfo, setDragInfo ] = useDrag ()
     const [ rtblSelectionState, updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState )
-    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useBlockLevelSelection ( editorState, rtblSelectionState, updateRtblSelectionState )
+    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls ] = useBlockLevelSelection ( editorState, rtblSelectionState, updateRtblSelectionState )
     const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState )
 
     return <UiContext.Provider
@@ -81,7 +82,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
             dragInfo, setDragInfo,
             inlineStyleMenuInfo,
             mouseState, rtblSelectionState, updateRtblSelectionState,
-            blockLevelSelectionInfo, setBlockLevelSelectionInfo
+            blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls
         }}
         children = { children }
     />

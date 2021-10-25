@@ -1,9 +1,9 @@
 import { EditorState, SelectionState } from 'draft-js'
 
 import { EditorPlugin } from 'BlockEditor'
-import { defaultBlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
 
 import * as NASM from 'BlockEditor/Lib/nestAwareSelectionModifier'
+import blsAwareDelete from 'BlockEditor/Lib/blsAwareDelete'
 
 
 /**
@@ -52,7 +52,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         },
 
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
-            const { setPlusActionMenuInfo, blockLevelSelectionInfo, setBlockLevelSelectionInfo, updateRtblSelectionState } = getUiContext ()
+            const { setPlusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
             return {
                 'plusActionMenu-close' () {
@@ -70,10 +70,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     const newEditorState = EditorState.forceSelection ( editorState, newSelection )
 
                     setEditorState ( newEditorState )
-                    setImmediate ( () => {
-                        updateRtblSelectionState ()
-                        setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
-                    } )
+                    setImmediate ( getUiContext ().disableBls )
 
                     return 'handled'
                 },
@@ -96,7 +93,9 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 },
 
                 'bls-delete' () {
-                    setEditorState (  )
+                    setEditorState ( blsAwareDelete ( editorState, blockLevelSelectionInfo ) )
+                    setImmediate ( getUiContext ().disableBls )
+                    return 'handled'
                 }
             } [ command ]?.() || 'not-handled'
         }

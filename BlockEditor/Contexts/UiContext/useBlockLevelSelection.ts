@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { EditorState } from 'draft-js'
 
 import getSelectionDepth from 'BlockEditor/Lib/getSelectionDepth'
@@ -16,13 +16,19 @@ export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
     enabled: false, selectedBlockKeys: [], selectionDepth: null
 }
 
-// TODO: Expose a DISABLE Method
 export default function useBlockLevelSelection (
     editorState: EditorState,
     rtblSelectionState: RtblSelectionState,
     updateRtblSelectionState: () => void
-): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo > ] {
+): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo >, () => void ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
+
+    const disable = useCallback ( () => {
+        if ( ! editorState.getSelection ().isCollapsed () )
+            throw new Error ( "Selection must be collapsed before BLS could be disabled." )
+        updateRtblSelectionState ()
+        setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
+    }, [] )
 
     const contentState = editorState.getCurrentContent ()
     const selectionState = editorState.getSelection ()
@@ -57,14 +63,11 @@ export default function useBlockLevelSelection (
     useEffect ( () => {
         if ( ! blockLevelSelectionInfo.enabled ) return
         function handler () {
-            setImmediate ( () => {
-                updateRtblSelectionState ()
-                setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
-            } )
+            setImmediate ( disable )
         }
         document.addEventListener ( 'selectstart', handler )
         return () => document.removeEventListener ( 'selectstart', handler )
     }, [ hasFocus, blockLevelSelectionInfo.enabled, contentState ] )
 
-    return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ]
+    return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disable ]
 }
