@@ -3,9 +3,9 @@ import { createContext, useContext, FC, useMemo, useRef, useEffect } from 'react
 import { EditorPlugin, EditorPluginObject, EditorPluginFunctionArg, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
-import createNestingPlugin from './InternalPlugins/Nesting'
-import createBlockBreakoutPlugin from './InternalPlugins/BlockBreakout'
-import createUiHandlerPlugin from './InternalPlugins/UiHandler'
+import createNestingPlugin from 'BlockEditor/InternalPlugins/Nesting'
+import createBlockBreakoutPlugin from 'BlockEditor/InternalPlugins/BlockBreakout'
+import createUiHandlerPlugin from 'BlockEditor/InternalPlugins/UiHandler'
 
 
 export interface TransformedPluginsContext {

@@ -15,11 +15,11 @@ import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 
 export * from './useBlockControls'
 export * from './usePlusActionMenu'
-export * from '../../DnD/useDrag'
 export * from './useGlobalRefs'
 export * from './useRtblSelectionState'
 export * from './useBlockLevelSelection'
 export * from './useInlineStyleMenu'
+export * from 'BlockEditor/DnD/useDrag'
 
 
 export interface UiContext {
