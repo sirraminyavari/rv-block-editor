@@ -32,10 +32,10 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 if ( event.shiftKey ) {
                     const isBackward = getEditorState ().getSelection ().getIsBackward ()
                     if ( event.key === 'ArrowDown' )
-                        return isBackward && blockLevelSelectionInfo.selectedBlockKeys.length > 1
+                        return blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goDown' : undefined
                     if ( event.key === 'ArrowUp' )
-                        return ! isBackward && blockLevelSelectionInfo.selectedBlockKeys.length > 1
+                        return blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goUp' : undefined
                 }
             }
