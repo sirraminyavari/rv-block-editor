@@ -15,6 +15,8 @@ import DragOverlay from './DnD'
 import useClipboardHandlers, { handlePastedText } from './Clipboard'
 import { CompositeDecorator, EditorState } from 'draft-js'
 
+import styles from './internalStyles.module.scss'
+
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 
@@ -23,7 +25,7 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
  */
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...props }, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles, blockLevelSelectionInfo } = useUiContext ()
+    const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles, blockLevelSelectionInfo, debugMode } = useUiContext ()
     const { allPlugins } = useTransformedPluginsContext ()
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
@@ -48,7 +50,8 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
         onMouseDown = { () => editorRef.current?.focus () }
         onClick = { () => editorRef.current?.focus () }
         className = { cn ( externalStyles.wrapper, {
-            [ externalStyles.blockLevelSelection ]: blockLevelSelectionInfo.enabled
+            [ externalStyles.blockLevelSelection ]: blockLevelSelectionInfo.enabled,
+            [ styles.blockLevelSelectionHideRealSelection ]: blockLevelSelectionInfo.enabled && ! debugMode
         } ) }
         style = {{ isolation: 'isolate', position: 'relative' }}
         dir = { dir } lang = { lang }

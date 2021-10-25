@@ -10,7 +10,7 @@ import styles from './styles.module.scss'
 
 export default function ConfigControls ({ editorState, setEditorState }) {
     const {
-        showState, setShowState,
+        debugMode, setDebugMode,
         readOnly, setReadOnly,
         language, setLanguage,
         direction, setDirection,
@@ -18,8 +18,8 @@ export default function ConfigControls ({ editorState, setEditorState }) {
     } = useUiContext ()
     return <div className = { styles.configControls } dir = 'ltr'>
         <label>
-            <input type = 'checkbox' checked = { showState } onChange = { e => setShowState ( e.target.checked ) } />
-            Show State
+            <input type = 'checkbox' checked = { debugMode } onChange = { e => setDebugMode ( e.target.checked ) } />
+            Debug Mode
         </label>
         <label>
             <input type = 'checkbox' checked = { readOnly } onChange = { e => setReadOnly ( e.target.checked ) } />

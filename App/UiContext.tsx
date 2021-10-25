@@ -6,8 +6,8 @@ import { Language, Direction } from 'BlockEditor'
 export interface UiContext {
     showControls: boolean
     setShowControls: SetState < boolean >
-    showState: boolean
-    setShowState: SetState < boolean >
+    debugMode: boolean,
+    setDebugMode: SetState < boolean >
     readOnly: boolean,
     setReadOnly: SetState < boolean >
     language: Language
@@ -24,7 +24,7 @@ export default useUiContext
 
 export function UiContextProvider ({ children }) {
     const [ showControls, setShowControls ] = useState < boolean > ( () => localStorage.getItem ( 'showControls' ) === 'true' )
-    const [ showState, setShowState ] = useState < boolean > ( () => localStorage.getItem ( 'showState' ) === 'true' )
+    const [ debugMode, setDebugMode ] = useState < boolean > ( () => localStorage.getItem ( 'readOnly' ) === 'true' )
     const [ readOnly, setReadOnly ] = useState < boolean > ( () => localStorage.getItem ( 'readOnly' ) === 'true' )
     const [ language, setLanguage ] = useState < Language > ( () => localStorage.getItem ( 'lang' ) as Language || 'en' )
     const [ direction, setDirection ] = useState < Direction > ( () => localStorage.getItem ( 'dir' ) as Direction || 'ltr' )
@@ -32,12 +32,12 @@ export function UiContextProvider ({ children }) {
 
     useEffect ( () => {
         localStorage.setItem ( 'showControls', showControls.toString () )
-        localStorage.setItem ( 'showState', showState.toString () )
+        localStorage.setItem ( 'debugMode', debugMode.toString () )
         localStorage.setItem ( 'readOnly', readOnly.toString () )
         localStorage.setItem ( 'lang', language )
         localStorage.setItem ( 'dir', direction )
         localStorage.setItem ( 'contentPreset', contentPreset )
-    }, [ showControls, showState, readOnly, language, direction, contentPreset ] )
+    }, [ showControls, debugMode, readOnly, language, direction, contentPreset ] )
 
     useEffect ( () => {
         document.documentElement.setAttribute ( 'dir', direction )
@@ -62,7 +62,7 @@ export function UiContextProvider ({ children }) {
     return <UiContext.Provider
         value = {{
             showControls, setShowControls,
-            showState, setShowState,
+            debugMode, setDebugMode,
             readOnly, setReadOnly,
             language, setLanguage,
             direction, setDirection,

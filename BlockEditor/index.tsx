@@ -18,6 +18,7 @@ export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > 
     lang: Language
     plugins: EditorPlugin []
     portalNode: HTMLElement
+    debugMode?: boolean
 }
 
 /**
@@ -25,11 +26,16 @@ export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > 
  */
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
     editorState, onChange: setEditorState, styles = {},
-    dict, dir, lang, plugins, portalNode,
+    dict, dir, lang, plugins, portalNode, debugMode = false,
     ...props
 }, ref ) => {
     return <EditorContextProvider editorState = { editorState } setEditorState = { setEditorState }>
-        <UiContextProvider styles = { styles } dict = { dict } dir = { dir } lang = { lang } portalNode = { portalNode }>
+        <UiContextProvider
+            styles = { styles }
+            dict = { dict } dir = { dir } lang = { lang }
+            portalNode = { portalNode }
+            debugMode = { debugMode }
+        >
             <TransformedPluginsContextProvider plugins = { plugins }>
                 <Editor ref = { ref } { ...props } />
             </TransformedPluginsContextProvider>

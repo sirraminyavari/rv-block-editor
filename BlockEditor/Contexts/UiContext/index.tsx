@@ -23,9 +23,10 @@ export * from 'BlockEditor/DnD/useDrag'
 
 
 export interface UiContext {
-    // Dictionary, Layout & Styles:
+    // Misc:
     dict: Dict, dir: Direction, lang: Language
     externalStyles: { [ key: string ]: string }
+    debugMode: boolean
     // Global Refs:
     editorRef: MutableRefObject < Editor >
     wrapperRef: MutableRefObject < HTMLDivElement >
@@ -57,7 +58,7 @@ export default useUiContext
 /**
  * Provides general information and calculated values regarding the Block Editor user interface.
  */
-export function UiContextProvider ({ styles, dict, dir, lang, children, portalNode }) {
+export function UiContextProvider ({ styles, dict, dir, lang, children, portalNode, debugMode }) {
     const { editorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
     const contentState = editorState.getCurrentContent ()
@@ -73,7 +74,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
 
     return <UiContext.Provider
         value = {{
-            dict, dir, lang, externalStyles: styles, portalNode,
+            dict, dir, lang, externalStyles: styles, portalNode, debugMode,
             editorRef, wrapperRef, innerWrapperRef, blockRefs,
             blockControlsInfo, setBlockControlsInfo,
             plusActionMenuInfo, setPlusActionMenuInfo,

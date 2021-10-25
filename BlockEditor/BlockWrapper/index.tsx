@@ -16,7 +16,7 @@ const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).joi
  */
 const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
     const { editorState } = useEditorContext ()
-    const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo } = useUiContext ()
+    const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo, debugMode } = useUiContext ()
 
     const { block: outOfSyncBlock } = children?.props || rest
     const blockKey = outOfSyncBlock.getKey ()
@@ -44,7 +44,7 @@ const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
         // @ts-ignore
         style = {{ '--depth': depth }}
         draggable = { dragInfo.isDraggingByHandle }
-        title = { blockKey } // TODO: Remove Me
+        { ...( debugMode ? { title: blockKey } : {} ) }
     >
         <div
             className = { c ( externalStyles, config.styles?.contentWrapper ) }
