@@ -1,6 +1,8 @@
-import { EditorState } from 'draft-js'
+import { BlockMap, EditorState } from 'draft-js'
 
 import { BlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
+
+import getNextEqualOrShallowerBlock from './getNextEqualOrShallowerBlock'
 
 
 export function goDown ( editorState: EditorState, blsInfo: BlockLevelSelectionInfo ): EditorState {
@@ -17,11 +19,11 @@ export function goDown ( editorState: EditorState, blsInfo: BlockLevelSelectionI
             return newFocusBlock
         } else {
             const lastSelectedBlockKey = selectedBlockKeys [ selectedBlockKeys.length - 1 ]
-            const nextEqualOrShallowerBlock = blockMap
-                .skipUntil ( b => b.getKey () === lastSelectedBlockKey )
-                .skip ( 1 )
-                .skipUntil ( b => b.getDepth () <= selectionDepth )
-                .first ()
+            const nextEqualOrShallowerBlock = getNextEqualOrShallowerBlock (
+                blockMap,
+                lastSelectedBlockKey,
+                selectionDepth
+            )
             if ( ! nextEqualOrShallowerBlock ) return blockMap.get ( lastSelectedBlockKey )
             return nextEqualOrShallowerBlock
         }
@@ -43,13 +45,13 @@ export function goUp ( editorState: EditorState, blsInfo: BlockLevelSelectionInf
 
     const newFocusBlock = ( () => {
         if ( selectionState.getIsBackward () ) {
-            const firstSelectedBlock = selectedBlockKeys [ 0 ]
-            const nextEqualOrShallowerBlock = blockMap.reverse ()
-                .skipUntil ( b => b.getKey () === firstSelectedBlock )
-                .skip ( 1 )
-                .skipUntil ( b => b.getDepth () <= selectionDepth )
-                .first ()
-            if ( ! nextEqualOrShallowerBlock ) return blockMap.get ( firstSelectedBlock )
+            const firstSelectedBlockKey = selectedBlockKeys [ 0 ]
+            const nextEqualOrShallowerBlock = getNextEqualOrShallowerBlock (
+                blockMap.reverse () as BlockMap,
+                firstSelectedBlockKey,
+                selectionDepth
+            )
+            if ( ! nextEqualOrShallowerBlock ) return blockMap.get ( firstSelectedBlockKey )
             return nextEqualOrShallowerBlock
         } else {
             const trimmedSelectedBlockKeys = selectedBlockKeys.slice ( selectedBlockKeys.indexOf ( selectionState.getAnchorKey () ) )

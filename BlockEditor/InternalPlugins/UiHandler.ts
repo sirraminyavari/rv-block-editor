@@ -13,7 +13,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
     return ({ getUiContext }) => ({
         id: '__internal__ui-handler',
 
-        keyBindingFn ( event, { getEditorState } ) {
+        keyBindingFn ( event ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
             // Block-Level Selection
@@ -30,7 +30,6 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 ) ) return undefined
                 // Selection Modification
                 if ( event.shiftKey ) {
-                    const isBackward = getEditorState ().getSelection ().getIsBackward ()
                     if ( event.key === 'ArrowDown' )
                         return blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goDown' : undefined
