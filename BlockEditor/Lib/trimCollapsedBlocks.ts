@@ -5,9 +5,11 @@ import getLastCousinShallowerThan from 'BlockEditor/Lib/getLastCousinShallowerTh
 
 export default function trimCollapsedBlocks ( blockMap: BlockMap ): BlockMap {
     if ( ! blockMap.size ) return blockMap
-    const safeLeft = blockMap.takeUntil ( b => !! b.getData ().get ( '_collapsed' ) ) as BlockMap
+    const safeLeft = blockMap.takeUntil ( b => b.getData ().get ( '_collapsed' ) ) as BlockMap
     const lastSafeBlockKey = safeLeft.last ()?.getKey ()
-    const right = blockMap.skipUntil ( b => b.getKey () === lastSafeBlockKey ).skip ( 1 ) as BlockMap
+    const right = lastSafeBlockKey
+        ? blockMap.skipUntil ( b => b.getKey () === lastSafeBlockKey ).skip ( 1 ) as BlockMap
+        : blockMap // It means that the first block is collapsed so safeLeft is empty so lastSafeBlockKey is undefined
     const firstCollapsedBlock = right.first ()
     if ( ! firstCollapsedBlock?.getData ().get ( '_collapsed' ) ) return safeLeft
     const lastCollapsedKey = getLastCousinShallowerThan (
