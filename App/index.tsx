@@ -18,6 +18,7 @@ import createCheckableListPlugin from 'Plugins/CheckableList'
 import createAccordionPlugin from 'Plugins/Accordion'
 import createQuotePlugin from 'Plugins/Quote'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
+import createSoftNewlinePlugin from 'Plugins/SoftNewline'
 
 import dict from './dict'
 
@@ -30,7 +31,8 @@ const plugins = [
     createCheckableListPlugin ({ styles: editorTheme }),
     createAccordionPlugin (),
     createQuotePlugin (),
-    createCodeBlockPlugin ({ styles: editorTheme })
+    createCodeBlockPlugin ({ styles: editorTheme }),
+    createSoftNewlinePlugin ()
 ]
 
 
