@@ -47,8 +47,6 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 if ( event.key === 'Escape' )
                     return 'plusActionMenu-close'
             }
-
-            return undefined
         },
 
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {

@@ -24,7 +24,7 @@ export default useUiContext
 
 export function UiContextProvider ({ children }) {
     const [ showControls, setShowControls ] = useState < boolean > ( () => localStorage.getItem ( 'showControls' ) === 'true' )
-    const [ debugMode, setDebugMode ] = useState < boolean > ( () => localStorage.getItem ( 'readOnly' ) === 'true' )
+    const [ debugMode, setDebugMode ] = useState < boolean > ( () => localStorage.getItem ( 'debugMode' ) === 'true' )
     const [ readOnly, setReadOnly ] = useState < boolean > ( () => localStorage.getItem ( 'readOnly' ) === 'true' )
     const [ language, setLanguage ] = useState < Language > ( () => localStorage.getItem ( 'lang' ) as Language || 'en' )
     const [ direction, setDirection ] = useState < Direction > ( () => localStorage.getItem ( 'dir' ) as Direction || 'ltr' )

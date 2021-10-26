@@ -1,8 +1,7 @@
-import { BlockMap, EditorState } from 'draft-js'
+import { EditorState } from 'draft-js'
 
 import { BlockLevelSelectionInfo } from 'BlockEditor/Contexts/UiContext'
 
-import getNextEqualOrShallowerBlock from './getNextEqualOrShallowerBlock'
 import trimCollapsedBlocks from './trimCollapsedBlocks'
 
 
@@ -19,15 +18,10 @@ export function goDown ( editorState: EditorState, blsInfo: BlockLevelSelectionI
             return outerSelectedBlocks [ 1 ] || contentState.getBlockAfter ( outerSelectedBlocks [ 0 ].getKey () )
         } else {
             const lastSelectedBlockKey = selectedBlockKeys [ selectedBlockKeys.length - 1 ]
-            const nextEqualOrShallowerBlock = getNextEqualOrShallowerBlock (
-                blockMap,
-                lastSelectedBlockKey,
-                selectionDepth
-            )
-            if ( ! nextEqualOrShallowerBlock ) return blockMap.get ( lastSelectedBlockKey )
-            return nextEqualOrShallowerBlock
+            return contentState.getBlockAfter ( lastSelectedBlockKey )
         }
     } ) ()
+    if ( ! newFocusBlock ) return editorState
 
     const newSelectionState = selectionState.merge ({
         focusKey: newFocusBlock.getKey (),
@@ -45,13 +39,7 @@ export function goUp ( editorState: EditorState, blsInfo: BlockLevelSelectionInf
     const newFocusBlock = ( () => {
         if ( selectionState.getIsBackward () ) {
             const firstSelectedBlockKey = selectedBlockKeys [ 0 ]
-            const nextEqualOrShallowerBlock = getNextEqualOrShallowerBlock (
-                blockMap.reverse () as BlockMap,
-                firstSelectedBlockKey,
-                selectionDepth
-            )
-            if ( ! nextEqualOrShallowerBlock ) return blockMap.get ( firstSelectedBlockKey )
-            return nextEqualOrShallowerBlock
+            return contentState.getBlockBefore ( firstSelectedBlockKey )
         } else {
             const trimmedSelectedBlockKeys = selectedBlockKeys.slice ( selectedBlockKeys.indexOf ( selectionState.getAnchorKey () ) )
             const outerSelectedBlocks = trimmedSelectedBlockKeys.map ( k => blockMap.get ( k ) ).filter ( b => b?.getDepth () === selectionDepth )
