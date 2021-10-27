@@ -1,7 +1,11 @@
 import { RichUtils } from 'draft-js'
-import CodeUtils, { onTab } from 'draft-js-code'
 import cn from 'classnames'
 import { Map } from 'immutable'
+
+import CodeUtils, { onTab } from 'draft-js-code'
+import Prism from 'prismjs'
+import createPrismPlugin from 'draft-js-prism-plugin'
+import 'prismjs/themes/prism.css'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 
@@ -45,7 +49,7 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
 
         blockRenderMap: Map ({
             'code-block': {
-                element: withBlockWrapper ( 'pre', {
+                element: withBlockWrapper ( 'code', {
                     styles: {
                         wrapper: [ 'pre-wrapper' ],
                         contentWrapper: [ 'pre-content-wrapper' ]
@@ -53,6 +57,10 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
                 } ),
                 wrapper: <pre className = { cn ( 'public/DraftStyleDefault/pre', config.styles?.pre ) } />
             }
-        }) as any
+        }) as any,
+
+        ...createPrismPlugin ({ // It only has decorators
+            prism: Prism
+        })
     }
 }

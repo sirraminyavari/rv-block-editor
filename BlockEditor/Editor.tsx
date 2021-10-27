@@ -1,7 +1,9 @@
 import { forwardRef, useState, useLayoutEffect, useMemo, useEffect } from 'react'
 import cn from 'classnames'
 
+import { EditorState } from 'draft-js'
 import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
+import MultiDecorator from 'draft-js-multidecorators'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
@@ -11,9 +13,7 @@ import BlockControls from './BlockControls'
 import InlineStyleMenu from './InlineStyleMenu'
 import PlusActionMenu from './PlusActionMenu'
 import DragOverlay from './DnD'
-
 import useClipboardHandlers, { handlePastedText } from './Clipboard'
-import { CompositeDecorator, EditorState } from 'draft-js'
 
 import styles from './internalStyles.module.scss'
 
@@ -39,7 +39,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
 
     // This is a hack that needs to be done otherwise no plugin decorator will work.
     const decorators = useMemo ( () => {
-        return new CompositeDecorator ( allPlugins
+        return new MultiDecorator ( allPlugins
             .map ( p => p.decorators )
             .filter ( Boolean )
             .reduce ( ( acc, val ) => [ ...acc, ...val ], [] ) as any
