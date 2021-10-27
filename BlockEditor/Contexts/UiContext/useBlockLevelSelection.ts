@@ -19,11 +19,12 @@ export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
 export default function useBlockLevelSelection (
     editorState: EditorState,
     rtblSelectionState: RtblSelectionState,
-    updateRtblSelectionState: () => void
+    updateRtblSelectionState: () => void,
+    disable: boolean
 ): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo >, () => void ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
 
-    const disable = useCallback ( () => {
+    const disableBls = useCallback ( () => {
         if ( ! editorState.getSelection ().isCollapsed () )
             throw new Error ( "Selection must be collapsed before BLS could be disabled." )
         updateRtblSelectionState ()
@@ -36,16 +37,16 @@ export default function useBlockLevelSelection (
 
     // Enable Trigger
     useEffect ( () => {
-        if ( ! hasFocus || blockLevelSelectionInfo.enabled ) return
+        if ( disable || ! hasFocus || blockLevelSelectionInfo.enabled ) return
         const { anchorKey, focusKey } = rtblSelectionState
         if ( ! anchorKey || ! focusKey ) return
         if ( anchorKey !== focusKey )
             setBlockLevelSelectionInfo ( prevState => ({ ...prevState, enabled: true }) )
-    }, [ hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
+    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
 
     // Selection Handler
     useEffect ( () => {
-        if ( ! hasFocus || ! blockLevelSelectionInfo.enabled ) return
+        if ( disable || ! hasFocus || ! blockLevelSelectionInfo.enabled ) return
 
         const blockMap = contentState.getBlockMap ()
         const { startKey, endKey } = rtblSelectionState
@@ -57,17 +58,17 @@ export default function useBlockLevelSelection (
             selectionDepth !== blockLevelSelectionInfo.selectionDepth ||
             selectedBlockKeys.join () !== blockLevelSelectionInfo.selectedBlockKeys.join ()
         ) setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectionDepth, selectedBlockKeys }) )
-    }, [ hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
+    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
 
     // Disable Trigger
     useEffect ( () => {
-        if ( ! blockLevelSelectionInfo.enabled ) return
+        if ( disable || ! blockLevelSelectionInfo.enabled ) return
         function handler () {
-            setImmediate ( disable )
+            setImmediate ( disableBls )
         }
         document.addEventListener ( 'selectstart', handler )
         return () => document.removeEventListener ( 'selectstart', handler )
-    }, [ hasFocus, blockLevelSelectionInfo.enabled, contentState ] )
+    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, contentState ] )
 
-    return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disable ]
+    return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls ]
 }

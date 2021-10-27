@@ -25,7 +25,11 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
  */
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...props }, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dir, lang, editorRef, wrapperRef, innerWrapperRef, externalStyles, blockLevelSelectionInfo, debugMode } = useUiContext ()
+    const {
+        dir, lang, externalStyles,
+        editorRef, wrapperRef, innerWrapperRef,
+        blockLevelSelectionInfo, debugMode, textarea
+    } = useUiContext ()
     const { allPlugins } = useTransformedPluginsContext ()
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
@@ -80,10 +84,12 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
             />
         </div>
         { ! readOnly && renderRefDependentComps && <>
-            <BlockControls />
+            { textarea || <BlockControls /> }
             <InlineStyleMenu />
-            <PlusActionMenu />
-            <DragOverlay />
+            { textarea || <>
+                <PlusActionMenu />
+                <DragOverlay />
+            </> }
         </> }
     </div>
 } )

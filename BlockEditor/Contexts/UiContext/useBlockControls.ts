@@ -21,17 +21,19 @@ import { BlockRefs } from './useGlobalRefs'
 export default function useBlockControls (
     editorState: EditorState,
     wrapperRef: MutableRefObject < HTMLDivElement >,
-    blockRefs: BlockRefs
+    blockRefs: BlockRefs,
+    disable: boolean
 ): [ BlockControlsInfo, SetState < BlockControlsInfo > ] {
     const [ blockControlsInfo, setBlockControlsInfo ] = useState < BlockControlsInfo > ()
 
     useLayoutEffect ( () => { // Set Block Controls on the first block initialy
+        if ( disable ) return
         const firstBlockElem = wrapperRef.current.querySelector ( '[data-block-key]' ) as HTMLDivElement
         setBlockControlsInfo ( prev => ({ ...prev,
             hoveredBlockElem: firstBlockElem,
             hoveredBlockKey: firstBlockElem.getAttribute ( 'data-block-key' )
         }) )
-    }, [] )
+    }, [ disable ] )
 
     const mouseY = useRef ( 0 )
     const positionBlockControls = useCallback ( ({ clientY: y }) => {
@@ -57,6 +59,7 @@ export default function useBlockControls (
     }, [] )
 
     useLayoutEffect ( () => {
+        if ( disable ) return
         document.addEventListener ( 'mousemove', positionBlockControls )
         const observer = new MutationObserver ( () => setBlockControlsInfo ( prev => ({ ...prev }) ) )
         observer.observe ( wrapperRef.current, { attributes: true, childList: true, subtree: true } )
@@ -64,11 +67,12 @@ export default function useBlockControls (
             document.removeEventListener ( 'mousemove', positionBlockControls )
             observer.disconnect ()
         }
-    }, [] )
+    }, [ disable ] )
 
     useLayoutEffect ( () => {
+        if ( disable ) return
         positionBlockControls ({ clientY: mouseY.current })
-    }, [ editorState ] )
+    }, [ disable, editorState ] )
 
     return [ blockControlsInfo, setBlockControlsInfo ]
 }

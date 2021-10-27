@@ -22,21 +22,22 @@ const defaultRtblSelectionState: RtblSelectionState = {
 
 export default function useRtblSelectionState (
     contentState: ContentState,
-    selectionState: SelectionState
+    selectionState: SelectionState,
+    disable: boolean
 ): [ RtblSelectionState, () => void ] {
     const [ rtblSelectionState, setRtblSelectionState ] = useState ( defaultRtblSelectionState )
 
     const updateRtblSelectionState = useCallback ( () => {
         const domSelection = getSelection ()
         setRtblSelectionState ( calcRtblSelectionState ( contentState, domSelection ) )
-    }, [ setRtblSelectionState, contentState ] )
+    }, [ contentState ] )
 
     const hasFocus = selectionState.getHasFocus ()
     useEffect ( () => {
-        if ( ! hasFocus ) return
+        if ( disable || ! hasFocus ) return
         document.addEventListener ( 'selectionchange', updateRtblSelectionState )
         return () => document.removeEventListener ( 'selectionchange', updateRtblSelectionState )
-    }, [ hasFocus, updateRtblSelectionState ] )
+    }, [ disable, hasFocus, updateRtblSelectionState ] )
 
     return [ rtblSelectionState, updateRtblSelectionState ]
 }

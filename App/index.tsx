@@ -38,7 +38,7 @@ const plugins = [
 
 export default function App () {
     const [ editorState, setEditorState ] = useState ( getInitialEditorState ( localStorage.getItem ( 'contentPreset' ) || 'empty' ) )
-    const { debugMode, readOnly, language, direction } = useUiContext ()
+    const { debugMode, readOnly, textarea, language, direction } = useUiContext ()
 
     const editorRef = useRef < any > ()
     useLayoutEffect ( () => editorRef.current?.focus (), [] )
@@ -51,8 +51,9 @@ export default function App () {
             dict = { dict } lang = { language } dir = { direction }
             plugins = { plugins } styles = { editorTheme }
             portalNode = { document.getElementById ( 'block-editor-portal' ) }
-            readOnly = { readOnly }
             debugMode = { debugMode }
+            readOnly = { readOnly }
+            textarea = { textarea }
         />
     </>
 }

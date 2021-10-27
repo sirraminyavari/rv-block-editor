@@ -12,6 +12,7 @@ export default function ConfigControls ({ editorState, setEditorState }) {
     const {
         debugMode, setDebugMode,
         readOnly, setReadOnly,
+        textarea, setTextarea,
         language, setLanguage,
         direction, setDirection,
         contentPreset, setContentPreset
@@ -24,6 +25,10 @@ export default function ConfigControls ({ editorState, setEditorState }) {
         <label>
             <input type = 'checkbox' checked = { readOnly } onChange = { e => setReadOnly ( e.target.checked ) } />
             Read-Only
+        </label>
+        <label>
+            <input type = 'checkbox' checked = { textarea } onChange = { e => setTextarea ( e.target.checked ) } />
+            Textarea
         </label>
         <label>
             Language: { ' ' }
