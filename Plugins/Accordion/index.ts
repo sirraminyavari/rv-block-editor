@@ -1,8 +1,8 @@
-import { EditorState } from 'draft-js'
-import { mergeBlockDataByKey } from 'draft-js-modifiers'
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
+
 import { AccordionIcon } from './icons'
 
 import Accordion from './Accordion'
@@ -31,10 +31,7 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
                     collapsed,
                     toggleCollapsed () {
                         const editorState = getEditorState ()
-                        const newEditorState = EditorState.forceSelection (
-                            mergeBlockDataByKey ( editorState, contentBlock.getKey (), { _collapsed: ! collapsed } ),
-                            editorState.getSelection ()
-                        )
+                        const newEditorState = mergeBlockDataByKey ( editorState, contentBlock.getKey (), { _collapsed: ! collapsed } )
                         setEditorState ( newEditorState )
                     }
                 }

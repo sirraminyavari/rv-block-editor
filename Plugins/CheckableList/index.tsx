@@ -1,10 +1,9 @@
 import _ from 'lodash'
 import cn from 'classnames'
-import { EditorState } from 'draft-js'
-import { mergeBlockDataByKey } from 'draft-js-modifiers'
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
 
 import _createCheckableListPlugin from 'draft-js-checkable-list-plugin'
 import 'draft-js-checkable-list-plugin/lib/plugin.css'
@@ -46,10 +45,7 @@ export default function createCheckableListPlugin ( config: any = {} ): EditorPl
                     ...original.props,
                     onChangeChecked () {
                         const editorState = pfs.getEditorState ()
-                        const newEditorState = EditorState.forceSelection (
-                            mergeBlockDataByKey ( editorState, contentBlock.getKey (), { checked: ! checked } ),
-                            editorState.getSelection ()
-                        )
+                        const newEditorState = mergeBlockDataByKey ( editorState, contentBlock.getKey (), { checked: ! checked } )
                         pfs.setEditorState ( newEditorState )
                     }
                 }
