@@ -6,6 +6,8 @@
 
     .chevronWrapper {
         cursor: pointer;
+        display: flex;
+        align-items: center;
         > * {
             transition: all 250ms ease;
         }
