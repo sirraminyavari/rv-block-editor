@@ -9,7 +9,7 @@ import styles from './styles.module.scss'
 export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
     Icon?: IconType
     active?: boolean
-    noMotion?: boolean
+    motion?: boolean
     [ key: string ]: any
 }
 
@@ -17,9 +17,9 @@ export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
  * Generic button UI element.
  */
 const Button = forwardRef < HTMLDivElement, ButtonProps > ( (
-    { className, Icon, active, noMotion, children, ...props }: any, ref
+    { className, Icon, active, motion, children, ...props }: any, ref
 ) => {
-    const Comp = noMotion ? 'div' : motion.div
+    const Comp = motion ? motion.div : 'div'
     return <Comp
         ref = { ref }
         className = { cn ( styles.button, className, {

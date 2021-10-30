@@ -19,6 +19,7 @@ import createAccordionPlugin from 'Plugins/Accordion'
 import createQuotePlugin from 'Plugins/Quote'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
 import createSoftNewlinePlugin from 'Plugins/SoftNewline'
+import createLinksPlugin from 'Plugins/Links'
 
 import dict from './dict'
 
@@ -32,7 +33,8 @@ const plugins = [
     createAccordionPlugin (),
     createQuotePlugin (),
     createCodeBlockPlugin ({ styles: editorTheme }),
-    createSoftNewlinePlugin ()
+    createSoftNewlinePlugin (),
+    createLinksPlugin ()
 ]
 
 

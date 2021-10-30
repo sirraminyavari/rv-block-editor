@@ -1,9 +1,10 @@
 import { forwardRef, useState, useLayoutEffect, useMemo, useEffect } from 'react'
 import cn from 'classnames'
+import _ from 'lodash'
 
 import { EditorState } from 'draft-js'
 import Editor, { PluginEditorProps } from '@draft-js-plugins/editor'
-import MultiDecorator from 'draft-js-multidecorators'
+import MultiDecorator from 'BlockEditor/Utils/MultiDecorator'
 
 import useEditorContext from './Contexts/EditorContext'
 import useUiContext from './Contexts/UiContext'
@@ -38,16 +39,20 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
     useClipboardHandlers ()
 
     // This is a hack that needs to be done otherwise no plugin decorator will work.
-    const decorators = useMemo ( () => {
+    const decorator = useMemo ( () => {
         return new MultiDecorator ( allPlugins
             .map ( p => p.decorators )
             .filter ( Boolean )
-            .reduce ( ( acc, val ) => [ ...acc, ...val ], [] ) as any
+            .reduce ( ( acc, val ) => [ ...acc, ...val ], [] )
         )
     }, [ allPlugins ] )
     useEffect ( () => {
-        setEditorState ( EditorState.set ( editorState, { decorator: decorators } ) )
-    }, [ decorators ] )
+        setEditorState ( EditorState.set ( editorState, { decorator } ) )
+    }, [ decorator ] )
+    const allPluginsWithoutDecorators = useMemo (
+        () => allPlugins.map ( p => _.omit ( p, [ 'decorators' ] ) ),
+        [ allPlugins ]
+    )
 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
@@ -73,7 +78,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...p
                 } }
                 editorState = { editorState }
                 onChange = { setEditorState }
-                plugins = { allPlugins }
+                plugins = { allPluginsWithoutDecorators }
                 defaultBlockRenderMap
                 defaultKeyBindings
                 defaultKeyCommands

@@ -1,7 +1,9 @@
+import { EditorState } from 'draft-js'
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
 import { IconType } from 'react-icons'
 
 import { UiContext } from 'BlockEditor/Contexts/UiContext'
+import { ComponentType } from 'react'
 
 
 /**
@@ -23,19 +25,28 @@ export type Dict = {
     }
 }
 
+// TODO: Docs
+export interface InlineStyleComponentProps {
+    editorState: EditorState,
+    setEditorState: SetState < EditorState >
+
+}
+export type InlineStyleComponent = ComponentType < InlineStyleComponentProps >
+
 /**
  * Defines an Inline Style.
  * * Ojects of this interface will be transformed to `TransformedInlineStyle`s by the TrasformedPlugins Context for internal use.
  */
 export interface InlineStyle {
+    Component?: InlineStyleComponent
     /**
      * The SVG icon associated with the Inline Style.
      */
-    Icon: IconType
+    Icon?: IconType
     /**
      * The style name to get passed to `RichUtils.toggleInlineStyle`.
      */
-    style: string
+    style?: string
 }
 
 /**

@@ -19,10 +19,6 @@ const ToggleInlineStyleButton: FC < ToggleInlineStyleButtonProps > = ({
 }) => {
     const { editorState, setEditorState } = useEditorContext ()
     return <Button
-        variants = {{
-            initial: { opacity: 0, scale: .4 },
-            animate: { opacity: 1, scale: 1 },
-        }}
         Icon = { Icon }
         active = { active }
         onClick = { () => {
