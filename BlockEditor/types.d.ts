@@ -1,5 +1,5 @@
-import { ComponentType, ReactChildren } from 'react'
-import { ContentState, EditorState } from 'draft-js'
+import { ComponentType } from 'react'
+import { EditorState, ContentState, ContentBlock } from 'draft-js'
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
 import { IconType } from 'react-icons'
 
@@ -134,3 +134,9 @@ export interface DecoratorComponentProps {
     end: number
 }
 export type DecoratorComponent = ComponentType < DecoratorComponentProps >
+
+export type StrategyFunction = (
+    block: ContentBlock,
+    callback: ( start: number, end: number ) => void,
+    contentState: ContentState
+) => void
