@@ -7,7 +7,7 @@ import { UiContextProvider } from 'BlockEditor/Contexts/UiContext'
 import { TransformedPluginsContextProvider } from 'BlockEditor/Contexts/TransformedPlugins'
 import Editor, { BlockEditorProps as _BlockEditorProps } from 'BlockEditor/Editor'
 
-export * from './types'
+export * from './types.d'
 export { withBlockWrapper } from './BlockWrapper'
 
 

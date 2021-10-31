@@ -1,9 +1,9 @@
-import { EditorState } from 'draft-js'
+import { ComponentType, ReactChildren } from 'react'
+import { ContentState, EditorState } from 'draft-js'
 import { EditorPlugin as _EditorPlugin } from '@draft-js-plugins/editor'
 import { IconType } from 'react-icons'
 
 import { UiContext } from 'BlockEditor/Contexts/UiContext'
-import { ComponentType } from 'react'
 
 
 /**
@@ -119,3 +119,18 @@ export interface EditorPluginFunctionArg {
 export type EditorPluginFunction = ( arg: EditorPluginFunctionArg ) => EditorPluginObject
 
 export type EditorPlugin = EditorPluginObject | EditorPluginFunction
+
+
+// TODO: Docs
+export interface DecoratorComponentProps {
+    contentState: ContentState
+    children: any
+    blockKey: string
+    entityKey: string
+    offsetKey: string
+    decoratedText: string
+    dir: any
+    start: number
+    end: number
+}
+export type DecoratorComponent = ComponentType < DecoratorComponentProps >
