@@ -232,11 +232,6 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
   integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
 
-"@jimmycode/draft-js-soft-newline-plugin@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@jimmycode/draft-js-soft-newline-plugin/-/draft-js-soft-newline-plugin-0.5.1.tgz#e6ff3ba9279ac2388f0527dfe5804c3a1f59eebe"
-  integrity sha512-vM/OkbqVn7WQ4cGc45r4QYKCshfmRaIbkBAlfRdvCzMov5wMlbSHEock56Nr230qXAJGMHBmjPgHbiFcTJ/9/Q==
-
 "@popperjs/core@^2.9.2":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
