@@ -31,7 +31,11 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
                     collapsed,
                     toggleCollapsed () {
                         const editorState = getEditorState ()
-                        const newEditorState = mergeBlockDataByKey ( editorState, contentBlock.getKey (), { _collapsed: ! collapsed } )
+                        const newEditorState = mergeBlockDataByKey (
+                            editorState,
+                            contentBlock.getKey (),
+                            { _collapsed: ! collapsed }
+                        )
                         setEditorState ( newEditorState )
                     }
                 }
