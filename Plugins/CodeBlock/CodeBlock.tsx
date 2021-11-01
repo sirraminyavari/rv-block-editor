@@ -1,15 +1,17 @@
 import { EditorBlock } from 'draft-js'
 import cn from 'classnames'
 
+import { supportedLanguages } from '.'
+
 
 export default function getCodeBlockComponent ( config ) {
     return props => <CodeBlock config = { config } { ...props } />
 }
 
 function CodeBlock ({ config, ...props }) {
-    const { prism, language, setLanguage } = props.blockProps
+    const { language, setLanguage } = props.blockProps
     return <div>
-        <Controls prism = { prism } language = { language } setLanguage = { setLanguage } />
+        <Controls language = { language } setLanguage = { setLanguage } />
         <pre className = { cn ( 'public/DraftStyleDefault/pre', config.styles?.pre ) }>
             <code>
                 <EditorBlock { ...props } />
@@ -18,7 +20,7 @@ function CodeBlock ({ config, ...props }) {
     </div>
 }
 
-function Controls ({ language, setLanguage, prism }) {
+function Controls ({ language, setLanguage }) {
     return <div
         onMouseDown = { e => {
             e.stopPropagation ()
@@ -33,10 +35,10 @@ function Controls ({ language, setLanguage, prism }) {
         contentEditable = { false }
     >
         <select value = { language } onChange = { e => setLanguage ( e.target.value ) }>
-            { Object.keys ( prism.languages ).map ( lang => <option
-                key = { lang }
-                value = { lang }
-                children = { lang }
+            { supportedLanguages.map ( ({ name, value }) => <option
+                key = { value }
+                value = { value }
+                children = { name }
             /> ) }
         </select>
     </div>

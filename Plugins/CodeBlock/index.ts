@@ -1,10 +1,14 @@
 import { RichUtils } from 'draft-js'
 import { Map } from 'immutable'
 
-import CodeUtils, { onTab } from 'draft-js-code'
 import Prism from 'prismjs'
-import createPrismPlugin from 'draft-js-prism-plugin'
 import 'prismjs/themes/prism.css'
+import 'prismjs/components/prism-jsx.min'
+import 'prismjs/components/prism-typescript.min'
+import 'prismjs/components/prism-tsx.min'
+
+import CodeUtils, { onTab } from 'draft-js-code'
+import createPrismPlugin from 'draft-js-prism-plugin'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
@@ -12,6 +16,20 @@ import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
 import getCodeBlockComponent from './CodeBlock'
 import { CodeBlockIcon } from './icons'
 
+
+export const supportedLanguages = [
+    { name: 'Plain Text', value: 'plaintext' },
+    { name: 'HTML', value: 'html' },
+    { name: 'CSS', value: 'css' },
+    { name: 'JavaScript', value: 'javascript' },
+    { name: 'JSX', value: 'jsx' },
+    { name: 'TypeScript', value: 'typescript' },
+    { name: 'TSX', value: 'tsx' },
+    { name: 'C-Like', value: 'clike' },
+    { name: 'XML', value: 'xml' },
+    { name: 'SVG', value: 'svg' },
+    { name: 'MathML', value: 'mathhml' }
+]
 
 export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin {
     return {
@@ -68,7 +86,6 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
             return {
                 component: this.CodeBlockComponent,
                 props: {
-                    prism: Prism,
                     language: contentBlock.getData ().get ( 'language' ),
                     setLanguage ( language: string ) {
                         const editorState = getEditorState ()
