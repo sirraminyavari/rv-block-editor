@@ -29,6 +29,8 @@ const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
     if ( getAncestors ( blockMap, blockKey ).some ( b => b.getData ().get ( '_collapsed' ) ) )
         return null
 
+    const textAlign = syncedBlock.getData ().get ( '_align' )
+
     return <div
         ref = { elem => blockRefs.current [ blockKey ] = elem }
         data-block-key = { blockKey }
@@ -49,6 +51,9 @@ const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
         <div
             className = { c ( externalStyles, config.styles?.contentWrapper ) }
             dir = { direction === 'neutral' ? dir : direction }
+            style = {{
+                ...( textAlign ? { textAlign } : null )
+            }}
         >
             <Comp
                 className = { externalStyles.blockElement }
