@@ -15,15 +15,15 @@ export default function moveBlockRange (
     const withoutRangeBlockMap = removeBlockRange ( blockMap, startKey, endKey )
 
     const { adjustedTargetKey, adjustedInsertionMode } = ( () => {
-        const isInplace = range.some ( b => b.getKey () === targetKey )
+        const isInplace = range.some ( ( _, key ) => key === targetKey )
         if ( ! isInplace ) return { adjustedTargetKey: targetKey, adjustedInsertionMode: insertionMode }
 
         const firstInRangeKey = range.first ().getKey ()
-        const blockBefore = blockMap.takeUntil ( b => b.getKey () === firstInRangeKey ).last ()
+        const blockBefore = blockMap.takeUntil ( ( _, key ) => key === firstInRangeKey ).last ()
         if ( blockBefore ) return { adjustedTargetKey: blockBefore.getKey (), adjustedInsertionMode: 'after' }
 
         const lastInRangeKey = range.last ().getKey ()
-        const blockAfter = blockMap.skipUntil ( b => b.getKey () === lastInRangeKey ).skip ( 1 ).first ()
+        const blockAfter = blockMap.skipUntil ( ( _, key ) => key === lastInRangeKey ).skip ( 1 ).first ()
         if ( blockAfter ) return { adjustedTargetKey: blockAfter.getKey (), adjustedInsertionMode: 'before' }
 
         throw new Error ( "Illegal: Moving the whole content" )

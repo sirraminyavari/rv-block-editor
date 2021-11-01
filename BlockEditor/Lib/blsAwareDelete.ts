@@ -16,7 +16,7 @@ export default function blsAwareDelete ( editorState: EditorState, blsInfo: Bloc
     )
 
     const firstSelectedBlockKey = blsInfo.selectedBlockKeys [ 0 ]
-    const anchorBlock = trimCollapsedBlocks ( contentState.getBlockMap () ).takeUntil ( b => b.getKey () === firstSelectedBlockKey ).last ()
+    const anchorBlock = trimCollapsedBlocks ( contentState.getBlockMap () ).takeUntil ( ( _, key ) => key === firstSelectedBlockKey ).last ()
     const newSelectionState = new SelectionState ({
         anchorKey: anchorBlock.getKey (),
         anchorOffset: anchorBlock.getLength (),

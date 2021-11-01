@@ -61,7 +61,7 @@ const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState
         const endKey = targetSelectionState.getEndKey ()
         const cutBlockMapLeft = ( () => {
             const afterKey = contentState.getKeyAfter ( startKey )
-            const unsafeLeft = blockMap.takeUntil ( b => b.getKey () === afterKey )
+            const unsafeLeft = blockMap.takeUntil ( ( _, key ) => key === afterKey )
             const safeLeft = unsafeLeft.skipLast ( 1 )
             const blsCorrectedLeft = blockLevelSelectionInfo.enabled
                 ? safeLeft
@@ -70,7 +70,7 @@ const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState
                     : safeLeft
             return blsCorrectedLeft
         } ) ()
-        const cutBlockMapRight = blockMap.skipUntil ( b => b.getKey () === endKey ).skip ( 1 )
+        const cutBlockMapRight = blockMap.skipUntil ( ( _, key ) => key === endKey ).skip ( 1 )
         return cutBlockMapLeft.concat ( readyPastedBlockMap, cutBlockMapRight )
     } ) ()
     const newContentState = ContentState.createFromBlockArray ( newBlockMap.toArray () )

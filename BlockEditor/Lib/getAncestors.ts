@@ -6,7 +6,7 @@ export default function getAncestors ( blockMap: BlockMap, targetKey: string ): 
     const targetDepth = targetBlock.getDepth ()
     if ( ! targetDepth ) return BlockMapBuilder.createFromArray ([])
     const revBlockMap = blockMap.reverse ()
-    const trimmedBlockMap = revBlockMap.skipUntil ( b => b.getKey () === targetKey ).skip ( 1 )
+    const trimmedBlockMap = revBlockMap.skipUntil ( ( _, key ) => key === targetKey ).skip ( 1 )
     const parent = trimmedBlockMap.skipUntil ( b => b.getDepth () < targetDepth ).first ()
     return BlockMapBuilder.createFromArray ([ parent ]).merge ( getAncestors ( trimmedBlockMap.reverse () as BlockMap, parent.getKey () ) )
 }
