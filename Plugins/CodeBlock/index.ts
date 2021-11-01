@@ -11,7 +11,7 @@ import CodeUtils, { onTab } from 'draft-js-code'
 import createPrismPlugin from 'draft-js-prism-plugin'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import getCodeBlockComponent from './CodeBlock'
 import { CodeBlockIcon } from './icons'
@@ -89,7 +89,7 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
                     language: contentBlock.getData ().get ( 'language' ),
                     setLanguage ( language: string ) {
                         const editorState = getEditorState ()
-                        const newEditorState = mergeBlockDataByKey ( editorState, contentBlock.getKey (), { language } )
+                        const newEditorState = mergeBlockData ( editorState, contentBlock.getKey (), { language } )
                         setEditorState ( newEditorState )
                     }
                 }

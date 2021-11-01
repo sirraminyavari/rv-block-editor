@@ -1,15 +1,15 @@
 import { EditorState } from 'draft-js'
 
-import { mergeBlockDataByKey as _mergeBlockDataByKey } from 'draft-js-modifiers'
+import { modifyBlockByKey } from 'draft-js-modifiers'
 
 
-export default function mergeBlockDataByKey (
+export default function setBlockData (
     editorState: EditorState,
     blockKey: string,
     data: Object
 ) {
     return EditorState.forceSelection (
-        _mergeBlockDataByKey ( editorState, blockKey, data ),
+        modifyBlockByKey ( editorState, blockKey, { data } ),
         editorState.getSelection ()
     )
 }

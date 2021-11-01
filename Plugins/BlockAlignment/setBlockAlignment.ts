@@ -2,8 +2,8 @@ import { EditorState } from 'draft-js'
 import _ from 'lodash'
 
 import { Alignment } from 'BlockEditor'
-import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
-import setBlockDataByKey from 'BlockEditor/Lib/setBlockDataByKey'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
+import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 
 // TODO: Reset alignment
@@ -22,11 +22,11 @@ export default function setBlockAlignment (
     const currentAlignment = currentData.get ( '_align' )
 
     const newEditorState = currentAlignment === align
-        ? setBlockDataByKey (
+        ? setBlockData (
             editorState, blockKey,
             _.omit ( currentData.toObject (), [ '_align' ] )
         )
-        : mergeBlockDataByKey (
+        : mergeBlockData (
             editorState, blockKey,
             { _align: align }
         )

@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import mergeBlockDataByKey from 'BlockEditor/Lib/mergeBlockDataByKey'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import _createCheckableListPlugin from 'draft-js-checkable-list-plugin'
 import 'draft-js-checkable-list-plugin/lib/plugin.css'
@@ -45,7 +45,7 @@ export default function createCheckableListPlugin ( config: any = {} ): EditorPl
                     ...original.props,
                     onChangeChecked () {
                         const editorState = pfs.getEditorState ()
-                        const newEditorState = mergeBlockDataByKey ( editorState, contentBlock.getKey (), { checked: ! checked } )
+                        const newEditorState = mergeBlockData ( editorState, contentBlock.getKey (), { checked: ! checked } )
                         pfs.setEditorState ( newEditorState )
                     }
                 }
