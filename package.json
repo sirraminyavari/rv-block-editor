@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/linkify": "^4.2.0",
     "@popperjs/core": "^2.9.2",
     "classnames": "^2.3.1",
     "direction": "^2.0.0",
