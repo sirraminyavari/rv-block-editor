@@ -140,3 +140,5 @@ export type StrategyFunction = (
     callback: ( start: number, end: number ) => void,
     contentState: ContentState
 ) => void
+
+export enum Alignment { LEFT = 'left', CENTER = 'center', RIGHT = 'right' }
