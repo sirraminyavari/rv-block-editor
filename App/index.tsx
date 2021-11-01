@@ -20,6 +20,7 @@ import createQuotePlugin from 'Plugins/Quote'
 import createCodeBlockPlugin from 'Plugins/CodeBlock'
 import createSoftNewlinePlugin from 'Plugins/SoftNewline'
 import createLinksPlugin from 'Plugins/Links'
+import createTextAnnotationsPlugin from 'Plugins/TextAnnotations'
 
 import dict from './dict'
 
@@ -34,7 +35,8 @@ const plugins = [
     createQuotePlugin (),
     createCodeBlockPlugin ({ styles: editorTheme }),
     createSoftNewlinePlugin (),
-    createLinksPlugin ()
+    createLinksPlugin (),
+    createTextAnnotationsPlugin ()
 ]
 
 

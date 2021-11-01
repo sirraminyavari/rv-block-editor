@@ -1,0 +1,13 @@
+.colorSelectWrapper {
+    position: relative;
+    .colors {
+        position: absolute;
+        bottom: 0;
+        display: none;
+    }
+    &:hover {
+        .colors {
+            display: block;
+        }
+    }
+}
