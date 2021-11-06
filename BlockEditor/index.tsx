@@ -9,6 +9,7 @@ import Editor, { BlockEditorProps as _BlockEditorProps } from 'BlockEditor/Edito
 
 export * from './types.d'
 export { withBlockWrapper } from './BlockWrapper'
+export * from 'BlockEditor/Utils/useAutoSave'
 
 
 export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > {

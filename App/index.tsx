@@ -6,7 +6,7 @@ import { useState, useRef, useLayoutEffect } from 'react'
 import useUiContext from './UiContext'
 import getInitialEditorState from './getInitialEditorState'
 
-import BlockEditor from 'BlockEditor'
+import BlockEditor, { useAutoSave } from 'BlockEditor'
 import editorTheme from './editorTheme.module.scss'
 import ConfigControls from './ConfigControls'
 
@@ -48,6 +48,8 @@ export default function App () {
 
     const editorRef = useRef < any > ()
     useLayoutEffect ( () => editorRef.current?.focus (), [] )
+
+    useAutoSave ( editorState, arg => console.log ( arg ), 100 )
 
     return <>
         <ConfigControls editorState = { editorState } setEditorState = { setEditorState } />
