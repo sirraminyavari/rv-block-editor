@@ -16,6 +16,8 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         keyBindingFn ( event ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
+            if ( event.ctrlKey && event.key === 'a' ) return 'select-all'
+
             // Block-Level Selection
             if ( blockLevelSelectionInfo.enabled ) {
                 // Cancelation
@@ -53,19 +55,38 @@ export default function createUiHandlerPlugin (): EditorPlugin {
             const { setPlusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
             return {
-                'plusActionMenu-close' () {
-                    setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
-                    return 'handled'
+                'select-all' () {
+                    const contentState = editorState.getCurrentContent ()
+                    const selectionState = editorState.getSelection ()
+                    const anchorBlock = contentState.getBlockForKey ( selectionState.getAnchorKey () )
+                    const newSelectionState = ( () => { // true: The selection is inside exactly 1 block and a part of it (not all of it)
+                        if ( selectionState.isCollapsed () ) return true
+                        if ( selectionState.getAnchorKey () !== selectionState.getFocusKey () ) return false
+                        return selectionState.getStartOffset () > 0 || selectionState.getEndOffset () < anchorBlock.getLength ()
+                    } ) ()
+                        ? selectionState.merge ({
+                            anchorOffset: 0, focusOffset: anchorBlock.getLength ()
+                        })
+                        : ( () => {
+                            const firstBlock = contentState.getFirstBlock ()
+                            const lastBlock = contentState.getLastBlock ()
+                            return selectionState.merge ({
+                                anchorKey: firstBlock.getKey (), focusKey: lastBlock.getKey (),
+                                anchorOffset: 0, focusOffset: lastBlock.getLength ()
+                            })
+                        } ) ()
+                    if ( ! selectionState.equals ( newSelectionState ) )
+                        setEditorState ( EditorState.forceSelection ( editorState, newSelectionState ) )
                 },
 
                 'bls-disable' () {
-                    const selection = editorState.getSelection ()
-                    const newSelection = new SelectionState ({
-                        anchorKey: selection.getAnchorKey (), anchorOffset: selection.getAnchorOffset (),
-                        focusKey: selection.getAnchorKey (), focusOffset: selection.getAnchorOffset (),
+                    const selectionState = editorState.getSelection ()
+                    const newSelectionState = new SelectionState ({
+                        anchorKey: selectionState.getAnchorKey (), anchorOffset: selectionState.getAnchorOffset (),
+                        focusKey: selectionState.getAnchorKey (), focusOffset: selectionState.getAnchorOffset (),
                         isBackward: false, hasFocus: true
                     })
-                    const newEditorState = EditorState.forceSelection ( editorState, newSelection )
+                    const newEditorState = EditorState.forceSelection ( editorState, newSelectionState )
 
                     setEditorState ( newEditorState )
                     setImmediate ( getUiContext ().disableBls )
@@ -93,6 +114,11 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 'bls-delete' () {
                     setEditorState ( blsAwareDelete ( editorState, blockLevelSelectionInfo ) )
                     setImmediate ( getUiContext ().disableBls )
+                    return 'handled'
+                },
+
+                'plusActionMenu-close' () {
+                    setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )
                     return 'handled'
                 }
             } [ command ]?.() || 'not-handled'
