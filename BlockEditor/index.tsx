@@ -21,6 +21,7 @@ export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > 
     portalNode: HTMLElement
     debugMode?: boolean
     textarea?: boolean
+    readOnly?: boolean
 }
 
 /**
@@ -28,7 +29,8 @@ export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > 
  */
 const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
     editorState, onChange: setEditorState, styles = {},
-    dict, dir, lang, plugins, portalNode, debugMode = false, textarea,
+    dict, dir, lang, plugins, portalNode,
+    debugMode = false, textarea = false, readOnly = false,
     ...props
 }, ref ) => {
     return <EditorContextProvider editorState = { editorState } setEditorState = { setEditorState }>
@@ -38,6 +40,7 @@ const BlockEditor = forwardRef < PluginsEditor, BlockEditorProps > ( ( {
             portalNode = { portalNode }
             debugMode = { debugMode }
             textarea = { textarea }
+            readOnly = { readOnly }
         >
             <TransformedPluginsContextProvider plugins = { plugins }>
                 <Editor

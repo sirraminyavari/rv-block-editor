@@ -16,7 +16,7 @@ const _plugin = _createCheckableListPlugin ()
 const _checkableListItem = _plugin.blockRenderMap.get ( 'checkable-list-item' )
 
 export default function createCheckableListPlugin ( config: any = {} ): EditorPlugin {
-    return {
+    return ({ getUiContext }) => ({
         id: 'checkable-list',
 
         ..._.omit ( _plugin, [ 'onTab' ] ),
@@ -44,6 +44,7 @@ export default function createCheckableListPlugin ( config: any = {} ): EditorPl
                 props: {
                     ...original.props,
                     onChangeChecked () {
+                        if ( getUiContext ().readOnly ) return
                         const editorState = pfs.getEditorState ()
                         const newEditorState = mergeBlockData ( editorState, contentBlock.getKey (), { checked: ! checked } )
                         pfs.setEditorState ( newEditorState )
@@ -55,5 +56,5 @@ export default function createCheckableListPlugin ( config: any = {} ): EditorPl
         plusActions: [
             { action: 'checkable-list-item', Icon: CheckableListIcon }
         ]
-    }
+    })
 }

@@ -24,12 +24,12 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
 /**
  * This is the most important component of the entire project and everything comes together in here.
  */
-const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( { readOnly, ...props }, ref ) => {
+const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
     const {
         dir, lang, externalStyles,
         editorRef, wrapperRef, innerWrapperRef,
-        blockLevelSelectionInfo, debugMode, textarea
+        blockLevelSelectionInfo, debugMode, textarea, readOnly
     } = useUiContext ()
     const { allPlugins } = useTransformedPluginsContext ()
 
