@@ -6,3 +6,8 @@
         padding-inline-start: 1.5em;
     }
 }
+
+:global( .checkable-list-item-block.is-checked .checkable-list-item-block__text ) {
+    text-decoration: line-through;
+    opacity: .5;
+}
