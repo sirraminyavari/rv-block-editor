@@ -36,7 +36,7 @@ export interface DropTarget extends PosInfoItem {
  */
 const DragOverlay: FC = () => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo, portalNode } = useUiContext ()
+    const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo, portalNode, dir } = useUiContext ()
 
     const [ wrapperRect, setWrapperRect ] = useState < DOMRect > ( null )
     const [ innerWrapperRect, setInnerWrapperRect ] = useState < DOMRect > ( null )
@@ -69,13 +69,13 @@ const DragOverlay: FC = () => {
         onDragOver = { event => {
             event.preventDefault ()
             setClosestInfo ( findClosestDropElement ( event, sortedPosInfo ) )
-            setImmediate ( () => setActiveDropSector ( getDropSector ( event, sectorRects ) ) )
+            setImmediate ( () => setActiveDropSector ( getDropSector ( event, sectorRects, dir ) ) )
         } }
         onDrop = { event => {
             const closestDropElement = findClosestDropElement ( event, sortedPosInfo )
             if ( closestDropElement ) {
                 const { elem: closestElem, insertionMode } = closestDropElement
-                const dropSector = getDropSector ( event, sectorRects )
+                const dropSector = getDropSector ( event, sectorRects, dir )
                 const dropDepth = dropSector + calcMinDepth ( closestDropElement )
                 const draggedBlockKey = dragInfo.elem.getAttribute ( 'data-block-key' )
                 const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
