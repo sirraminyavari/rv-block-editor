@@ -6,7 +6,6 @@ import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 
-// TODO: Reset alignment
 export default function setBlockAlignment (
     align: Alignment,
     editorState: EditorState,

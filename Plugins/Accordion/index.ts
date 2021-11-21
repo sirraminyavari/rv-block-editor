@@ -1,7 +1,9 @@
 import { Map } from 'immutable'
+import _ from 'lodash'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
+import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 import { AccordionIcon } from './icons'
 
@@ -31,11 +33,17 @@ export default function createAccordionPlugin ( config: any = {} ): EditorPlugin
                     collapsed,
                     toggleCollapsed () {
                         const editorState = getEditorState ()
-                        const newEditorState = mergeBlockData (
-                            editorState,
-                            contentBlock.getKey (),
-                            { _collapsed: ! collapsed }
-                        )
+                        const blockKey = contentBlock.getKey ()
+                        const currentData = contentBlock.getData ()
+                        const newEditorState = collapsed
+                            ? setBlockData (
+                                editorState, blockKey,
+                                _.omit ( currentData.toObject (), [ '_collapsed' ] )
+                            )
+                            : mergeBlockData (
+                                editorState, blockKey,
+                                { _collapsed: true }
+                            )
                         setEditorState ( newEditorState )
                     }
                 }
