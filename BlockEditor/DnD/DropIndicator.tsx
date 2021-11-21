@@ -24,6 +24,7 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     closestInfo, onSectorRectsChange, activeSector
 }) => {
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
+    console.log ( closestInfo )
 
     const minDepth = calcMinDepth ( closestInfo )
     const maxDepth = calcMaxDepth ( closestInfo )
@@ -42,6 +43,7 @@ const DropIndicator: FC < DropIndicatorProps > = ({
         ( ! prevPosInfo && closestInfo.blockKey === draggingBlockKey ) ||
         // Dragging a block next to itself
         prevPosInfo?.blockKey === draggingBlockKey ||
+        // One of the critical rects is not provided
         ! cr || ! wr || ! iwr
     ) return null
 

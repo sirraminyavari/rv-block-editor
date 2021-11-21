@@ -68,11 +68,11 @@ const DragOverlay: FC = () => {
         } }
         onDragOver = { event => {
             event.preventDefault ()
-            setClosestInfo ( findClosestDropElement ( event, sortedPosInfo ) )
+            setClosestInfo ( findClosestDropElement ( event, editorState, dragInfo, sortedPosInfo ) )
             setImmediate ( () => setActiveDropSector ( getDropSector ( event, sectorRects, dir ) ) )
         } }
         onDrop = { event => {
-            const closestDropElement = findClosestDropElement ( event, sortedPosInfo )
+            const closestDropElement = findClosestDropElement ( event, editorState, dragInfo, sortedPosInfo )
             if ( closestDropElement ) {
                 const { elem: closestElem, insertionMode } = closestDropElement
                 const dropSector = getDropSector ( event, sectorRects, dir )
