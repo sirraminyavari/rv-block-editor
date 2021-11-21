@@ -47,7 +47,7 @@ export default function App () {
     const { debugMode, readOnly, textarea, language, direction } = useUiContext ()
 
     const editorRef = useRef < any > ()
-    useLayoutEffect ( () => editorRef.current?.focus (), [] )
+    useLayoutEffect ( () => void setImmediate ( () => editorRef.current?.focus () ), [] )
 
     // useAutoSave ( editorState, arg => console.log ( arg ), 100 )
 
