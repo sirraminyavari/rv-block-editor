@@ -26,7 +26,6 @@ export interface BlockEditorProps extends Partial < PluginEditorProps > {}
  */
 const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => {
     const { editorState, setEditorState } = useEditorContext ()
-    console.log ( editorState.getSelection ().toObject () )
     const {
         dir, lang, externalStyles,
         editorRef, wrapperRef, innerWrapperRef,
