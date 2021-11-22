@@ -6,9 +6,11 @@ import { useState, useRef, useLayoutEffect } from 'react'
 import useUiContext from './UiContext'
 import getInitialEditorState from './getInitialEditorState'
 
-import BlockEditor, { useAutoSave } from 'BlockEditor'
+import BlockEditor from 'BlockEditor'
 import editorTheme from './editorTheme.module.scss'
 import ConfigControls from './ConfigControls'
+
+import useAutoSave from './useAutoSave'
 
 import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
 import createParagraphPlugin from 'Plugins/Paragraph'
@@ -49,7 +51,7 @@ export default function App () {
     const editorRef = useRef < any > ()
     useLayoutEffect ( () => void setImmediate ( () => editorRef.current?.focus () ), [] )
 
-    // useAutoSave ( editorState, arg => console.log ( arg ), 100 )
+    useAutoSave ( editorState, arg => console.log ( arg ), 100 )
 
     return <>
         <ConfigControls editorState = { editorState } setEditorState = { setEditorState } />

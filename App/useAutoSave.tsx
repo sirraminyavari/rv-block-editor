@@ -8,7 +8,7 @@ export type onAutoSaveType = ( arg: {
     createdBlocks: BlockMap
 } ) => void
 
-export function useAutoSave ( editorState: EditorState, onAutoSave: onAutoSaveType, inverval = 5000 ) {
+export default function useAutoSave ( editorState: EditorState, onAutoSave: onAutoSaveType, inverval = 5000 ) {
     const lastTime = useRef ( Date.now () )
     const lastEditorState = useRef ( editorState )
 
@@ -31,4 +31,3 @@ export function useAutoSave ( editorState: EditorState, onAutoSave: onAutoSaveTy
         lastEditorState.current = editorState
     }, [ editorState ] )
 }
-export default useAutoSave
