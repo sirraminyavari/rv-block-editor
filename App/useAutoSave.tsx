@@ -42,8 +42,11 @@ function detectChanges ( lastEditorState, editorState ) {
     const lastBlockMap = lastEditorState.current.getCurrentContent ().getBlockMap ()
     const newBlockMap = editorState.getCurrentContent ().getBlockMap ()
 
-    const updatedBlocks = newBlockMap.filter ( ( block, key ) => ! block.equals ( lastBlockMap.get ( key ) ) ) as BlockMap
-    // TODO: Performance Optimization
+    const updatedBlocks = newBlockMap.filter ( ( block, key ) => {
+        const oldBlock = lastBlockMap.get ( key )
+        if ( ! oldBlock ) return false
+        return ! block.equals ( oldBlock )
+    } ) as BlockMap
     const removedBlocks = lastBlockMap.filter ( ( _, key ) => ! newBlockMap.get ( key ) ) as BlockMap
     const createdBlocks = newBlockMap.filter ( ( _, key ) => ! lastBlockMap.get ( key ) ) as BlockMap
 
