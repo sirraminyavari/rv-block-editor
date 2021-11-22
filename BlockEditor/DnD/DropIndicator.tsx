@@ -24,7 +24,6 @@ const DropIndicator: FC < DropIndicatorProps > = ({
     closestInfo, onSectorRectsChange, activeSector
 }) => {
     const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
-    console.log ( closestInfo )
 
     const minDepth = calcMinDepth ( closestInfo )
     const maxDepth = calcMaxDepth ( closestInfo )
