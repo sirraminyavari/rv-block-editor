@@ -1,33 +1,54 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { EditorState, BlockMap } from 'draft-js'
 
 
-export type onAutoSaveType = ( arg: {
+export interface Changes {
     updatedBlocks: BlockMap
     removedBlocks: BlockMap
     createdBlocks: BlockMap
-} ) => void
+}
 
-export default function useAutoSave ( editorState: EditorState, onAutoSave: onAutoSaveType, inverval = 5000 ) {
-    const lastTime = useRef ( Date.now () )
+export type onAutoSaveType = ( changes: Changes ) => void
+
+export default function useAutoSave ( editorState: EditorState, onAutoSave: onAutoSaveType, interval = 5000 ) {
+    const [ isHot, setIsHot ] = useState ( false )
     const lastEditorState = useRef ( editorState )
+    const timer = useRef ( null )
+
+    function setTimer () {
+        clearInterval ( timer.current )
+        timer.current = setTimeout ( () => {
+            setIsHot ( true )
+        }, interval )
+    }
 
     useEffect ( () => {
-        if ( Date.now () - lastTime.current < inverval ) return
+        setTimer ()
+        return () => clearInterval ( timer.current )
+    }, [] )
 
-        const lastBlockMap = lastEditorState.current.getCurrentContent ().getBlockMap ()
-        const newBlockMap = editorState.getCurrentContent ().getBlockMap ()
-
-        const updatedBlocks = newBlockMap.filter ( ( block, key ) => ! block.equals ( lastBlockMap.get ( key ) ) ) as BlockMap
-        // TODO: Performance Optimization
-        const removedBlocks = lastBlockMap.filter ( ( _, key ) => ! newBlockMap.get ( key ) ) as BlockMap
-        const createdBlocks = newBlockMap.filter ( ( _, key ) => ! lastBlockMap.get ( key ) ) as BlockMap
-
-        console.log ( updatedBlocks.toKeyedSeq ().toArray () )
-        if ( updatedBlocks.size || removedBlocks.size || createdBlocks.size )
-            onAutoSave ({ updatedBlocks, removedBlocks, createdBlocks })
-
-        lastTime.current = Date.now ()
+    useEffect ( () => {
+        if ( ! isHot ) return
+        const { hasChanged, changes } = detectChanges ( lastEditorState, editorState )
+        if ( ! hasChanged ) return
+        onAutoSave ( changes )
         lastEditorState.current = editorState
-    }, [ editorState ] )
+        setIsHot ( false )
+        setTimer ()
+    }, [ editorState, isHot ] )
+}
+
+function detectChanges ( lastEditorState, editorState ) {
+    const lastBlockMap = lastEditorState.current.getCurrentContent ().getBlockMap ()
+    const newBlockMap = editorState.getCurrentContent ().getBlockMap ()
+
+    const updatedBlocks = newBlockMap.filter ( ( block, key ) => ! block.equals ( lastBlockMap.get ( key ) ) ) as BlockMap
+    // TODO: Performance Optimization
+    const removedBlocks = lastBlockMap.filter ( ( _, key ) => ! newBlockMap.get ( key ) ) as BlockMap
+    const createdBlocks = newBlockMap.filter ( ( _, key ) => ! lastBlockMap.get ( key ) ) as BlockMap
+
+    return {
+        hasChanged: updatedBlocks.size || removedBlocks.size || createdBlocks.size,
+        changes: { updatedBlocks, removedBlocks, createdBlocks }
+    }
 }

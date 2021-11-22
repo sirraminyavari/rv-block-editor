@@ -51,7 +51,7 @@ export default function App () {
     const editorRef = useRef < any > ()
     useLayoutEffect ( () => void setImmediate ( () => editorRef.current?.focus () ), [] )
 
-    useAutoSave ( editorState, arg => console.log ( arg ), 100 )
+    useAutoSave ( editorState, arg => console.log ( arg ), 1000 )
 
     return <>
         <ConfigControls editorState = { editorState } setEditorState = { setEditorState } />
