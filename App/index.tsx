@@ -24,6 +24,9 @@ import createSoftNewlinePlugin from 'Plugins/SoftNewline'
 import createLinksPlugin from 'Plugins/Links'
 import createTextAnnotationsPlugin from 'Plugins/TextAnnotations'
 import createBlockAlignmentPlugin from 'Plugins/BlockAlignment'
+import createMentionPlugin from 'Plugins/Mention'
+
+import mentions from './data/mentions'
 
 import dict from './dict'
 
@@ -40,7 +43,8 @@ const plugins = [
     createSoftNewlinePlugin (),
     createLinksPlugin (),
     createTextAnnotationsPlugin (),
-    createBlockAlignmentPlugin ()
+    createBlockAlignmentPlugin (),
+    createMentionPlugin ({ mentions })
 ]
 
 
