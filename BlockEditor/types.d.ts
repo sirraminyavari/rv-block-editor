@@ -111,6 +111,10 @@ export interface EditorPluginObject extends _EditorPlugin {
      * All the Plus Actions of the Plugin.
      */
     plusActions?: PlusAction []
+    /**
+     * TODO: Docs
+     */
+    OverlayComponent?: ComponentType
 }
 
 export interface EditorPluginFunctionArg {

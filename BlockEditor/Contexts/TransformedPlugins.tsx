@@ -1,4 +1,4 @@
-import { createContext, useContext, FC, useMemo, useRef, useEffect } from 'react'
+import { createContext, useContext, FC, useMemo, useRef, useEffect, useCallback, ComponentType } from 'react'
 
 import { EditorPlugin, EditorPluginObject, EditorPluginFunctionArg, TransformedInlineStyle, TransformedPlusAction } from 'BlockEditor'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
@@ -17,6 +17,10 @@ export interface TransformedPluginsContext {
      * All the Plus Actions extracted from plugins
      */
     plusActions: TransformedPlusAction []
+    /**
+     * TODO: Docs
+     */
+    PluginsOverlay: ComponentType
     /**
      * All the external and internal plugins ready to be fed to the Plugin Editor.
      */
@@ -61,6 +65,12 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
         ], [] )
     , [ pluginObjects, dict, lang ] )
 
+    const PluginsOverlay = useCallback ( () => {
+        const overlayComponents = pluginObjects.map ( p => p.OverlayComponent ).filter ( Boolean )
+        // The array of components has been put in a fragment to preserve the correct TS types.
+        return <>{ overlayComponents.map ( ( Comp, i ) => <Comp key = { i } /> ) }</>
+    }, [ pluginObjects, dict, lang ] )
+
     const allPlugins = useMemo ( () => {
         const nestingPlugin = createNestingPlugin ()
         const blockBreakoutPlugin = createBlockBreakoutPlugin ({ plusActions })
@@ -72,7 +82,7 @@ export const TransformedPluginsContextProvider: FC < TransformedPluginsContextPr
     }, [ pluginObjects, plusActions ] )
 
     return <TransformedPluginsContext.Provider
-        value = {{ inlineStyles, plusActions, allPlugins }}
+        value = {{ inlineStyles, plusActions, PluginsOverlay, allPlugins }}
         children = { children }
     />
 }

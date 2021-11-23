@@ -31,7 +31,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
         editorRef, wrapperRef, innerWrapperRef,
         blockLevelSelectionInfo, debugMode, textarea, readOnly
     } = useUiContext ()
-    const { allPlugins } = useTransformedPluginsContext ()
+    const { allPlugins, PluginsOverlay } = useTransformedPluginsContext ()
 
     const [ renderRefDependentComps, setRenderRefDependentComps ] = useState ( false )
     useLayoutEffect ( () => setRenderRefDependentComps ( true ), [] )
@@ -95,6 +95,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
                 <PlusActionMenu />
                 <DragOverlay />
             </> }
+            <PluginsOverlay />
         </> }
     </div>
 } )
