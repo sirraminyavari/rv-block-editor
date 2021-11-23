@@ -12,10 +12,10 @@ import { CheckableListIcon } from './icons'
 import styles from './styles.module.scss'
 
 
-const _plugin = _createCheckableListPlugin ()
-const _checkableListItem = _plugin.blockRenderMap.get ( 'checkable-list-item' )
-
 export default function createCheckableListPlugin ( config: any = {} ): EditorPlugin {
+    const _plugin = _createCheckableListPlugin ()
+    const _checkableListItem = _plugin.blockRenderMap.get ( 'checkable-list-item' )
+
     return ({ getUiContext }) => ({
         id: 'checkable-list',
 

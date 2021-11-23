@@ -21,11 +21,11 @@ export interface Config {
     mentions: MentionItem []
 }
 
-const _plugin = _createMentionPlugin ({
-    entityMutability: 'IMMUTABLE'
-})
-
 export default function createMentionPlugin ( { mentions }: Config ): EditorPlugin {
+    const _plugin = _createMentionPlugin ({
+        entityMutability: 'IMMUTABLE'
+    })
+
     return {
         id: 'mentions',
 
