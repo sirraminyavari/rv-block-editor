@@ -68,6 +68,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
         <div data-block-editor-inner-wrapper
             ref = { innerWrapperRef }
             className = { externalStyles.innerWrapper }
+            { ...( blockLevelSelectionInfo.enabled ? { onDragStart: e => e.preventDefault () } : null ) }
         >
             <Editor
                 ref = { r => {
