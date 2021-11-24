@@ -4,7 +4,7 @@ import Editor from '@draft-js-plugins/editor'
 import { Language, Direction, Dict } from 'BlockEditor'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 
-import useMouseState, { MouseState } from './useMouseState'
+// import useMouseState, { MouseState } from './useMouseState'
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'
 import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
@@ -45,7 +45,7 @@ export interface UiContext {
     // Inline Functionality:
     inlineStyleMenuInfo: InlineStyleMenuInfo
     // Input State:
-    mouseState: MouseState
+    // mouseState: MouseState
     rtblSelectionState: RtblSelectionState
     updateRtblSelectionState: () => void
     // Block Level Selection:
@@ -66,7 +66,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
     const selectionState = editorState.getSelection ()
     const contentState = editorState.getCurrentContent ()
 
-    const mouseState = useMouseState ()
+    // const mouseState = useMouseState ()
     const { editorRef, wrapperRef, innerWrapperRef, blockRefs } = useGlobalRefs ()
     const [ blockControlsInfo, setBlockControlsInfo ] = useBlockControls ( editorState, wrapperRef, blockRefs, textarea )
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState, textarea )
@@ -84,7 +84,8 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
             plusActionMenuInfo, setPlusActionMenuInfo,
             dragInfo, setDragInfo,
             inlineStyleMenuInfo,
-            mouseState, rtblSelectionState, updateRtblSelectionState,
+            // mouseState,
+            rtblSelectionState, updateRtblSelectionState,
             blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls
         }}
         children = { children }
