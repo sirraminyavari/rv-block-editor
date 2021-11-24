@@ -67,7 +67,11 @@ export default function useBlockLevelSelection (
             setImmediate ( disableBls )
         }
         document.addEventListener ( 'selectstart', handler )
-        return () => document.removeEventListener ( 'selectstart', handler )
+        document.addEventListener ( 'click', handler )
+        return () => {
+            document.removeEventListener ( 'selectstart', handler )
+            document.removeEventListener ( 'click', handler )
+        }
     }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, contentState ] )
 
     return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls ]
