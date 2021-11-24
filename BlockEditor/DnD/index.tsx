@@ -36,7 +36,7 @@ export interface DropTarget extends PosInfoItem {
  */
 const DragOverlay: FC = () => {
     const { editorState, setEditorState } = useEditorContext ()
-    const { dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo, portalNode, dir } = useUiContext ()
+    const { editorRef, dragInfo, blockRefs, wrapperRef, innerWrapperRef, setBlockControlsInfo, blockLevelSelectionInfo, portalNode, dir } = useUiContext ()
 
     const [ wrapperRect, setWrapperRect ] = useState < DOMRect > ( null )
     const [ innerWrapperRect, setInnerWrapperRect ] = useState < DOMRect > ( null )
@@ -81,6 +81,7 @@ const DragOverlay: FC = () => {
                 const dropTargetKey = closestElem.getAttribute ( 'data-block-key' )
 
                 const newState = handleDrop (
+                    editorRef,
                     editorState,
                     blockLevelSelectionInfo,
                     draggedBlockKey,
