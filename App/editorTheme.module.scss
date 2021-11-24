@@ -27,7 +27,7 @@
         [data-block-key] {
             transition: all 250ms ease;
         }
-        [data-block-key].blockLevelSelected {
+        [data-block-key].blockLevelSelected > * {
             background-color: #DAEEF7;
         }
     }
