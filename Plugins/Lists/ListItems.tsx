@@ -6,15 +6,16 @@ import cn from 'classnames'
 import styles from './styles.module.scss'
 
 
-export interface OrderedListItemProps extends LiHTMLAttributes < HTMLLIElement > {
+export interface ListItemProps extends LiHTMLAttributes < HTMLLIElement > {
     editorState: EditorState,
     block: ContentBlock
 }
 
-const OrderedListItem: FC < OrderedListItemProps > = ({ editorState, block, className, ...props }) => {
+export const OrderedListItem: FC < ListItemProps > = ({ editorState, block, className, ...props }) => {
     const i = getI ( editorState, block )
+    const depth = block.getDepth ()
     return <li
-        className = { cn ( className, styles.olItem ) }
+        className = { cn ( className, styles.olItem, styles [ `style-${ depth % 3 }` ] ) }
         style = {{
             // @ts-ignore
             '--i': i + 1
@@ -22,7 +23,6 @@ const OrderedListItem: FC < OrderedListItemProps > = ({ editorState, block, clas
         { ...props }
     />
 }
-export default OrderedListItem
 
 // FIXME: Terrible Performance
 function getI ( editorState: EditorState, block: ContentBlock ): number {
@@ -37,4 +37,12 @@ function getI ( editorState: EditorState, block: ContentBlock ): number {
         prevBlock = contentState.getBlockBefore ( prevBlock.getKey () )
     }
     return c
+}
+
+export const UnorderedListItem: FC < ListItemProps > = ({ editorState, block, className, ...props }) => {
+    const depth = block.getDepth ()
+    return <li
+        className = { cn ( className, styles.ulItem, styles [ `style-${ depth % 3 }` ] ) }
+        { ...props }
+    />
 }

@@ -10,6 +10,16 @@
             transform: translateX( 100% );
         }
         counter-reset: c var( --i );
-        content: counter( c ) '. ';
+        content: counter( c, var( --counter-style ) ) '. ';
     }
+
+    &.style-0::before { --counter-style: numeric; }
+    &.style-1::before { --counter-style: upper-roman; }
+    &.style-2::before { --counter-style: lower-alpha; }
+}
+
+.ulItem {
+    &.style-0 { list-style: disc; }
+    &.style-1 { list-style: circle; }
+    &.style-2 { list-style: square; }
 }

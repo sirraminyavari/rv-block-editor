@@ -3,7 +3,7 @@ import { Map } from 'immutable'
 
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 
-import OrderedListItem from './OrderedListItem'
+import { OrderedListItem, UnorderedListItem } from './ListItems'
 
 import { UnorderedListIcon, OrderedListIcon } from './icons'
 import styles from './styles.module.scss'
@@ -20,7 +20,7 @@ export default function createListsPlugin ( config: any = {} ): EditorPlugin {
 
         blockRenderMap: Map ({
             'unordered-list-item': {
-                element: withBlockWrapper ( 'li' ),
+                element: withBlockWrapper ( UnorderedListItem, { sendAdditionalProps: true } ),
                 wrapper: <ul className = { cn ( 'public/DraftStyleDefault/ul', config.styles?.ul ) } />
             },
             'ordered-list-item': {
