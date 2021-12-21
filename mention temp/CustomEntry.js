@@ -14,7 +14,7 @@ const CustomEntry = ({ mentions, ...props }) => {
   return (
     <div
       onMouseDown={props.onMouseDown}
-      onClick={props.onMouseEnter}
+      onClick={props.onMouseEnter} // TODO: coution
       onMouseUp={props.onMouseUp}
       id={index}
       role={props.role}
