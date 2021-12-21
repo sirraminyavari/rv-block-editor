@@ -28,10 +28,12 @@ export interface Config {
 export default function createMentionPlugin ( { mentions }: Config ): EditorPlugin {
     const _plugin = _createMentionPlugin ({
         entityMutability: 'IMMUTABLE',
-        mentionComponent: props => {
-            console.log ( 'wefwefewf', props )
-            return <h1>haji</h1>
-        }
+        mentionComponent: ({ mention, ...props }) => <a href = { mention.link }>
+            <span
+                // { ...props }
+                children = { '@' + props.decoratedText }
+            />
+        </a>
     })
 
     return {
@@ -48,7 +50,6 @@ export default function createMentionPlugin ( { mentions }: Config ): EditorPlug
 
             const [ isOpen, setIsOpen ] = useState ( false )
             const [ suggestions, setSuggestions ] = useState ( mentions )
-            console.log ( suggestions )
 
 
             return <Comp
