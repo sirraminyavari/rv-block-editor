@@ -24,7 +24,6 @@ const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, MentionSugge
         onSearchChange = { ({ value }) => {
             setImmediate ( () => {
                 const newSuggs = defaultSuggestionsFilter ( value, mentions )
-                console.log ( suggestions, newSuggs )
                 if ( suggestions.length !== newSuggs.length ) return void setSuggestions ( newSuggs )
                 for ( const i in suggestions )
                     if ( suggestions [ i ].id !== newSuggs [ i ].id )
