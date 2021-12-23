@@ -3,10 +3,13 @@
 }
 
 .olItem {
+    position: relative;
     &::before {
         position: absolute;
+        top: 0; left: 0;
         transform: translateX( -100% );
         [ dir = rtl ] & {
+            right: 0;
             transform: translateX( 100% );
         }
         counter-reset: c var( --i );
