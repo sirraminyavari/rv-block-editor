@@ -3,6 +3,7 @@ import { Dict } from 'BlockEditor'
 
 const dict: Dict = {
     'en': {
+        'plugins.paragraph.unstyled': 'Paragraph',
         'plugins.code-block.code-block': 'Code Block',
         'plugins.headings.header-one': 'Heading 1',
         'plugins.headings.header-two': 'Heading 2',
@@ -14,6 +15,7 @@ const dict: Dict = {
         'plugins.quote.blockquote': 'Quotation'
     },
     'fa': {
+        'plugins.paragraph.unstyled': 'پاراگراف',
         'plugins.code-block.code-block': 'بلوک کد',
         'plugins.headings.header-one': 'عنوان اصلی',
         'plugins.headings.header-two': 'عنوان',
