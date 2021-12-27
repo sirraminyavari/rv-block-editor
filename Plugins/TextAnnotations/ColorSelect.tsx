@@ -3,6 +3,7 @@ import { RichUtils } from 'draft-js'
 import { IconType } from 'react-icons'
 
 import { InlineStyleComponentProps } from 'BlockEditor'
+import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
 
 import { ColorConfig } from '.'
@@ -25,19 +26,21 @@ export interface ColorSelectProps extends InlineStyleComponentProps, HocProps {}
 export const ColorSelect: FC < ColorSelectProps > = ({ entityName, Icon, colors, editorState, setEditorState }) => {
     return <div className = { styles.colorSelectWrapper }>
         <Button Icon = { Icon } />
-        <div className = { styles.colors }>
-            { colors.map ( color => <Button
-                key = { color.name }
-                Icon = { Icon }
-                style = {{ backgroundColor: color.color }}
-                onClick = { () => {
-                    const newEditorState = RichUtils.toggleInlineStyle (
-                        editorState,
-                        `${ entityName }-${ color.name }`
-                    )
-                    setEditorState ( newEditorState )
-                } }
-            /> ) }
+        <div className = { styles.menu } >
+            <Overlay className = { styles.buttons }>
+                { colors.map ( color => <Button
+                    key = { color.name }
+                    style = {{ backgroundColor: color.color }}
+                    className = { styles.button }
+                    onClick = { () => {
+                        const newEditorState = RichUtils.toggleInlineStyle (
+                            editorState,
+                            `${ entityName }-${ color.name }`
+                        )
+                        setEditorState ( newEditorState )
+                    } }
+                /> ) }
+            </Overlay>
         </div>
     </div>
 }

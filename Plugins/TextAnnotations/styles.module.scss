@@ -1,14 +1,27 @@
 .colorSelectWrapper {
     position: relative;
-    .colors {
-        position: absolute;
-        // bottom: 2rem;
+    .menu {
         display: none;
-        gap: 1rem;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX( -50% );
+        padding-bottom: 1rem;
+        .buttons {
+            display: flex;
+            gap: .5rem;
+            padding: .5rem;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba( black, .1 );
+            .button {
+                width: 1rem; height: 1rem;
+                border-radius: 100%;
+            }
+        }
     }
     &:hover {
-        .colors {
-            display: flex;
+        .menu {
+            display: block;
         }
     }
 }
