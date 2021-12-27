@@ -2,13 +2,12 @@
     position: relative;
     .colors {
         position: absolute;
-        bottom: 2rem;
+        bottom: 0;
         display: none;
-        gap: 1rem;
     }
     &:hover {
         .colors {
-            display: flex;
+            display: block;
         }
     }
 }

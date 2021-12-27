@@ -1,26 +1,21 @@
-import { CompositeDecorator } from 'draft-js'
-
 import { EditorPlugin } from 'BlockEditor'
-import makeEntityStrategy from 'BlockEditor/Utils/makeEntityStrategy'
 
 import getColorSelectComponent from './ColorSelect'
-import getDecoratorComponent from './DecoratorComponent'
 import { TextColorIcon, HighlightColorIcon } from './icons'
 
 
-const textColors = {
-    red: { color: 'red' },
-    green: { color: 'green' },
-    blue: { color: 'blue' }
+export interface ColorConfig {
+    name: string
+    color: string
 }
 
-const highlightColors = {
-    red: { backgroundColor: 'red', color: 'white' },
-    green: { backgroundColor: 'green', color: 'white' },
-    blue: { backgroundColor: 'blue', color: 'white' }
+export interface Config {
+    textColors: ColorConfig []
+    highlightColors: ColorConfig []
 }
 
-export default function createTextAnnotationsPlugin (): EditorPlugin {
+export default function createTextAnnotationsPlugin ( config: Config ): EditorPlugin {
+    const { textColors, highlightColors } = config
     return {
         id: 'text-annotations',
 
@@ -28,30 +23,26 @@ export default function createTextAnnotationsPlugin (): EditorPlugin {
             { Component: getColorSelectComponent ({
                 entityName: 'TEXT-COLOR',
                 Icon: TextColorIcon,
-                colors: Object.keys ( textColors )
+                colors: textColors
             }) },
             { Component: getColorSelectComponent ({
-                entityName: 'HIGHLIHGT-COLOR',
+                entityName: 'HIGHLIGHT-COLOR',
                 Icon: HighlightColorIcon,
-                colors: Object.keys ( highlightColors )
+                colors: highlightColors
             }) }
         ],
 
-        decorators: [
-            new CompositeDecorator ([
-                {
-                    strategy: makeEntityStrategy ( 'TEXT-COLOR' ),
-                    component: getDecoratorComponent ({
-                        getStyles: color => textColors [ color ]
-                    })
-                },
-                {
-                    strategy: makeEntityStrategy ( 'HIGHLIHGT-COLOR' ),
-                    component: getDecoratorComponent ({
-                        getStyles: color => highlightColors [ color ]
-                    })
-                }
-            ])
-        ]
+        customStyleMap: {
+            ...getStyleMap ( textColors, 'TEXT-COLOR', 'color' ),
+            ...getStyleMap ( highlightColors, 'HIGHLIGHT-COLOR', 'backgroundColor' )
+        }
     }
+}
+
+function getStyleMap ( colors: ColorConfig [], prefix: string, rule: string ) {
+    return colors.map ( colorConfig => ({
+        [ `${ prefix }-${ colorConfig.name }` ]: {
+            [ rule ]: colorConfig.color
+        }
+    }) ).reduce ( ( acc, val ) => ({ ...acc, ...val }), {} )
 }

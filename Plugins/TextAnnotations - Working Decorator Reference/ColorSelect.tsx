@@ -1,11 +1,9 @@
 import { FC } from 'react'
-import { RichUtils } from 'draft-js'
+import { EditorState, Modifier } from 'draft-js'
 import { IconType } from 'react-icons'
 
 import { InlineStyleComponentProps } from 'BlockEditor'
 import Button from 'BlockEditor/Ui/Button'
-
-import { ColorConfig } from '.'
 
 import styles from './styles.module.scss'
 
@@ -13,7 +11,7 @@ import styles from './styles.module.scss'
 export interface HocProps {
     entityName: string
     Icon: IconType
-    colors: ColorConfig []
+    colors: string []
 }
 
 export default function getColorSelectComponent ( hocProps: HocProps ) {
@@ -27,14 +25,22 @@ export const ColorSelect: FC < ColorSelectProps > = ({ entityName, Icon, colors,
         <Button Icon = { Icon } />
         <div className = { styles.colors }>
             { colors.map ( color => <Button
-                key = { color.name }
+                key = { color }
                 Icon = { Icon }
-                style = {{ backgroundColor: color.color }}
+                style = {{ backgroundColor: color }}
                 onClick = { () => {
-                    const newEditorState = RichUtils.toggleInlineStyle (
-                        editorState,
-                        `${ entityName }-${ color.name }`
+                    const contentState = editorState.getCurrentContent ()
+                    const selectionState = editorState.getSelection ()
+                    const contentStateWithEntity = contentState.createEntity ( entityName, 'MUTABLE', { color } )
+                    const entityKey = contentStateWithEntity.getLastCreatedEntityKey ()
+                    const contentStateWithLink = Modifier.applyEntity (
+                        contentStateWithEntity,
+                        selectionState,
+                        entityKey
                     )
+                    const newEditorState = EditorState.set ( editorState, {
+                        currentContent: contentStateWithLink
+                    } )
                     setEditorState ( newEditorState )
                 } }
             /> ) }

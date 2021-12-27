@@ -42,7 +42,18 @@ const plugins = [
     createCodeBlockPlugin ({ styles: editorTheme }),
     createSoftNewlinePlugin (),
     createLinksPlugin (),
-    createTextAnnotationsPlugin (),
+    createTextAnnotationsPlugin ({
+        textColors: [
+            { name: 'red', color: '#C62828' },
+            { name: 'purple', color: '#6A1B9A' },
+            { name: 'blue', color: '#00F' }
+        ],
+        highlightColors: [
+            { name: 'red', color: '#F00' },
+            { name: 'green', color: '#0F0' },
+            { name: 'blue', color: '#00F' }
+        ]
+    }),
     createBlockAlignmentPlugin (),
     createMentionPlugin ({ mentions })
 ]
