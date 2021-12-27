@@ -26,12 +26,15 @@ function Menu () {
     const { editorState, setEditorState } = useEditorContext ()
     const { inlineStyleMenuInfo: { getSelectionRect, domSelection }, dir } = useUiContext ()
     const { inlineStyles } = useTransformedPluginsContext ()
+
     const [ menuRef, setMenuRef ] = useState < HTMLDivElement > ( null )
     const virtualReference = useMemo ( () => ({
         getBoundingClientRect: () => getSelectionRect () || new DOMRect ()
     }), [ getSelectionRect, domSelection ] )
     const popper = usePopper ( virtualReference, menuRef, { placement: `top-${ { ltr: 'start', rtl: 'end' } [ dir ] }` as any } )
+
     const activeInlineStyles = getSelectionInlineStyle ( editorState )
+
     return <motion.div
         initial = 'initial' animate = 'animate' exit = 'exit'
         variants = {{ initial: {}, animate: {}, exit: {} }}
