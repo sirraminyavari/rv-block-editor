@@ -3,3 +3,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.parcel-cache
+lib-dist
+yarn-error.log
+package-lock.json
+yarn.lock

@@ -9,6 +9,7 @@
         "isolatedModules": true,
         "jsx": "react",
         "declaration": true,
+        "outDir": "lib-dist",
         "lib": [
             "DOM",
             "DOM.Iterable",
@@ -20,11 +21,14 @@
         "resolveJsonModule": true,
         "skipLibCheck": false,
         "strict": false,
-        "target": "ESNext",
+        "target": "es2015",
         "types": [
             "node"
         ]
     },
+    "include": [
+        "BlockEditor/**/*"
+    ],
     "exclude": [
         "node_modules",
         "vite.config.js"
