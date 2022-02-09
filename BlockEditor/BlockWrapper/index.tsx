@@ -6,7 +6,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import getAncestors from 'BlockEditor/Lib/getAncestors'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).join ( ' ' ) : ''

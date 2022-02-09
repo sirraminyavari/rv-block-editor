@@ -16,7 +16,7 @@ import PlusActionMenu from './PlusActionMenu'
 import DragOverlay from './DnD'
 import useClipboardHandlers, { handlePastedText } from './Clipboard'
 
-import styles from './internalStyles.module.scss'
+import * as styles from './internalStyles.module.scss'
 
 
 export interface BlockEditorProps extends Partial < PluginEditorProps > {}

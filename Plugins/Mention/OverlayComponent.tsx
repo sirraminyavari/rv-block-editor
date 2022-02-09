@@ -5,7 +5,7 @@ import { MentionSuggestionsPubProps } from '@draft-js-plugins/mention/lib/Mentio
 
 import { MentionItem } from '.'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface OverlayComponentProps {

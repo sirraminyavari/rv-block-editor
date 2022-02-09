@@ -4,7 +4,7 @@ import Button from 'BlockEditor/Ui/Button'
 import setBlockAlignment from './setBlockAlignment'
 
 import { AlignLeftIcon, AlignCenterIcon, AlignRightIcon } from './icons'
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 const icons = {

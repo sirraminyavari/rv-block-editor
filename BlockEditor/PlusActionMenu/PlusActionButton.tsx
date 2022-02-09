@@ -6,7 +6,7 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface PlusActionButtonProps {

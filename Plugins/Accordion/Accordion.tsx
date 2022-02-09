@@ -2,7 +2,7 @@ import { EditorBlock } from 'draft-js'
 import cn from 'classnames'
 
 import { AccordionIcon } from './icons'
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export default function Accordion ({ ...props }) {

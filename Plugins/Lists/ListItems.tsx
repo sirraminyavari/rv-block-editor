@@ -3,7 +3,7 @@ import { FC, LiHTMLAttributes } from 'react'
 import { ContentBlock, EditorState } from 'draft-js'
 import cn from 'classnames'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface ListItemProps extends LiHTMLAttributes < HTMLLIElement > {

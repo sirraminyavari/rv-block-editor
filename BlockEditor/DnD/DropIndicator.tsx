@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { DropTarget } from '.'
 import { calcMinDepth, calcMaxDepth } from './calcDepthConstraints'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface DropIndicatorProps {

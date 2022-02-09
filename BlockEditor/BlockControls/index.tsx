@@ -6,7 +6,7 @@ import DragHandle from 'BlockEditor/DnD/DragHandle'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 /**

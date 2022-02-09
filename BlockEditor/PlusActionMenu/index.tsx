@@ -9,7 +9,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import PlusActionButton from './PlusActionButton'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 /**

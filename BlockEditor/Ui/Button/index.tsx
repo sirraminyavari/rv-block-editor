@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { IconType } from 'react-icons'
 import { motion } from 'framer-motion'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
@@ -19,6 +19,7 @@ export interface ButtonProps extends HTMLAttributes < HTMLDivElement > {
 const Button = forwardRef < HTMLDivElement, ButtonProps > ( (
     { className, Icon, active, motion, children, ...props }: any, ref
 ) => {
+    // FIXME: BUG: motion name shadowing
     const Comp = motion ? motion.div : 'div'
     return <Comp
         ref = { ref }

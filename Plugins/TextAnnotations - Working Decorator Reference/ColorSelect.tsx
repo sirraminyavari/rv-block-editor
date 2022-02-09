@@ -5,7 +5,7 @@ import { IconType } from 'react-icons'
 import { InlineStyleComponentProps } from 'BlockEditor'
 import Button from 'BlockEditor/Ui/Button'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface HocProps {

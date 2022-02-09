@@ -10,7 +10,7 @@ import useTransformedPluginsContext from 'BlockEditor/Contexts/TransformedPlugin
 
 import ToggleInlineStyleButton from './ToggleInlineStyleButton'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 /**

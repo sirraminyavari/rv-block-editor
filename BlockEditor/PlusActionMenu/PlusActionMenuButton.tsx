@@ -8,7 +8,7 @@ import forceSelectionToBlock from 'BlockEditor/Lib/forceSelectionToBlock'
 import Button from 'BlockEditor/Ui/Button'
 import { PlusIcon } from 'BlockEditor/icons'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface PlusActionMenuButtonProps {

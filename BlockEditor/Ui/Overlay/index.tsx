@@ -2,7 +2,7 @@ import { forwardRef, HTMLAttributes } from 'react'
 import { motion } from 'framer-motion'
 import cn from 'classnames'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface OverlayProps extends HTMLAttributes < HTMLDivElement > {

@@ -6,7 +6,7 @@ import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { OrderedListItem, UnorderedListItem } from './ListItems'
 
 import { UnorderedListIcon, OrderedListIcon } from './icons'
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export default function createListsPlugin ( config: any = {} ): EditorPlugin {

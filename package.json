@@ -9,10 +9,13 @@
     "build": "tsc && vite build",
     "serve": "vite preview --port 4444",
     "start": "yarn build && yarn serve",
-    "build-lib": "parcel build --dist-dir lib-dist --no-cache"
+    "build-lib": "parcel build --dist-dir lib-dist --no-cache",
+    "pdev": "parcel watch index.html --no-cache --dist-dir dist"
   },
   "alias": {
-    "BlockEditor": "./BlockEditor"
+    "BlockEditor": "./BlockEditor",
+    "App": "./App",
+    "Plugins": "./Plugins"
   },
   "files": [
     "/lib-dist"
@@ -21,6 +24,7 @@
     "@draft-js-plugins/editor": "^4.1.0",
     "@draft-js-plugins/linkify": "^4.2.0",
     "@draft-js-plugins/mention": "^5.0.0",
+    "@parcel/transformer-react-refresh-wrap": "^2.2.1",
     "@popperjs/core": "^2.9.2",
     "classnames": "^2.3.1",
     "direction": "^2.0.0",

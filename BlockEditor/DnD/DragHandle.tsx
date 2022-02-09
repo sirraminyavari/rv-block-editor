@@ -5,7 +5,7 @@ import useUiContext from 'BlockEditor/Contexts/UiContext'
 import Button from 'BlockEditor/Ui/Button'
 import { DragHandleIcon } from 'BlockEditor/icons'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface DragHandleProps {

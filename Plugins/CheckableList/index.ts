@@ -9,7 +9,7 @@ import _createCheckableListPlugin from 'draft-js-checkable-list-plugin'
 import 'draft-js-checkable-list-plugin/lib/plugin.css'
 
 import { CheckableListIcon } from './icons'
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export default function createCheckableListPlugin ( config: any = {} ): EditorPlugin {

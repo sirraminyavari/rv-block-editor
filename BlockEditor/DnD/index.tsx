@@ -12,7 +12,7 @@ import getDropSector from './getDropSector'
 import { calcMinDepth } from './calcDepthConstraints'
 import handleDrop from './handleDrop'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export interface PosInfoItem {

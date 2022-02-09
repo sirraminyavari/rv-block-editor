@@ -5,7 +5,7 @@ import { stateToHTML } from 'draft-js-export-html'
 import useUiContext from 'App/UiContext'
 import { contentPresets } from 'App/getInitialEditorState'
 
-import styles from './styles.module.scss'
+import * as styles from './styles.module.scss'
 
 
 export default function ConfigControls ({ editorState, setEditorState }) {
