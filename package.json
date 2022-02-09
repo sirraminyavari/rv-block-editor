@@ -3,20 +3,30 @@
   "version": "0.1.0",
   "license": "UNLICENSED",
   "private": true,
-  "source": "BlockEditor/index.tsx",
-  "main": "lib-dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "vite --port 3100 --host",
-    "build": "tsc && vite build",
-    "serve": "vite preview --port 4444",
-    "start": "yarn build && yarn serve",
-    "build-lib": "parcel build --dist-dir dist --no-cache",
-    "pdev": "parcel watch index.html --no-cache --dist-dir dist"
+    "dev": "parcel watch Demo/index.html --no-cache --main dist/index.html",
+    "dev2": "parcel --target demo",
+    "build": "parcel build --no-cache"
   },
   "alias": {
     "BlockEditor": "./BlockEditor",
     "Demo": "./Demo",
     "Plugins": "./Plugins"
+  },
+  "targets": {
+    "library": {
+      "source": [
+        "BlockEditor/index.tsx"
+      ],
+      "distDir": "dist"
+    },
+    "demo": {
+      "source": [
+        "Demo/index.html"
+      ],
+      "distDir": "demo-dist"
+    }
   },
   "files": [
     "/dist"
@@ -56,6 +66,7 @@
     "@types/prismjs": "^1.16.6",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
+    "babel-plugin-auto-import": "^1.1.0",
     "parcel": "^2.2.1",
     "sass": "^1.35.1",
     "typescript": "^4.3.4"

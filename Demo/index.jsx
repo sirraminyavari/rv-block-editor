@@ -1,8 +1,9 @@
 import './global.scss'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
 import App from './App'
-import { UiContextProvider } from './App/UiContext'
+import { UiContextProvider } from './UiContext'
 
 
 ReactDOM.render (

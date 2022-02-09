@@ -7,7 +7,7 @@ import useUiContext from './UiContext'
 import getInitialEditorState from './getInitialEditorState'
 
 import BlockEditor from 'BlockEditor'
-import editorTheme from './editorTheme.module.scss'
+import * as editorTheme from './editorTheme.module.scss'
 import ConfigControls from './ConfigControls'
 
 import useAutoSave from './useAutoSave'

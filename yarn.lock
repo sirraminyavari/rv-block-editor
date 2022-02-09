@@ -21,7 +21,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.17.0.tgz#86850b8597ea6962089770952075dcaabb8dba34"
   integrity sha512-392byTlpGWXMv4FbyWw3sAZ/FrW/DrwqLGXpy0mbyNe9Taqv1mg9yON5/o0cnr8XYCkFTZbC1eV+c+LAROgrng==
 
-"@babel/core@^7.12.0":
+"@babel/core@^7.11.1", "@babel/core@^7.12.0":
   version "7.17.2"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.17.2.tgz#2c77fc430e95139d816d39b113b31bf40fb22337"
   integrity sha512-R3VH5G42VSDolRHyUO4V2cfag8WHcZyxdq5Z/m8Xyb92lW/Erm/6kM+XtRFGf3Mulre3mveni2NHfEUws8wSvw==
@@ -1159,6 +1159,14 @@ available-typed-arrays@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
+
+babel-plugin-auto-import@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-auto-import/-/babel-plugin-auto-import-1.1.0.tgz#996a78ded5fed475657bed17f2a223bafdd87822"
+  integrity sha512-mHtA3i1BYyWLHKc4v+NLS07VSlXGLcKIGcUmV2Xrasbox0bRV/xhe5W36Ki21GJfOZHG/eeAiwxe4tbBNbDXlA==
+  dependencies:
+    "@babel/core" "^7.11.1"
+    logical-not "^1.0.1"
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -2798,6 +2806,11 @@ log-symbols@^4.1.0:
   dependencies:
     chalk "^4.1.0"
     is-unicode-supported "^0.1.0"
+
+logical-not@^1.0.1:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/logical-not/-/logical-not-1.0.9.tgz#1bd0365ff6b4a42d3a2c50f4699ca31c513e299b"
+  integrity sha512-RMNo9GZNS+1UXgwwwfPzuN5e5vlwbw+U0nti0qn5CrwnpcgBjl/4leZAbHjvThe31WF/aOb+fV6dLR6VjQfAvw==
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"

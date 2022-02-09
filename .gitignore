@@ -1,9 +1,7 @@
 node_modules
 .DS_Store
 dist
-dist-ssr
+demo-dist
 *.local
 .parcel-cache
-lib-dist
 yarn-error.log
-package-lock.json
