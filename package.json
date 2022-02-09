@@ -1,7 +1,8 @@
 {
-  "name": "block-editor",
+  "name": "block-editor-monorepo",
   "version": "0.1.0",
   "license": "UNLICENSED",
+  "private": true,
   "source": "BlockEditor/index.tsx",
   "main": "lib-dist/index.js",
   "scripts": {
