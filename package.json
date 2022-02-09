@@ -12,6 +12,11 @@
     "build-lib": "parcel build --dist-dir lib-dist --no-cache",
     "pdev": "parcel watch index.html --no-cache --dist-dir dist"
   },
+  "workspaces": [
+    "BlockEditor",
+    "Plugins",
+    "Demo"
+  ],
   "alias": {
     "BlockEditor": "./BlockEditor",
     "App": "./App",

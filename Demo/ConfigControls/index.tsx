@@ -1,9 +1,8 @@
-
 import { convertToRaw } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
-import useUiContext from 'App/UiContext'
-import { contentPresets } from 'App/getInitialEditorState'
+import useUiContext from 'Demo/UiContext'
+import { contentPresets } from 'Demo/getInitialEditorState'
 
 import * as styles from './styles.module.scss'
 
