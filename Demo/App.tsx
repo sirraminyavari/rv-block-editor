@@ -12,19 +12,7 @@ import ConfigControls from './ConfigControls'
 
 import useAutoSave from './useAutoSave'
 
-import createBasicInlineStylesPlugin from 'Plugins/BasicInlineStyles'
-import createParagraphPlugin from 'Plugins/Paragraph'
-import createHeadingsPlugin from 'Plugins/Headings'
-import createListsPlugin from 'Plugins/Lists'
-import createCheckableListPlugin from 'Plugins/CheckableList'
-import createAccordionPlugin from 'Plugins/Accordion'
-import createQuotePlugin from 'Plugins/Quote'
-import createCodeBlockPlugin from 'Plugins/CodeBlock'
-import createSoftNewlinePlugin from 'Plugins/SoftNewline'
-import createLinksPlugin from 'Plugins/Links'
-import createTextAnnotationsPlugin from 'Plugins/TextAnnotations'
-import createBlockAlignmentPlugin from 'Plugins/BlockAlignment'
-import createMentionPlugin from 'Plugins/Mention'
+import * as _plugins from 'Plugins'
 
 import mentions from './data/mentions'
 
@@ -32,17 +20,17 @@ import dict from './dict'
 
 
 const plugins = [
-    createBasicInlineStylesPlugin (),
-    createParagraphPlugin (),
-    createHeadingsPlugin (),
-    createListsPlugin ({ styles: editorTheme }),
-    createCheckableListPlugin ({ styles: editorTheme }),
-    createAccordionPlugin (),
-    createQuotePlugin (),
-    createCodeBlockPlugin ({ styles: editorTheme }),
-    createSoftNewlinePlugin (),
-    createLinksPlugin (),
-    createTextAnnotationsPlugin ({
+    _plugins.createBasicInlineStylesPlugin (),
+    _plugins.createParagraphPlugin (),
+    _plugins.createHeadingsPlugin (),
+    _plugins.createListsPlugin ({ styles: editorTheme }),
+    _plugins.createCheckableListPlugin ({ styles: editorTheme }),
+    _plugins.createAccordionPlugin (),
+    _plugins.createQuotePlugin (),
+    _plugins.createCodeBlockPlugin ({ styles: editorTheme }),
+    _plugins.createSoftNewlinePlugin (),
+    _plugins.createLinksPlugin (),
+    _plugins.createTextAnnotationsPlugin ({
         textColors: [
             { name: 'red', color: '#D32F2F' },
             { name: 'purple', color: '#7B1FA2' },
@@ -64,8 +52,8 @@ const plugins = [
             { name: 'brown', color: '#D7CCC8' },
         ]
     }),
-    createBlockAlignmentPlugin (),
-    createMentionPlugin ({ mentions })
+    _plugins.createBlockAlignmentPlugin (),
+    _plugins.createMentionPlugin ({ mentions })
 ]
 
 

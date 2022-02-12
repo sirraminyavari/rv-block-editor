@@ -8,7 +8,13 @@ import { TransformedPluginsContextProvider } from 'BlockEditor/Contexts/Transfor
 import Editor, { BlockEditorProps as _BlockEditorProps } from 'BlockEditor/Editor'
 
 export * from './types.d'
+import * as _plugins from 'Plugins'
+export const plugins = _plugins
+import * as _defaultTheme from './defaultEditorTheme.module.scss'
+export const defaultTheme = _defaultTheme
 export { withBlockWrapper } from './BlockWrapper'
+
+console.log ( plugins )
 
 
 export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > {

@@ -9,6 +9,7 @@
         "isolatedModules": true,
         "jsx": "react",
         "declaration": true,
+        "incremental": false,
         "lib": [
             "DOM",
             "DOM.Iterable",
@@ -24,7 +25,6 @@
         "types": [ "node" ]
     },
     "exclude": [
-        "node_modules",
-        "vite.config.js"
+        "node_modules"
     ]
 }

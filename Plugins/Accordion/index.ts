@@ -10,7 +10,7 @@ import { AccordionIcon } from './icons'
 import Accordion from './Accordion'
 
 
-export default function createAccordionPlugin ( config: any = {} ): EditorPlugin {
+export default function createAccordionPlugin (): EditorPlugin {
     return {
         id: 'accordion',
 
