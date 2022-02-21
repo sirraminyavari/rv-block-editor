@@ -14,8 +14,6 @@ import * as _defaultTheme from './defaultEditorTheme.module.scss'
 export const defaultTheme = _defaultTheme
 export { withBlockWrapper } from './BlockWrapper'
 
-console.log ( plugins )
-
 
 export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > {
     styles?: { [ key: string ]: string }
