@@ -6,16 +6,13 @@ import { useState, useRef, useLayoutEffect } from 'react'
 import useUiContext from './UiContext'
 import getInitialEditorState from './getInitialEditorState'
 
-import BlockEditor from 'BlockEditor'
-import * as editorTheme from './editorTheme.module.scss'
+import BlockEditor, { defaultTheme } from 'BlockEditor'
 import ConfigControls from './ConfigControls'
-
-import useAutoSave from './useAutoSave'
 
 import * as _plugins from 'Plugins'
 
+import useAutoSave from './useAutoSave'
 import mentions from './data/mentions'
-
 import dict from './dict'
 
 
@@ -23,11 +20,11 @@ const plugins = [
     _plugins.createBasicInlineStylesPlugin (),
     _plugins.createParagraphPlugin (),
     _plugins.createHeadingsPlugin (),
-    _plugins.createListsPlugin ({ styles: editorTheme }),
-    _plugins.createCheckableListPlugin ({ styles: editorTheme }),
+    _plugins.createListsPlugin ({ styles: defaultTheme }),
+    _plugins.createCheckableListPlugin ({ styles: defaultTheme }),
     _plugins.createAccordionPlugin (),
     _plugins.createQuotePlugin (),
-    _plugins.createCodeBlockPlugin ({ styles: editorTheme }),
+    _plugins.createCodeBlockPlugin ({ styles: defaultTheme }),
     _plugins.createSoftNewlinePlugin (),
     _plugins.createLinksPlugin (),
     _plugins.createTextAnnotationsPlugin ({
@@ -71,12 +68,15 @@ export default function App () {
     ), 1000 )
 
     return <>
-        <ConfigControls editorState = { editorState } setEditorState = { setEditorState } />
+        <ConfigControls
+            editorState = { editorState }
+            setEditorState = { setEditorState }
+        />
         <BlockEditor
             ref = { editorRef }
             editorState = { editorState } onChange = { setEditorState }
             dict = { dict } lang = { language } dir = { direction }
-            plugins = { plugins } styles = { editorTheme }
+            plugins = { plugins } styles = { defaultTheme }
             portalNode = { document.getElementById ( 'block-editor-portal' ) }
             debugMode = { debugMode }
             readOnly = { readOnly }

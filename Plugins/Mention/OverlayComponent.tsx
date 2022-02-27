@@ -3,17 +3,18 @@ import { FC, ComponentType, useState, useMemo } from 'react'
 import { defaultSuggestionsFilter } from '@draft-js-plugins/mention'
 import { MentionSuggestionsPubProps } from '@draft-js-plugins/mention/lib/MentionSuggestions/MentionSuggestions.d'
 
-import { MentionItem } from '.'
+import { MentionItem, SuggestionsFilter } from '.'
 
 import * as styles from './styles.module.scss'
 
 
 export interface OverlayComponentProps {
     mentions: MentionItem []
+    suggestionsFilter: SuggestionsFilter
     MentionSuggestionsComp: ComponentType < MentionSuggestionsPubProps >
 }
 
-const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, MentionSuggestionsComp }) => {
+const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, suggestionsFilter, MentionSuggestionsComp }) => {
     const [ isOpen, setIsOpen ] = useState ( false )
     const [ suggestions, setSuggestions ] = useState ( mentions )
 
@@ -22,12 +23,12 @@ const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, MentionSugge
         onOpenChange = { isOpen => setIsOpen ( isOpen ) }
         suggestions = { suggestions }
         onSearchChange = { ({ value }) => {
-            setImmediate ( () => {
-                const newSuggs = defaultSuggestionsFilter ( value, mentions )
-                if ( suggestions.length !== newSuggs.length ) return void setSuggestions ( newSuggs )
+            setImmediate ( async () => {
+                const newSuggs = await ( suggestionsFilter || defaultSuggestionsFilter ) ( value, mentions )
+                if ( suggestions.length !== newSuggs.length ) return setSuggestions ( newSuggs )
                 for ( const i in suggestions )
                     if ( suggestions [ i ].id !== newSuggs [ i ].id )
-                        return void setSuggestions ( newSuggs )
+                        return setSuggestions ( newSuggs )
             } )
         } }
         entryComponent = { props => {
