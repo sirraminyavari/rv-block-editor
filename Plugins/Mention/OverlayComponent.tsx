@@ -13,7 +13,7 @@ export interface OverlayComponentProps {
     MentionSuggestionsComp: ComponentType < MentionSuggestionsPubProps >
 }
 
-const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, suggestionsFilter, MentionSuggestionsComp }) => {
+const OverlayComponent: FC < OverlayComponentProps > = ({ mentions = [], suggestionsFilter, MentionSuggestionsComp }) => {
     const [ isOpen, setIsOpen ] = useState ( false )
     const [ suggestions, setSuggestions ] = useState ( mentions )
 
