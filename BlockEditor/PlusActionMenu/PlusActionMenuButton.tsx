@@ -33,7 +33,7 @@ const PlusActionMenuButton: FC < PlusActionMenuButtonProps > = ({ blockKey }) =>
                 setEditorState ( newEditorState )
                 setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: newContentBlock }) )
             } else {
-                // There is no text in the current block so we should update it's type inplace
+                // There is no text in the current block so we should update its type inplace
                 setEditorState ( forceSelectionToBlock ( editorState, blockKey ) )
                 setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: block }) )
             }

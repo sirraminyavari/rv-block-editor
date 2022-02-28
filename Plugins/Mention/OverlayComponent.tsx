@@ -1,11 +1,10 @@
 import { FC, ComponentType, useState, useMemo } from 'react'
+import _ from 'lodash'
 
 import { defaultSuggestionsFilter } from '@draft-js-plugins/mention'
 import { MentionSuggestionsPubProps } from '@draft-js-plugins/mention/lib/MentionSuggestions/MentionSuggestions.d'
 
 import { MentionItem, SuggestionsFilter } from '.'
-
-import * as styles from './styles.module.scss'
 
 
 export interface OverlayComponentProps {
@@ -36,7 +35,7 @@ const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, suggestionsF
             return <div
                 // id = { index }
                 key = { index }
-                // { ..._.omit ( props, [ 'isFocused', 'searchValue', 'selectMention' ] ) }
+                { ..._.omit ( props, [ 'isFocused', 'searchValue', 'selectMention' ] ) }
             >
                 <div>
                     <span>{ props.mention.name }</span>
@@ -48,7 +47,7 @@ const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, suggestionsF
         suggestions.map ( s => s.id ).join ()
     ] )
 
-    return <div className = { styles.overlay } children = { content } />
+    return <div children = { content } />
 }
 
 export default function getOverlayComponent ( config: OverlayComponentProps ) {

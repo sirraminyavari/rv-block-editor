@@ -7,6 +7,8 @@ import _createMentionPlugin, { MentionData } from '@draft-js-plugins/mention'
 import MentionComponent from './MentionComponent'
 import getOverlayComponent from './OverlayComponent'
 
+import * as styles from './styles.module.scss'
+
 
 export interface MentionItem extends MentionData {}
 
@@ -23,7 +25,8 @@ export default function createMentionPlugin ( { mentions, suggestionsFilter }: C
     const _plugin = _createMentionPlugin ({
         entityMutability: 'IMMUTABLE',
         mentionPrefix: '@',
-        mentionComponent: MentionComponent
+        mentionComponent: MentionComponent,
+        theme: styles
     })
 
     return {
@@ -33,8 +36,7 @@ export default function createMentionPlugin ( { mentions, suggestionsFilter }: C
 
         decorators: [ new CompositeDecorator ( _plugin.decorators as any ) ],
         OverlayComponent: getOverlayComponent ({
-            mentions,
-            suggestionsFilter,
+            mentions, suggestionsFilter,
             MentionSuggestionsComp: _plugin.MentionSuggestions
         })
     }
