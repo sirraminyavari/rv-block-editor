@@ -31,15 +31,8 @@ const OverlayComponent: FC < OverlayComponentProps > = ({ mentions, suggestionsF
             } )
         } }
         entryComponent = { props => {
-            const index = mentions.findIndex ( x => x.name === props.mention.name )
-            return <div
-                // id = { index }
-                key = { index }
-                { ..._.omit ( props, [ 'isFocused', 'searchValue', 'selectMention' ] ) }
-            >
-                <div>
-                    <span>{ props.mention.name }</span>
-                </div>
+            return <div { ..._.omit ( props, [ 'isFocused', 'searchValue', 'selectMention' ] ) }>
+                <span>{ props.mention.name }</span>
             </div>
         } }
     />, [
