@@ -16,6 +16,9 @@
     "b2": "parcel build Plugins/Accordion/index.ts --dist-dir dist/Accordion",
     "t": "tsc --jsx react --outDir ./dist -p ./tsconfig.json --force"
   },
+  "publishConfig": {
+    "@sirraminyavari:registry": "https://npm.pkg.github.com"
+  },
   "alias": {
     "BlockEditor": "./BlockEditor",
     "Demo": "./Demo",
