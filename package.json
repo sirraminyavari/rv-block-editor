@@ -2,7 +2,7 @@
   "name": "@sirraminyavari/block-editor",
   "version": "0.1.0",
   "license": "UNLICENSED",
-  "private": true,
+  "private": false,
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/module.js",
@@ -12,7 +12,7 @@
     "dev": "parcel --target demo",
     "build": "parcel build --no-cache --target main --no-scope-hoist",
     "buildp": "parcel build --no-cache --target plugins",
-    "b": "node scripts/build",
+    "b": "node scripts/build",  
     "b2": "parcel build Plugins/Accordion/index.ts --dist-dir dist/Accordion",
     "t": "tsc --jsx react --outDir ./dist -p ./tsconfig.json --force"
   },
