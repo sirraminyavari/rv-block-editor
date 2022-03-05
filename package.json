@@ -12,7 +12,7 @@
     "dev": "parcel --target demo",
     "build": "parcel build --no-cache --target main --no-scope-hoist",
     "buildp": "parcel build --no-cache --target plugins",
-    "b": "node scripts/build",  
+    "b": "node scripts/build",
     "b2": "parcel build Plugins/Accordion/index.ts --dist-dir dist/Accordion",
     "t": "tsc --jsx react --outDir ./dist -p ./tsconfig.json --force"
   },
@@ -92,6 +92,8 @@
     "@types/react-dom": "^17.0.8",
     "babel-plugin-auto-import": "^1.1.0",
     "parcel": "^2.2.1",
+    "postcss": "^8.0.0",
+    "postcss-modules": "^4.3.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "sass": "^1.35.1",
