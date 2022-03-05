@@ -18,16 +18,15 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
         with:
           node-version: 14
+          
       - name: install package dependencies
         run: yarn
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
 
       - name: build package
         run: yarn build
+
+      - name: build plugins
         run: yarn buildp
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
 
       - name: publish package
         run: npm publish
