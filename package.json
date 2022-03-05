@@ -1,6 +1,6 @@
 {
   "name": "@sirraminyavari/rv-block-editor",
-  "version": "0.1.0",
+  "version": "0.1.2-dev",
   "license": "UNLICENSED",
   "private": false,
   "type": "module",
