@@ -23,7 +23,7 @@ export interface Config {
 
 export default function createMentionPlugin ( { mentions, suggestionsFilter }: Config ): EditorPlugin {
     const _plugin = _createMentionPlugin ({
-        entityMutability: 'IMMUTABLE',
+        entityMutability: 'SEGMENTED',
         mentionPrefix: '@',
         mentionComponent: MentionComponent,
         theme: styles

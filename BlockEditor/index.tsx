@@ -13,6 +13,7 @@ export const plugins = _plugins
 import * as _defaultTheme from './defaultEditorTheme.module.scss'
 export const defaultTheme = _defaultTheme
 export { withBlockWrapper } from './BlockWrapper'
+export * from 'BlockEditor/Utils/convertLegacyHtmlToEditorState'
 
 
 export interface BlockEditorProps extends Omit < _BlockEditorProps, 'plugins' > {
