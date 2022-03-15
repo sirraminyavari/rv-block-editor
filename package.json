@@ -1,6 +1,6 @@
 {
   "name": "@sirraminyavari/rv-block-editor",
-  "version": "0.3.6-dev",
+  "version": "0.3.7-dev",
   "license": "UNLICENSED",
   "private": false,
   "type": "module",
@@ -10,11 +10,7 @@
   "browserslist": "IE 11",
   "scripts": {
     "dev": "parcel --target demo",
-    "build": "parcel build --no-cache --target main --no-scope-hoist",
-    "buildp": "parcel build --no-cache --target plugins",
-    "b": "node scripts/build",
-    "b2": "parcel build Plugins/Accordion/index.ts --dist-dir dist/Accordion",
-    "t": "tsc --jsx react --outDir ./dist -p ./tsconfig.json --force"
+    "build": "parcel build --no-cache --target main --no-scope-hoist"
   },
   "publishConfig": {
     "@sirraminyavari:registry": "https://npm.pkg.github.com"
@@ -35,12 +31,6 @@
       ],
       "distDir": "dist"
     },
-    "plugins": {
-      "source": [
-        "Plugins/index.ts"
-      ],
-      "distDir": "dist/plugins"
-    },
     "demo": {
       "source": [
         "Demo/index.html"
@@ -59,7 +49,6 @@
     "@popperjs/core": "^2.9.2",
     "@swc/helpers": "^0.3.2",
     "classnames": "^2.3.1",
-    "color": "^4.2.1",
     "direction": "^2.0.0",
     "draft-js": "^0.11.7",
     "draft-js-block-breakout-plugin": "^2.0.1",
@@ -86,7 +75,6 @@
   "devDependencies": {
     "@parcel/transformer-sass": "^2.2.1",
     "@parcel/transformer-typescript-types": "^2.2.1",
-    "@types/color": "^3.0.3",
     "@types/draft-js": "^0.11.3",
     "@types/lodash": "^4.14.176",
     "@types/node": "^15.12.4",

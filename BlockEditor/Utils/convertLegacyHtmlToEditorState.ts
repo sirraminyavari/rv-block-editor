@@ -1,6 +1,5 @@
-import { EditorState, ContentState, ContentBlock, SelectionState, Modifier } from 'draft-js'
+import { ContentState, ContentBlock, SelectionState, Modifier, convertToRaw, RawDraftContentState } from 'draft-js'
 import htmlToDraft from 'html-to-draftjs'
-import Color from 'color'
 
 
 interface ColorConfig { name: string, color: string }
@@ -12,13 +11,12 @@ interface Config {
     }
 }
 
-export function convertLegacyHtmlToEditorState ( html: string, config: Config ): EditorState {
+export function convertLegacyHtmlToEditorState ( html: string, config: Config ): RawDraftContentState {
     const modifiedHtml = modifyHtml ( html, config )
     const { contentBlocks, entityMap } = htmlToDraft ( modifiedHtml )
     const contentState = ContentState.createFromBlockArray ( contentBlocks, entityMap )
     const modifiedContentState = modifyContent ( contentState, config )
-    const editorState = EditorState.createWithContent ( modifiedContentState )
-    return editorState
+    return convertToRaw ( modifiedContentState )
 }
 
 
@@ -84,9 +82,18 @@ function findClosesColor ( colorArr, colors ) {
     }, { closest: null, min: Infinity } )
     return info.closest
 }
-
+function toRgbArr ( rgbStr ) {
+    return rgbStr [ 0 ] === '#'
+        ? [
+            parseInt ( rgbStr.slice ( 1, 3 ), 16 ),
+            parseInt ( rgbStr.slice ( 3, 5 ), 16 ),
+            parseInt ( rgbStr.slice ( 5, 7 ), 16 )
+        ]
+        : rgbStr.slice ( 4, rgbStr.length - 1 ).split ( ',' ).map ( c => parseInt ( c, 10 ) )
+}
 function convertColorStyles ( contentState: ContentState, originalStlyePrefix: string, targetStylePrefix: string, targetColors: any [] ): ContentState {
-    const computedColors = targetColors.map ( color => ({ ...color, color: ( new Color ( color.color ).array () ) }) )
+    if ( ! targetColors.length ) return contentState
+    const computedColors = targetColors.map ( color => ({ ...color, color: toRgbArr ( color.color ) }) )
     const blocks = contentState.getBlockMap ()
     const newContentState = blocks.reduce ( ( contentState, block, blockKey ) => {
         let newContentState = contentState
@@ -94,8 +101,8 @@ function convertColorStyles ( contentState: ContentState, originalStlyePrefix: s
             char => char.getStyle ().valueSeq ().some ( style => style.startsWith ( originalStlyePrefix + '-' ) ),
             ( start, end ) => {
                 const colorStyle = block.getInlineStyleAt ( start ).filter ( s => s.startsWith ( originalStlyePrefix + '-' ) ).toArray () [ 0 ]
-                const color = new Color ( colorStyle.split ( '-' ) [ 1 ] )
-                const closestColor = findClosesColor ( color.array (), computedColors )
+                const color = toRgbArr ( colorStyle.split ( '-' ) [ 1 ] )
+                const closestColor = findClosesColor ( color, computedColors )
                 const selectionState = new SelectionState ({
                     anchorKey: blockKey, focusKey: blockKey,
                     anchorOffset: start, focusOffset: end
