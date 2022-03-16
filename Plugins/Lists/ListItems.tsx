@@ -26,6 +26,7 @@ export const OrderedListItem: FC < ListItemProps > = ({ editorState, block, clas
 
 // FIXME: Terrible Performance
 function getI ( editorState: EditorState, block: ContentBlock ): number {
+    return 1
     const contentState = editorState.getCurrentContent ()
     const depth = block.getDepth ()
 

@@ -11,6 +11,7 @@ import useDrag, { DragInfo } from 'BlockEditor/DnD/useDrag'
 import useRtblSelectionState, { RtblSelectionState } from './useRtblSelectionState'
 import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
 import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
+import useCollapsedBlocks, { CollapsedBlocks } from './useCollapsedBlocks'
 
 export * from './useBlockControls'
 export * from './usePlusActionMenu'
@@ -28,6 +29,7 @@ export interface UiContext {
     debugMode: boolean
     textarea: boolean
     readOnly: boolean
+    collapsedBlocks: CollapsedBlocks
     // Global Refs:
     editorRef: MutableRefObject < Editor >
     wrapperRef: MutableRefObject < HTMLDivElement >
@@ -72,11 +74,12 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
     const [ rtblSelectionState, updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState, textarea )
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls ] = useBlockLevelSelection ( editorState, rtblSelectionState, updateRtblSelectionState, textarea )
     const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState )
+    const collapsedBlocks = useCollapsedBlocks ( contentState )
 
     return <UiContext.Provider
         value = {{
             dict, dir, lang, externalStyles: styles,
-            portalNode, debugMode, textarea, readOnly,
+            portalNode, debugMode, textarea, readOnly, collapsedBlocks,
             editorRef, wrapperRef, innerWrapperRef, blockRefs,
             blockControlsInfo, setBlockControlsInfo,
             plusActionMenuInfo, setPlusActionMenuInfo,

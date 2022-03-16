@@ -4,8 +4,6 @@ import { direction as detectDirection } from 'direction'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
-import getAncestors from 'BlockEditor/Lib/getAncestors'
-
 import * as styles from './styles.module.scss'
 
 
@@ -16,7 +14,7 @@ const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).joi
  */
 const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
     const { editorState } = useEditorContext ()
-    const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo, debugMode } = useUiContext ()
+    const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo, debugMode, collapsedBlocks } = useUiContext ()
 
     const { block: outOfSyncBlock } = children?.props || rest
     const blockKey = outOfSyncBlock.getKey ()
@@ -26,8 +24,7 @@ const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
     const direction = detectDirection ( text )
     const depth = syncedBlock.getDepth ()
 
-    if ( getAncestors ( blockMap, blockKey ).some ( b => b.getData ().get ( '_collapsed' ) ) )
-        return null
+    if ( collapsedBlocks.isCollapsed ( blockKey ) ) return null
 
     const textAlign = syncedBlock.getData ().get ( '_align' )
 

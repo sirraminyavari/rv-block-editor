@@ -11,7 +11,7 @@ import Accordion from './Accordion'
 
 
 export default function createAccordionPlugin (): EditorPlugin {
-    return {
+    return ({ getUiContext }) => ({
         id: 'accordion',
 
         plusActions: [
@@ -32,6 +32,8 @@ export default function createAccordionPlugin (): EditorPlugin {
                 props: {
                     collapsed,
                     toggleCollapsed () {
+                        const uiContext = getUiContext ()
+                        if ( uiContext.readOnly ) return
                         const editorState = getEditorState ()
                         const blockKey = contentBlock.getKey ()
                         const currentData = contentBlock.getData ()
@@ -44,10 +46,11 @@ export default function createAccordionPlugin (): EditorPlugin {
                                 editorState, blockKey,
                                 { _collapsed: true }
                             )
+                        uiContext.collapsedBlocks.clearChache ()
                         setEditorState ( newEditorState )
                     }
                 }
             }
         }
-    }
+    })
 }
