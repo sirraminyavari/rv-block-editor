@@ -54,7 +54,7 @@ export default function createCheckableListPlugin ( config: any = {} ): EditorPl
         },
 
         plusActions: [
-            { action: 'checkable-list-item', Icon: CheckableListIcon }
+            { action: 'checkable-list-item', doubleBreakout: true, Icon: CheckableListIcon }
         ]
     })
 }
