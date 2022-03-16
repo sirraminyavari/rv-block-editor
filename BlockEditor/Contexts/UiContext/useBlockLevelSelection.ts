@@ -50,6 +50,7 @@ export default function useBlockLevelSelection (
 
         const blockMap = contentState.getBlockMap ()
         const { startKey, endKey } = rtblSelectionState
+        if ( ! startKey || ! endKey ) return // Just a check to increase safty and prevent bugs
         const selectionDepth = getSelectionDepth ( blockMap, startKey, endKey )
         const selectedBlocks = blsAwareGetBlockRange ( blockMap, startKey, endKey, selectionDepth )
         const selectedBlockKeys = selectedBlocks.keySeq ().toArray ()
