@@ -3,12 +3,13 @@ import htmlToDraft from 'html-to-draftjs'
 
 
 interface ColorConfig { name: string, color: string }
-
+type GetMentionLink = ( mention: { type: string, id: string } ) => string
 interface Config {
     colors: {
         textColors: ColorConfig []
         highlightColors: ColorConfig []
     }
+    getMentionLink?: GetMentionLink
 }
 
 export function convertLegacyHtmlToEditorState ( html: string, config: Config ): RawDraftContentState {
@@ -70,7 +71,7 @@ function modifyContent ( contentState: ContentState, config: Config ): ContentSt
     tempState = convertColorStyles ( tempState, 'bgcolor', 'HIGHLIGHT-COLOR', config.colors.highlightColors )
     tempState = handleCodeBlocks ( tempState )
     tempState = handleAlignment ( tempState )
-    tempState = handleMentionsAndLinks ( tempState )
+    tempState = handleMentionsAndLinks ( tempState, config.getMentionLink )
     return tempState
 }
 
@@ -155,7 +156,7 @@ function handleAlignment ( contentState: ContentState ): ContentState {
 
 const decodeUnicode = str => decodeURIComponent ( atob ( str ).split ( '' ).map ( c => '%' + ( '00' + c.charCodeAt ( 0 ).toString ( 16 ) ).slice ( -2 ) ).join ( '' ) ) // https://attacomsian.com/blog/javascript-base64-encode-decode
 const MENTION_LINK_REGEXP = /(@)\[\[([a-zA-Z\d\-_]+):([\w\s\.\-]+):([0-9a-zA-Z\+\/\=]+)(:([0-9a-zA-Z\+\/\=]*))?\]\]/
-function handleMentionsAndLinks ( contentState: ContentState ): ContentState {
+function handleMentionsAndLinks ( contentState: ContentState, getMentionLink: GetMentionLink ): ContentState {
     let tempState = contentState
     contentState.getBlockMap ().keySeq ().forEach ( blockKey => {
         while ( true ) {
@@ -169,10 +170,17 @@ function handleMentionsAndLinks ( contentState: ContentState ): ContentState {
                     'LINK', 'IMMUTABLE',
                     { href: decodeUnicode ( JSON.parse ( decodeUnicode ( parts [ 4 ] ) ).href ) }
                 )
-                : tempState.createEntity (
-                    'mention', 'SEGMENTED',
-                    { mention: { id: parts [ 0 ], type: parts [ 1 ], name: label } }
-                )
+                : ( () => {
+                    const m = { id: parts [ 0 ], type: parts [ 1 ] }
+                    return tempState.createEntity (
+                        'mention', 'SEGMENTED',
+                        { mention: {
+                            ...m,
+                            name: label,
+                            ...( getMentionLink ? { href: getMentionLink ( m ) } : {} )
+                        } }
+                    )
+                } ) ()
             const entityKey = tempState.getLastCreatedEntityKey ()
             tempState = Modifier.replaceText (
                 tempState,
