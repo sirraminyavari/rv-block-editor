@@ -26,16 +26,14 @@ export default function useInlineStyleMenu (
     selectionState: SelectionState,
     { domSelection }: RtblSelectionState
 ): InlineStyleMenuInfo {
-    try {
-        const isOpen =
-            ! isBlockLevelSelecting && ! domSelection.isCollapsed &&
-            selectionState.getHasFocus () && (
-                selectionState.getAnchorKey () !== selectionState.getFocusKey () ||
-                selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
-            )
-        const getSelectionRect = () => domSelection?.getRangeAt ( 0 ).getBoundingClientRect ()
-        return { isOpen, domSelection, getSelectionRect }
-    } catch {
-        return { isOpen: false, getSelectionRect: () => null }
+    const isOpen =
+        ! isBlockLevelSelecting && ! domSelection.isCollapsed &&
+        selectionState.getHasFocus () && (
+            selectionState.getAnchorKey () !== selectionState.getFocusKey () ||
+            selectionState.getAnchorOffset () !== selectionState.getFocusOffset ()
+        )
+    return {
+        isOpen, domSelection,
+        getSelectionRect: () => domSelection.isCollapsed ? null : domSelection?.getRangeAt ( 0 ).getBoundingClientRect ()
     }
 }
