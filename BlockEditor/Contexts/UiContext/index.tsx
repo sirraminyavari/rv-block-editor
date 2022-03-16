@@ -4,7 +4,6 @@ import Editor from '@draft-js-plugins/editor'
 import { Language, Direction, Dict } from 'BlockEditor'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 
-// import useMouseState, { MouseState } from './useMouseState'
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'
 import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
@@ -66,7 +65,6 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
     const selectionState = editorState.getSelection ()
     const contentState = editorState.getCurrentContent ()
 
-    // const mouseState = useMouseState ()
     const { editorRef, wrapperRef, innerWrapperRef, blockRefs } = useGlobalRefs ()
     const [ blockControlsInfo, setBlockControlsInfo ] = useBlockControls ( editorState, wrapperRef, blockRefs, textarea )
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState, textarea )
