@@ -24,9 +24,6 @@ jobs:
       - name: build package
         run: yarn build
 
-      - name: build plugins
-        run: yarn buildp
-
       - name: publish package
         run: npm publish
         env:
