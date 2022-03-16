@@ -1,4 +1,4 @@
-import { forwardRef, useState, useLayoutEffect, useMemo, useEffect } from 'react'
+import { forwardRef, useState, useLayoutEffect, useMemo, useEffect, useCallback } from 'react'
 import cn from 'classnames'
 import _ from 'lodash'
 
@@ -54,6 +54,30 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
         [ allPlugins ]
     )
 
+    const getEditorRef = useCallback ( r => {
+        editorRef.current = r
+        if ( ref ) typeof ref === 'function'
+            ? ref ( r )
+            : ref.current = r
+    }, [ ref ] )
+    const handleBeforeInput = useCallback (
+        () => blockLevelSelectionInfo.enabled ? 'handled' : 'not-handled',
+        [ blockLevelSelectionInfo.enabled ]
+    )
+    const renderEditor = useMemo ( () => <Editor
+        ref = { getEditorRef }
+        editorState = { editorState }
+        onChange = { setEditorState }
+        plugins = { allPluginsWithoutDecorators }
+        defaultBlockRenderMap
+        defaultKeyBindings
+        defaultKeyCommands
+        readOnly = { readOnly }
+        handleBeforeInput = { handleBeforeInput }
+        handlePastedText = { handlePastedText }
+        { ...props }
+    />, [ editorState, allPluginsWithoutDecorators, readOnly, getEditorRef, handleBeforeInput, handlePastedText, props ] )
+
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
         onMouseDown = { () => editorRef.current?.focus () }
@@ -70,24 +94,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
             className = { externalStyles.innerWrapper }
             { ...( blockLevelSelectionInfo.enabled ? { onDragStart: e => e.preventDefault () } : null ) }
         >
-            <Editor
-                ref = { r => {
-                    editorRef.current = r
-                    if ( ref ) typeof ref === 'function'
-                        ? ref ( r )
-                        : ref.current = r
-                } }
-                editorState = { editorState }
-                onChange = { setEditorState }
-                plugins = { allPluginsWithoutDecorators }
-                defaultBlockRenderMap
-                defaultKeyBindings
-                defaultKeyCommands
-                readOnly = { readOnly }
-                handleBeforeInput = { () => blockLevelSelectionInfo.enabled ? 'handled' : 'not-handled' }
-                handlePastedText = { handlePastedText }
-                { ...props }
-            />
+            { renderEditor }
         </div>
         { ! readOnly && renderRefDependentComps && <>
             { textarea || <BlockControls /> }
