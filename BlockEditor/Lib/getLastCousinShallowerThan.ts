@@ -1,7 +1,9 @@
 import { BlockMap, ContentBlock } from 'draft-js'
 
 
-// Self included
+/**
+ * @returns The last cousin of a block which is shallower than a certain depth (self included).
+ */
 export default function getLastCousinShallowerThan ( blockMap: BlockMap, targetKey: string, depth: number ): ContentBlock {
     const trimmedBlockMap = blockMap.skipUntil ( ( _, key ) => key === targetKey )
     const targetBlock = trimmedBlockMap.first ()

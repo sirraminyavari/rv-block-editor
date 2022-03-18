@@ -20,12 +20,19 @@ export type ClipboardEventHandler = (
 ) => void
 
 export interface ClipboardData {
+    // Whether the data has originally been copied from an instance of our editor
     NEXTLE_blockEditor: boolean
+    // Whether the copied data consists of multiple blocks (BLS) or a single block
     NEXTLE_blockEditor_BLS: boolean
+    // The version of the editor which the data has been copied from
     NEXTLE_blockEditor_version: number
+    // Raw content state of the copied fragment
     rawContent: RawDraftContentState
 }
 
+/**
+ * Registers all clipboard handlers and provides them with required utilities.
+ */
 function registerClipboardHandlers (
     uiStateRef: MutableRefObject < UiContext >,
     setEditorState: SetState < EditorState >
@@ -44,6 +51,11 @@ function registerClipboardHandlers (
     }
 }
 
+/**
+ * A simple way to use 'registerClipboardHandlers' without the need to
+ * provide any argument.
+ * All the necessary data will be retrieved using hooks.
+ */
 export default function useClipboardHandlers () {
     const { setEditorState } = useEditorContext ()
     const uiState = useUiContext ()
@@ -55,6 +67,10 @@ export default function useClipboardHandlers () {
     }, [] )
 }
 
+/**
+ * This method tells Draft.js whether to use its own pasing logic or delegate
+ * the paste operation to our custom clipboard handler.
+ */
 export function handlePastedText ( _, html, _2 ) {
     if ( ! html ) return 'not-handled'
     const elem = document.createElement ( 'div' )

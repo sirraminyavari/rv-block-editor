@@ -3,6 +3,9 @@ import { BlockMap, BlockMapBuilder } from 'draft-js'
 import getLastCousinShallowerThan from 'BlockEditor/Lib/getLastCousinShallowerThan'
 
 
+/**
+ * Removes all collapes blocks from a BlockMap.
+ */
 export default function trimCollapsedBlocks ( blockMap: BlockMap ): BlockMap {
     if ( ! blockMap.size ) return blockMap
     const safeLeft = blockMap.takeUntil ( b => b.getData ().get ( '_collapsed' ) ) as BlockMap

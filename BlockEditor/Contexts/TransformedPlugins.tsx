@@ -9,21 +9,13 @@ import createUiHandlerPlugin from 'BlockEditor/InternalPlugins/UiHandler'
 
 
 export interface TransformedPluginsContext {
-    /**
-     * All the Inline Styles extracted from plugins
-     */
+    // All the Inline Styles extracted from plugins
     inlineStyles: TransformedInlineStyle []
-    /**
-     * All the Plus Actions extracted from plugins
-     */
+    // All the Plus Actions extracted from plugins
     plusActions: TransformedPlusAction []
-    /**
-     * TODO: Docs
-     */
+    // A custom component used to display a custom UI for plugins
     PluginsOverlay: ComponentType
-    /**
-     * All the external and internal plugins ready to be fed to the Plugin Editor.
-     */
+    // All the external and internal plugins ready to be fed to the Plugin Editor
     allPlugins: EditorPluginObject []
 }
 

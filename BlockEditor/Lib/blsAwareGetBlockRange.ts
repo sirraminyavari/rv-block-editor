@@ -6,6 +6,9 @@ import getLastCousinShallowerThan from 'BlockEditor/Lib/getLastCousinShallowerTh
 import getBlockRange from 'BlockEditor/Lib/getBlockRange'
 
 
+/**
+ * Calculates the BLS selection range based on the native selection.
+ */
 export default function blsAwareGetBlockRange (
     blockMap: BlockMap,
     startKey: string,

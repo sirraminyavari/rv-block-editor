@@ -6,21 +6,13 @@ import { ContentBlock } from 'draft-js'
  * Information regarding the D&D functionality at the block level.
  */
  export interface DragInfo {
-    /**
-     * Whether a block is being dragged.
-     */
+    // Whether a block is being dragged
     dragging: boolean
-    /**
-     * Whether the current drag has been started via one of the drag handles.
-     */
+    // Whether the current drag has been started via one of the drag handles
     isDraggingByHandle: boolean
-    /**
-     * The block that is currently being dragged.
-     */
+    // The block that is currently being dragged
     block?: ContentBlock
-    /**
-     * Ref to the wrapper of the block that is currently being dragged.
-     */
+    // Ref to the wrapper of the block that is currently being dragged
     elem?: HTMLElement
 }
 

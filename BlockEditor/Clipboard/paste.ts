@@ -7,6 +7,10 @@ import setBlockRangeDepth from 'BlockEditor/Lib/setBlockRangeDepth'
 import { ClipboardEventHandler, ClipboardData } from '.'
 
 
+/**
+ * Pastes clipboard data into the editor state while taking block-leve selection
+ * into account.
+ */
 const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState, event ) => {
     const { blockLevelSelectionInfo  } = getUiState ()
     const { getEditorState } = editor
@@ -96,6 +100,10 @@ const pasteHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState
 }
 export default pasteHandler
 
+/**
+ * Retrive data from clipboard in an standard way.
+ * TODO: Add support for pasting from other softwares. (Paste from MS Word)
+ */
 function getPasteData ( event: ClipboardEvent ): ClipboardData | null {
     try {
         const jsonData = JSON.parse ( event.clipboardData.getData ( 'application/json' ) )

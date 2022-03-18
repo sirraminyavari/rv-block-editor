@@ -11,6 +11,10 @@ import getBlockRange from 'BlockEditor/Lib/getBlockRange'
 import trimCollapsedBlocks from 'BlockEditor/Lib/trimCollapsedBlocks'
 
 
+/**
+ * Handles drop operation which consists of moving the dragged fragment
+ * and adjusting its depth.
+ */
 export default function handleDrop (
     editorRef: MutableRefObject < Editor >,
     editorState: EditorState,

@@ -3,6 +3,10 @@ import { DragEvent } from 'react'
 import { Direction } from 'BlockEditor'
 
 
+/**
+ * Calculates the drop depth (sector) based on user's mouse position relative
+ * to the sector indicator UI elements.
+ */
 export default function getDropSector (
     { clientX: mouseX }: DragEvent,
     sectorRects: DOMRect [],

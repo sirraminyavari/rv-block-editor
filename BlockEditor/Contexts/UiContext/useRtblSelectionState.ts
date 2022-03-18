@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { ContentState, SelectionState } from 'draft-js'
 
 
-// Real-Time Selection State
+// * Real-Time Block-Level Selection State
 export interface RtblSelectionState {
     domSelection: Selection
     anchorKey: string
@@ -20,6 +20,9 @@ const defaultRtblSelectionState: RtblSelectionState = {
     isBackward: false,
 }
 
+/**
+ * Provides all of the required functionality to calculate and store RTBL selection.
+ */
 export default function useRtblSelectionState (
     contentState: ContentState,
     selectionState: SelectionState,

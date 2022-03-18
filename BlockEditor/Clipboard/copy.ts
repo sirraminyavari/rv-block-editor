@@ -6,6 +6,13 @@ import { ClipboardEventHandler, ClipboardData } from '.'
 import getBlockRange from 'BlockEditor/Lib/getBlockRange'
 
 
+/**
+ * Copies the selected content into the clipboard while taking block-level selection
+ * into account.
+ * This function trys to be as versitile as possible and copies HTML and JSON data in
+ * a way that is perfectly reversable in the editor while also supporting other text
+ * based softwares such as Microsoft Word.
+ */
 const copyHandler: ClipboardEventHandler = ( editor, getUiState, _, event ) => {
     const { getEditorState } = editor
     const editorState = getEditorState ()

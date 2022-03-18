@@ -7,8 +7,11 @@ import { RtblSelectionState } from './useRtblSelectionState'
 
 
 export interface BlockLevelSelectionInfo {
+    // Whether the user is performing selection on the block level
     enabled: boolean
+    // A list of block-keys computed based on native user-selection and selection-depth
     selectedBlockKeys: string []
+    // The block with the lowest depth determines selection-depth
     selectionDepth: number
 }
 
@@ -16,6 +19,9 @@ export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
     enabled: false, selectedBlockKeys: [], selectionDepth: null
 }
 
+/**
+ * Provides the core functianality for block-level selection.
+ */
 export default function useBlockLevelSelection (
     editorState: EditorState,
     rtblSelectionState: RtblSelectionState,

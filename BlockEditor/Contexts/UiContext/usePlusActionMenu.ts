@@ -6,12 +6,13 @@ import { ContentBlock, SelectionState } from 'draft-js'
  * Information regarding the Plus Menu UI.
  */
  export interface PlusActionMenuInfo {
-    /**
-     * Determines wich block has its Plus Menu currently openned.
-     */
+    // Determines wich block has its Plus Menu currently openned
     openedBlock?: ContentBlock
 }
 
+/**
+ * Handles the opening and closing of plus-action menu.
+ */
 export default function usePlusActionMenu (
     selectionState: SelectionState,
     disable: boolean

@@ -1,6 +1,9 @@
 import { BlockMap, BlockMapBuilder } from 'draft-js'
 
 
+/**
+ * @returns All ancestors of a ContentBlock in order.
+ */
 export default function getAncestors ( blockMap: BlockMap, targetKey: string ): BlockMap {
     const targetBlock = blockMap.get ( targetKey )
     const targetDepth = targetBlock.getDepth ()

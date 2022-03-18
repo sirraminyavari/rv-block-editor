@@ -1,6 +1,9 @@
 import { BlockMap } from 'draft-js'
 
 
+/**
+ * Removes a fragment of ContentBlocks from the BlockMap.
+ */
 export default function removeBlockRange (
     blockMap: BlockMap,
     startKey: string,

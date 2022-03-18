@@ -85,7 +85,6 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
             plusActionMenuInfo, setPlusActionMenuInfo,
             dragInfo, setDragInfo,
             inlineStyleMenuInfo,
-            // mouseState,
             rtblSelectionState, updateRtblSelectionState,
             blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls
         }}

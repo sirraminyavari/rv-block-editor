@@ -12,10 +12,10 @@ export default function MultiDecorator(decorators) {
 }
 
 /**
-    Return list of decoration IDs per character
-
-    @param {ContentBlock}
-    @return {List<String>}
+    * Return list of decoration IDs per character
+    *
+    * @param {ContentBlock}
+    * @return {List<String>}
 */
 MultiDecorator.prototype.getDecorations = function(block, contentState) {
     var decorations = Array(block.getText().length).fill(null);
@@ -38,10 +38,10 @@ MultiDecorator.prototype.getDecorations = function(block, contentState) {
 };
 
 /**
-    Return component to render a decoration
-
-    @param {String}
-    @return {Function}
+    * Return component to render a decoration
+    *
+    * @param {String}
+    * @return {Function}
 */
 MultiDecorator.prototype.getComponentForKey = function(key) {
     var decorator = this.getDecoratorForKey(key);
@@ -51,10 +51,10 @@ MultiDecorator.prototype.getComponentForKey = function(key) {
 };
 
 /**
-    Return props to render a decoration
-
-    @param {String}
-    @return {Object}
+    * Return props to render a decoration
+    *
+    * @param {String}
+    * @return {Object}
 */
 MultiDecorator.prototype.getPropsForKey = function(key) {
     var decorator = this.getDecoratorForKey(key);
@@ -64,10 +64,10 @@ MultiDecorator.prototype.getPropsForKey = function(key) {
 };
 
 /**
-    Return a decorator for a specific key
-
-    @param {String}
-    @return {Decorator}
+    * Return a decorator for a specific key
+    *
+    * @param {String}
+    * @return {Decorator}
 */
 MultiDecorator.prototype.getDecoratorForKey = function(key) {
     var parts = key.split(KEY_SEPARATOR);
@@ -77,10 +77,10 @@ MultiDecorator.prototype.getDecoratorForKey = function(key) {
 };
 
 /**
-    Return inner key for a decorator
-
-    @param {String}
-    @return {String}
+    * Return inner key for a decorator
+    *
+    * @param {String}
+    * @return {String}
 */
 MultiDecorator.prototype.getInnerKey = function(key) {
     var parts = key.split(KEY_SEPARATOR);

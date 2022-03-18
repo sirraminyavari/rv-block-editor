@@ -4,6 +4,9 @@ import getBlockRange from './getBlockRange'
 import removeBlockRange from './removeBlockRange'
 
 
+/**
+ * Moves a fragment of ContentBlocks to another place using a target.
+ */
 export default function moveBlockRange (
     blockMap: BlockMap,
     startKey: string,

@@ -8,13 +8,9 @@ import { BlockRefs } from './useGlobalRefs'
  * Information regarding the Block Controls UI.
  */
  export interface BlockControlsInfo {
-    /**
-     * Indicates which block we need to display the Block Controls UI on.
-     */
+    // Indicates which block we need to display the Block Controls UI on
     hoveredBlockKey?: string
-    /**
-     * Reference to the block on which the Block Controls UI needs to render.
-     */
+    // Reference to the block on which the Block Controls UI needs to render
     hoveredBlockElem?: HTMLDivElement
 }
 

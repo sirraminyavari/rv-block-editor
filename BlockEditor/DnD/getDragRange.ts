@@ -10,6 +10,9 @@ interface DragRange {
     endKey: string
 }
 
+/**
+ * Calculates the range that user intends to drag with BLS taken into account.
+ */
 export default function getDragRange (
     blockMap: BlockMap,
     { enabled: blsEnabled, selectionDepth, selectedBlockKeys }: BlockLevelSelectionInfo,

@@ -1,7 +1,10 @@
 import { DropTarget } from '.'
 
 
-export function calcMinDepth ( dropTarget: DropTarget ) {
+/**
+ * Calculates the minimum valid depth for dropping based on the adjacent blocks.
+ */
+export function calcMinDepth ( dropTarget?: DropTarget ) {
     if ( ! dropTarget ) return null
     const { insertionMode, contentBlock, nextPosInfo } = dropTarget
     if ( ! insertionMode ) return null
@@ -11,6 +14,9 @@ export function calcMinDepth ( dropTarget: DropTarget ) {
     } [ insertionMode ] ()
 }
 
+/**
+ * Calculates the maximum valid depth for dropping based on the adjacent blocks.
+ */
 export function calcMaxDepth ( dropTarget?: DropTarget ) {
     if ( ! dropTarget ) return null
     const { insertionMode, contentBlock, prevPosInfo } = dropTarget

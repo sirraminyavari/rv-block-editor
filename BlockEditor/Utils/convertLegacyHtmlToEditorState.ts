@@ -12,6 +12,16 @@ interface Config {
     getMentionLink?: GetMentionLink
 }
 
+/**
+ * Converts legacy HTML content to a format readalbe by the current block-editor.
+ *
+ * @returns The equivalent RawDraftContentState of the provided HTML string.
+ *
+ * * Caveat: It is not possible to return an EditorState instance because the class
+ * * reference from which the object instanciates differs in the block-editor library
+ * * from the class reference in the target project. Doing so will result in an error
+ * * throwed by DraftJS.
+ */
 export function convertLegacyHtmlToEditorState ( html: string, config: Config ): RawDraftContentState {
     const modifiedHtml = modifyHtml ( html, config )
     const { contentBlocks, entityMap } = htmlToDraft ( modifiedHtml )
@@ -21,6 +31,10 @@ export function convertLegacyHtmlToEditorState ( html: string, config: Config ):
 }
 
 
+/**
+ * Performes some necessary modification on the initial HTML input
+ * to make it work better and more predictable with 'html-to-draftjs'.
+ */
 function modifyHtml ( html: string, config: Config ): string {
     const elem = document.createElement ( 'div' )
     elem.innerHTML = html
@@ -31,40 +45,70 @@ function modifyHtml ( html: string, config: Config ): string {
     return elem.innerHTML
 }
 
+/**
+ * Removes all BR element as well as subsequent empty spaces which are
+ * normally ignored by the browser in contrast to 'html-to-draftjs' which
+ * attempts to apply them.
+ *
+ * * Info: BR element are used in a very inconsistent way in the legacy HTML
+ * * so to ensure consistency we need to remove them all!
+ */
 function removeBreaksAndExtraSpaces ( elem: Element ) {
     elem.querySelectorAll ( 'br:not( code br )' ).forEach ( n => n.remove () )
     elem.innerHTML = elem.innerHTML.replaceAll ( /\s\s+/g, ' ' )
 }
 
+/**
+ * Wrapps all top-level orphan text nodes inside a paragraph element.
+ */
 function wrapTopLevelTextNodes ( elem: Element ) {
     ; [ ...elem.childNodes ]
         .filter ( node => node.nodeType === 3 && node.textContent.trim().length > 1 )
-        .forEach(node => {
-            const span = document.createElement('p');
-            node.after(span);
-            span.appendChild(node);
+        .forEach ( node => {
+            const wrapper = document.createElement ( 'p' )
+            node.after ( wrapper )
+            wrapper.appendChild ( node )
         })
 }
 
+/**
+ * This method removes all the child elemnts in blockquote
+ * elements, keeping the trimmed 'textContent' only.
+ *
+ * * Info: All blockquote contents in the legacy HTML are wrapped inside an
+ * * unnecessary element which makes 'html-to-draftjs' think that its
+ * * and entierly new block resulting in an empty blockquote and a block
+ * * of unstyled text below it.
+ */
 function handleBlockquotes ( elem: Element ) {
     ; [ ...elem.querySelectorAll ( 'blockquote' ) ].forEach ( bq => {
         bq.innerHTML = bq.textContent.trim ()
     } )
 }
 
-function renameElement ( elem: Element, name: string ) {
-    const newElem = document.createElement ( name )
-    ; [ ...elem.attributes ].forEach ( attr => newElem.setAttribute ( attr.name, attr.value ) )
-    newElem.innerHTML = elem.innerHTML
-    elem.after ( newElem )
-    elem.remove ()
-}
+/**
+ * Renames a given set of tag-names while keeping all the attributes and innerHTML intact.
+ *
+ * * Info: There are a number of unsupported elements in 'html-to-draftjs' (like
+ * * '<u>' for underlining text) which will only work with their alias names
+ * * (like <ins>). So we need to rename all those elements before feeding the HTML
+ * * string into 'html-to-draftjs'.
+ */
 function replaceTags ( elem: Element, replaceTagsMap: object ) {
-    ; [ ...elem.querySelectorAll ( Object.keys ( replaceTagsMap ).join () ) ]
-        .forEach ( elem => renameElement ( elem, replaceTagsMap [ elem.localName ] ) )
+    [ ...elem.querySelectorAll ( Object.keys ( replaceTagsMap ).join () ) ] .forEach ( elem => {
+        const newElem = document.createElement ( replaceTagsMap [ elem.localName ] )
+        ; [ ...elem.attributes ].forEach ( attr => newElem.setAttribute ( attr.name, attr.value ) )
+        newElem.innerHTML = elem.innerHTML
+        elem.after ( newElem )
+        elem.remove ()
+    } )
 }
 
 
+/**
+ * Applies some necessary changes to the ContentState returned by 'html-to-draftjs'
+ * to make it completely compatible with the current block-editor.
+ */
 function modifyContent ( contentState: ContentState, config: Config ): ContentState {
     let tempState = contentState
     tempState = convertColorStyles ( tempState, 'color', 'TEXT-COLOR', config.colors.textColors )
@@ -75,7 +119,13 @@ function modifyContent ( contentState: ContentState, config: Config ): ContentSt
     return tempState
 }
 
+/**
+ * Calculates the distance between two 3D points (i.e. RGB colors).
+*/
 const dist = ( p1, p2 ) => Math.sqrt ( p1.map ( ( v, i ) => ( v - p2 [ i ] ) ** 2 ).reduce ( ( acc, val ) => acc + val ) )
+/**
+ * Finds the closest color to an specified color from an array of predefined colors.
+ */
 function findClosesColor ( colorArr, colors ) {
     const info = colors.reduce ( ( info, color ) => {
         const d = dist ( colorArr, color.color )
@@ -83,6 +133,10 @@ function findClosesColor ( colorArr, colors ) {
     }, { closest: null, min: Infinity } )
     return info.closest
 }
+/**
+ * Parses color strings and return an RGB array.
+ * Supports RGB and HEX formats.
+ */
 function toRgbArr ( rgbStr ) {
     return rgbStr [ 0 ] === '#'
         ? [
@@ -92,6 +146,10 @@ function toRgbArr ( rgbStr ) {
         ]
         : rgbStr.slice ( 4, rgbStr.length - 1 ).split ( ',' ).map ( c => parseInt ( c, 10 ) )
 }
+/**
+ * Transforms a given ContentState in a way that color entites are compatible
+ * with our current block-editor.
+ */
 function convertColorStyles ( contentState: ContentState, originalStlyePrefix: string, targetStylePrefix: string, targetColors: any [] ): ContentState {
     if ( ! targetColors.length ) return contentState
     const computedColors = targetColors.map ( color => ({ ...color, color: toRgbArr ( color.color ) }) )
@@ -117,6 +175,10 @@ function convertColorStyles ( contentState: ContentState, originalStlyePrefix: s
     return newContentState
 }
 
+/**
+ * Transforms a given ContentState in a way that code blocks are compatible
+ * with our current block-editor.
+ */
 function handleCodeBlocks ( contentState: ContentState ): ContentState {
     const blocks = contentState.getBlockMap ()
     const typeCorrectedBlocks = blocks.map ( block => {
@@ -141,6 +203,10 @@ function handleCodeBlocks ( contentState: ContentState ): ContentState {
     return inlineStyleCorrectedContentState
 }
 
+/**
+ * Transforms a given ContentState in a way that alignment values are compatible
+ * with our current block-editor.
+ */
 function handleAlignment ( contentState: ContentState ): ContentState {
     const blocks = contentState.getBlockMap ()
     const newBlocks = blocks.map ( block => {
@@ -154,8 +220,16 @@ function handleAlignment ( contentState: ContentState ): ContentState {
     return newContentState
 }
 
+/**
+ * Decode a Base64 string with support for unicode characters.
+ */
 const decodeUnicode = str => decodeURIComponent ( atob ( str ).split ( '' ).map ( c => '%' + ( '00' + c.charCodeAt ( 0 ).toString ( 16 ) ).slice ( -2 ) ).join ( '' ) ) // https://attacomsian.com/blog/javascript-base64-encode-decode
+// Regex to find all mentions and links
 const MENTION_LINK_REGEXP = /(@)\[\[([a-zA-Z\d\-_]+):([\w\s\.\-]+):([0-9a-zA-Z\+\/\=]+)(:([0-9a-zA-Z\+\/\=]*))?\]\]/
+/**
+ * Finds all legacy mention and link annotations and transform them to their
+ * corresponding entities compatible with our current block-editor.
+ */
 function handleMentionsAndLinks ( contentState: ContentState, getMentionLink: GetMentionLink ): ContentState {
     let tempState = contentState
     contentState.getBlockMap ().keySeq ().forEach ( blockKey => {
