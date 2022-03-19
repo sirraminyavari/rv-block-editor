@@ -27,6 +27,7 @@ export default function useCollapsedBlocks ( contentState: ContentState ): Colla
 
     const getParent = useCallback ( ( blockKey: string ) => {
         const block = blockMap.get ( blockKey )
+        if ( ! block ) return null
         const depth = block.getDepth ()
         if ( ! depth ) return null
         if ( cache.current [ blockKey ] )
