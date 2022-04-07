@@ -46,7 +46,6 @@ export interface UiContext {
     // Inline Functionality:
     inlineStyleMenuInfo: InlineStyleMenuInfo
     // Input State:
-    // mouseState: MouseState
     rtblSelectionState: RtblSelectionState
     updateRtblSelectionState: () => void
     // Block Level Selection:

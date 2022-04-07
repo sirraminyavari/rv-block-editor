@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { ContentBlock, ContentState } from 'draft-js'
 
 
@@ -7,6 +7,7 @@ export interface CollapsedBlocks {
     isCollapsed ( blockKey: string ): boolean
     // Clears the memoization cache
     clearChache ()
+    iMap: { [ key: string ]: number }
 }
 
 interface CacheNode {
@@ -54,5 +55,25 @@ export default function useCollapsedBlocks ( contentState: ContentState ): Colla
     }, [ getParent ] )
 
     const clearChache = useCallback ( () => { cache.current = {} }, [] )
-    return { isCollapsed, clearChache }
+
+    // TODO: This shouldn't be here
+    const iMap = useMemo ( () => {
+        const blocks = contentState.getBlockMap ().toArray ()
+        const iMap = {}
+        let leafs = []
+        for ( let n = 0, l = blocks.length; n < l; n ++ ) {
+            const block = blocks [ n ]
+            const key = block.getKey ()
+            const type = block.getType ()
+            const depth = block.getDepth ()
+
+            const leaf = leafs [ depth ]
+            leafs = leafs.slice ( 0, depth )
+            iMap [ key ] = { type, i: leaf?.type === type ? leaf.i + 1 : 0 }
+            leafs [ depth ] = iMap [ key ]
+        }
+        return iMap
+    }, [ contentState ] )
+
+    return { isCollapsed, clearChache, iMap }
 }
