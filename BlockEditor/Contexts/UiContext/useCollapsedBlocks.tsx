@@ -49,7 +49,7 @@ export default function useCollapsedBlocks ( contentState: ContentState ): Colla
             cache.current [ blockKey ] = { isCollapsed: false }
             return false
         }
-        const collapsed = parent.getData ().get ( '_collapsed' ) || isCollapsed ( parent )
+        const collapsed = parent.getData ().get ( '_collapsed' ) || isCollapsed ( parent.getKey () )
         cache.current [ blockKey ] = { isCollapsed: collapsed, parent: parent.getKey () }
         return collapsed
     }, [ getParent ] )
