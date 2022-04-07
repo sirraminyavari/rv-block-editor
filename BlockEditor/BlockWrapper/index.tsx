@@ -42,7 +42,10 @@ const BlockWrapper = ({ Comp, config = {} as any, children,...rest }) => {
 }
 export default BlockWrapper
 
-// TODO: any type
+/**
+ * Wraps BlockWrapper's UI elements in a memo to increase performance.
+ * TODO: any type
+ */
 const _Block = memo < any > ( ({
     i, block, Comp, config, children, dragging, draggable,
     blockRefs, externalStyles, dir, blockLevelSelected, debugMode
