@@ -7,7 +7,7 @@ export interface CollapsedBlocks {
     isCollapsed ( blockKey: string ): boolean
     // Clears the memoization cache
     clearChache ()
-    iMap: { [ key: string ]: number }
+    iMap: { [ key: string ]: { type: string, i: number } }
 }
 
 interface CacheNode {

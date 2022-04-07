@@ -10,20 +10,6 @@ import * as styles from './styles.module.scss'
 
 const c = ( styles, classes ) => classes ? classes.map ( c => styles [ c ] ).join ( ' ' ) : ''
 
-function getI ( editorState: EditorState, block: ContentBlock ): number {
-    const contentState = editorState.getCurrentContent ()
-    const depth = block.getDepth ()
-
-    let prevBlock = contentState.getBlockBefore ( block.getKey () )
-    let c = 0
-    while ( prevBlock && prevBlock.getType () === 'ordered-list-item' && prevBlock.getDepth () >= depth ) {
-        if ( prevBlock.getDepth () === depth )
-            c ++
-        prevBlock = contentState.getBlockBefore ( prevBlock.getKey () )
-    }
-    return c
-}
-
 /**
  * This component wraps all the Content Blocks and provides a great deal of block editing functionality to them.
  */
