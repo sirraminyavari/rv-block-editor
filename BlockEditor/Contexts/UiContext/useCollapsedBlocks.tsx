@@ -58,20 +58,16 @@ export default function useCollapsedBlocks ( contentState: ContentState ): Colla
 
     // TODO: This shouldn't be here
     const iMap = useMemo ( () => {
-        const blocks = contentState.getBlockMap ().toArray ()
         const iMap = {}
         let leafs = []
-        for ( let n = 0, l = blocks.length; n < l; n ++ ) {
-            const block = blocks [ n ]
-            const key = block.getKey ()
+        contentState.getBlockMap ().forEach ( ( block, key ) => {
             const type = block.getType ()
             const depth = block.getDepth ()
-
             const leaf = leafs [ depth ]
             leafs = leafs.slice ( 0, depth )
             iMap [ key ] = { type, i: leaf?.type === type ? leaf.i + 1 : 0 }
             leafs [ depth ] = iMap [ key ]
-        }
+        } )
         return iMap
     }, [ contentState ] )
 
