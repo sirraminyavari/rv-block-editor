@@ -33,6 +33,9 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
                     ( event.shiftKey && event.key === 'z' )
                 ) ) return undefined
+                // Black-Listed Commands
+                if ( event.ctrlKey && [ 'b', 'i', 'u' ].indexOf ( event.key ) >= 0 )
+                    return 'bls-ignore'
                 // Selection Modification
                 if ( event.shiftKey ) {
                     if ( event.key === 'ArrowDown' )
@@ -116,6 +119,8 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     setImmediate ( getUiContext ().disableBls )
                     return 'handled'
                 },
+
+                'bls-ignore': () => 'handled',
 
                 'plusActionMenu-close' () {
                     setPlusActionMenuInfo ( prev => ({ ...prev, openedBlock: null }) )

@@ -72,7 +72,7 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
         plugins = { allPluginsWithoutDecorators }
         defaultBlockRenderMap
         defaultKeyBindings
-        handleKeyCommand = { disableOnBls }
+        defaultKeyCommands
         handleBeforeInput = { disableOnBls }
         handlePastedText = { handlePastedText }
         { ...props }
