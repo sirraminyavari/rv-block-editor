@@ -6,10 +6,13 @@
     position: relative;
     &::before {
         position: absolute;
+        width: 1.5rem; // Doesn't really matter, because of 'text-align'
         top: 0; left: 0;
+        text-align: right;
         transform: translateX( -100% );
         [ dir = rtl ] & {
             right: 0;
+            text-align: left;
             transform: translateX( 100% );
         }
         counter-reset: c var( --i );
