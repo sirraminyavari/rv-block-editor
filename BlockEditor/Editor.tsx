@@ -60,23 +60,23 @@ const BlockEditor = forwardRef < Editor, BlockEditorProps > ( ( props, ref ) => 
             ? ref ( r )
             : ref.current = r
     }, [ ref ] )
-    const handleBeforeInput = useCallback (
+    const disableOnBls = useCallback (
         () => blockLevelSelectionInfo.enabled ? 'handled' : 'not-handled',
         [ blockLevelSelectionInfo.enabled ]
     )
     const renderEditor = useMemo ( () => <Editor
         ref = { getEditorRef }
         editorState = { editorState }
+        readOnly = { readOnly }
         onChange = { setEditorState }
         plugins = { allPluginsWithoutDecorators }
         defaultBlockRenderMap
         defaultKeyBindings
-        defaultKeyCommands
-        readOnly = { readOnly }
-        handleBeforeInput = { handleBeforeInput }
+        handleKeyCommand = { disableOnBls }
+        handleBeforeInput = { disableOnBls }
         handlePastedText = { handlePastedText }
         { ...props }
-    />, [ editorState, allPluginsWithoutDecorators, readOnly, getEditorRef, handleBeforeInput, handlePastedText, props ] )
+    />, [ editorState, allPluginsWithoutDecorators, readOnly, getEditorRef, disableOnBls, handlePastedText, props ] )
 
     return <div data-block-editor-outer-wrapper
         ref = { wrapperRef }
