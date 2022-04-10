@@ -1,4 +1,4 @@
-import { RichUtils } from 'draft-js'
+import { EditorState, RichUtils } from 'draft-js'
 import { Map } from 'immutable'
 
 import Prism from 'prismjs'
@@ -32,7 +32,7 @@ export const supportedLanguages = [
 ]
 
 export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin {
-    return {
+    return ({ getUiContext }) => ({
         id: 'code-block',
 
         initialize () {
@@ -88,6 +88,7 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
                 props: {
                     language: contentBlock.getData ().get ( 'language' ),
                     setLanguage ( language: string ) {
+                        getUiContext ().editorRef.current.focus () // This is necessary to prevent a bug in Firefox
                         const editorState = getEditorState ()
                         const newEditorState = mergeBlockData ( editorState, contentBlock.getKey (), { language } )
                         setEditorState ( newEditorState )
@@ -99,5 +100,5 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
         ...createPrismPlugin ({ // It only has decorators
             prism: Prism
         })
-    }
+    })
 }
