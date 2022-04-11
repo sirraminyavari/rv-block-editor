@@ -30,22 +30,23 @@ export default function useRtblSelectionState (
 ): [ RtblSelectionState, () => void ] {
     const [ rtblSelectionState, setRtblSelectionState ] = useState ( defaultRtblSelectionState )
 
-    const updateRtblSelectionState = useCallback ( () => {
-        const domSelection = getSelection ()
-        setRtblSelectionState ( calcRtblSelectionState ( contentState, domSelection ) )
-    }, [ contentState ] )
+    const updateRtblSelectionState = useCallback (
+        () => setRtblSelectionState ( calcRtblSelectionState ( contentState ) ),
+        [ contentState ]
+    )
 
     const hasFocus = selectionState.getHasFocus ()
     useEffect ( () => {
         if ( disable || ! hasFocus ) return
         document.addEventListener ( 'selectionchange', updateRtblSelectionState )
         return () => document.removeEventListener ( 'selectionchange', updateRtblSelectionState )
-    }, [ disable, hasFocus, updateRtblSelectionState ] )
+    }, [ disable, hasFocus, contentState ] )
 
     return [ rtblSelectionState, updateRtblSelectionState ]
 }
 
-export function calcRtblSelectionState ( contentState: ContentState, domSelection: Selection ): RtblSelectionState {
+export function calcRtblSelectionState ( contentState: ContentState ): RtblSelectionState {
+    const domSelection = getSelection ()
     if (
         domSelection.isCollapsed ||
         ! domSelection.anchorNode ||
@@ -73,7 +74,7 @@ export function calcIsBackward ( contentState: ContentState, anchorKey: string, 
     if ( ! anchorKey || ! focusKey ) return false
     if ( anchorKey === focusKey ) return false
     const blockMap = contentState.getBlockMap ()
-    const startKey = blockMap.skipUntil ( ( _, key ) => key === anchorKey || key === focusKey ).first ()?.getKey ()
+    const startKey = blockMap.find ( ( _, key ) => key === anchorKey || key === focusKey )?.getKey ()
     const isBackward = anchorKey !== startKey
     return isBackward
 }

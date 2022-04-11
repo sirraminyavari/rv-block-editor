@@ -35,7 +35,7 @@ export default function useBlockLevelSelection (
             throw new Error ( "Selection must be collapsed before BLS could be disabled." )
         updateRtblSelectionState ()
         setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
-    }, [] )
+    }, [ updateRtblSelectionState ] )
 
     const contentState = editorState.getCurrentContent ()
     const selectionState = editorState.getSelection ()
@@ -65,7 +65,7 @@ export default function useBlockLevelSelection (
             selectionDepth !== blockLevelSelectionInfo.selectionDepth ||
             selectedBlockKeys.join () !== blockLevelSelectionInfo.selectedBlockKeys.join ()
         ) setBlockLevelSelectionInfo ( prevState => ({ ...prevState, selectionDepth, selectedBlockKeys }) )
-    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState ] )
+    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState, contentState ] )
 
     // Disable Trigger
     useEffect ( () => {
