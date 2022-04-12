@@ -1,5 +1,9 @@
 .blockWrapper {
-    padding-inline-start: calc( var( --nest-padding ) * var( --depth ) );
+    // 'padding-inline-start' doesn't work in docs with mixed directions
+    padding-left: calc( var( --nest-padding ) * var( --depth ) );
+    [ dir = rtl ] > & {
+        padding-right: calc( var( --nest-padding ) * var( --depth ) );
+    }
 }
 
 .blockWrapper.dragging {

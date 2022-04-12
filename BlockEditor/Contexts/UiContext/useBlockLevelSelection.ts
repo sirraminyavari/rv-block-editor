@@ -32,7 +32,7 @@ export default function useBlockLevelSelection (
 
     const disableBls = useCallback ( () => {
         if ( ! editorState.getSelection ().isCollapsed () )
-            throw new Error ( "Selection must be collapsed before BLS could be disabled." )
+            return // Selection must be collapsed before BLS could be disabled
         updateRtblSelectionState ()
         setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
     }, [ updateRtblSelectionState ] )

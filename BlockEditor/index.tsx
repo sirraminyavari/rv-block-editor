@@ -7,6 +7,8 @@ import { UiContextProvider } from 'BlockEditor/Contexts/UiContext'
 import { TransformedPluginsContextProvider } from 'BlockEditor/Contexts/TransformedPlugins'
 import Editor, { BlockEditorProps as _BlockEditorProps } from 'BlockEditor/Editor'
 
+import './global.scss'
+
 export * from './types.d'
 import * as _plugins from 'Plugins'
 export const plugins = _plugins
