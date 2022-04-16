@@ -10,12 +10,13 @@ import trimCollapsedBlocks from './trimCollapsedBlocks'
 /**
  * Delete a fragment from editor state with BLS taken into account.
  */
-export default function blsAwareDelete ( editorState: EditorState, blsInfo: BlockLevelSelectionInfo ): EditorState {
+export default function blsAwareDelete ( editorState: EditorState, blsInfo: BlockLevelSelectionInfo ): [ SelectionState, EditorState ] {
     const contentState = editorState.getCurrentContent ()
+    const blockMap = contentState.getBlockMap ()
 
     const newBlockMap = ( () => {
         const blockMapWithoutRange = removeBlockRange (
-            contentState.getBlockMap (),
+            blockMap,
             blsInfo.selectedBlockKeys [ 0 ],
             blsInfo.selectedBlockKeys [ blsInfo.selectedBlockKeys.length - 1 ]
         )
@@ -24,13 +25,13 @@ export default function blsAwareDelete ( editorState: EditorState, blsInfo: Bloc
     } ) ()
 
     const firstSelectedBlockKey = blsInfo.selectedBlockKeys [ 0 ]
-    const anchorBlock = trimCollapsedBlocks ( contentState.getBlockMap () ).takeUntil ( ( _, key ) => key === firstSelectedBlockKey ).last ()
+    const anchorBlock = trimCollapsedBlocks ( blockMap ).takeUntil ( ( _, key ) => key === firstSelectedBlockKey ).last ()
         || newBlockMap.first ()
+    const anchorBlockKey = anchorBlock.getKey ()
+    const anchorBlockLength = anchorBlock.getLength ()
     const newSelectionState = new SelectionState ({
-        anchorKey: anchorBlock.getKey (),
-        anchorOffset: anchorBlock.getLength (),
-        focusKey: anchorBlock.getKey (),
-        focusOffset: anchorBlock.getLength (),
+        anchorKey: anchorBlockKey, focusKey: anchorBlockKey,
+        anchorOffset: anchorBlockLength, focusOffset: anchorBlockLength,
         isBackward: false, hasFocus: true
     })
 
@@ -39,6 +40,10 @@ export default function blsAwareDelete ( editorState: EditorState, blsInfo: Bloc
         selectionBefore: editorState.getSelection (),
         selectionAfter: newSelectionState
     }) as ContentState
+    const newEditorState = EditorState.forceSelection (
+        EditorState.push ( editorState, newContentState, 'remove-range' ),
+        newSelectionState
+    )
 
-    return EditorState.push ( editorState, newContentState, 'remove-range' )
+    return [ newSelectionState, newEditorState ]
 }

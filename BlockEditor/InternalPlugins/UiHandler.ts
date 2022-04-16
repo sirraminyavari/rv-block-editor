@@ -25,7 +25,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     event.key === 'Escape' ||
                     ( ! event.shiftKey && [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ].indexOf ( event.key ) >= 0 )
                 ) return 'bls-disable'
-                // Delete
+                // Deletion
                 if ( [ 'Backspace', 'Delete' ].indexOf ( event.key ) >= 0 )
                     return 'bls-delete'
                 // Verified Commands
@@ -33,9 +33,6 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                     [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
                     ( event.shiftKey && event.key === 'z' )
                 ) ) return undefined
-                // Black-Listed Commands
-                if ( event.ctrlKey && [ 'b', 'i', 'u' ].indexOf ( event.key ) >= 0 )
-                    return 'bls-ignore'
                 // Selection Modification
                 if ( event.shiftKey ) {
                     if ( event.key === 'ArrowDown' )
@@ -45,6 +42,8 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                         return blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goUp' : 'bls-goUp-singleBlock'
                 }
+                // Ignore the rest
+                return 'bls-ignore'
             }
 
             // Plus-Action Menu
@@ -115,8 +114,12 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 },
 
                 'bls-delete' () {
-                    setEditorState ( blsAwareDelete ( editorState, blockLevelSelectionInfo ) )
-                    setImmediate ( getUiContext ().disableBls )
+                    const [ newSelectionState, newEditorState ] = blsAwareDelete ( editorState, blockLevelSelectionInfo )
+                    setEditorState ( EditorState.forceSelection ( editorState, newSelectionState ) )
+                    setImmediate ( () => {
+                        getUiContext ().disableBls ()
+                        setEditorState ( newEditorState )
+                    } )
                     return 'handled'
                 },
 
