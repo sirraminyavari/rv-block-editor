@@ -65,12 +65,12 @@ const _Block = memo < any > ( ({
         } ) }
         // @ts-ignore
         style = {{ '--depth': depth }}
+        dir = { direction === 'neutral' ? dir : direction }
         draggable = { draggable }
         { ...( debugMode ? { title: blockKey } : {} ) }
     >
         <div
             className = { c ( externalStyles, config.styles?.contentWrapper ) }
-            dir = { direction === 'neutral' ? dir : direction }
             style = {{ ...( textAlign ? { textAlign } : null ) }}
         >
             <Comp

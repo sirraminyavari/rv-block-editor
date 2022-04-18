@@ -52,7 +52,7 @@ export default function createCodeBlockPlugin ( config: any = {} ): EditorPlugin
             const editorState = getEditorState ()
             if ( ! CodeUtils.hasSelectionInBlock ( editorState ) )
                 return
-            if ( event.key === 'Tab' )
+            if ( event.code === 'Tab' )
                 setEditorState ( onTab ( event, editorState ) )
             return CodeUtils.getKeyBinding ( event )
         },

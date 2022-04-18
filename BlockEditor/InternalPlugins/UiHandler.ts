@@ -16,29 +16,29 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         keyBindingFn ( event ) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
 
-            if ( event.ctrlKey && event.key === 'a' ) return 'select-all'
+            if ( event.ctrlKey && event.code === 'KeyA' ) return 'select-all'
 
             // Block-Level Selection
             if ( blockLevelSelectionInfo.enabled ) {
                 // Cancelation
                 if (
-                    event.key === 'Escape' ||
-                    ( ! event.shiftKey && [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ].indexOf ( event.key ) >= 0 )
+                    event.code === 'Escape' ||
+                    ( ! event.code && [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ].indexOf ( event.code ) >= 0 )
                 ) return 'bls-disable'
                 // Deletion
-                if ( [ 'Backspace', 'Delete' ].indexOf ( event.key ) >= 0 )
+                if ( [ 'Backspace', 'Delete' ].indexOf ( event.code ) >= 0 )
                     return 'bls-delete'
                 // Verified Commands
                 if ( event.ctrlKey && (
-                    [ 'c', 'x', 'v', 'z', 'y' ].indexOf ( event.key ) >= 0 ||
-                    ( event.shiftKey && event.key === 'z' )
+                    [ 'KeyC', 'KeyX', 'KeyV', 'KeyZ', 'KeyY' ].indexOf ( event.code ) >= 0 ||
+                    ( event.shiftKey && event.code === 'KeyZ' )
                 ) ) return undefined
                 // Selection Modification
                 if ( event.shiftKey ) {
-                    if ( event.key === 'ArrowDown' )
+                    if ( event.code === 'ArrowDown' )
                         return blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goDown' : 'bls-goDown-singleBlock'
-                    if ( event.key === 'ArrowUp' )
+                    if ( event.code === 'ArrowUp' )
                         return blockLevelSelectionInfo.selectedBlockKeys.length > 1
                             ? 'bls-goUp' : 'bls-goUp-singleBlock'
                 }
@@ -48,7 +48,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
 
             // Plus-Action Menu
             if ( plusActionMenuInfo.openedBlock ) {
-                if ( event.key === 'Escape' )
+                if ( event.code === 'Escape' )
                     return 'plusActionMenu-close'
             }
         },

@@ -14,7 +14,7 @@ export default function createNestingPlugin (): EditorPlugin {
 
         keyBindingFn ( event ) {
             if ( ! event.ctrlKey ) return
-            return { ']': 'indent-blocks', '[': 'outdent-blocks' } [ event.key ]
+            return { 'BracketRight': 'indent-blocks', 'BracketLeft': 'outdent-blocks' } [ event.code ]
         },
 
         handleKeyCommand ( command, _, _2, { getEditorState, setEditorState } ) {
