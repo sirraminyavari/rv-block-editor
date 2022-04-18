@@ -3,6 +3,8 @@ import cn from 'classnames'
 
 import { supportedLanguages } from '.'
 
+import * as styles from './styles.module.scss'
+
 
 export default function getCodeBlockComponent ( config ) {
     return props => <CodeBlock config = { config } { ...props } />
@@ -34,7 +36,11 @@ function Controls ({ language, setLanguage }) {
         } }
         contentEditable = { false }
     >
-        <select value = { language } onChange = { e => setLanguage ( e.target.value ) }>
+        <select
+            className = { styles.langSelect }
+            value = { language }
+            onChange = { e => setLanguage ( e.target.value ) }
+        >
             { supportedLanguages.map ( ({ name, value }) => <option
                 key = { value }
                 value = { value }
