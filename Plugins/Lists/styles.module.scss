@@ -2,6 +2,10 @@
     list-style: none;
 }
 
+.olItem, .ulItem {
+    display: inline-block;
+}
+
 .olItem {
     position: relative;
     &::before {
