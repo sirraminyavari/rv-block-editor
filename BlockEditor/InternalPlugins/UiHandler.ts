@@ -54,7 +54,7 @@ export default function createUiHandlerPlugin (): EditorPlugin {
         },
 
         handleKeyCommand ( command, editorState, _, { setEditorState } ) {
-            const { setPlusActionMenuInfo, blockLevelSelectionInfo } = getUiContext ()
+            const { setPlusActionMenuInfo, blockLevelSelectionInfo, suspendBls } = getUiContext ()
 
             return {
                 'select-all' () {
@@ -114,12 +114,12 @@ export default function createUiHandlerPlugin (): EditorPlugin {
                 },
 
                 'bls-delete' () {
-                    const [ newSelectionState, newEditorState ] = blsAwareDelete ( editorState, blockLevelSelectionInfo )
-                    setEditorState ( EditorState.forceSelection ( editorState, newSelectionState ) )
-                    setImmediate ( () => {
-                        getUiContext ().disableBls ()
-                        setEditorState ( newEditorState )
-                    } )
+                    suspendBls.current = true
+                    // TODO: Remove 'newSelectionState' from other places, it works w/o it now
+                    const newEditorState = blsAwareDelete ( editorState, blockLevelSelectionInfo )
+                    setEditorState ( newEditorState )
+                    getUiContext ().disableBls ()
+                    setImmediate ( () => { suspendBls.current = false } )
                     return 'handled'
                 },
 

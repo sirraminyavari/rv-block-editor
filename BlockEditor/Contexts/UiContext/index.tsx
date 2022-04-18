@@ -52,6 +52,7 @@ export interface UiContext {
     blockLevelSelectionInfo: BlockLevelSelectionInfo
     setBlockLevelSelectionInfo: SetState < BlockLevelSelectionInfo >
     disableBls: () => void
+    suspendBls: MutableRefObject < boolean >
 }
 
 export const UiContext = createContext < UiContext > ( null )
@@ -62,7 +63,7 @@ export default useUiContext
  * Provides general information and calculated values regarding the Block Editor user interface.
  */
 export function UiContextProvider ({ styles, dict, dir, lang, children, portalNode, debugMode, textarea, readOnly }) {
-    const { editorState } = useEditorContext ()
+    const { editorState, setEditorState } = useEditorContext ()
     const selectionState = editorState.getSelection ()
     const contentState = editorState.getCurrentContent ()
 
@@ -71,7 +72,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
     const [ plusActionMenuInfo, setPlusActionMenuInfo ] = usePlusActionMenu ( selectionState, textarea )
     const [ dragInfo, setDragInfo ] = useDrag ()
     const [ rtblSelectionState, updateRtblSelectionState ] = useRtblSelectionState ( contentState, selectionState, textarea )
-    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls ] = useBlockLevelSelection ( editorState, rtblSelectionState, updateRtblSelectionState, textarea )
+    const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls, suspendBls ] = useBlockLevelSelection ( editorState, setEditorState, rtblSelectionState, updateRtblSelectionState, textarea )
     const inlineStyleMenuInfo = useInlineStyleMenu ( blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState )
     const collapsedBlocks = useCollapsedBlocks ( contentState )
 
@@ -85,7 +86,7 @@ export function UiContextProvider ({ styles, dict, dir, lang, children, portalNo
             dragInfo, setDragInfo,
             inlineStyleMenuInfo,
             rtblSelectionState, updateRtblSelectionState,
-            blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls
+            blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls, suspendBls
         }}
         children = { children }
     />

@@ -1,5 +1,3 @@
-import { EditorState } from 'draft-js'
-
 import { ClipboardEventHandler } from '.'
 
 import blsAwareDelete from 'BlockEditor/Lib/blsAwareDelete'
@@ -11,13 +9,12 @@ import copyHandler from './copy'
  * @refer to 'copyHandler' for more info.
  */
 const cutHandler: ClipboardEventHandler = ( editor, getUiState, setEditorState, event ) => {
-    const { blockLevelSelectionInfo, disableBls } = getUiState ()
+    const { blockLevelSelectionInfo, disableBls, suspendBls } = getUiState ()
     copyHandler ( editor, getUiState, setEditorState, event )
-    const [ newSelectionState, newEditorState ] = blsAwareDelete ( editor.getEditorState (), blockLevelSelectionInfo )
-    setEditorState ( EditorState.forceSelection ( editor.getEditorState (), newSelectionState ) )
-    setImmediate ( () => {
-        disableBls ()
-        setEditorState ( newEditorState )
-    } )
+    const newEditorState = blsAwareDelete ( editor.getEditorState (), blockLevelSelectionInfo )
+    suspendBls.current = true
+    setEditorState ( newEditorState )
+    disableBls ()
+    setImmediate ( () => { suspendBls.current = false } )
 }
 export default cutHandler

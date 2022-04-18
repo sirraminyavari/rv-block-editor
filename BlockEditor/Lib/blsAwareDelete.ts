@@ -10,7 +10,7 @@ import trimCollapsedBlocks from './trimCollapsedBlocks'
 /**
  * Delete a fragment from editor state with BLS taken into account.
  */
-export default function blsAwareDelete ( editorState: EditorState, blsInfo: BlockLevelSelectionInfo ): [ SelectionState, EditorState ] {
+export default function blsAwareDelete ( editorState: EditorState, blsInfo: BlockLevelSelectionInfo ): EditorState {
     const contentState = editorState.getCurrentContent ()
     const blockMap = contentState.getBlockMap ()
 
@@ -44,6 +44,5 @@ export default function blsAwareDelete ( editorState: EditorState, blsInfo: Bloc
         EditorState.push ( editorState, newContentState, 'remove-range' ),
         newSelectionState
     )
-
-    return [ newSelectionState, newEditorState ]
+    return newEditorState
 }

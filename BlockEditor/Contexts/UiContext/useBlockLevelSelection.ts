@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef, MutableRefObject } from 'react'
 import { EditorState } from 'draft-js'
 
 import getSelectionDepth from 'BlockEditor/Lib/getSelectionDepth'
@@ -24,17 +24,28 @@ export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
  */
 export default function useBlockLevelSelection (
     editorState: EditorState,
+    setEditorState: SetState < EditorState >,
     rtblSelectionState: RtblSelectionState,
     updateRtblSelectionState: () => void,
     disable: boolean
-): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo >, () => void ] {
+): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo >, () => void, MutableRefObject < boolean > ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
+    const [ doneInitialSelection, setDoneInitialSelection] = useState ( false )
+    const suspend = useRef ( false )
 
     const disableBls = useCallback ( () => {
-        if ( ! editorState.getSelection ().isCollapsed () )
-            return // Selection must be collapsed before BLS could be disabled
-        updateRtblSelectionState ()
-        setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
+        // if ( ! editorState.getSelection ().isCollapsed () )
+        //     return // Selection must be collapsed before BLS could be disabled
+        console.log ( 'herewekrjwlerk' )
+        // const selection = editorState.getSelection ()
+        // setEditorState ( EditorState.forceSelection ( editorState, selection.merge ({
+        //     focusKey: selection.getAnchorKey (),
+        //     focusOffset: 0
+        // }) ) )
+        // setImmediate ( () => {
+            updateRtblSelectionState ()
+            setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
+        // } )
     }, [ updateRtblSelectionState ] )
 
     const contentState = editorState.getCurrentContent ()
@@ -43,7 +54,7 @@ export default function useBlockLevelSelection (
 
     // Enable Trigger
     useEffect ( () => {
-        if ( disable || ! hasFocus || blockLevelSelectionInfo.enabled ) return
+        if ( disable || ! hasFocus || blockLevelSelectionInfo.enabled || suspend.current ) return
         const { anchorKey, focusKey } = rtblSelectionState
         if ( ! anchorKey || ! focusKey ) return
         if ( anchorKey !== focusKey )
@@ -52,7 +63,7 @@ export default function useBlockLevelSelection (
 
     // Selection Handler
     useEffect ( () => {
-        if ( disable || ! hasFocus || ! blockLevelSelectionInfo.enabled ) return
+        if ( disable || ! hasFocus || ! blockLevelSelectionInfo.enabled || suspend.current ) return
 
         const blockMap = contentState.getBlockMap ()
         const { startKey, endKey } = rtblSelectionState
@@ -70,16 +81,28 @@ export default function useBlockLevelSelection (
     // Disable Trigger
     useEffect ( () => {
         if ( disable || ! blockLevelSelectionInfo.enabled ) return
-        function handler () {
-            setImmediate ( disableBls )
+        function disableHandler () {
+            if ( doneInitialSelection ) {
+                disableBls ()
+                setImmediate ( () => setDoneInitialSelection ( false ) )
+            }
         }
-        document.addEventListener ( 'selectstart', handler )
-        document.addEventListener ( 'click', handler )
+        function selectEndHandler () {
+            if ( ! doneInitialSelection )
+                setImmediate ( () => setDoneInitialSelection ( true ) )
+        }
+        if ( doneInitialSelection ) {
+            document.addEventListener ( 'selectstart', disableHandler )
+            document.addEventListener ( 'click', disableHandler )
+        } else {
+            document.addEventListener ( 'mouseup', selectEndHandler )
+        }
         return () => {
-            document.removeEventListener ( 'selectstart', handler )
-            document.removeEventListener ( 'click', handler )
+            document.removeEventListener ( 'mouseup', selectEndHandler )
+            document.removeEventListener ( 'selectstart', disableHandler )
+            document.removeEventListener ( 'click', disableHandler )
         }
-    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, contentState ] )
+    }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, doneInitialSelection, contentState ] )
 
-    return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls ]
+    return [ blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls, suspend ]
 }
