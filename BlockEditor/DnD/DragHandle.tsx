@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { EditorState, SelectionState } from 'draft-js'
 
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
@@ -16,7 +17,7 @@ export interface DragHandleProps {
  * A block control that starts dragging procedures on a given Content Block.
  */
 const DragHandle: FC < DragHandleProps > = ({ blockKey }) => {
-    const { editorState } = useEditorContext ()
+    const { editorState, setEditorState } = useEditorContext ()
     const block = editorState.getCurrentContent ().getBlockForKey ( blockKey )
     const { setDragInfo, wrapperRef } = useUiContext ()
     return <Button
@@ -32,6 +33,16 @@ const DragHandle: FC < DragHandleProps > = ({ blockKey }) => {
             }) ) )
         } }
         onDragEnd = { () => setDragInfo ( prev => ({ ...prev, dragging: false, isDraggingByHandle: false }) ) }
+        onClick = { () => setImmediate ( () => {
+            const newSelectionState = new SelectionState ({
+                anchorKey: blockKey, focusKey: blockKey,
+                anchorOffset: 0, focusOffset: block.getLength (),
+                isBackward: false, hasFocus: true
+            })
+            const newEditorState = EditorState.forceSelection ( editorState, newSelectionState )
+            setEditorState ( newEditorState )
+            console.log ( 'done', blockKey, newSelectionState.toJS () )
+        } ) }
     />
 }
 export default DragHandle
