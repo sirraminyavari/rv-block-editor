@@ -24,28 +24,18 @@ export const defaultBlockLevelSelectionInfo: BlockLevelSelectionInfo = {
  */
 export default function useBlockLevelSelection (
     editorState: EditorState,
-    setEditorState: SetState < EditorState >,
     rtblSelectionState: RtblSelectionState,
     updateRtblSelectionState: () => void,
     disable: boolean
 ): [ BlockLevelSelectionInfo, SetState < BlockLevelSelectionInfo >, () => void, MutableRefObject < boolean > ] {
     const [ blockLevelSelectionInfo, setBlockLevelSelectionInfo ] = useState < BlockLevelSelectionInfo > ( defaultBlockLevelSelectionInfo )
-    const [ doneInitialSelection, setDoneInitialSelection] = useState ( false )
     const suspend = useRef ( false )
 
     const disableBls = useCallback ( () => {
         // if ( ! editorState.getSelection ().isCollapsed () )
         //     return // Selection must be collapsed before BLS could be disabled
-        console.log ( 'herewekrjwlerk' )
-        // const selection = editorState.getSelection ()
-        // setEditorState ( EditorState.forceSelection ( editorState, selection.merge ({
-        //     focusKey: selection.getAnchorKey (),
-        //     focusOffset: 0
-        // }) ) )
-        // setImmediate ( () => {
-            updateRtblSelectionState ()
-            setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
-        // } )
+        updateRtblSelectionState ()
+        setBlockLevelSelectionInfo ( defaultBlockLevelSelectionInfo )
     }, [ updateRtblSelectionState ] )
 
     const contentState = editorState.getCurrentContent ()
@@ -79,12 +69,22 @@ export default function useBlockLevelSelection (
     }, [ disable, hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState, contentState ] )
 
     // Disable Trigger
+    const [ doneInitialSelection, setDoneInitialSelection ] = useState ( false )
+    const disablingFlag = useRef ( false )
     useEffect ( () => {
         if ( disable || ! blockLevelSelectionInfo.enabled ) return
         function disableHandler () {
-            if ( doneInitialSelection ) {
+            if ( doneInitialSelection && ! disablingFlag.current ) {
+                setImmediate ( () => {
+                    disablingFlag.current = true
+                suspend.current = true
                 disableBls ()
-                setImmediate ( () => setDoneInitialSelection ( false ) )
+                setDoneInitialSelection ( false )
+                setImmediate ( () => {
+                    disablingFlag.current = false
+                    suspend.current = false
+                } )
+                } )
             }
         }
         function selectEndHandler () {
