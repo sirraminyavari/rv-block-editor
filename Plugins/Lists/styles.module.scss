@@ -1,9 +1,18 @@
-.ol {
-    list-style: none;
+.ol, .ul {
+    display: flex;
+    flex-direction: column;
+    .olItem, .ulItem {
+        // Don't change the 'display'. It will mess up list bullets.
+        margin: .25rem 0;
+        margin-left: 1.5rem;
+        [ data-block-key ][ dir = rtl ] & {
+            margin-right: 1.5rem;
+        }
+    }
 }
 
-.olItem, .ulItem {
-    display: inline-block;
+.ol {
+    list-style: none;
 }
 
 .olItem {

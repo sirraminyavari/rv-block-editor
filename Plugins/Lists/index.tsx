@@ -21,7 +21,7 @@ export default function createListsPlugin ( config: any = {} ): EditorPlugin {
         blockRenderMap: Map ({
             'unordered-list-item': {
                 element: withBlockWrapper ( UnorderedListItem, { sendAdditionalProps: true } ),
-                wrapper: <ul className = { cn ( 'public/DraftStyleDefault/ul', config.styles?.ul ) } />
+                wrapper: <ul className = { cn ( 'public/DraftStyleDefault/ul', config.styles?.ul, styles.ul ) } />
             },
             'ordered-list-item': {
                 element: withBlockWrapper ( OrderedListItem, { sendAdditionalProps: true } ),

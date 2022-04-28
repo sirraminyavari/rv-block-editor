@@ -1,3 +1,7 @@
+// TODO: Use sass utils for: [ data-block-key ][ dir = rtl ] & {}
+
+import * as _defaultTheme from './defaultEditorTheme.module.scss'
+
 import { forwardRef } from 'react'
 import PluginsEditor from '@draft-js-plugins/editor'
 
@@ -12,7 +16,6 @@ import './global.scss'
 export * from './types.d'
 import * as _plugins from 'Plugins'
 export const plugins = _plugins
-import * as _defaultTheme from './defaultEditorTheme.module.scss'
 export const defaultTheme = _defaultTheme
 export { withBlockWrapper } from './BlockWrapper'
 export * from 'BlockEditor/Utils/convertLegacyHtmlToEditorState'
