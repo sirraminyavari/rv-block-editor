@@ -1,5 +1,9 @@
 .blockWrapper {
-    padding-inline-start: calc( var( --nest-padding ) * var( --depth ) );
+    --p: calc( var( --nest-padding ) * var( --depth ) );
+    padding-left: var( --p );
+    &[ dir = rtl ] {
+        padding-right: var( --p );
+    }
 }
 
 .blockWrapper.dragging {

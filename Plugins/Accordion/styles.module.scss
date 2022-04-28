@@ -16,8 +16,7 @@
     &.collapsed {
         .chevronWrapper > * {
             transform: rotate( -90deg );
-            // Fixme: Might need a 'direct-child' operator
-            [ dir = rtl ] & {
+            [ data-block-key ][ dir = rtl ] & {
                 transform: rotate( 90deg );
             }
         }

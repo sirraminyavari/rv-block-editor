@@ -14,7 +14,7 @@
         top: 0; left: 0;
         text-align: right;
         transform: translateX( -100% );
-        [ dir = rtl ] > & {
+        [ data-block-key ][ dir = rtl ] & {
             right: 0;
             text-align: left;
             transform: translateX( 100% );

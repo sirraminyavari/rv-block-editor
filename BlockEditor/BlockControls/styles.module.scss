@@ -23,7 +23,7 @@
     }
 
     opacity: 0;
-    [data-block-editor-outer-wrapper]:hover &:not(.invisible) {
+    [ data-block-editor-outer-wrapper ]:hover &:not(.invisible) {
         opacity: 1;
         > div::after { content: none; }
     }
