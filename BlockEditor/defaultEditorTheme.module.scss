@@ -52,15 +52,9 @@
 // }
 
 .heading-wrapper {
-    &.heading1-wrapper {
-        margin: 2rem 0 1rem;
-    }
-    &.heading2-wrapper {
-        margin: 1.5rem 0 1rem;
-    }
-    &.heading3-wrapper {
-        margin: 1.5rem 0 1rem;
-    }
+    &.heading1-wrapper { margin: 2rem 0 1rem; }
+    &.heading2-wrapper { margin: 1.5rem 0 1rem; }
+    &.heading3-wrapper { margin: 1.5rem 0 1rem; }
 }
 
 
