@@ -1,0 +1,52 @@
+.dragOverlay {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  &.dragging {
+    display: block;
+  }
+}
+
+.dragHandle {
+  cursor: grab;
+  color: inherit;
+}
+
+.dropIndicator {
+  height: 0px;
+  transform: translateY(calc(var(--offset) * 1px - 50%));
+  position: absolute;
+  left: calc(var(--x) * 1px);
+  width: calc(var(--inner-wrapper-width) * 1px);
+  display: flex;
+  > .dropSector {
+    --outline-width: 0.12rem;
+    --margin: calc(4 * var(--outline-width));
+    outline: var(--outline-width) solid var(--color-primary-light);
+    flex: 0 0 calc(var(--nest-padding) - var(--margin));
+    margin-right: var(--margin);
+    transition: outline-color 200ms ease;
+    &:first-child {
+      flex: 0 0
+        calc((var(--min-depth) + 1) * var(--nest-padding) - var(--margin));
+    }
+    &:last-child {
+      flex: 1 1 auto;
+    }
+    &.active {
+      outline-color: var(--color-primary);
+    }
+  }
+}
+
+.dndShield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

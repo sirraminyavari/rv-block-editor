@@ -1,0 +1,28 @@
+.colorSelectWrapper {
+  position: relative;
+  .menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 1rem;
+    .buttons {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background-color: white;
+      box-shadow: 0 3px 10px rgba(black, 0.1);
+      .button {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 100%;
+      }
+    }
+  }
+  &:hover {
+    .menu {
+      display: block;
+    }
+  }
+}

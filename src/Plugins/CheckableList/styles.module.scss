@@ -1,0 +1,17 @@
+.cl {
+  list-style: none;
+
+  :global(.checkable-list-item-block__text) {
+    padding: 0;
+    padding-left: 1.5em;
+    [data-block-key][dir='rtl'] & {
+      padding-right: 1.5rem;
+    }
+  }
+}
+
+:global(.checkable-list-item-block.is-checked
+    .checkable-list-item-block__text) {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
