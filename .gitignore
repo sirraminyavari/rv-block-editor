@@ -8,4 +8,4 @@ yarn-error.log
 
 # We need to ignore lock files to prevent installing from linked deps on production.
 package-lock.json
-yarn.lock
+# yarn.lock

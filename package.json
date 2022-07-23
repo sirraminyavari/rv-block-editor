@@ -42,7 +42,8 @@
     }
   },
   "files": [
-    "/dist"
+    "/dist",
+    "README.md"
   ],
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
