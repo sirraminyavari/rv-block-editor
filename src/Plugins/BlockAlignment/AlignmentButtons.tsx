@@ -17,7 +17,7 @@ const AlignmentButtons: InlineStyleComponent = ({
   setEditorState,
 }) => {
   return (
-    <div className={styles.buttonWrapper}>
+    <div dir="ltr" className={styles.buttonWrapper}>
       {Object.values(Alignment).map((alignmentVal) => (
         <Button
           key={alignmentVal}
