@@ -6,14 +6,15 @@ import { useState, useRef, useLayoutEffect } from 'react';
 import useUiContext from './UiContext';
 import getInitialEditorState from './getInitialEditorState';
 
-import BlockEditor, { defaultTheme } from 'BlockEditor';
+import BlockEditor, { defaultTheme } from '../BlockEditor';
 import ConfigControls from './ConfigControls';
 
-import * as _plugins from 'Plugins';
+import * as _plugins from '../Plugins';
 
 import useAutoSave from './useAutoSave';
 import mentions from './data/mentions';
 import dict from './dict';
+import React from 'react';
 
 const textColors = [
   { name: 'red', color: '#D32F2F' },
@@ -91,7 +92,9 @@ export default function App() {
         dir={direction}
         plugins={plugins}
         styles={defaultTheme}
-        portalNode={document.getElementById('block-editor-portal')}
+        portalNode={
+          document.getElementById('block-editor-portal') as HTMLElement
+        }
         debugMode={debugMode}
         readOnly={readOnly}
         textarea={textarea}

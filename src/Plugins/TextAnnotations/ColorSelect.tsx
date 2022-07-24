@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { RichUtils } from 'draft-js';
 import { IconType } from 'react-icons';
 
@@ -9,6 +9,7 @@ import Button from '../../BlockEditor/Ui/Button';
 import { ColorConfig } from '.';
 
 import * as styles from './styles.module.scss';
+import NoColorSelectButton from './noColorSelectButton';
 
 export interface HocProps {
   entityName: string;
@@ -29,6 +30,10 @@ export const ColorSelect: FC<ColorSelectProps> = ({
   editorState,
   setEditorState,
 }) => {
+  const styleEntities = useMemo(
+    () => Object.values(colors).map(({ name }) => `${entityName}-${name}`),
+    [entityName, colors]
+  );
   return (
     <div className={styles.colorSelectWrapper}>
       <Button Icon={Icon} />
@@ -48,6 +53,11 @@ export const ColorSelect: FC<ColorSelectProps> = ({
               }}
             />
           ))}
+          <NoColorSelectButton
+            styleEntities={styleEntities}
+            editorState={editorState}
+            setEditorState={setEditorState}
+          />
         </Overlay>
       </div>
     </div>

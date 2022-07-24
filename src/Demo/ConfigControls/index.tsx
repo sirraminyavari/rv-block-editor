@@ -1,10 +1,11 @@
 import { convertToRaw } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 
-import useUiContext from 'Demo/UiContext';
-import { contentPresets } from 'Demo/getInitialEditorState';
+import useUiContext from '../UiContext';
+import { contentPresets } from '../getInitialEditorState';
 
 import * as styles from './styles.module.scss';
+import React from 'react';
 
 export default function ConfigControls({ editorState, setEditorState }) {
   const {
