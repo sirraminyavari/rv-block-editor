@@ -1,0 +1,17 @@
+@use '../../BlockEditor/Ui/Overlay/styles.module.scss' as overlay;
+
+.mentionSuggestions {
+  @extend .overlay;
+  padding: 0.5rem 0;
+}
+
+.mentionSuggestionsEntry {
+  transition: all 100ms ease;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.mentionSuggestionsEntryFocused {
+  @extend .mentionSuggestionsEntry;
+  background-color: var(--color-primary-light);
+}

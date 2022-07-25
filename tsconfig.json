@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
+        "outDir": "dist",
         "allowJs": false,
         "allowSyntheticDefaultImports": true,
         "allowUmdGlobalAccess": true,
-        "baseUrl": ".",
-        "esModuleInterop": false,
-        "forceConsistentCasingInFileNames": true,
+        "baseUrl": "src",
         "isolatedModules": true,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "declaration": true,
         "incremental": false,
         "lib": [
@@ -15,16 +14,29 @@
             "DOM.Iterable",
             "ESNext"
         ],
-        "module": "ESNext",
         "moduleResolution": "Node",
-        "noEmit": true,
+        "noEmit": false,
         "resolveJsonModule": true,
-        "skipLibCheck": false,
+        "target": "ES6",
+        "module": "ES2015",
+        // "strict": true,
         "strict": false,
-        "target": "ESNext",
-        "types": [ "node" ]
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": [
+            "node",
+        ],
     },
+    "include": [
+        "*/**/*.scss",
+        "*/**/*.ts",
+        "*/**/*.tsx",
+        "./declarations.d.ts",
+    ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "dist",
+        "./src/Demo"
     ]
 }

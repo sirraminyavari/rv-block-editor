@@ -1,0 +1,123 @@
+.wrapper {
+  --block-controls-offset: -2.7rem;
+  --color-primary: #2b7be4;
+  --color-primary-light: #dfe9f5;
+  --color-primary-lighter: #f3f6fd;
+  --color-primary-darkest: #15113c;
+  --nest-padding: 2rem;
+
+  width: 100%;
+  max-width: 48rem;
+  margin: 4rem auto;
+  padding: 1.5rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 10px rgba(black, 0.1);
+  font-family: IRANSans;
+  color: rgba(black, 0.85);
+
+  .innerWrapper {
+    margin: 0 3.5rem;
+  }
+
+  ::selection {
+    color: #daeef7;
+    background-color: blue;
+  }
+  &.blockLevelSelection {
+    [data-block-key] {
+      transition: all 250ms ease;
+    }
+    [data-block-key].blockLevelSelected > * {
+      background-color: #daeef7;
+    }
+  }
+
+  // [ data-block-key ] {
+  //     display: block;
+  //     margin: 0 3rem;
+  // }
+}
+
+.blockElement {
+  margin: 0;
+  padding: 0;
+  line-height: 1.9;
+}
+
+// .heading {
+//     &.heading1 {
+//         text-decoration: underline;
+//     }
+// }
+
+.heading-wrapper {
+  &.heading1-wrapper {
+    margin: 2rem 0 1rem;
+  }
+  &.heading2-wrapper {
+    margin: 1.5rem 0 1rem;
+  }
+  &.heading3-wrapper {
+    margin: 1.5rem 0 1rem;
+  }
+}
+
+.paragraph {
+  margin: 1rem 0;
+}
+
+.ul,
+.ol,
+.cl {
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.ul,
+.ol {
+  li {
+    // styles...
+  }
+}
+
+.cl {
+  :global(.checkable-list-item-block) {
+    display: grid;
+    align-items: center;
+    align-content: center;
+  }
+
+  :global(.checkable-list-item-block__checkbox) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.pre-wrapper {
+  margin: 1.5rem 0;
+  padding-block: 0;
+}
+
+.pre-content-wrapper {
+  background-color: var(--color-primary-darkest);
+  color: var(--color-primary-light);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 10px rgba(black, 0.1);
+}
+
+.quote-content-wrapper {
+  margin: 2rem 3rem;
+  blockquote {
+    font-weight: bold;
+    font-size: 2rem;
+    color: rgba(black, 0.55);
+    font-style: italic;
+    display: block;
+    line-height: 1.8;
+    * {
+      text-align: center;
+    }
+  }
+}
