@@ -1,11 +1,11 @@
 .blockWrapper {
-  --p: calc(var(--nest-padding) * var(--depth));
-  padding-left: var(--p);
-  &[dir='rtl'] {
-    padding-right: var(--p);
-  }
+    --p: calc(var(--nest-padding) * var(--depth));
+    padding-left: var(--p);
+    &[dir='rtl'] {
+        padding-right: var(--p);
+    }
 }
 
 .blockWrapper.dragging {
-  opacity: 0.4;
+    opacity: 0.4;
 }

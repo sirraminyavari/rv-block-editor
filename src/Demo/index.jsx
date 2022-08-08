@@ -6,10 +6,10 @@ import App from './App'
 import { UiContextProvider } from './UiContext'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <UiContextProvider>
-      <App />
-    </UiContextProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <UiContextProvider>
+            <App />
+        </UiContextProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 )

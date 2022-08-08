@@ -13,53 +13,43 @@ import { OrderedSet } from 'immutable'
 import { NoColorIcon } from './icons'
 
 export interface NoColorSelectButtonProps extends InlineStyleComponentProps {
-  styleEntities: string[]
+    styleEntities: string[]
 }
 
-const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({
-  styleEntities,
-  editorState,
-  setEditorState,
-}) => {
-  const handleClearClick = (editorState: EditorState) => {
-    const selection = editorState.getSelection()
-    const contentState = editorState.getCurrentContent()
-    const anchorKey = selection.getAnchorKey()
-    const currentContent = editorState.getCurrentContent()
-    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
-    const selectionStart = selection.getStartOffset()
-    const selectionEnd = selection.getEndOffset()
-    const selectedText = currentContentBlock
-      .getText()
-      .slice(selectionStart, selectionEnd)
-    const selectionStyles = editorState
-      .getCurrentContent()
-      .getBlockForKey(selection.getStartKey())
-      .getInlineStyleAt(selection.getStartOffset())
-      .toArray()
-    const newState = Modifier.replaceText(
-      contentState,
-      selection,
-      selectedText,
-      OrderedSet(
-        selectionStyles.filter((style) => !styleEntities.includes(style))
-      )
-    )
+const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({ styleEntities, editorState, setEditorState }) => {
+    const handleClearClick = (editorState: EditorState) => {
+        const selection = editorState.getSelection()
+        const contentState = editorState.getCurrentContent()
+        const anchorKey = selection.getAnchorKey()
+        const currentContent = editorState.getCurrentContent()
+        const currentContentBlock = currentContent.getBlockForKey(anchorKey)
+        const selectionStart = selection.getStartOffset()
+        const selectionEnd = selection.getEndOffset()
+        const selectedText = currentContentBlock.getText().slice(selectionStart, selectionEnd)
+        const selectionStyles = editorState
+            .getCurrentContent()
+            .getBlockForKey(selection.getStartKey())
+            .getInlineStyleAt(selection.getStartOffset())
+            .toArray()
+        const newState = Modifier.replaceText(
+            contentState,
+            selection,
+            selectedText,
+            OrderedSet(selectionStyles.filter(style => !styleEntities.includes(style)))
+        )
 
-    setEditorState(
-      EditorState.push(editorState, newState, 'change-inline-style')
+        setEditorState(EditorState.push(editorState, newState, 'change-inline-style'))
+    }
+    return (
+        <>
+            <Button
+                className={styles.button}
+                style={{ display: 'flex', alignItems: 'center' }}
+                onClick={() => handleClearClick(editorState)}>
+                <NoColorIcon />
+            </Button>
+        </>
     )
-  }
-  return (
-    <>
-      <Button
-        className={styles.button}
-        style={{ display: 'flex', alignItems: 'center' }}
-        onClick={() => handleClearClick(editorState)}>
-        <NoColorIcon />
-      </Button>
-    </>
-  )
 }
 
 export default NoColorSelectButton

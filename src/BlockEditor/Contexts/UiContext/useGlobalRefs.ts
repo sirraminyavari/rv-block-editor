@@ -10,20 +10,20 @@ export type WrapperRef = MutableRefObject<HTMLDivElement>
  * * Caveat: The refs of deleted blocks will be nulled. Always use `.filter ( Boolean )` or something.
  */
 export type BlockRefs = MutableRefObject<{
-  [key: string]: HTMLDivElement | null
+    [key: string]: HTMLDivElement | null
 }>
 
 export interface GlobalRefs {
-  editorRef: EditorRef
-  wrapperRef: WrapperRef
-  innerWrapperRef: WrapperRef
-  blockRefs: BlockRefs
+    editorRef: EditorRef
+    wrapperRef: WrapperRef
+    innerWrapperRef: WrapperRef
+    blockRefs: BlockRefs
 }
 
 export default function useGlobalRefs(): GlobalRefs {
-  const editorRef = useRef<Editor>()
-  const wrapperRef = useRef<HTMLDivElement>()
-  const innerWrapperRef = useRef<HTMLDivElement>()
-  const blockRefs: BlockRefs = useRef({})
-  return { editorRef, wrapperRef, innerWrapperRef, blockRefs }
+    const editorRef = useRef<Editor>()
+    const wrapperRef = useRef<HTMLDivElement>()
+    const innerWrapperRef = useRef<HTMLDivElement>()
+    const blockRefs: BlockRefs = useRef({})
+    return { editorRef, wrapperRef, innerWrapperRef, blockRefs }
 }

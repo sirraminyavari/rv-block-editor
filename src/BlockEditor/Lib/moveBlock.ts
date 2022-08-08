@@ -12,20 +12,15 @@ import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState'
  * @returns A new Content Block with moved @param blockToBeMovoed .
  */
 export default function moveBlock(
-  currentContent: ContentState,
-  blockToBeMovoed: ContentBlock,
-  targetBlock: ContentBlock,
-  insertionMode: DraftInsertionType
+    currentContent: ContentState,
+    blockToBeMovoed: ContentBlock,
+    targetBlock: ContentBlock,
+    insertionMode: DraftInsertionType
 ): ContentState {
-  try {
-    return moveBlockInContentState(
-      currentContent,
-      blockToBeMovoed,
-      targetBlock,
-      insertionMode
-    )
-  } catch {
-    // A block cannot be moved next to itself
-    return currentContent
-  }
+    try {
+        return moveBlockInContentState(currentContent, blockToBeMovoed, targetBlock, insertionMode)
+    } catch {
+        // A block cannot be moved next to itself
+        return currentContent
+    }
 }

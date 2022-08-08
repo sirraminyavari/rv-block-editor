@@ -8,12 +8,6 @@ import { ContentState, ContentBlock } from 'draft-js'
  *
  * @returns A new Content State with @param blockToBeAppended appended at the end of its Block Array.
  */
-export default function appendBlock(
-  currentContent: ContentState,
-  blockToBeAppended: ContentBlock
-): ContentState {
-  return ContentState.createFromBlockArray([
-    ...currentContent.getBlockMap().toArray(),
-    blockToBeAppended,
-  ])
+export default function appendBlock(currentContent: ContentState, blockToBeAppended: ContentBlock): ContentState {
+    return ContentState.createFromBlockArray([...currentContent.getBlockMap().toArray(), blockToBeAppended])
 }

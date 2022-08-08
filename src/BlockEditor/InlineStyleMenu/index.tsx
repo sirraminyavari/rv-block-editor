@@ -17,77 +17,68 @@ import * as styles from './styles.module.scss'
  * It appears whenever there is a text selection.
  */
 const InlineStyleMenu: FC = () => {
-  return (
-    <AnimatePresence
-      children={useUiContext().inlineStyleMenuInfo.isOpen && <Menu />}
-    />
-  )
+    return <AnimatePresence children={useUiContext().inlineStyleMenuInfo.isOpen && <Menu />} />
 }
 export default InlineStyleMenu
 
 function Menu() {
-  const { editorState, setEditorState } = useEditorContext()
-  const {
-    inlineStyleMenuInfo: { getSelectionRect, domSelection },
-    dir,
-  } = useUiContext()
-  const { inlineStyles } = useTransformedPluginsContext()
+    const { editorState, setEditorState } = useEditorContext()
+    const {
+        inlineStyleMenuInfo: { getSelectionRect, domSelection },
+        dir,
+    } = useUiContext()
+    const { inlineStyles } = useTransformedPluginsContext()
 
-  const [menuRef, setMenuRef] = useState<HTMLDivElement>(null)
-  const virtualReference = useMemo(
-    () => ({
-      getBoundingClientRect: () => getSelectionRect() || new DOMRect(),
-    }),
-    [getSelectionRect, domSelection]
-  )
-  const popper = usePopper(virtualReference, menuRef, {
-    placement: `top-${{ ltr: 'start', rtl: 'end' }[dir]}` as any,
-  })
+    const [menuRef, setMenuRef] = useState<HTMLDivElement>(null)
+    const virtualReference = useMemo(
+        () => ({
+            getBoundingClientRect: () => getSelectionRect() || new DOMRect(),
+        }),
+        [getSelectionRect, domSelection]
+    )
+    const popper = usePopper(virtualReference, menuRef, {
+        placement: `top-${{ ltr: 'start', rtl: 'end' }[dir]}` as any,
+    })
 
-  const activeInlineStyles = getSelectionInlineStyle(editorState)
+    const activeInlineStyles = getSelectionInlineStyle(editorState)
 
-  return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={{ initial: {}, animate: {}, exit: {} }}
-      transition={{ staggerChildren: 0.02 }}
-      className={styles.inlineStyleMenu}
-      ref={setMenuRef}
-      style={popper.styles.popper}
-      {...popper.attributes.popper}>
-      <Overlay
-        className={styles.overlay}
-        style={{
-          transform: `translateY( calc( ${
-            popper.styles.popper.top === '0' ? 1 : -1
-          } * .3rem ) )`,
-        }}
-        children={inlineStyles.map((InlineStyle, i) => (
-          <motion.div
-            key={i}
-            variants={{
-              initial: { opacity: 0, scale: 0.4 },
-              animate: { opacity: 1, scale: 1 },
-            }}
-            children={
-              InlineStyle.Component ? (
-                //@ts-expect-error
-                <InlineStyle.Component
-                  editorState={editorState}
-                  setEditorState={setEditorState}
-                />
-              ) : (
-                <ToggleInlineStyleButton
-                  inlineStyle={InlineStyle}
-                  active={activeInlineStyles[InlineStyle.style]}
-                />
-              )
-            }
-          />
-        ))}
-      />
-    </motion.div>
-  )
+    return (
+        <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={{ initial: {}, animate: {}, exit: {} }}
+            transition={{ staggerChildren: 0.02 }}
+            className={styles.inlineStyleMenu}
+            ref={setMenuRef}
+            style={popper.styles.popper}
+            {...popper.attributes.popper}>
+            <Overlay
+                className={styles.overlay}
+                style={{
+                    transform: `translateY( calc( ${popper.styles.popper.top === '0' ? 1 : -1} * .3rem ) )`,
+                }}
+                children={inlineStyles.map((InlineStyle, i) => (
+                    <motion.div
+                        key={i}
+                        variants={{
+                            initial: { opacity: 0, scale: 0.4 },
+                            animate: { opacity: 1, scale: 1 },
+                        }}
+                        children={
+                            InlineStyle.Component ? (
+                                //@ts-expect-error
+                                <InlineStyle.Component editorState={editorState} setEditorState={setEditorState} />
+                            ) : (
+                                <ToggleInlineStyleButton
+                                    inlineStyle={InlineStyle}
+                                    active={activeInlineStyles[InlineStyle.style]}
+                                />
+                            )
+                        }
+                    />
+                ))}
+            />
+        </motion.div>
+    )
 }

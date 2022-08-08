@@ -14,36 +14,32 @@ import { FunctionComponent } from 'react'
 export interface MentionItem extends MentionData {}
 
 export type SuggestionsFilter =
-  | ((search: string) => Promise<MentionItem[]>)
-  | ((search: string, mentions: MentionItem[]) => MentionItem[])
+    | ((search: string) => Promise<MentionItem[]>)
+    | ((search: string, mentions: MentionItem[]) => MentionItem[])
 
 export interface Config {
-  mentions: MentionItem[]
-  suggestionsFilter?: SuggestionsFilter
+    mentions: MentionItem[]
+    suggestionsFilter?: SuggestionsFilter
 }
 
-export default function createMentionPlugin({
-  mentions,
-  suggestionsFilter,
-}: Config): EditorPlugin {
-  const _plugin = _createMentionPlugin({
-    entityMutability: 'SEGMENTED',
-    mentionPrefix: '@',
-    mentionComponent: MentionComponent,
-    theme: styles,
-  })
+export default function createMentionPlugin({ mentions, suggestionsFilter }: Config): EditorPlugin {
+    const _plugin = _createMentionPlugin({
+        entityMutability: 'SEGMENTED',
+        mentionPrefix: '@',
+        mentionComponent: MentionComponent,
+        theme: styles,
+    })
 
-  return {
-    id: 'mentions',
+    return {
+        id: 'mentions',
 
-    ..._plugin,
+        ..._plugin,
 
-    decorators: [new CompositeDecorator(_plugin.decorators as any)],
-    OverlayComponent: getOverlayComponent({
-      mentions,
-      suggestionsFilter,
-      MentionSuggestionsComp:
-        _plugin.MentionSuggestions as FunctionComponent<MentionSuggestionsPubProps>,
-    }),
-  }
+        decorators: [new CompositeDecorator(_plugin.decorators as any)],
+        OverlayComponent: getOverlayComponent({
+            mentions,
+            suggestionsFilter,
+            MentionSuggestionsComp: _plugin.MentionSuggestions as FunctionComponent<MentionSuggestionsPubProps>,
+        }),
+    }
 }

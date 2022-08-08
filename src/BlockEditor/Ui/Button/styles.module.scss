@@ -1,33 +1,33 @@
 .button {
-  -webkit-user-modify: read-only;
-  -moz-user-modify: read-only;
-  -ms-user-modify: read-only;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: pointer;
-  display: grid;
-  justify-content: center;
-  justify-items: center;
-  align-content: center;
-  align-items: center;
-  color: rgba(black, 0.7);
-  border-radius: 0.5rem;
-  transition: all 100ms ease;
-
-  svg {
-    stroke-width: 0.03rem;
-    stroke: transparent;
+    -webkit-user-modify: read-only;
+    -moz-user-modify: read-only;
+    -ms-user-modify: read-only;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    color: rgba(black, 0.7);
+    border-radius: 0.5rem;
     transition: all 100ms ease;
-    overflow: visible;
-  }
 
-  &.active,
-  &.active:hover {
-    color: var(--color-primary);
     svg {
-      stroke: var(--color-primary);
+        stroke-width: 0.03rem;
+        stroke: transparent;
+        transition: all 100ms ease;
+        overflow: visible;
     }
-  }
+
+    &.active,
+    &.active:hover {
+        color: var(--color-primary);
+        svg {
+            stroke: var(--color-primary);
+        }
+    }
 }

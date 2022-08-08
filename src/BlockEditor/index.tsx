@@ -22,59 +22,57 @@ export { withBlockWrapper } from './BlockWrapper'
 export * from './Utils/convertLegacyHtmlToEditorState'
 
 export interface BlockEditorProps extends Omit<_BlockEditorProps, 'plugins'> {
-  styles?: { [key: string]: string }
-  dict: Dict
-  dir: Direction
-  lang: Language
-  plugins: EditorPlugin[]
-  portalNode: HTMLElement
-  debugMode?: boolean
-  textarea?: boolean
-  readOnly?: boolean
+    styles?: { [key: string]: string }
+    dict: Dict
+    dir: Direction
+    lang: Language
+    plugins: EditorPlugin[]
+    portalNode: HTMLElement
+    debugMode?: boolean
+    textarea?: boolean
+    readOnly?: boolean
 }
 
 /**
  * Provides the editor with all the required global contexts.
  */
 const BlockEditor = forwardRef<PluginsEditor, BlockEditorProps>(
-  (
-    {
-      editorState,
-      onChange: setEditorState,
-      styles = {},
-      dict,
-      dir,
-      lang,
-      plugins,
-      portalNode,
-      debugMode = false,
-      textarea = false,
-      readOnly = false,
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <EditorContextProvider
-        editorState={editorState}
-        setEditorState={
-          setEditorState as EditorContextProviderProps['setEditorState']
-        }>
-        <UiContextProvider
-          styles={styles}
-          dict={dict}
-          dir={dir}
-          lang={lang}
-          portalNode={portalNode}
-          debugMode={debugMode}
-          textarea={textarea}
-          readOnly={readOnly}>
-          <TransformedPluginsContextProvider plugins={plugins}>
-            <Editor key={'rerender' + +textarea} ref={ref} {...props} />
-          </TransformedPluginsContextProvider>
-        </UiContextProvider>
-      </EditorContextProvider>
-    )
-  }
+    (
+        {
+            editorState,
+            onChange: setEditorState,
+            styles = {},
+            dict,
+            dir,
+            lang,
+            plugins,
+            portalNode,
+            debugMode = false,
+            textarea = false,
+            readOnly = false,
+            ...props
+        },
+        ref
+    ) => {
+        return (
+            <EditorContextProvider
+                editorState={editorState}
+                setEditorState={setEditorState as EditorContextProviderProps['setEditorState']}>
+                <UiContextProvider
+                    styles={styles}
+                    dict={dict}
+                    dir={dir}
+                    lang={lang}
+                    portalNode={portalNode}
+                    debugMode={debugMode}
+                    textarea={textarea}
+                    readOnly={readOnly}>
+                    <TransformedPluginsContextProvider plugins={plugins}>
+                        <Editor key={'rerender' + +textarea} ref={ref} {...props} />
+                    </TransformedPluginsContextProvider>
+                </UiContextProvider>
+            </EditorContextProvider>
+        )
+    }
 )
 export default BlockEditor

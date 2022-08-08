@@ -8,19 +8,19 @@ import Link from './Link'
 import LinkButton from './LinkButton'
 
 export default function createLinksPlugin(): EditorPlugin {
-  return {
-    id: 'links',
+    return {
+        id: 'links',
 
-    inlineStyles: [{ Component: LinkButton }],
+        inlineStyles: [{ Component: LinkButton }],
 
-    decorators: [
-      new CompositeDecorator([
-        {
-          strategy: makeEntityStrategy('LINK'),
-          component: Link,
-        },
-        ...(createLinkifyPlugin().decorators as any),
-      ]),
-    ],
-  }
+        decorators: [
+            new CompositeDecorator([
+                {
+                    strategy: makeEntityStrategy('LINK'),
+                    component: Link,
+                },
+                ...(createLinkifyPlugin().decorators as any),
+            ]),
+        ],
+    }
 }

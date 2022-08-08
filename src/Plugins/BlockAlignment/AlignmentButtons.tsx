@@ -7,27 +7,22 @@ import { AlignLeftIcon, AlignCenterIcon, AlignRightIcon } from './icons'
 import * as styles from './styles.module.scss'
 
 const icons = {
-  left: AlignLeftIcon,
-  center: AlignCenterIcon,
-  right: AlignRightIcon,
+    left: AlignLeftIcon,
+    center: AlignCenterIcon,
+    right: AlignRightIcon,
 }
 
-const AlignmentButtons: InlineStyleComponent = ({
-  editorState,
-  setEditorState,
-}) => {
-  return (
-    <div dir="ltr" className={styles.buttonWrapper}>
-      {Object.values(Alignment).map((alignmentVal) => (
-        <Button
-          key={alignmentVal}
-          onClick={() =>
-            setBlockAlignment(alignmentVal, editorState, setEditorState)
-          }
-          Icon={icons[alignmentVal]}
-        />
-      ))}
-    </div>
-  )
+const AlignmentButtons: InlineStyleComponent = ({ editorState, setEditorState }) => {
+    return (
+        <div dir="ltr" className={styles.buttonWrapper}>
+            {Object.values(Alignment).map(alignmentVal => (
+                <Button
+                    key={alignmentVal}
+                    onClick={() => setBlockAlignment(alignmentVal, editorState, setEditorState)}
+                    Icon={icons[alignmentVal]}
+                />
+            ))}
+        </div>
+    )
 }
 export default AlignmentButtons

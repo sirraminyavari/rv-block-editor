@@ -12,18 +12,14 @@ import insertBlockBelowAndFocus from './insertBlockBelowAndFocus'
  * @returns An object containing the newly created Content Block and the Editor State after its creation.
  */
 export default function insertEmptyBlockBelowAndFocus(
-  editorState: EditorState,
-  targetBlock: ContentBlock,
-  depth: number = 0
+    editorState: EditorState,
+    targetBlock: ContentBlock,
+    depth: number = 0
 ): {
-  newEditorState: EditorState
-  newContentBlock: ContentBlock
+    newEditorState: EditorState
+    newContentBlock: ContentBlock
 } {
-  const newContentBlock = createEmptyBlock(depth)
-  const newEditorState = insertBlockBelowAndFocus(
-    editorState,
-    newContentBlock,
-    targetBlock
-  )
-  return { newEditorState, newContentBlock }
+    const newContentBlock = createEmptyBlock(depth)
+    const newEditorState = insertBlockBelowAndFocus(editorState, newContentBlock, targetBlock)
+    return { newEditorState, newContentBlock }
 }

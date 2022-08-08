@@ -14,28 +14,13 @@ import forceSelectionToBlock from './forceSelectionToBlock'
  * @returns A new Editor State containing the newly inserted block.
  */
 export default function insertBlockBelowAndFocus(
-  editorState: EditorState,
-  blockToBeInserted: ContentBlock,
-  targetBlock: ContentBlock
+    editorState: EditorState,
+    blockToBeInserted: ContentBlock,
+    targetBlock: ContentBlock
 ): EditorState {
-  const contentStateWithNewBlock = appendBlock(
-    editorState.getCurrentContent(),
-    blockToBeInserted
-  )
-  const contentStateWithNewBlockMoved = moveBlock(
-    contentStateWithNewBlock,
-    blockToBeInserted,
-    targetBlock,
-    'after'
-  )
-  const newEditorState = EditorState.push(
-    editorState,
-    contentStateWithNewBlockMoved,
-    'insert-fragment'
-  )
-  const editorStateAfterSelection = forceSelectionToBlock(
-    newEditorState,
-    blockToBeInserted.getKey()
-  )
-  return editorStateAfterSelection
+    const contentStateWithNewBlock = appendBlock(editorState.getCurrentContent(), blockToBeInserted)
+    const contentStateWithNewBlockMoved = moveBlock(contentStateWithNewBlock, blockToBeInserted, targetBlock, 'after')
+    const newEditorState = EditorState.push(editorState, contentStateWithNewBlockMoved, 'insert-fragment')
+    const editorStateAfterSelection = forceSelectionToBlock(newEditorState, blockToBeInserted.getKey())
+    return editorStateAfterSelection
 }
