@@ -49,6 +49,7 @@ const plugins = [
     _plugins.createCodeBlockPlugin({ styles: defaultTheme }),
     _plugins.createSoftNewlinePlugin(),
     _plugins.createLinksPlugin(),
+    _plugins.createTablePlugin({}),
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),
     _plugins.createMentionPlugin({ mentions }),

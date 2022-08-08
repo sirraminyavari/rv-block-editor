@@ -42,7 +42,7 @@ export default function createCodeBlockPlugin(config: any = {}): EditorPlugin {
             const editorState = getEditorState()
             const newState = CodeUtils.hasSelectionInBlock(editorState)
                 ? CodeUtils.handleKeyCommand(editorState, command)
-                : RichUtils.handleKeyCommand(editorState, command)
+                : RichUtils.handleKeyCommand(editorState, command) // FIXME: Might block other 'handleKeyCommand's
             if (newState) setEditorState(newState)
             return newState ? 'handled' : 'not-handled'
         },

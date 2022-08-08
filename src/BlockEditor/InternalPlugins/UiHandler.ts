@@ -15,8 +15,6 @@ export default function createUiHandlerPlugin(): EditorPlugin {
         keyBindingFn(event) {
             const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext()
 
-            if (event.ctrlKey && event.code === 'KeyT') return '__test__' // TODO: Remove!
-
             if (event.ctrlKey && event.code === 'KeyA') return 'select-all'
 
             // Block-Level Selection
@@ -62,12 +60,6 @@ export default function createUiHandlerPlugin(): EditorPlugin {
 
             return (
                 {
-                    // TODO: Remove!
-                    __test__() {
-                        const selectionState = editorState.getSelection()
-                        console.log(selectionState)
-                    },
-
                     'select-all'() {
                         const contentState = editorState.getCurrentContent()
                         const selectionState = editorState.getSelection()

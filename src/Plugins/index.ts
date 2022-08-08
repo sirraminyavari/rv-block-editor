@@ -10,6 +10,7 @@ import createQuotePlugin from './Quote'
 import createCodeBlockPlugin from './CodeBlock'
 import createSoftNewlinePlugin from './SoftNewline'
 import createLinksPlugin from './Links'
+import createTablePlugin from './Table'
 import createTextAnnotationsPlugin from './TextAnnotations'
 import createBlockAlignmentPlugin from './BlockAlignment'
 import createMentionPlugin from './Mention'
@@ -25,6 +26,7 @@ export {
     createCodeBlockPlugin,
     createSoftNewlinePlugin,
     createLinksPlugin,
+    createTablePlugin,
     createTextAnnotationsPlugin,
     createBlockAlignmentPlugin,
     createMentionPlugin,

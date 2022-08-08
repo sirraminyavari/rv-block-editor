@@ -1603,13 +1603,6 @@ draft-js-prism@^1.0.6:
     extend "^3.0.0"
     immutable "*"
 
-draft-js-table@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/draft-js-table/-/draft-js-table-0.3.0.tgz#7f53c4ec172d8ec5c68d58dc6649b3129d3051be"
-  integrity sha512-DHe7fPSZpoGJRDGoxkwHqbZ39MWli1ndiws+cDTbhQHAS9Q/sk9wkqQEe8gtXCegcu8WQlLyRKr5F2ozEMcWWw==
-  dependencies:
-    immutable "*"
-
 draft-js-utils@^1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.4.1.tgz#a59c792ad621f7050292031a237d524708a6d509"

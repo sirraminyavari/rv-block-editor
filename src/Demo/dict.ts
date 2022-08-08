@@ -12,6 +12,7 @@ const dict: Dict = {
         'plugins.checkable-list.checkable-list-item': 'Checkable List',
         'plugins.accordion.accordion': 'Accordion',
         'plugins.quote.blockquote': 'Quotation',
+        'plugins.table.table': 'Table',
     },
     fa: {
         'plugins.paragraph.unstyled': 'پاراگراف',
@@ -24,6 +25,7 @@ const dict: Dict = {
         'plugins.checkable-list.checkable-list-item': 'لیست تیکی؟',
         'plugins.accordion.accordion': 'جمشو؟!',
         'plugins.quote.blockquote': 'نقل قول',
+        'plugins.table.table': 'جدول',
     },
 }
 export default dict
