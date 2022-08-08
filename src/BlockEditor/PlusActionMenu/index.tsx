@@ -1,27 +1,27 @@
-import { useState, memo } from 'react';
-import { usePopper } from 'react-popper';
-import { AnimatePresence } from 'framer-motion';
-import Scrollbar from 'react-perfect-scrollbar';
+import { useState, memo } from 'react'
+import { usePopper } from 'react-popper'
+import { AnimatePresence } from 'framer-motion'
+import Scrollbar from 'react-perfect-scrollbar'
 
-import Overlay from '../Ui/Overlay';
-import useTransformedPluginsContext from '../Contexts/TransformedPlugins';
-import useUiContext from '../Contexts/UiContext';
+import Overlay from '../Ui/Overlay'
+import useTransformedPluginsContext from '../Contexts/TransformedPlugins'
+import useUiContext from '../Contexts/UiContext'
 
-import PlusActionButton from './PlusActionButton';
+import PlusActionButton from './PlusActionButton'
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.scss'
 
 /**
  * An overlay menu containing all the Plus Actions.
  * It appears whenever users clicks on the `PlusActionMenuButton`.
  */
 export default function PlusActionMenu() {
-  const { plusActions } = useTransformedPluginsContext();
+  const { plusActions } = useTransformedPluginsContext()
   const {
     plusActionMenuInfo: { openedBlock },
     blockRefs,
     dir,
-  } = useUiContext();
+  } = useUiContext()
   return (
     <AnimatePresence
       children={
@@ -35,16 +35,16 @@ export default function PlusActionMenu() {
         )
       }
     />
-  );
+  )
 }
 
 const Popper = memo(({ blockKey, plusActions, blockRefs, dir }: any) => {
-  const targetRef = blockRefs.current[blockKey];
-  const [pannelRef, setPannelRef] = useState<HTMLDivElement>(null);
+  const targetRef = blockRefs.current[blockKey]
+  const [pannelRef, setPannelRef] = useState<HTMLDivElement>(null)
   const popper = usePopper(targetRef?.querySelector('*'), pannelRef, {
     placement: `bottom-${{ ltr: 'start', rtl: 'end' }[dir]}` as any,
-  });
-  const c = popper.styles.popper.top === '0' ? 1 : -1;
+  })
+  const c = popper.styles.popper.top === '0' ? 1 : -1
   return (
     <div
       className={styles.plusActionMenu}
@@ -85,5 +85,5 @@ const Popper = memo(({ blockKey, plusActions, blockRefs, dir }: any) => {
         />
       </Overlay>
     </div>
-  );
-});
+  )
+})

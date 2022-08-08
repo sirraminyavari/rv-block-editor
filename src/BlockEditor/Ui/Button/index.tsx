@@ -1,15 +1,15 @@
-import { forwardRef, HTMLAttributes } from 'react';
-import cn from 'classnames';
-import { IconType } from 'react-icons';
-import { motion } from 'framer-motion';
+import { forwardRef, HTMLAttributes } from 'react'
+import cn from 'classnames'
+import { IconType } from 'react-icons'
+import { motion } from 'framer-motion'
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.scss'
 
 export interface ButtonProps extends HTMLAttributes<HTMLDivElement> {
-  Icon?: IconType;
-  active?: boolean;
-  motion?: boolean;
-  [key: string]: any;
+  Icon?: IconType
+  active?: boolean
+  motion?: boolean
+  [key: string]: any
 }
 
 /**
@@ -21,7 +21,7 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>(
     ref
   ) => {
     // FIXME: BUG: motion name shadowing
-    const Comp = useMotion ? motion.div : 'div';
+    const Comp = useMotion ? motion.div : 'div'
     return (
       <Comp
         ref={ref}
@@ -33,7 +33,7 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>(
         {Icon && <Icon />}
         {children && <span children={children} />}
       </Comp>
-    );
+    )
   }
-);
-export default Button;
+)
+export default Button

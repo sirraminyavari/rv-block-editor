@@ -1,5 +1,5 @@
-import { ContentBlock, genKey } from 'draft-js';
-import { List } from 'immutable';
+import { ContentBlock, genKey } from 'draft-js'
+import { List } from 'immutable'
 
 /**
  * @returns A new and empty Content Block.
@@ -11,5 +11,5 @@ const createEmptyBlock = (depth: number = 0) =>
     text: '',
     characterList: List(),
     depth,
-  });
-export default createEmptyBlock;
+  })
+export default createEmptyBlock

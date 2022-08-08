@@ -1,25 +1,25 @@
-import { CompositeDecorator } from 'draft-js';
+import { CompositeDecorator } from 'draft-js'
 
-import { EditorPlugin } from 'BlockEditor';
+import { EditorPlugin } from 'BlockEditor'
 
-import _createMentionPlugin, { MentionData } from '@draft-js-plugins/mention';
+import _createMentionPlugin, { MentionData } from '@draft-js-plugins/mention'
 
-import MentionComponent from './MentionComponent';
-import getOverlayComponent from './OverlayComponent';
+import MentionComponent from './MentionComponent'
+import getOverlayComponent from './OverlayComponent'
 
-import * as styles from './styles.module.scss';
-import { MentionSuggestionsPubProps } from '@draft-js-plugins/mention/lib/MentionSuggestions/MentionSuggestions';
-import { FunctionComponent } from 'react';
+import * as styles from './styles.module.scss'
+import { MentionSuggestionsPubProps } from '@draft-js-plugins/mention/lib/MentionSuggestions/MentionSuggestions'
+import { FunctionComponent } from 'react'
 
 export interface MentionItem extends MentionData {}
 
 export type SuggestionsFilter =
   | ((search: string) => Promise<MentionItem[]>)
-  | ((search: string, mentions: MentionItem[]) => MentionItem[]);
+  | ((search: string, mentions: MentionItem[]) => MentionItem[])
 
 export interface Config {
-  mentions: MentionItem[];
-  suggestionsFilter?: SuggestionsFilter;
+  mentions: MentionItem[]
+  suggestionsFilter?: SuggestionsFilter
 }
 
 export default function createMentionPlugin({
@@ -31,7 +31,7 @@ export default function createMentionPlugin({
     mentionPrefix: '@',
     mentionComponent: MentionComponent,
     theme: styles,
-  });
+  })
 
   return {
     id: 'mentions',
@@ -45,5 +45,5 @@ export default function createMentionPlugin({
       MentionSuggestionsComp:
         _plugin.MentionSuggestions as FunctionComponent<MentionSuggestionsPubProps>,
     }),
-  };
+  }
 }

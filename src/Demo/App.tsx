@@ -1,20 +1,20 @@
-import 'draft-js/dist/Draft.css';
-import 'react-perfect-scrollbar/dist/css/styles.css';
-import 'BlockEditor/global.scss';
+import 'draft-js/dist/Draft.css'
+import 'react-perfect-scrollbar/dist/css/styles.css'
+import 'BlockEditor/global.scss'
 
-import { useState, useRef, useLayoutEffect } from 'react';
-import useUiContext from './UiContext';
-import getInitialEditorState from './getInitialEditorState';
+import { useState, useRef, useLayoutEffect } from 'react'
+import useUiContext from './UiContext'
+import getInitialEditorState from './getInitialEditorState'
 
-import BlockEditor, { defaultTheme } from '../BlockEditor';
-import ConfigControls from './ConfigControls';
+import BlockEditor, { defaultTheme } from '../BlockEditor'
+import ConfigControls from './ConfigControls'
 
-import * as _plugins from '../Plugins';
+import * as _plugins from '../Plugins'
 
-import useAutoSave from './useAutoSave';
-import mentions from './data/mentions';
-import dict from './dict';
-import React from 'react';
+import useAutoSave from './useAutoSave'
+import mentions from './data/mentions'
+import dict from './dict'
+import React from 'react'
 
 const textColors = [
   { name: 'red', color: '#D32F2F' },
@@ -25,7 +25,7 @@ const textColors = [
   { name: 'yellow', color: '#FBC02D' },
   { name: 'orange', color: '#E64A19' },
   { name: 'brown', color: '#5D4037' },
-];
+]
 
 const highlightColors = [
   { name: 'red', color: '#FFCDD2' },
@@ -36,7 +36,7 @@ const highlightColors = [
   { name: 'yellow', color: '#FFF9C4' },
   { name: 'orange', color: '#FFCCBC' },
   { name: 'brown', color: '#D7CCC8' },
-];
+]
 
 const plugins = [
   _plugins.createBasicInlineStylesPlugin(),
@@ -52,19 +52,16 @@ const plugins = [
   _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
   _plugins.createBlockAlignmentPlugin(),
   _plugins.createMentionPlugin({ mentions }),
-];
+]
 
 export default function App() {
   const [editorState, setEditorState] = useState(
     getInitialEditorState(localStorage.getItem('contentPreset') || 'empty')
-  );
-  const { debugMode, readOnly, textarea, language, direction } = useUiContext();
+  )
+  const { debugMode, readOnly, textarea, language, direction } = useUiContext()
 
-  const editorRef = useRef<any>();
-  useLayoutEffect(
-    () => void setImmediate(() => editorRef.current?.focus()),
-    []
-  );
+  const editorRef = useRef<any>()
+  useLayoutEffect(() => void setImmediate(() => editorRef.current?.focus()), [])
 
   useAutoSave(
     editorState,
@@ -75,7 +72,7 @@ export default function App() {
         )
       ),
     1000
-  );
+  )
 
   return (
     <>
@@ -100,5 +97,5 @@ export default function App() {
         textarea={textarea}
       />
     </>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import { EditorState } from 'draft-js';
+import { EditorState } from 'draft-js'
 
-import { modifyBlockByKey } from 'draft-js-modifiers';
+import { modifyBlockByKey } from 'draft-js-modifiers'
 
 /**
  * Replaces and object as data for a ContentBlock.
@@ -13,5 +13,5 @@ export default function setBlockData(
   return EditorState.forceSelection(
     modifyBlockByKey(editorState, blockKey, { data }),
     editorState.getSelection()
-  );
+  )
 }

@@ -1,16 +1,16 @@
-import { InlineStyleComponent, Alignment } from '../../BlockEditor';
-import Button from '../../BlockEditor/Ui/Button';
+import { InlineStyleComponent, Alignment } from '../../BlockEditor'
+import Button from '../../BlockEditor/Ui/Button'
 
-import setBlockAlignment from './setBlockAlignment';
+import setBlockAlignment from './setBlockAlignment'
 
-import { AlignLeftIcon, AlignCenterIcon, AlignRightIcon } from './icons';
-import * as styles from './styles.module.scss';
+import { AlignLeftIcon, AlignCenterIcon, AlignRightIcon } from './icons'
+import * as styles from './styles.module.scss'
 
 const icons = {
   left: AlignLeftIcon,
   center: AlignCenterIcon,
   right: AlignRightIcon,
-};
+}
 
 const AlignmentButtons: InlineStyleComponent = ({
   editorState,
@@ -28,6 +28,6 @@ const AlignmentButtons: InlineStyleComponent = ({
         />
       ))}
     </div>
-  );
-};
-export default AlignmentButtons;
+  )
+}
+export default AlignmentButtons

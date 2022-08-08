@@ -1,68 +1,68 @@
-import { createContext, useContext, MutableRefObject } from 'react';
-import Editor from '@draft-js-plugins/editor';
+import { createContext, useContext, MutableRefObject } from 'react'
+import Editor from '@draft-js-plugins/editor'
 
-import { Language, Direction, Dict } from '../../../BlockEditor';
-import useEditorContext from '../../../BlockEditor/Contexts/EditorContext';
+import { Language, Direction, Dict } from '../../../BlockEditor'
+import useEditorContext from '../../../BlockEditor/Contexts/EditorContext'
 
-import useGlobalRefs, { BlockRefs } from './useGlobalRefs';
-import useBlockControls, { BlockControlsInfo } from './useBlockControls';
-import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu';
-import useDrag, { DragInfo } from '../../../BlockEditor/DnD/useDrag';
+import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
+import useBlockControls, { BlockControlsInfo } from './useBlockControls'
+import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
+import useDrag, { DragInfo } from '../../../BlockEditor/DnD/useDrag'
 import useRtblSelectionState, {
   RtblSelectionState,
-} from './useRtblSelectionState';
+} from './useRtblSelectionState'
 import useBlockLevelSelection, {
   BlockLevelSelectionInfo,
-} from './useBlockLevelSelection';
-import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu';
-import useCollapsedBlocks, { CollapsedBlocks } from './useCollapsedBlocks';
+} from './useBlockLevelSelection'
+import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
+import useCollapsedBlocks, { CollapsedBlocks } from './useCollapsedBlocks'
 
-export * from './useBlockControls';
-export * from './usePlusActionMenu';
-export * from './useGlobalRefs';
-export * from './useRtblSelectionState';
-export * from './useBlockLevelSelection';
-export * from './useInlineStyleMenu';
-export * from '../../../BlockEditor/DnD/useDrag';
+export * from './useBlockControls'
+export * from './usePlusActionMenu'
+export * from './useGlobalRefs'
+export * from './useRtblSelectionState'
+export * from './useBlockLevelSelection'
+export * from './useInlineStyleMenu'
+export * from '../../../BlockEditor/DnD/useDrag'
 
 export interface UiContext {
   // Misc:
-  dict: Dict;
-  dir: Direction;
-  lang: Language;
-  externalStyles: { [key: string]: string };
-  debugMode: boolean;
-  textarea: boolean;
-  readOnly: boolean;
-  collapsedBlocks: CollapsedBlocks;
+  dict: Dict
+  dir: Direction
+  lang: Language
+  externalStyles: { [key: string]: string }
+  debugMode: boolean
+  textarea: boolean
+  readOnly: boolean
+  collapsedBlocks: CollapsedBlocks
   // Global Refs:
-  editorRef: MutableRefObject<Editor>;
-  wrapperRef: MutableRefObject<HTMLDivElement>;
-  innerWrapperRef: MutableRefObject<HTMLDivElement>;
-  blockRefs: BlockRefs;
-  portalNode: HTMLElement;
+  editorRef: MutableRefObject<Editor>
+  wrapperRef: MutableRefObject<HTMLDivElement>
+  innerWrapperRef: MutableRefObject<HTMLDivElement>
+  blockRefs: BlockRefs
+  portalNode: HTMLElement
   // Block Functionality:
-  blockControlsInfo: BlockControlsInfo;
-  setBlockControlsInfo: SetState<BlockControlsInfo>;
-  plusActionMenuInfo: PlusActionMenuInfo;
-  setPlusActionMenuInfo: SetState<PlusActionMenuInfo>;
-  dragInfo: DragInfo;
-  setDragInfo: SetState<DragInfo>;
+  blockControlsInfo: BlockControlsInfo
+  setBlockControlsInfo: SetState<BlockControlsInfo>
+  plusActionMenuInfo: PlusActionMenuInfo
+  setPlusActionMenuInfo: SetState<PlusActionMenuInfo>
+  dragInfo: DragInfo
+  setDragInfo: SetState<DragInfo>
   // Inline Functionality:
-  inlineStyleMenuInfo: InlineStyleMenuInfo;
+  inlineStyleMenuInfo: InlineStyleMenuInfo
   // Input State:
-  rtblSelectionState: RtblSelectionState;
-  updateRtblSelectionState: () => void;
+  rtblSelectionState: RtblSelectionState
+  updateRtblSelectionState: () => void
   // Block Level Selection:
-  blockLevelSelectionInfo: BlockLevelSelectionInfo;
-  setBlockLevelSelectionInfo: SetState<BlockLevelSelectionInfo>;
-  disableBls: () => void;
-  suspendBls: MutableRefObject<boolean>;
+  blockLevelSelectionInfo: BlockLevelSelectionInfo
+  setBlockLevelSelectionInfo: SetState<BlockLevelSelectionInfo>
+  disableBls: () => void
+  suspendBls: MutableRefObject<boolean>
 }
 
-export const UiContext = createContext<UiContext>(null);
-export const useUiContext = () => useContext(UiContext);
-export default useUiContext;
+export const UiContext = createContext<UiContext>(null)
+export const useUiContext = () => useContext(UiContext)
+export default useUiContext
 
 /**
  * Provides general information and calculated values regarding the Block Editor user interface.
@@ -78,27 +78,27 @@ export function UiContextProvider({
   textarea,
   readOnly,
 }) {
-  const { editorState } = useEditorContext();
-  const selectionState = editorState.getSelection();
-  const contentState = editorState.getCurrentContent();
+  const { editorState } = useEditorContext()
+  const selectionState = editorState.getSelection()
+  const contentState = editorState.getCurrentContent()
 
-  const { editorRef, wrapperRef, innerWrapperRef, blockRefs } = useGlobalRefs();
+  const { editorRef, wrapperRef, innerWrapperRef, blockRefs } = useGlobalRefs()
   const [blockControlsInfo, setBlockControlsInfo] = useBlockControls(
     editorState,
     wrapperRef,
     blockRefs,
     textarea
-  );
+  )
   const [plusActionMenuInfo, setPlusActionMenuInfo] = usePlusActionMenu(
     selectionState,
     textarea
-  );
-  const [dragInfo, setDragInfo] = useDrag();
+  )
+  const [dragInfo, setDragInfo] = useDrag()
   const [rtblSelectionState, updateRtblSelectionState] = useRtblSelectionState(
     contentState,
     selectionState,
     textarea
-  );
+  )
   const [
     blockLevelSelectionInfo,
     setBlockLevelSelectionInfo,
@@ -109,13 +109,13 @@ export function UiContextProvider({
     rtblSelectionState,
     updateRtblSelectionState,
     textarea
-  );
+  )
   const inlineStyleMenuInfo = useInlineStyleMenu(
     blockLevelSelectionInfo.enabled,
     selectionState,
     rtblSelectionState
-  );
-  const collapsedBlocks = useCollapsedBlocks(contentState);
+  )
+  const collapsedBlocks = useCollapsedBlocks(contentState)
 
   return (
     <UiContext.Provider
@@ -149,5 +149,5 @@ export function UiContextProvider({
       }}
       children={children}
     />
-  );
+  )
 }

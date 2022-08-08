@@ -1,12 +1,12 @@
-import cn from 'classnames';
-import { Map } from 'immutable';
+import cn from 'classnames'
+import { Map } from 'immutable'
 
-import { EditorPlugin, withBlockWrapper } from '../../BlockEditor';
+import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
 
-import { OrderedListItem, UnorderedListItem } from './ListItems';
+import { OrderedListItem, UnorderedListItem } from './ListItems'
 
-import { UnorderedListIcon, OrderedListIcon } from './icons';
-import * as styles from './styles.module.scss';
+import { UnorderedListIcon, OrderedListIcon } from './icons'
+import * as styles from './styles.module.scss'
 
 export default function createListsPlugin(config: any = {}): EditorPlugin {
   return {
@@ -55,5 +55,5 @@ export default function createListsPlugin(config: any = {}): EditorPlugin {
         ),
       },
     }) as any,
-  };
+  }
 }

@@ -1,7 +1,7 @@
-import { ContentBlock, EditorState } from 'draft-js';
+import { ContentBlock, EditorState } from 'draft-js'
 
-import createEmptyBlock from './createEmptyBlock';
-import insertBlockBelowAndFocus from './insertBlockBelowAndFocus';
+import createEmptyBlock from './createEmptyBlock'
+import insertBlockBelowAndFocus from './insertBlockBelowAndFocus'
 
 /**
  * Created a new and empty Content Block after an existing one and moves the cursor to the newly created Content Block.
@@ -16,14 +16,14 @@ export default function insertEmptyBlockBelowAndFocus(
   targetBlock: ContentBlock,
   depth: number = 0
 ): {
-  newEditorState: EditorState;
-  newContentBlock: ContentBlock;
+  newEditorState: EditorState
+  newContentBlock: ContentBlock
 } {
-  const newContentBlock = createEmptyBlock(depth);
+  const newContentBlock = createEmptyBlock(depth)
   const newEditorState = insertBlockBelowAndFocus(
     editorState,
     newContentBlock,
     targetBlock
-  );
-  return { newEditorState, newContentBlock };
+  )
+  return { newEditorState, newContentBlock }
 }

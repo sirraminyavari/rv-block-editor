@@ -1,10 +1,5 @@
-import { EditorPlugin } from '../../BlockEditor';
-import {
-  BoldIcon,
-  ItalicIcon,
-  UnderlineIcon,
-  StrikethroughIcon,
-} from './icons';
+import { EditorPlugin } from '../../BlockEditor'
+import { BoldIcon, ItalicIcon, UnderlineIcon, StrikethroughIcon } from './icons'
 
 export default function createBasicInlineStylesPlugin(): EditorPlugin {
   return {
@@ -16,5 +11,5 @@ export default function createBasicInlineStylesPlugin(): EditorPlugin {
       { Icon: UnderlineIcon, style: 'UNDERLINE' },
       { Icon: StrikethroughIcon, style: 'STRIKETHROUGH' },
     ],
-  };
+  }
 }

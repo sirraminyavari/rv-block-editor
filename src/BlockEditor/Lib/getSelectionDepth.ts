@@ -1,6 +1,6 @@
-import { BlockMap } from 'draft-js';
+import { BlockMap } from 'draft-js'
 
-import getBlockRange from '../Lib/getBlockRange';
+import getBlockRange from '../Lib/getBlockRange'
 
 /**
  * @returns The depth of the shallowest selected block.
@@ -10,9 +10,9 @@ export default function getSelectionDepth(
   startKey: string,
   endKey: string
 ): number {
-  const rawSelectedBlocks = getBlockRange(blockMap, startKey, endKey);
+  const rawSelectedBlocks = getBlockRange(blockMap, startKey, endKey)
   const selectionDepth = Math.min(
     ...rawSelectedBlocks.map((b) => b.getDepth()).toArray()
-  );
-  return selectionDepth;
+  )
+  return selectionDepth
 }

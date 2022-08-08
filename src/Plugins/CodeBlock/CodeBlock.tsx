@@ -1,16 +1,16 @@
-import { EditorBlock } from 'draft-js';
-import cn from 'classnames';
+import { EditorBlock } from 'draft-js'
+import cn from 'classnames'
 
-import { supportedLanguages } from '.';
+import { supportedLanguages } from '.'
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.scss'
 
 export default function getCodeBlockComponent(config) {
-  return (props) => <CodeBlock config={config} {...props} />;
+  return (props) => <CodeBlock config={config} {...props} />
 }
 
 function CodeBlock({ config, ...props }) {
-  const { language, setLanguage } = props.blockProps;
+  const { language, setLanguage } = props.blockProps
   return (
     <div>
       <Controls language={language} setLanguage={setLanguage} />
@@ -20,21 +20,21 @@ function CodeBlock({ config, ...props }) {
         </code>
       </pre>
     </div>
-  );
+  )
 }
 
 function Controls({ language, setLanguage }) {
   return (
     <div
       onMouseDown={(e) => {
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-        e.nativeEvent.stopPropagation();
+        e.stopPropagation()
+        e.nativeEvent.stopImmediatePropagation()
+        e.nativeEvent.stopPropagation()
       }}
       onClick={(e) => {
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-        e.nativeEvent.stopPropagation();
+        e.stopPropagation()
+        e.nativeEvent.stopImmediatePropagation()
+        e.nativeEvent.stopPropagation()
       }}
       contentEditable={false}>
       <select
@@ -46,5 +46,5 @@ function Controls({ language, setLanguage }) {
         ))}
       </select>
     </div>
-  );
+  )
 }

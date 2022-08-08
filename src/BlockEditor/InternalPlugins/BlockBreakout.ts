@@ -1,9 +1,9 @@
-import { EditorPlugin, TransformedPlusAction } from '../../BlockEditor';
+import { EditorPlugin, TransformedPlusAction } from '../../BlockEditor'
 
-import _createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin';
+import _createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 
 export interface Config {
-  plusActions: TransformedPlusAction[];
+  plusActions: TransformedPlusAction[]
 }
 
 /**
@@ -23,5 +23,5 @@ export default function createBlockBreakoutPlugin({
         .filter((pa) => pa.doubleBreakout)
         .map((pa) => pa.action),
     }),
-  };
+  }
 }

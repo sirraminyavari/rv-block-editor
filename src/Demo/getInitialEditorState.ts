@@ -1,9 +1,9 @@
-import { EditorState, convertFromRaw } from 'draft-js';
+import { EditorState, convertFromRaw } from 'draft-js'
 
-import longContent from './data/long-content.json';
+import longContent from './data/long-content.json'
 
 export default function getInitialEditorState(preset) {
-  return () => contentPresets[preset]();
+  return () => contentPresets[preset]()
 }
 
 export const contentPresets = {
@@ -894,4 +894,4 @@ export const contentPresets = {
       })
     ),
   longContent: () => EditorState.createWithContent(convertFromRaw(longContent)),
-};
+}

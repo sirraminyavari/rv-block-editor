@@ -1,19 +1,19 @@
-import { FC } from 'react';
-import { EditorState, Modifier } from 'draft-js';
-import { IconType } from 'react-icons';
+import { FC } from 'react'
+import { EditorState, Modifier } from 'draft-js'
+import { IconType } from 'react-icons'
 
-import { InlineStyleComponentProps } from '../../BlockEditor';
-import Overlay from '../../BlockEditor/Ui/Overlay';
-import Button from '../../BlockEditor/Ui/Button';
+import { InlineStyleComponentProps } from '../../BlockEditor'
+import Overlay from '../../BlockEditor/Ui/Overlay'
+import Button from '../../BlockEditor/Ui/Button'
 
-import { ColorConfig } from '.';
+import { ColorConfig } from '.'
 
-import * as styles from './styles.module.scss';
-import { OrderedSet } from 'immutable';
-import { NoColorIcon } from './icons';
+import * as styles from './styles.module.scss'
+import { OrderedSet } from 'immutable'
+import { NoColorIcon } from './icons'
 
 export interface NoColorSelectButtonProps extends InlineStyleComponentProps {
-  styleEntities: string[];
+  styleEntities: string[]
 }
 
 const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({
@@ -22,21 +22,21 @@ const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({
   setEditorState,
 }) => {
   const handleClearClick = (editorState: EditorState) => {
-    const selection = editorState.getSelection();
-    const contentState = editorState.getCurrentContent();
-    const anchorKey = selection.getAnchorKey();
-    const currentContent = editorState.getCurrentContent();
-    const currentContentBlock = currentContent.getBlockForKey(anchorKey);
-    const selectionStart = selection.getStartOffset();
-    const selectionEnd = selection.getEndOffset();
+    const selection = editorState.getSelection()
+    const contentState = editorState.getCurrentContent()
+    const anchorKey = selection.getAnchorKey()
+    const currentContent = editorState.getCurrentContent()
+    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
+    const selectionStart = selection.getStartOffset()
+    const selectionEnd = selection.getEndOffset()
     const selectedText = currentContentBlock
       .getText()
-      .slice(selectionStart, selectionEnd);
+      .slice(selectionStart, selectionEnd)
     const selectionStyles = editorState
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
       .getInlineStyleAt(selection.getStartOffset())
-      .toArray();
+      .toArray()
     const newState = Modifier.replaceText(
       contentState,
       selection,
@@ -44,12 +44,12 @@ const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({
       OrderedSet(
         selectionStyles.filter((style) => !styleEntities.includes(style))
       )
-    );
+    )
 
     setEditorState(
       EditorState.push(editorState, newState, 'change-inline-style')
-    );
-  };
+    )
+  }
   return (
     <>
       <Button
@@ -59,7 +59,7 @@ const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({
         <NoColorIcon />
       </Button>
     </>
-  );
-};
+  )
+}
 
-export default NoColorSelectButton;
+export default NoColorSelectButton

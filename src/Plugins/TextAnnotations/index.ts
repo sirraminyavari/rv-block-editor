@@ -1,22 +1,22 @@
-import { EditorPlugin } from '../../BlockEditor';
+import { EditorPlugin } from '../../BlockEditor'
 
-import getColorSelectComponent from './ColorSelect';
-import { TextColorIcon, HighlightColorIcon } from './icons';
+import getColorSelectComponent from './ColorSelect'
+import { TextColorIcon, HighlightColorIcon } from './icons'
 
 export interface ColorConfig {
-  name: string;
-  color: string;
+  name: string
+  color: string
 }
 
 export interface Config {
-  textColors: ColorConfig[];
-  highlightColors: ColorConfig[];
+  textColors: ColorConfig[]
+  highlightColors: ColorConfig[]
 }
 
 export default function createTextAnnotationsPlugin(
   config: Config
 ): EditorPlugin {
-  const { textColors, highlightColors } = config;
+  const { textColors, highlightColors } = config
   return {
     id: 'text-annotations',
 
@@ -41,7 +41,7 @@ export default function createTextAnnotationsPlugin(
       ...getStyleMap(textColors, 'TEXT-COLOR', 'color'),
       ...getStyleMap(highlightColors, 'HIGHLIGHT-COLOR', 'backgroundColor'),
     },
-  };
+  }
 }
 
 function getStyleMap(colors: ColorConfig[], prefix: string, rule: string) {
@@ -51,5 +51,5 @@ function getStyleMap(colors: ColorConfig[], prefix: string, rule: string) {
         [rule]: colorConfig.color,
       },
     }))
-    .reduce((acc, val) => ({ ...acc, ...val }), {});
+    .reduce((acc, val) => ({ ...acc, ...val }), {})
 }

@@ -1,4 +1,4 @@
-import { Dict } from 'BlockEditor';
+import { Dict } from 'BlockEditor'
 
 const dict: Dict = {
   en: {
@@ -25,5 +25,5 @@ const dict: Dict = {
     'plugins.accordion.accordion': 'جمشو؟!',
     'plugins.quote.blockquote': 'نقل قول',
   },
-};
-export default dict;
+}
+export default dict

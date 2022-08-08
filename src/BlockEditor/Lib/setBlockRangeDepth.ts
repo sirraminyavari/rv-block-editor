@@ -1,7 +1,7 @@
-import { BlockMap } from 'draft-js';
+import { BlockMap } from 'draft-js'
 
-import getBlockRange from './getBlockRange';
-import normalizeBlockRangeDepth from './normalizeBlockRangeDepth';
+import getBlockRange from './getBlockRange'
+import normalizeBlockRangeDepth from './normalizeBlockRangeDepth'
 
 /**
  * Sets the minimum depth in a fragment of ContentBlocks to the provided
@@ -17,11 +17,11 @@ export default function setBlockRangeDepth(
     blockMap,
     startKey,
     endKey
-  );
-  const range = getBlockRange(normalizedBlockMap, startKey, endKey);
+  )
+  const range = getBlockRange(normalizedBlockMap, startKey, endKey)
   const depthAdjustedRange = range.map((b) =>
     b.set('depth', b.getDepth() + depth)
-  ) as BlockMap;
-  const depthAdjustedBlockMap = blockMap.merge(depthAdjustedRange);
-  return depthAdjustedBlockMap;
+  ) as BlockMap
+  const depthAdjustedBlockMap = blockMap.merge(depthAdjustedRange)
+  return depthAdjustedBlockMap
 }

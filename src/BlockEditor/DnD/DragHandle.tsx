@@ -1,24 +1,24 @@
-import { FC } from 'react';
-import { EditorState, SelectionState } from 'draft-js';
+import { FC } from 'react'
+import { EditorState, SelectionState } from 'draft-js'
 
-import useEditorContext from '../Contexts/EditorContext';
-import useUiContext from '../Contexts/UiContext';
-import Button from '../Ui/Button';
-import { DragHandleIcon } from '../icons';
+import useEditorContext from '../Contexts/EditorContext'
+import useUiContext from '../Contexts/UiContext'
+import Button from '../Ui/Button'
+import { DragHandleIcon } from '../icons'
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.scss'
 
 export interface DragHandleProps {
-  blockKey: string;
+  blockKey: string
 }
 
 /**
  * A block control that starts dragging procedures on a given Content Block.
  */
 const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
-  const { editorState, setEditorState } = useEditorContext();
-  const block = editorState.getCurrentContent().getBlockForKey(blockKey);
-  const { setDragInfo, wrapperRef } = useUiContext();
+  const { editorState, setEditorState } = useEditorContext()
+  const block = editorState.getCurrentContent().getBlockForKey(blockKey)
+  const { setDragInfo, wrapperRef } = useUiContext()
   return (
     <Button
       Icon={DragHandleIcon}
@@ -26,7 +26,7 @@ const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
       className={styles.dragHandle}
       onMouseDown={() => void 0} // Override
       onDragStart={(e) => {
-        e.dataTransfer.setDragImage(new Image(), 0, 0);
+        e.dataTransfer.setDragImage(new Image(), 0, 0)
         setImmediate(() =>
           setDragInfo((prev) => ({
             ...prev,
@@ -37,7 +37,7 @@ const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
               `[ data-block-key = "${blockKey}" ]`
             ),
           }))
-        );
+        )
       }}
       onDragEnd={() =>
         setDragInfo((prev) => ({
@@ -55,16 +55,16 @@ const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
             focusOffset: block.getLength(),
             isBackward: false,
             hasFocus: true,
-          });
+          })
           const newEditorState = EditorState.forceSelection(
             editorState,
             newSelectionState
-          );
-          setEditorState(newEditorState);
-          console.log('done', blockKey, newSelectionState.toJS());
+          )
+          setEditorState(newEditorState)
+          console.log('done', blockKey, newSelectionState.toJS())
         })
       }
     />
-  );
-};
-export default DragHandle;
+  )
+}
+export default DragHandle

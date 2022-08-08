@@ -1,7 +1,7 @@
-import { ContentBlock, EditorState } from 'draft-js';
+import { ContentBlock, EditorState } from 'draft-js'
 
-import insertEmptyBlockBelowAndFocus from './insertEmptyBlockBelowAndFocus';
-import blsAwareGetBlockRange from './blsAwareGetBlockRange';
+import insertEmptyBlockBelowAndFocus from './insertEmptyBlockBelowAndFocus'
+import blsAwareGetBlockRange from './blsAwareGetBlockRange'
 
 /**
  * Inserts a new empty block below the focused block and moves the cursor
@@ -12,20 +12,20 @@ export default function nestAwareInsertEmptyBlockBelowAndFocus(
   initialTargetBlock: ContentBlock,
   depth: number = 0
 ): {
-  newEditorState: EditorState;
-  newContentBlock: ContentBlock;
+  newEditorState: EditorState
+  newContentBlock: ContentBlock
 } {
-  const initialTargetBlockKey = initialTargetBlock.getKey();
+  const initialTargetBlockKey = initialTargetBlock.getKey()
   const blockRange = blsAwareGetBlockRange(
     editorState.getCurrentContent().getBlockMap(),
     initialTargetBlockKey,
     initialTargetBlockKey
-  );
-  const targetBlock = blockRange.last();
+  )
+  const targetBlock = blockRange.last()
   const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus(
     editorState,
     targetBlock,
     depth
-  );
-  return { newEditorState, newContentBlock };
+  )
+  return { newEditorState, newContentBlock }
 }

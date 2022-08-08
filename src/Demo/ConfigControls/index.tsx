@@ -1,11 +1,11 @@
-import { convertToRaw } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
+import { convertToRaw } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
 
-import useUiContext from '../UiContext';
-import { contentPresets } from '../getInitialEditorState';
+import useUiContext from '../UiContext'
+import { contentPresets } from '../getInitialEditorState'
 
-import * as styles from './styles.module.scss';
-import React from 'react';
+import * as styles from './styles.module.scss'
+import React from 'react'
 
 export default function ConfigControls({ editorState, setEditorState }) {
   const {
@@ -21,7 +21,7 @@ export default function ConfigControls({ editorState, setEditorState }) {
     setDirection,
     contentPreset,
     setContentPreset,
-  } = useUiContext();
+  } = useUiContext()
   return (
     <div className={styles.configControls} dir="ltr">
       <label>
@@ -71,9 +71,9 @@ export default function ConfigControls({ editorState, setEditorState }) {
         <select
           value={contentPreset}
           onChange={(e) => {
-            const presetName = e.target.value;
-            setContentPreset(presetName);
-            setEditorState(contentPresets[presetName]());
+            const presetName = e.target.value
+            setContentPreset(presetName)
+            setEditorState(contentPresets[presetName]())
           }}>
           {Object.keys(contentPresets).map((presetName) => (
             <option key={presetName} value={presetName} children={presetName} />
@@ -95,5 +95,5 @@ export default function ConfigControls({ editorState, setEditorState }) {
         Log HTML Content
       </button>
     </div>
-  );
+  )
 }

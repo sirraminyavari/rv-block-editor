@@ -1,7 +1,7 @@
-import { Map } from 'immutable';
+import { Map } from 'immutable'
 
-import { EditorPlugin, withBlockWrapper } from '../../BlockEditor';
-import { QuoteIcon } from './icons';
+import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
+import { QuoteIcon } from './icons'
 
 export default function createQuotePlugin(): EditorPlugin {
   return {
@@ -21,5 +21,5 @@ export default function createQuotePlugin(): EditorPlugin {
         }),
       },
     }) as any,
-  };
+  }
 }

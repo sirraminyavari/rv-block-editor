@@ -1,9 +1,9 @@
-import { BlockMap } from 'draft-js';
+import { BlockMap } from 'draft-js'
 
-import getSelectionDepth from '../Lib/getSelectionDepth';
-import getFirstAncestorByDepth from '../Lib/getFirstAncestorByDepth';
-import getLastCousinShallowerThan from '../Lib/getLastCousinShallowerThan';
-import getBlockRange from '../Lib/getBlockRange';
+import getSelectionDepth from '../Lib/getSelectionDepth'
+import getFirstAncestorByDepth from '../Lib/getFirstAncestorByDepth'
+import getLastCousinShallowerThan from '../Lib/getLastCousinShallowerThan'
+import getBlockRange from '../Lib/getBlockRange'
 
 /**
  * Calculates the BLS selection range based on the native selection.
@@ -18,11 +18,11 @@ export default function blsAwareGetBlockRange(
     blockMap,
     startKey,
     selectionDepth
-  ).getKey();
+  ).getKey()
   const adjustedEndKey = getLastCousinShallowerThan(
     blockMap,
     endKey,
     selectionDepth
-  ).getKey();
-  return getBlockRange(blockMap, adjustedStartKey, adjustedEndKey);
+  ).getKey()
+  return getBlockRange(blockMap, adjustedStartKey, adjustedEndKey)
 }

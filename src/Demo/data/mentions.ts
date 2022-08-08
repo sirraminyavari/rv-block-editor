@@ -1,4 +1,4 @@
-import { MentionItem } from 'Plugins/Mention';
+import { MentionItem } from 'Plugins/Mention'
 
 const mentions: MentionItem[] = [
   {
@@ -87,5 +87,5 @@ const mentions: MentionItem[] = [
     type: 'link',
     type_label: 'LINK TO PAGE',
   },
-];
-export default mentions;
+]
+export default mentions

@@ -1,4 +1,4 @@
-import { EditorState, SelectionState } from 'draft-js';
+import { EditorState, SelectionState } from 'draft-js'
 
 /**
  * Sets the cursor at the beggining of a specified block.
@@ -19,6 +19,6 @@ export default function forceSelectionToBlock(
     focusOffset: 0,
     isBackward: false,
     hasFocus: true,
-  });
-  return EditorState.forceSelection(editorState, selectionState);
+  })
+  return EditorState.forceSelection(editorState, selectionState)
 }

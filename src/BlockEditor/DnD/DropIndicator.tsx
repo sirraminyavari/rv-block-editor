@@ -1,18 +1,18 @@
-import { FC, useLayoutEffect, useRef } from 'react';
-import cn from 'classnames';
+import { FC, useLayoutEffect, useRef } from 'react'
+import cn from 'classnames'
 
-import { DropTarget } from '.';
-import { calcMinDepth, calcMaxDepth } from './calcDepthConstraints';
+import { DropTarget } from '.'
+import { calcMinDepth, calcMaxDepth } from './calcDepthConstraints'
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.scss'
 
 export interface DropIndicatorProps {
-  draggingBlockKey: string;
-  wrapperRect: DOMRect;
-  innerWrapperRect: DOMRect;
-  closestInfo?: DropTarget;
-  onSectorRectsChange(sectorRects: DOMRect[]): void;
-  activeSector: number | null;
+  draggingBlockKey: string
+  wrapperRect: DOMRect
+  innerWrapperRect: DOMRect
+  closestInfo?: DropTarget
+  onSectorRectsChange(sectorRects: DOMRect[]): void
+  activeSector: number | null
 }
 
 /**
@@ -26,20 +26,20 @@ const DropIndicator: FC<DropIndicatorProps> = ({
   onSectorRectsChange,
   activeSector,
 }) => {
-  const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {};
+  const { rect: cr, insertionMode, prevPosInfo } = closestInfo || {}
 
-  const minDepth = calcMinDepth(closestInfo);
-  const maxDepth = calcMaxDepth(closestInfo);
+  const minDepth = calcMinDepth(closestInfo)
+  const maxDepth = calcMaxDepth(closestInfo)
 
-  const dropIndicatorRef = useRef<HTMLDivElement>();
+  const dropIndicatorRef = useRef<HTMLDivElement>()
   useLayoutEffect(() => {
-    if (!dropIndicatorRef.current) return onSectorRectsChange([]);
+    if (!dropIndicatorRef.current) return onSectorRectsChange([])
     const sectorElemes = [
       ...dropIndicatorRef.current.getElementsByClassName(styles.dropSector),
-    ];
-    const sectorRects = sectorElemes.map((s) => s.getBoundingClientRect());
-    onSectorRectsChange(sectorRects);
-  }, [maxDepth, dropIndicatorRef.current]);
+    ]
+    const sectorRects = sectorElemes.map((s) => s.getBoundingClientRect())
+    onSectorRectsChange(sectorRects)
+  }, [maxDepth, dropIndicatorRef.current])
 
   if (
     // Illegal Cases
@@ -53,14 +53,14 @@ const DropIndicator: FC<DropIndicatorProps> = ({
     !wr ||
     !iwr
   )
-    return null;
+    return null
 
   const offset = (() => {
-    if (insertionMode === 'after') return cr.bottom + 10 - wr.y;
-    if (!prevPosInfo) return cr.y - 10 - wr.y;
-    const { rect: pr } = prevPosInfo;
-    return (pr.bottom + cr.y) / 2 - wr.y;
-  })();
+    if (insertionMode === 'after') return cr.bottom + 10 - wr.y
+    if (!prevPosInfo) return cr.y - 10 - wr.y
+    const { rect: pr } = prevPosInfo
+    return (pr.bottom + cr.y) / 2 - wr.y
+  })()
 
   return (
     <div
@@ -82,6 +82,6 @@ const DropIndicator: FC<DropIndicatorProps> = ({
         />
       ))}
     </div>
-  );
-};
-export default DropIndicator;
+  )
+}
+export default DropIndicator

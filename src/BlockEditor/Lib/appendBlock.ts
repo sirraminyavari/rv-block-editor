@@ -1,4 +1,4 @@
-import { ContentState, ContentBlock } from 'draft-js';
+import { ContentState, ContentBlock } from 'draft-js'
 
 /**
  * Appends a non-existing Content Block to the end of a Content State.
@@ -15,5 +15,5 @@ export default function appendBlock(
   return ContentState.createFromBlockArray([
     ...currentContent.getBlockMap().toArray(),
     blockToBeAppended,
-  ]);
+  ])
 }

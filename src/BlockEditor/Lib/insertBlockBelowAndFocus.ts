@@ -1,8 +1,8 @@
-import { ContentBlock, EditorState } from 'draft-js';
+import { ContentBlock, EditorState } from 'draft-js'
 
-import appendBlock from './appendBlock';
-import moveBlock from './moveBlock';
-import forceSelectionToBlock from './forceSelectionToBlock';
+import appendBlock from './appendBlock'
+import moveBlock from './moveBlock'
+import forceSelectionToBlock from './forceSelectionToBlock'
 
 /**
  * Inserts a non-existing Content Block after an existing one and moves the cursor to the newly appended Content Block.
@@ -21,21 +21,21 @@ export default function insertBlockBelowAndFocus(
   const contentStateWithNewBlock = appendBlock(
     editorState.getCurrentContent(),
     blockToBeInserted
-  );
+  )
   const contentStateWithNewBlockMoved = moveBlock(
     contentStateWithNewBlock,
     blockToBeInserted,
     targetBlock,
     'after'
-  );
+  )
   const newEditorState = EditorState.push(
     editorState,
     contentStateWithNewBlockMoved,
     'insert-fragment'
-  );
+  )
   const editorStateAfterSelection = forceSelectionToBlock(
     newEditorState,
     blockToBeInserted.getKey()
-  );
-  return editorStateAfterSelection;
+  )
+  return editorStateAfterSelection
 }

@@ -1,24 +1,24 @@
-import { FC, useMemo } from 'react';
-import { RichUtils } from 'draft-js';
-import { IconType } from 'react-icons';
+import { FC, useMemo } from 'react'
+import { RichUtils } from 'draft-js'
+import { IconType } from 'react-icons'
 
-import { InlineStyleComponentProps } from '../../BlockEditor';
-import Overlay from '../../BlockEditor/Ui/Overlay';
-import Button from '../../BlockEditor/Ui/Button';
+import { InlineStyleComponentProps } from '../../BlockEditor'
+import Overlay from '../../BlockEditor/Ui/Overlay'
+import Button from '../../BlockEditor/Ui/Button'
 
-import { ColorConfig } from '.';
+import { ColorConfig } from '.'
 
-import * as styles from './styles.module.scss';
-import NoColorSelectButton from './noColorSelectButton';
+import * as styles from './styles.module.scss'
+import NoColorSelectButton from './noColorSelectButton'
 
 export interface HocProps {
-  entityName: string;
-  Icon: IconType;
-  colors: ColorConfig[];
+  entityName: string
+  Icon: IconType
+  colors: ColorConfig[]
 }
 
 export default function getColorSelectComponent(hocProps: HocProps) {
-  return (props) => <ColorSelect {...hocProps} {...props} />;
+  return (props) => <ColorSelect {...hocProps} {...props} />
 }
 
 export interface ColorSelectProps extends InlineStyleComponentProps, HocProps {}
@@ -33,7 +33,7 @@ export const ColorSelect: FC<ColorSelectProps> = ({
   const styleEntities = useMemo(
     () => Object.values(colors).map(({ name }) => `${entityName}-${name}`),
     [entityName, colors]
-  );
+  )
   return (
     <div className={styles.colorSelectWrapper}>
       <Button Icon={Icon} />
@@ -48,8 +48,8 @@ export const ColorSelect: FC<ColorSelectProps> = ({
                 const newEditorState = RichUtils.toggleInlineStyle(
                   editorState,
                   `${entityName}-${color.name}`
-                );
-                setEditorState(newEditorState);
+                )
+                setEditorState(newEditorState)
               }}
             />
           ))}
@@ -61,5 +61,5 @@ export const ColorSelect: FC<ColorSelectProps> = ({
         </Overlay>
       </div>
     </div>
-  );
-};
+  )
+}

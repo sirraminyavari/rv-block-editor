@@ -1,19 +1,19 @@
-import type { FC } from 'react';
-import type { EditorState } from 'draft-js';
-import { createContext, useContext } from 'react';
+import type { FC } from 'react'
+import type { EditorState } from 'draft-js'
+import { createContext, useContext } from 'react'
 
 export interface EditorContext {
-  editorState?: EditorState;
-  setEditorState?: SetState<EditorState>;
+  editorState?: EditorState
+  setEditorState?: SetState<EditorState>
 }
 
-export const EditorContext = createContext<EditorContext>({});
-export const useEditorContext = () => useContext(EditorContext);
-export default useEditorContext;
+export const EditorContext = createContext<EditorContext>({})
+export const useEditorContext = () => useContext(EditorContext)
+export default useEditorContext
 
 export interface EditorContextProviderProps {
-  editorState?: EditorState;
-  setEditorState?: SetState<EditorState>;
+  editorState?: EditorState
+  setEditorState?: SetState<EditorState>
 }
 
 /**
@@ -29,5 +29,5 @@ export const EditorContextProvider: FC<EditorContextProviderProps> = ({
       value={{ editorState, setEditorState }}
       children={children}
     />
-  );
-};
+  )
+}

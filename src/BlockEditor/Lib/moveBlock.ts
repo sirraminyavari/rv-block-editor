@@ -1,5 +1,5 @@
-import { ContentState, ContentBlock, DraftInsertionType } from 'draft-js';
-import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState';
+import { ContentState, ContentBlock, DraftInsertionType } from 'draft-js'
+import moveBlockInContentState from 'draft-js/lib/moveBlockInContentState'
 
 /**
  * Moves a Content Block next to another Content Block.
@@ -23,9 +23,9 @@ export default function moveBlock(
       blockToBeMovoed,
       targetBlock,
       insertionMode
-    );
+    )
   } catch {
     // A block cannot be moved next to itself
-    return currentContent;
+    return currentContent
   }
 }

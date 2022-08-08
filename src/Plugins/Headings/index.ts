@@ -1,12 +1,12 @@
-import { Map } from 'immutable';
+import { Map } from 'immutable'
 
-import { EditorPlugin, withBlockWrapper } from '../../BlockEditor';
+import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
 
-import getHeadingComponent from './getHeadingComponent';
+import getHeadingComponent from './getHeadingComponent'
 
-import { HeadingIcons } from './icons';
+import { HeadingIcons } from './icons'
 
-const headings = ['one', 'two', 'three'];
+const headings = ['one', 'two', 'three']
 
 export default function createHeadingsPlugin(): EditorPlugin {
   return {
@@ -30,5 +30,5 @@ export default function createHeadingsPlugin(): EditorPlugin {
         }))
         .reduce((acc, { key, ...val }) => ({ ...acc, [key]: val }), {})
     ),
-  };
+  }
 }

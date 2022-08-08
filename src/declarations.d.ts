@@ -1,6 +1,6 @@
 declare module '*.scss' {
-  const content: { [className: string]: string };
-  export = content;
+  const content: { [className: string]: string }
+  export = content
 }
 
-type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
+type SetState<T> = React.Dispatch<React.SetStateAction<T>>

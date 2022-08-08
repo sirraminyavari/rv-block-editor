@@ -1,10 +1,10 @@
-import cn from 'classnames';
+import cn from 'classnames'
 
-import useUiContext from '../../BlockEditor/Contexts/UiContext';
+import useUiContext from '../../BlockEditor/Contexts/UiContext'
 
 function Heading({ headingLevel, className, ...props }) {
-  const { externalStyles } = useUiContext();
-  const Component = `h${headingLevel}` as any;
+  const { externalStyles } = useUiContext()
+  const Component = `h${headingLevel}` as any
   return (
     <Component
       {...props}
@@ -14,9 +14,9 @@ function Heading({ headingLevel, className, ...props }) {
         externalStyles[`heading${headingLevel}`]
       )}
     />
-  );
+  )
 }
 
 const getHeadingComponent = (headingLevel) => (props) =>
-  <Heading headingLevel={headingLevel} {...props} />;
-export default getHeadingComponent;
+  <Heading headingLevel={headingLevel} {...props} />
+export default getHeadingComponent

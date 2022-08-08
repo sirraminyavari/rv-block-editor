@@ -1,20 +1,20 @@
-import { memo } from 'react';
-import cn from 'classnames';
-import { direction as detectDirection } from 'direction';
+import { memo } from 'react'
+import cn from 'classnames'
+import { direction as detectDirection } from 'direction'
 
-import useEditorContext from '../Contexts/EditorContext';
-import useUiContext from '../Contexts/UiContext';
+import useEditorContext from '../Contexts/EditorContext'
+import useUiContext from '../Contexts/UiContext'
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.scss'
 
 const c = (styles, classes) =>
-  classes ? classes.map((c) => styles[c]).join(' ') : '';
+  classes ? classes.map((c) => styles[c]).join(' ') : ''
 
 /**
  * This component wraps all the Content Blocks and provides a great deal of block editing functionality to them.
  */
 const BlockWrapper = ({ Comp, config = {} as any, children, ...rest }) => {
-  const { editorState } = useEditorContext();
+  const { editorState } = useEditorContext()
   const {
     dragInfo,
     blockRefs,
@@ -23,15 +23,15 @@ const BlockWrapper = ({ Comp, config = {} as any, children, ...rest }) => {
     blockLevelSelectionInfo,
     debugMode,
     collapsedBlocks,
-  } = useUiContext();
+  } = useUiContext()
 
-  const { block: outOfSyncBlock } = children?.props || rest;
-  const blockKey = outOfSyncBlock.getKey();
-  const blockMap = editorState.getCurrentContent().getBlockMap();
-  const syncedBlock = blockMap.get(blockKey);
+  const { block: outOfSyncBlock } = children?.props || rest
+  const blockKey = outOfSyncBlock.getKey()
+  const blockMap = editorState.getCurrentContent().getBlockMap()
+  const syncedBlock = blockMap.get(blockKey)
 
-  if (collapsedBlocks.isCollapsed(blockKey)) return null;
-  const i = collapsedBlocks.iMap[blockKey]?.i || 0;
+  if (collapsedBlocks.isCollapsed(blockKey)) return null
+  const i = collapsedBlocks.iMap[blockKey]?.i || 0
 
   return (
     <_Block
@@ -54,9 +54,9 @@ const BlockWrapper = ({ Comp, config = {} as any, children, ...rest }) => {
       }
       draggable={dragInfo.isDraggingByHandle}
     />
-  );
-};
-export default BlockWrapper;
+  )
+}
+export default BlockWrapper
 
 /**
  * Wraps BlockWrapper's UI elements in a memo to increase performance.
@@ -77,11 +77,11 @@ const _Block = memo<any>(
     blockLevelSelected,
     debugMode,
   }) => {
-    const blockKey = block.getKey();
-    const text = block.getText();
-    const direction = detectDirection(text);
-    const depth = block.getDepth();
-    const textAlign = block.getData().get('_align');
+    const blockKey = block.getKey()
+    const text = block.getText()
+    const direction = detectDirection(text)
+    const depth = block.getDepth()
+    const textAlign = block.getData().get('_align')
 
     return (
       <div
@@ -110,7 +110,7 @@ const _Block = memo<any>(
           />
         </div>
       </div>
-    );
+    )
   },
   (prevProps, nextProps) => {
     // Info: Props that we do not expect them to change: Comp, config, externalStyles
@@ -127,22 +127,22 @@ const _Block = memo<any>(
         'debugMode',
       ].some((k) => prevProps[k] !== nextProps[k])
     )
-      return false;
+      return false
 
     // Object props:
     if (
       !prevProps.block.equals(nextProps.block) ||
       prevProps.children !== nextProps.children
     )
-      return false;
+      return false
 
-    return true;
+    return true
   }
-);
+)
 
 /**
  * An HOC to help wrap custom component inside a `BlockWrapper` and style them properly.
  */
 export const withBlockWrapper = (Comp, config?: any) => (props) => {
-  return <BlockWrapper Comp={Comp} config={config} {...props} />;
-};
+  return <BlockWrapper Comp={Comp} config={config} {...props} />
+}

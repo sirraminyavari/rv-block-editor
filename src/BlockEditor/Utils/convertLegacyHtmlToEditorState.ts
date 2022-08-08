@@ -5,23 +5,23 @@ import {
   Modifier,
   convertToRaw,
   RawDraftContentState,
-} from 'draft-js';
-import htmlToDraft from 'html-to-draftjs';
+} from 'draft-js'
+import htmlToDraft from 'html-to-draftjs'
 
 interface ColorConfig {
-  name: string;
-  color: string;
+  name: string
+  color: string
 }
 type GetMentionLink = (mention: {
-  type: string;
-  id: string;
-}) => string | Promise<string>;
+  type: string
+  id: string
+}) => string | Promise<string>
 interface Config {
   colors: {
-    textColors: ColorConfig[];
-    highlightColors: ColorConfig[];
-  };
-  getMentionLink?: GetMentionLink;
+    textColors: ColorConfig[]
+    highlightColors: ColorConfig[]
+  }
+  getMentionLink?: GetMentionLink
 }
 
 /**
@@ -38,14 +38,14 @@ export function convertLegacyHtmlToEditorState(
   html: string,
   config: Config
 ): RawDraftContentState {
-  const modifiedHtml = modifyHtml(html, config);
-  const { contentBlocks, entityMap } = htmlToDraft(modifiedHtml);
+  const modifiedHtml = modifyHtml(html, config)
+  const { contentBlocks, entityMap } = htmlToDraft(modifiedHtml)
   const contentState = ContentState.createFromBlockArray(
     contentBlocks,
     entityMap
-  );
-  const modifiedContentState = modifyContent(contentState, config);
-  return convertToRaw(modifiedContentState);
+  )
+  const modifiedContentState = modifyContent(contentState, config)
+  return convertToRaw(modifiedContentState)
 }
 
 /**
@@ -53,13 +53,13 @@ export function convertLegacyHtmlToEditorState(
  * to make it work better and more predictable with 'html-to-draftjs'.
  */
 function modifyHtml(html: string, config: Config): string {
-  const elem = document.createElement('div');
-  elem.innerHTML = html;
-  removeBreaksAndExtraSpaces(elem);
-  wrapTopLevelTextNodes(elem);
-  handleBlockquotes(elem);
-  replaceTags(elem, { u: 'ins', s: 'del' });
-  return elem.innerHTML;
+  const elem = document.createElement('div')
+  elem.innerHTML = html
+  removeBreaksAndExtraSpaces(elem)
+  wrapTopLevelTextNodes(elem)
+  handleBlockquotes(elem)
+  replaceTags(elem, { u: 'ins', s: 'del' })
+  return elem.innerHTML
 }
 
 /**
@@ -71,21 +71,21 @@ function modifyHtml(html: string, config: Config): string {
  * * so to ensure consistency we need to remove them all!
  */
 function removeBreaksAndExtraSpaces(elem: Element) {
-  elem.querySelectorAll('br:not( code br )').forEach((n) => n.remove());
-  elem.innerHTML = elem.innerHTML.replaceAll(/\s\s+/g, ' ');
+  elem.querySelectorAll('br:not( code br )').forEach((n) => n.remove())
+  elem.innerHTML = elem.innerHTML.replaceAll(/\s\s+/g, ' ')
 }
 
 /**
  * Wrapps all top-level orphan text nodes inside a paragraph element.
  */
 function wrapTopLevelTextNodes(elem: Element) {
-  [...elem.childNodes]
+  ;[...elem.childNodes]
     .filter((node) => node.nodeType === 3 && node.textContent.trim().length > 1)
     .forEach((node) => {
-      const wrapper = document.createElement('p');
-      node.after(wrapper);
-      wrapper.appendChild(node);
-    });
+      const wrapper = document.createElement('p')
+      node.after(wrapper)
+      wrapper.appendChild(node)
+    })
 }
 
 /**
@@ -98,9 +98,9 @@ function wrapTopLevelTextNodes(elem: Element) {
  * * of unstyled text below it.
  */
 function handleBlockquotes(elem: Element) {
-  [...elem.querySelectorAll('blockquote')].forEach((bq) => {
-    bq.innerHTML = bq.textContent.trim();
-  });
+  ;[...elem.querySelectorAll('blockquote')].forEach((bq) => {
+    bq.innerHTML = bq.textContent.trim()
+  })
 }
 
 /**
@@ -112,17 +112,17 @@ function handleBlockquotes(elem: Element) {
  * * string into 'html-to-draftjs'.
  */
 function replaceTags(elem: Element, replaceTagsMap: object) {
-  [...elem.querySelectorAll(Object.keys(replaceTagsMap).join())].forEach(
+  ;[...elem.querySelectorAll(Object.keys(replaceTagsMap).join())].forEach(
     (elem) => {
-      const newElem = document.createElement(replaceTagsMap[elem.localName]);
-      [...elem.attributes].forEach((attr) =>
+      const newElem = document.createElement(replaceTagsMap[elem.localName])
+      ;[...elem.attributes].forEach((attr) =>
         newElem.setAttribute(attr.name, attr.value)
-      );
-      newElem.innerHTML = elem.innerHTML;
-      elem.after(newElem);
-      elem.remove();
+      )
+      newElem.innerHTML = elem.innerHTML
+      elem.after(newElem)
+      elem.remove()
     }
-  );
+  )
 }
 
 /**
@@ -133,42 +133,42 @@ function modifyContent(
   contentState: ContentState,
   config: Config
 ): ContentState {
-  let tempState = contentState;
+  let tempState = contentState
   tempState = convertColorStyles(
     tempState,
     'color',
     'TEXT-COLOR',
     config.colors.textColors
-  );
+  )
   tempState = convertColorStyles(
     tempState,
     'bgcolor',
     'HIGHLIGHT-COLOR',
     config.colors.highlightColors
-  );
-  tempState = handleCodeBlocks(tempState);
-  tempState = handleAlignment(tempState);
-  tempState = handleMentionsAndLinks(tempState, config.getMentionLink);
-  return tempState;
+  )
+  tempState = handleCodeBlocks(tempState)
+  tempState = handleAlignment(tempState)
+  tempState = handleMentionsAndLinks(tempState, config.getMentionLink)
+  return tempState
 }
 
 /**
  * Calculates the distance between two 3D points (i.e. RGB colors).
  */
 const dist = (p1, p2) =>
-  Math.sqrt(p1.map((v, i) => (v - p2[i]) ** 2).reduce((acc, val) => acc + val));
+  Math.sqrt(p1.map((v, i) => (v - p2[i]) ** 2).reduce((acc, val) => acc + val))
 /**
  * Finds the closest color to an specified color from an array of predefined colors.
  */
 function findClosesColor(colorArr, colors) {
   const info = colors.reduce(
     (info, color) => {
-      const d = dist(colorArr, color.color);
-      return d < info.min ? { closest: color, min: d } : info;
+      const d = dist(colorArr, color.color)
+      return d < info.min ? { closest: color, min: d } : info
     },
     { closest: null, min: Infinity }
-  );
-  return info.closest;
+  )
+  return info.closest
 }
 /**
  * Parses color strings and return an RGB array.
@@ -184,7 +184,7 @@ function toRgbArr(rgbStr) {
     : rgbStr
         .slice(4, rgbStr.length - 1)
         .split(',')
-        .map((c) => parseInt(c, 10));
+        .map((c) => parseInt(c, 10))
 }
 /**
  * Transforms a given ContentState in a way that color entites are compatible
@@ -196,14 +196,14 @@ function convertColorStyles(
   targetStylePrefix: string,
   targetColors: any[]
 ): ContentState {
-  if (!targetColors.length) return contentState;
+  if (!targetColors.length) return contentState
   const computedColors = targetColors.map((color) => ({
     ...color,
     color: toRgbArr(color.color),
-  }));
-  const blocks = contentState.getBlockMap();
+  }))
+  const blocks = contentState.getBlockMap()
   const newContentState = blocks.reduce((contentState, block, blockKey) => {
-    let newContentState = contentState;
+    let newContentState = contentState
     block.findStyleRanges(
       (char) =>
         char
@@ -214,30 +214,30 @@ function convertColorStyles(
         const colorStyle = block
           .getInlineStyleAt(start)
           .filter((s) => s.startsWith(originalStlyePrefix + '-'))
-          .toArray()[0];
-        const color = toRgbArr(colorStyle.split('-')[1]);
-        const closestColor = findClosesColor(color, computedColors);
+          .toArray()[0]
+        const color = toRgbArr(colorStyle.split('-')[1])
+        const closestColor = findClosesColor(color, computedColors)
         const selectionState = new SelectionState({
           anchorKey: blockKey,
           focusKey: blockKey,
           anchorOffset: start,
           focusOffset: end,
-        });
+        })
         newContentState = Modifier.removeInlineStyle(
           newContentState,
           selectionState,
           colorStyle
-        );
+        )
         newContentState = Modifier.applyInlineStyle(
           newContentState,
           selectionState,
           `${targetStylePrefix}-${closestColor.name}`
-        );
+        )
       }
-    );
-    return newContentState;
-  }, contentState);
-  return newContentState;
+    )
+    return newContentState
+  }, contentState)
+  return newContentState
 }
 
 /**
@@ -245,19 +245,19 @@ function convertColorStyles(
  * with our current block-editor.
  */
 function handleCodeBlocks(contentState: ContentState): ContentState {
-  const blocks = contentState.getBlockMap();
+  const blocks = contentState.getBlockMap()
   const typeCorrectedBlocks = blocks.map((block) => {
-    if (block.getType() !== 'code') return block;
-    return block.set('type', 'code-block') as ContentBlock;
-  });
+    if (block.getType() !== 'code') return block
+    return block.set('type', 'code-block') as ContentBlock
+  })
   const typeCorrectedContentState = ContentState.createFromBlockArray(
     typeCorrectedBlocks.toArray(),
     contentState.getEntityMap()
-  );
+  )
   const inlineStyleCorrectedContentState = typeCorrectedContentState
     .getBlockMap()
     .reduce((contentState, block, blockKey) => {
-      let newContentState = contentState;
+      let newContentState = contentState
       block.findEntityRanges(
         (char) =>
           char
@@ -270,17 +270,17 @@ function handleCodeBlocks(contentState: ContentState): ContentState {
             focusKey: blockKey,
             anchorOffset: start,
             focusOffset: end,
-          });
+          })
           newContentState = Modifier.removeInlineStyle(
             newContentState,
             selectionState,
             'CODE'
-          );
+          )
         }
-      );
-      return newContentState;
-    }, typeCorrectedContentState);
-  return inlineStyleCorrectedContentState;
+      )
+      return newContentState
+    }, typeCorrectedContentState)
+  return inlineStyleCorrectedContentState
 }
 
 /**
@@ -288,25 +288,25 @@ function handleCodeBlocks(contentState: ContentState): ContentState {
  * with our current block-editor.
  */
 function handleAlignment(contentState: ContentState): ContentState {
-  const blocks = contentState.getBlockMap();
+  const blocks = contentState.getBlockMap()
   const newBlocks = blocks.map((block) => {
-    const align = block.getData().get('text-align');
-    if (!align) return block;
+    const align = block.getData().get('text-align')
+    if (!align) return block
     const noAlignBlock = block.set(
       'data',
       block.getData().remove('text-align')
-    ) as ContentBlock;
+    ) as ContentBlock
     const standardAlignBlock = block.set(
       'data',
       noAlignBlock.getData().set('_align', align)
-    ) as ContentBlock;
-    return standardAlignBlock;
-  });
+    ) as ContentBlock
+    return standardAlignBlock
+  })
   const newContentState = ContentState.createFromBlockArray(
     newBlocks.toArray(),
     contentState.getBlockMap()
-  );
-  return newContentState;
+  )
+  return newContentState
 }
 
 /**
@@ -318,10 +318,10 @@ const decodeUnicode = (str) =>
       .split('')
       .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
       .join('')
-  ); // https://attacomsian.com/blog/javascript-base64-encode-decode
+  ) // https://attacomsian.com/blog/javascript-base64-encode-decode
 // Regex to find all mentions and links
 const MENTION_LINK_REGEXP =
-  /(@)\[\[([a-zA-Z\d\-_]+):([\w\s\.\-]+):([0-9a-zA-Z\+\/\=]+)(:([0-9a-zA-Z\+\/\=]*))?\]\]/;
+  /(@)\[\[([a-zA-Z\d\-_]+):([\w\s\.\-]+):([0-9a-zA-Z\+\/\=]+)(:([0-9a-zA-Z\+\/\=]*))?\]\]/
 /**
  * Finds all legacy mention and link annotations and transform them to their
  * corresponding entities compatible with our current block-editor.
@@ -330,7 +330,7 @@ function handleMentionsAndLinks(
   contentState: ContentState,
   getMentionLink: GetMentionLink
 ): ContentState {
-  let tempState = contentState;
+  let tempState = contentState
   contentState
     .getBlockMap()
     .keySeq()
@@ -338,27 +338,27 @@ function handleMentionsAndLinks(
       while (true) {
         const match = MENTION_LINK_REGEXP.exec(
           tempState.getBlockForKey(blockKey).getText()
-        );
-        if (!match) break;
-        const [subStr, , ...parts] = match;
-        const { index: offset } = match;
-        const label = decodeUnicode(parts[2]).trim();
+        )
+        if (!match) break
+        const [subStr, , ...parts] = match
+        const { index: offset } = match
+        const label = decodeUnicode(parts[2]).trim()
         tempState =
           parts[0] === 'Link'
             ? tempState.createEntity('LINK', 'IMMUTABLE', {
                 href: decodeUnicode(JSON.parse(decodeUnicode(parts[4])).href),
               })
             : (() => {
-                const m = { id: parts[0], type: parts[1] };
+                const m = { id: parts[0], type: parts[1] }
                 return tempState.createEntity('mention', 'SEGMENTED', {
                   mention: {
                     ...m,
                     name: label,
                     ...(getMentionLink ? { href: getMentionLink(m) } : {}),
                   },
-                });
-              })();
-        const entityKey = tempState.getLastCreatedEntityKey();
+                })
+              })()
+        const entityKey = tempState.getLastCreatedEntityKey()
         tempState = Modifier.replaceText(
           tempState,
           new SelectionState({
@@ -370,8 +370,8 @@ function handleMentionsAndLinks(
           (parts[0] !== 'Link' ? '@' : '') + label,
           null,
           entityKey
-        );
+        )
       }
-    });
-  return tempState;
+    })
+  return tempState
 }

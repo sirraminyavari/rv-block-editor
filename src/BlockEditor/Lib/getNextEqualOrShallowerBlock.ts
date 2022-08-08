@@ -1,4 +1,4 @@
-import { BlockMap, ContentBlock } from 'draft-js';
+import { BlockMap, ContentBlock } from 'draft-js'
 
 // Self Excluded
 /**
@@ -14,6 +14,6 @@ export default function getNextEqualOrShallowerBlock(
     .skipUntil((_, key) => key === targetKey)
     .skip(1)
     .skipUntil((b) => b.getDepth() <= depth)
-    .first();
-  return nextEqualOrShallowerBlock;
+    .first()
+  return nextEqualOrShallowerBlock
 }
