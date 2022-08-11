@@ -7,6 +7,6 @@ export default function getTableComponent(config) {
     return props => <Table config={config} {...props} />
 }
 
-function Table({}) {
-    return <div></div>
+function Table({ config, blockProps: { subEditorState, setSubEditorState } }) {
+    return <div className={styles.table}></div>
 }
