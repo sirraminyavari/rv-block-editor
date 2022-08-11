@@ -1,6 +1,6 @@
 import { DragEvent } from 'react'
 
-import { Direction } from '../../BlockEditor'
+import { Direction } from 'BlockEditor'
 
 /**
  * Calculates the drop depth (sector) based on user's mouse position relative

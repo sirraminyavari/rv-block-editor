@@ -2,8 +2,8 @@ import _ from 'lodash'
 import cn from 'classnames'
 import { Map } from 'immutable'
 
-import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
-import mergeBlockData from '../../BlockEditor/Lib/mergeBlockData'
+import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import _createCheckableListPlugin from 'draft-js-checkable-list-plugin'
 import 'draft-js-checkable-list-plugin/lib/plugin.css'

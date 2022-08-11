@@ -1,6 +1,6 @@
 import { Map } from 'immutable'
 
-import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
+import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 
 import { ParagraphIcon } from './icons'
 

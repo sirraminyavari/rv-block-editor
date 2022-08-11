@@ -1,4 +1,4 @@
-import { EditorPlugin, TransformedPlusAction } from '../../BlockEditor'
+import { EditorPlugin, TransformedPlusAction } from 'BlockEditor'
 
 import _createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 

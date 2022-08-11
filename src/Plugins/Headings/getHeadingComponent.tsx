@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-import useUiContext from '../../BlockEditor/Contexts/UiContext'
+import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 function Heading({ headingLevel, className, ...props }) {
     const { externalStyles } = useUiContext()

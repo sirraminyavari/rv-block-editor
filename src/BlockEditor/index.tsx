@@ -15,7 +15,7 @@ import Editor, { BlockEditorProps as _BlockEditorProps } from './Editor'
 import './global.scss'
 
 export * from './types'
-import * as _plugins from '../Plugins'
+import * as _plugins from 'Plugins'
 export const plugins = _plugins
 export const defaultTheme = _defaultTheme
 export { withBlockWrapper } from './BlockWrapper'

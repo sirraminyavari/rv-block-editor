@@ -1,4 +1,4 @@
-import { DecoratorComponent } from '../../BlockEditor'
+import { DecoratorComponent } from 'BlockEditor'
 
 const Link: DecoratorComponent = ({ contentState, entityKey, children }) => {
     const entity = contentState.getEntity(entityKey)

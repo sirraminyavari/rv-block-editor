@@ -1,13 +1,13 @@
 import { createContext, useContext, MutableRefObject } from 'react'
 import Editor from '@draft-js-plugins/editor'
 
-import { Language, Direction, Dict } from '../../../BlockEditor'
-import useEditorContext from '../../../BlockEditor/Contexts/EditorContext'
+import { Language, Direction, Dict } from 'BlockEditor'
+import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'
 import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
-import useDrag, { DragInfo } from '../../../BlockEditor/DnD/useDrag'
+import useDrag, { DragInfo } from 'BlockEditor/DnD/useDrag'
 import useRtblSelectionState, { RtblSelectionState } from './useRtblSelectionState'
 import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
 import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
@@ -19,7 +19,7 @@ export * from './useGlobalRefs'
 export * from './useRtblSelectionState'
 export * from './useBlockLevelSelection'
 export * from './useInlineStyleMenu'
-export * from '../../../BlockEditor/DnD/useDrag'
+export * from 'BlockEditor/DnD/useDrag'
 
 export interface UiContext {
     // Misc:

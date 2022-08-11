@@ -1,4 +1,4 @@
-import { StrategyFunction } from '../../BlockEditor'
+import { StrategyFunction } from 'BlockEditor'
 
 /**
  * A decorator strategy to find all ranges with an specified entity type.

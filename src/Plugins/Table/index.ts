@@ -2,7 +2,7 @@ import { EditorState, EditorBlock, ContentBlock, ContentState, BlockMap } from '
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import { Map } from 'immutable'
 import { modifyBlockByKey } from 'draft-js-modifiers'
-import mergeBlockData from '../../BlockEditor/Lib/mergeBlockData'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent from './Table'

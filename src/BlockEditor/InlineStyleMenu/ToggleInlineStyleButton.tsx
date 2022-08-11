@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { RichUtils } from 'draft-js'
 
-import { TransformedInlineStyle } from '../../BlockEditor'
+import { TransformedInlineStyle } from 'BlockEditor'
 import useEditorContext from '../Contexts/EditorContext'
 import Button from '../Ui/Button'
 

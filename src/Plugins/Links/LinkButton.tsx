@@ -1,7 +1,7 @@
 import { EditorState, Modifier } from 'draft-js'
 
-import { InlineStyleComponent } from '../../BlockEditor'
-import Button from '../../BlockEditor/Ui/Button'
+import { InlineStyleComponent } from 'BlockEditor'
+import Button from 'BlockEditor/Ui/Button'
 
 import { LinkIcon } from './icons'
 

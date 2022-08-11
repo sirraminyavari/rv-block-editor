@@ -2,9 +2,9 @@ import { FC, useMemo } from 'react'
 import { RichUtils } from 'draft-js'
 import { IconType } from 'react-icons'
 
-import { InlineStyleComponentProps } from '../../BlockEditor'
-import Overlay from '../../BlockEditor/Ui/Overlay'
-import Button from '../../BlockEditor/Ui/Button'
+import { InlineStyleComponentProps } from 'BlockEditor'
+import Overlay from 'BlockEditor/Ui/Overlay'
+import Button from 'BlockEditor/Ui/Button'
 
 import { ColorConfig } from '.'
 

@@ -1,9 +1,9 @@
 import { Map } from 'immutable'
 import _ from 'lodash'
 
-import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
-import mergeBlockData from '../../BlockEditor/Lib/mergeBlockData'
-import setBlockData from '../../BlockEditor/Lib/setBlockData'
+import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
+import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 import { AccordionIcon } from './icons'
 
