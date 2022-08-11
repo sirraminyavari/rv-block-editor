@@ -1,4 +1,4 @@
-import { EditorState, RichUtils } from 'draft-js'
+import { RichUtils } from 'draft-js'
 import { Map } from 'immutable'
 
 import Prism from 'prismjs'
