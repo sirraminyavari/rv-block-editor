@@ -7,14 +7,16 @@ import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import { TableIcon } from './icons'
 import getTableComponent from './Table'
 
-export interface Config {}
+export interface Config {
+    plugins: EditorPlugin[]
+}
 
 export default function createTablePlugin(config: Config): EditorPlugin {
     return ({ getUiContext }) => ({
         id: 'table',
 
         initialize() {
-            this.TableComponent = getTableComponent(config)
+            this.TableComponent = getTableComponent({ getUiContext, ...config })
         },
 
         plusActions: [{ action: 'table', Icon: TableIcon, returnBreakout: true }],
@@ -29,13 +31,22 @@ export default function createTablePlugin(config: Config): EditorPlugin {
                 component: this.TableComponent,
                 props: {
                     subEditorState: contentBlock.getData().get('subEditorState'),
-                    setEditorState(subEditorState: EditorState) {
+                    setSubEditorState(subEditorState: EditorState, opts?: { replace?: boolean }) {
                         const editorState = getEditorState()
                         const newEditorState = mergeBlockData(editorState, contentBlock.getKey(), { subEditorState })
-                        setEditorState(newEditorState)
+                        setEditorState(
+                            opts?.replace
+                                ? newEditorState
+                                : EditorState.push(editorState, newEditorState.getCurrentContent(), 'change-block-data')
+                        )
                     },
                 },
             }
+        },
+
+        OverlayComponent(props) {
+            console.log(props)
+            return null
         },
 
         keyBindingFn(event) {

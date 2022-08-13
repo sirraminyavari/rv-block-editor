@@ -42,7 +42,7 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
     const [renderRefDependentComps, setRenderRefDependentComps] = useState(false)
     useLayoutEffect(() => setRenderRefDependentComps(true), [])
 
-    useClipboardHandlers()
+    // useClipboardHandlers() // FIXME: Uncomment!
 
     // This is a hack that needs to be done otherwise no plugin decorator will work.
     const decorator = useMemo(() => {

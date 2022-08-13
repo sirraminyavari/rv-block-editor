@@ -16,6 +16,9 @@ import mentions from './data/mentions'
 import dict from './dict'
 import React from 'react'
 
+const uiPortalNode = document.getElementById('ui-portal')!
+const subEditorsPortalNode = document.getElementById('sub-editors-portal')!
+
 const textColors = [
     { name: 'red', color: '#D32F2F' },
     { name: 'purple', color: '#7B1FA2' },
@@ -49,7 +52,7 @@ const plugins = [
     _plugins.createCodeBlockPlugin({ styles: defaultTheme }),
     _plugins.createSoftNewlinePlugin(),
     _plugins.createLinksPlugin(),
-    _plugins.createTablePlugin({}),
+    _plugins.createTablePlugin({ plugins: [] }),
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),
     _plugins.createMentionPlugin({ mentions }),
@@ -87,7 +90,8 @@ export default function App() {
                 dir={direction}
                 plugins={plugins}
                 styles={defaultTheme}
-                portalNode={document.getElementById('block-editor-portal') as HTMLElement}
+                uiPortalNode={uiPortalNode}
+                subEditorsPortalNode={subEditorsPortalNode}
                 debugMode={debugMode}
                 readOnly={readOnly}
                 textarea={textarea}

@@ -36,7 +36,8 @@ export interface UiContext {
     wrapperRef: MutableRefObject<HTMLDivElement>
     innerWrapperRef: MutableRefObject<HTMLDivElement>
     blockRefs: BlockRefs
-    portalNode: HTMLElement
+    uiPortalNode: HTMLElement
+    subEditorsPortalNode: HTMLElement
     // Block Functionality:
     blockControlsInfo: BlockControlsInfo
     setBlockControlsInfo: SetState<BlockControlsInfo>
@@ -63,7 +64,18 @@ export default useUiContext
 /**
  * Provides general information and calculated values regarding the Block Editor user interface.
  */
-export function UiContextProvider({ styles, dict, dir, lang, children, portalNode, debugMode, textarea, readOnly }) {
+export function UiContextProvider({
+    styles,
+    dict,
+    dir,
+    lang,
+    children,
+    uiPortalNode,
+    subEditorsPortalNode,
+    debugMode,
+    textarea,
+    readOnly,
+}) {
     const { editorState } = useEditorContext()
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
@@ -89,7 +101,8 @@ export function UiContextProvider({ styles, dict, dir, lang, children, portalNod
                 dir,
                 lang,
                 externalStyles: styles,
-                portalNode,
+                uiPortalNode,
+                subEditorsPortalNode,
                 debugMode,
                 textarea,
                 readOnly,

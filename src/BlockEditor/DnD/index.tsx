@@ -43,7 +43,7 @@ const DragOverlay: FC = () => {
         innerWrapperRef,
         setBlockControlsInfo,
         blockLevelSelectionInfo,
-        portalNode,
+        uiPortalNode,
         dir,
     } = useUiContext()
 
@@ -134,7 +134,7 @@ const DragOverlay: FC = () => {
                         onSectorRectsChange={setSectorRects}
                         activeSector={activeDropSector}
                     />
-                    {createPortal(<div className={styles.dndShield} />, portalNode)}
+                    {createPortal(<div className={styles.dndShield} />, uiPortalNode)}
                 </>
             )}
         </div>
