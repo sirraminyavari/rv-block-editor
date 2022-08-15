@@ -29,6 +29,7 @@ export interface BlockEditorProps extends Omit<_BlockEditorProps, 'plugins'> {
     plugins: EditorPlugin[]
     uiPortalNode: HTMLElement
     subEditorsPortalNode: HTMLElement
+    subEditor: boolean
     debugMode?: boolean
     textarea?: boolean
     readOnly?: boolean
@@ -49,6 +50,7 @@ const BlockEditor = forwardRef<PluginsEditor, BlockEditorProps>(
             plugins,
             uiPortalNode,
             subEditorsPortalNode,
+            subEditor,
             debugMode = false,
             textarea = false,
             readOnly = false,
@@ -67,6 +69,7 @@ const BlockEditor = forwardRef<PluginsEditor, BlockEditorProps>(
                     lang={lang}
                     uiPortalNode={uiPortalNode}
                     subEditorsPortalNode={subEditorsPortalNode}
+                    subEditor={subEditor}
                     debugMode={debugMode}
                     textarea={textarea}
                     readOnly={readOnly}>

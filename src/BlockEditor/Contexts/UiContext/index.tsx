@@ -26,6 +26,7 @@ export interface UiContext {
     dict: Dict
     dir: Direction
     lang: Language
+    subEditor: boolean
     externalStyles: { [key: string]: string }
     debugMode: boolean
     textarea: boolean
@@ -72,6 +73,7 @@ export function UiContextProvider({
     children,
     uiPortalNode,
     subEditorsPortalNode,
+    subEditor,
     debugMode,
     textarea,
     readOnly,
@@ -103,6 +105,7 @@ export function UiContextProvider({
                 externalStyles: styles,
                 uiPortalNode,
                 subEditorsPortalNode,
+                subEditor,
                 debugMode,
                 textarea,
                 readOnly,

@@ -1,7 +1,15 @@
-import { EditorState, EditorBlock, ContentBlock, ContentState, BlockMap } from 'draft-js'
+import {
+    EditorState,
+    EditorBlock,
+    ContentBlock,
+    ContentState,
+    BlockMap,
+    Modifier,
+    SelectionState,
+    DraftInlineStyle,
+} from 'draft-js'
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import { Map } from 'immutable'
-import { modifyBlockByKey } from 'draft-js-modifiers'
+import { Map, OrderedSet } from 'immutable'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
@@ -44,11 +52,6 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             }
         },
 
-        OverlayComponent(props) {
-            console.log(props)
-            return null
-        },
-
         keyBindingFn(event) {
             if (event.ctrlKey && event.code === 'KeyQ') return '__test__' // TODO: Remove!
         },
@@ -60,17 +63,35 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             setEditorState(newState)
             return 'handled'
         },
+
+        customStyleFn(style, block, pluginFunctions) {
+            const cellTag = style.find(v => v.startsWith('table-cell-'))
+            if (!cellTag) return {}
+            return { border: '1px solid red' }
+        },
     })
 }
 
-function createTable(editorState: EditorState, rows = 4, cols = 3): EditorState {
-    console.log('TABLE PLUGIN:', editorState)
+function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState {
+    const selectionState = editorState.getSelection()
+    const contentState = editorState.getCurrentContent()
 
-    const newEditorState = modifyBlockByKey(editorState, editorState.getSelection().getAnchorKey(), {
-        text: 'GHOLAM BRO !!',
-    })
+    const newContentState = Array.from({ length: rowN * colN }).reduce((contentState, _, i) => {
+        const offset = i * 2
+        const row = Math.floor(i / colN)
+        const col = i % colN
+        return Modifier.insertText(
+            contentState as ContentState,
+            selectionState.merge({
+                anchorOffset: offset,
+                focusOffset: offset,
+            }),
+            `‌‌`, // 2 half-spaces (hidden charaters)
+            OrderedSet([`table-cell-${row}-${col}`])
+        )
+    }, contentState) as ContentState
 
-    console.log(newEditorState.toJS())
+    console.log(newContentState.toJS())
 
-    return newEditorState
+    return EditorState.push(editorState, newContentState, 'change-block-type')
 }

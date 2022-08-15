@@ -33,6 +33,7 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
         wrapperRef,
         innerWrapperRef,
         blockLevelSelectionInfo,
+        subEditor,
         debugMode,
         textarea,
         readOnly,
@@ -65,10 +66,12 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
         },
         [ref]
     )
+
     const disableOnBls = useCallback(
         () => (blockLevelSelectionInfo.enabled ? 'handled' : 'not-handled'),
         [blockLevelSelectionInfo.enabled]
     )
+
     const renderEditor = useMemo(
         () => (
             //@ts-expect-error
@@ -83,10 +86,20 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
                 defaultKeyCommands
                 handleBeforeInput={disableOnBls}
                 handlePastedText={handlePastedText}
+                onFocus={console.log('wekfjl')}
                 {...props}
             />
         ),
-        [editorState, allPluginsWithoutDecorators, readOnly, getEditorRef, disableOnBls, handlePastedText, props]
+        [
+            editorState,
+            allPluginsWithoutDecorators,
+            readOnly,
+            getEditorRef,
+            disableOnBls,
+            handlePastedText,
+            props.onFocus,
+            props,
+        ]
     )
 
     return (

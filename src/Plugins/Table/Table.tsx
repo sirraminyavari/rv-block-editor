@@ -27,6 +27,14 @@ function Table({ config, blockProps: { subEditorState, setSubEditorState } }) {
     return (
         <div className={styles.tableOuterWrapper}>
             <BlockEditor
+                onFocus={() => {
+                    console.log('focus')
+                    setRo(1)
+                }}
+                onBlur={() => {
+                    console.log('blur')
+                    setRo(0)
+                }}
                 textarea
                 ref={editorRef}
                 editorState={subEditorState}
