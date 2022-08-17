@@ -1,4 +1,8 @@
 .tableOuterWrapper {
-    background-color: yellow;
-    border: 1px solid red;
+    border: 1px solid grey;
+    > * {
+        display: grid;
+        grid-template-rows: repeat(var(--row-n), 1fr);
+        grid-template-columns: repeat(var(--col-n), 1fr);
+    }
 }

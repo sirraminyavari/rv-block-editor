@@ -9,8 +9,9 @@ import {
     DraftInlineStyle,
 } from 'draft-js'
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import { Map, OrderedSet } from 'immutable'
-import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
+import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent from './Table'
@@ -38,16 +39,8 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             return {
                 component: this.TableComponent,
                 props: {
-                    subEditorState: contentBlock.getData().get('subEditorState'),
-                    setSubEditorState(subEditorState: EditorState, opts?: { replace?: boolean }) {
-                        const editorState = getEditorState()
-                        const newEditorState = mergeBlockData(editorState, contentBlock.getKey(), { subEditorState })
-                        setEditorState(
-                            opts?.replace
-                                ? newEditorState
-                                : EditorState.push(editorState, newEditorState.getCurrentContent(), 'change-block-data')
-                        )
-                    },
+                    rowN: contentBlock.getData().get('rowN'),
+                    colN: contentBlock.getData().get('colN'),
                 },
             }
         },
@@ -73,8 +66,11 @@ export default function createTablePlugin(config: Config): EditorPlugin {
 }
 
 function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState {
-    const selectionState = editorState.getSelection()
-    const contentState = editorState.getCurrentContent()
+    const editorState2 = applyPlusActionToSelection(editorState, 'table')
+    const editorState3 = setBlockData(editorState2, editorState2.getSelection().getAnchorKey(), { rowN, colN })
+
+    const selectionState = editorState3.getSelection()
+    const contentState = editorState3.getCurrentContent()
 
     const newContentState = Array.from({ length: rowN * colN }).reduce((contentState, _, i) => {
         const offset = i * 2
@@ -90,8 +86,6 @@ function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState 
             OrderedSet([`table-cell-${row}-${col}`])
         )
     }, contentState) as ContentState
-
-    console.log(newContentState.toJS())
 
     return EditorState.push(editorState, newContentState, 'change-block-type')
 }
