@@ -5,4 +5,8 @@
         grid-template-rows: repeat(var(--row-n), 1fr);
         grid-template-columns: repeat(var(--col-n), 1fr);
     }
+
+    .tableCell {
+        border: 1px solid grey;
+    }
 }

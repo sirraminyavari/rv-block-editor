@@ -86,7 +86,6 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
                 defaultKeyCommands
                 handleBeforeInput={disableOnBls}
                 handlePastedText={handlePastedText}
-                onFocus={console.log('wekfjl')}
                 {...props}
             />
         ),
