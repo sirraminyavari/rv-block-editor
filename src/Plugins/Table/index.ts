@@ -39,15 +39,27 @@ export default function createTablePlugin(config: Config): EditorPlugin {
         },
 
         keyBindingFn(event) {
-            if (event.ctrlKey && event.code === 'KeyQ') return 'table-create'
+            if (event.ctrlKey)
+                return {
+                    KeyQ: 'table-create',
+                    KeyE: 'add-row',
+                    KeyM: 'add-col',
+                }[event.code]
         },
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
             const editorState = getEditorState()
-            if (command !== 'table-create') return 'not-handled'
-            const newState = createTable(editorState)
-            setEditorState(newState)
-            return 'handled'
+            const fn = {
+                'table-create'() {
+                    setEditorState(createTable(editorState))
+                },
+                'add-row'() {
+                    setEditorState(addRow(editorState))
+                },
+                'add-col'() {},
+            }[command]
+            fn?.()
+            return fn ? 'handled' : 'not-handled'
         },
 
         decorators: [
@@ -89,4 +101,8 @@ function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState 
     )
 
     return EditorState.push(editorState, newContentState, 'change-block-type')
+}
+
+function addRow(editorState: EditorState): EditorState {
+    return editorState
 }
