@@ -1,17 +1,7 @@
-import {
-    EditorState,
-    EditorBlock,
-    ContentBlock,
-    ContentState,
-    BlockMap,
-    Modifier,
-    SelectionState,
-    DraftInlineStyle,
-    CompositeDecorator,
-} from 'draft-js'
+import { EditorState, Modifier, CompositeDecorator } from 'draft-js'
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
-import { Map, OrderedSet } from 'immutable'
+import { Map } from 'immutable'
 import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 import { TableIcon } from './icons'
@@ -37,7 +27,7 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             table: { element: withBlockWrapper('div', {}) },
         }) as any,
 
-        blockRendererFn(contentBlock, { getEditorState, setEditorState }) {
+        blockRendererFn(contentBlock) {
             if (contentBlock.getType() !== 'table') return
             return {
                 component: this.TableComponent,
@@ -49,27 +39,21 @@ export default function createTablePlugin(config: Config): EditorPlugin {
         },
 
         keyBindingFn(event) {
-            if (event.ctrlKey && event.code === 'KeyQ') return '__test__' // TODO: Remove!
+            if (event.ctrlKey && event.code === 'KeyQ') return 'table-create'
         },
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
             const editorState = getEditorState()
-            if (command !== '__test__') return 'not-handled'
+            if (command !== 'table-create') return 'not-handled'
             const newState = createTable(editorState)
             setEditorState(newState)
             return 'handled'
         },
 
-        customStyleFn(style, block, pluginFunctions) {
-            const cellTag = style.find(v => v.startsWith('table-cell-'))
-            if (!cellTag) return {}
-            return { border: '1px solid red' }
-        },
-
         decorators: [
             new CompositeDecorator([
                 {
-                    strategy(contentBlock, cb, contentState) {
+                    strategy(contentBlock, cb) {
                         if (contentBlock.getType() !== 'table') return
                         const text = contentBlock.getText()
                         let start
@@ -97,21 +81,6 @@ function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState 
 
     const selectionState = editorState3.getSelection()
     const contentState = editorState3.getCurrentContent()
-
-    // const newContentState = Array.from({ length: rowN * colN }).reduce((contentState, _, i) => {
-    //     const offset = i * 2
-    //     const row = Math.floor(i / colN)
-    //     const col = i % colN
-    //     return Modifier.insertText(
-    //         contentState as ContentState,
-    //         selectionState.merge({
-    //             anchorOffset: offset,
-    //             focusOffset: offset,
-    //         }),
-    //         `${TABLE_CELL_MARK.start}${TABLE_CELL_MARK.end}`,
-    //         OrderedSet([`table-cell-${row}-${col}`])
-    //     )
-    // }, contentState) as ContentState
 
     const newContentState = Modifier.insertText(
         contentState,
