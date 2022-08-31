@@ -56,7 +56,6 @@ const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
                     })
                     const newEditorState = EditorState.forceSelection(editorState, newSelectionState)
                     setEditorState(newEditorState)
-                    console.log('done', blockKey, newSelectionState.toJS())
                 })
             }
         />

@@ -26,7 +26,6 @@ function Table({ config, ...props }) {
 }
 
 export function TableCell(props) {
-    console.log(props)
     const { contentState, entityKey, children } = props
     return <span className={styles.tableCell} children={children} />
 }

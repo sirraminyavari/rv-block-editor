@@ -3,6 +3,7 @@ import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import { Map } from 'immutable'
 import setBlockData from 'BlockEditor/Lib/setBlockData'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
@@ -104,5 +105,37 @@ function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState 
 }
 
 function addRow(editorState: EditorState): EditorState {
-    return editorState
+    const contentState = editorState.getCurrentContent()
+    const selectionState = editorState.getSelection()
+
+    const anchorOffset = selectionState.getAnchorOffset()
+    const block = contentState.getBlockForKey(selectionState.getAnchorKey())
+    const text = block.getText()
+
+    const rowN = block.getData().get('rowN') as number
+    const colN = block.getData().get('colN') as number
+    // a -> anchor
+    const aCell = text.slice(0, anchorOffset).split(TABLE_CELL_MARKER.end).length - 1
+    const aRow = Math.floor(aCell / colN)
+    const aCol = aCell % colN
+
+    const eoRowOffset = (() => {
+        const skips = (aRow + 1) * colN
+        const segments = text.split(TABLE_CELL_MARKER.end)
+        const before = segments.slice(0, skips)
+        const beforeLen = before.map(s => s.length).reduce((a, v) => a + v, 0)
+        return beforeLen + skips
+    })()
+
+    const newContentState = Modifier.insertText(
+        contentState,
+        selectionState.merge({ anchorOffset: eoRowOffset, focusOffset: eoRowOffset }), // TODO: new SelectionState
+        `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(colN)
+    )
+    const newEditorState = EditorState.set(mergeBlockData(editorState, block.getKey(), { rowN: rowN + 1, colN }), {
+        currentContent: newContentState,
+        lastChangeType: 'change-block-data',
+    })
+
+    return newEditorState
 }
