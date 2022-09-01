@@ -9,7 +9,14 @@ import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
 
-export const TABLE_CELL_MARKER = { start: '#', end: '$' }
+// export const TABLE_CELL_MARKER = { // https://invisible-characters.com
+//     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
+//     end: '᠎', // U+180E: MONGOLIAN VOWEL SEPARATOR
+// }
+export const TABLE_CELL_MARKER = {
+    start: '#',
+    end: '$',
+}
 
 export interface Config {
     plugins: EditorPlugin[]

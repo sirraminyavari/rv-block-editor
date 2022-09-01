@@ -20,5 +20,16 @@ export interface EditorContextProviderProps {
  * Provides access to the general state of the editor for the nested components.
  */
 export const EditorContextProvider: FC<EditorContextProviderProps> = ({ editorState, setEditorState, children }) => {
-    return <EditorContext.Provider value={{ editorState, setEditorState }} children={children} />
+    return (
+        <EditorContext.Provider
+            value={{
+                editorState,
+                setEditorState(newEditorState: EditorState) {
+                    // TODO: Implement hooks
+                    setEditorState(newEditorState)
+                },
+            }}
+            children={children}
+        />
+    )
 }

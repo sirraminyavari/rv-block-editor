@@ -12,7 +12,6 @@ export default function getTableComponent(config) {
 
 function Table({ config, ...props }) {
     const { rowN, colN } = props.blockProps
-    console.log({ rowN, colN })
     return (
         <div
             className={styles.tableOuterWrapper}
