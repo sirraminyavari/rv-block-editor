@@ -1,12 +1,13 @@
 import { EditorBlock } from 'draft-js'
 import cn from 'classnames'
-import useUiContext from 'BlockEditor/Contexts/UiContext'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
 
-import addColAfterCursor from './lib/addColAfterCursor'
 import addRowAfterCursor from './lib/addRowAfterCursor'
+import addColAfterCursor from './lib/addColAfterCursor'
+import removeRowByCursor from './lib/removeRowByCursor'
+import removeColByCursor from './lib/removeColByCursor'
 
 import * as styles from './styles.module.scss'
 import { TableIcon } from './icons'
@@ -41,10 +42,10 @@ function TableOptions({ block }) {
 
     return (
         <Overlay className={styles.tableCellOptions}>
-            <Button Icon={TableIcon} onClick={() => setEditorState(addColAfterCursor(editorState, block))} />
             <Button Icon={TableIcon} onClick={() => setEditorState(addRowAfterCursor(editorState, block))} />
-            <Button Icon={TableIcon} />
-            <Button Icon={TableIcon} />
+            <Button Icon={TableIcon} onClick={() => setEditorState(addColAfterCursor(editorState, block))} />
+            <Button Icon={TableIcon} onClick={() => setEditorState(removeRowByCursor(editorState, block))} />
+            <Button Icon={TableIcon} onClick={() => setEditorState(removeColByCursor(editorState, block))} />
             <Button Icon={TableIcon} />
         </Overlay>
     )

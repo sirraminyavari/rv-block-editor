@@ -1,5 +1,4 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
-import _ from 'lodash'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TABLE_CELL_MARKER } from '..'
