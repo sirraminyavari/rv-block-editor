@@ -8,6 +8,7 @@ import addRowAfterCursor from './lib/addRowAfterCursor'
 import addColAfterCursor from './lib/addColAfterCursor'
 import removeRowByCursor from './lib/removeRowByCursor'
 import removeColByCursor from './lib/removeColByCursor'
+import removeTable from './lib/removeTable'
 
 import * as styles from './styles.module.scss'
 import { TableIcon } from './icons'
@@ -46,7 +47,7 @@ function TableOptions({ block }) {
             <Button Icon={TableIcon} onClick={() => setEditorState(addColAfterCursor(editorState, block))} />
             <Button Icon={TableIcon} onClick={() => setEditorState(removeRowByCursor(editorState, block))} />
             <Button Icon={TableIcon} onClick={() => setEditorState(removeColByCursor(editorState, block))} />
-            <Button Icon={TableIcon} />
+            <Button Icon={TableIcon} onClick={() => setEditorState(removeTable(editorState, block))} />
         </Overlay>
     )
 }
