@@ -27,7 +27,6 @@ export default function removeCol(contentState: ContentState, tableBlock: Conten
             }
         })
     })()
-    console.log(offsets)
 
     // We reverse the offsets so deletions wont affect their correctness
     const newContentState = offsets.reverse().reduce((contentState, offset) => {

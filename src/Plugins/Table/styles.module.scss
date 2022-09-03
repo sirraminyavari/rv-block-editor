@@ -14,15 +14,20 @@
         border: 1px solid #bac9dc;
         padding: 1rem 0.5rem;
     }
-}
 
-.tableCellOptions {
-    position: absolute;
-    top: 0;
-    inset-inline-end: 0;
-    transform: translateX(calc(100% + 0.5rem));
-    display: grid;
-    gap: 1rem;
-    padding: 1rem 0.75rem;
-    grid-template-columns: 1fr;
+    .tableCellOptions {
+        position: absolute;
+        top: 0;
+        inset-inline-end: 0;
+        transform: translateX(calc(100% + 0.5rem));
+        display: grid;
+        gap: 1rem;
+        padding: 1rem 0.75rem;
+        grid-template-columns: 1fr;
+        opacity: 0;
+        transition: opacity 250ms ease;
+    }
+    &:hover .tableCellOptions {
+        opacity: 1;
+    }
 }
