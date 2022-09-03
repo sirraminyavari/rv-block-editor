@@ -22,11 +22,11 @@ export default function addCol(contentState: ContentState, tableBlock: ContentBl
         return absoluteOffsets
     })()
 
-    const newContentState = eoColOffsets.reduce((contentState, offset, i) => {
-        const adjustedOffset = offset + i * 2
+    // We reverse the offsets so deletions wont affect their correctness
+    const newContentState = eoColOffsets.reverse().reduce((contentState, offset) => {
         return Modifier.insertText(
             contentState,
-            SelectionState.createEmpty(blockKey).merge({ anchorOffset: adjustedOffset, focusOffset: adjustedOffset }),
+            SelectionState.createEmpty(blockKey).merge({ anchorOffset: offset, focusOffset: offset }),
             `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`
         )
     }, mergeBlockData(EditorState.createWithContent(contentState), blockKey, { colN: colN + 1 }).getCurrentContent())

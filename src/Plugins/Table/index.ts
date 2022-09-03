@@ -8,14 +8,11 @@ import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
 import { getTableData } from './lib/utils'
 
-export const TABLE_CELL_MARKER = {
-    // https://invisible-characters.com
-    start: '͏', // U+034F: COMBINING GRAPHEME JOINER
-    end: '᠎', // U+180E: MONGOLIAN VOWEL SEPARATOR
-}
+export const TABLE_CELL_MARKER = { start: '#', end: '$' }
 // export const TABLE_CELL_MARKER = {
-//     start: '#',
-//     end: '$',
+//     // https://invisible-characters.com
+//     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
+//     end: '᠎', // U+180E: MONGOLIAN VOWEL SEPARATOR
 // }
 
 export interface Config {
