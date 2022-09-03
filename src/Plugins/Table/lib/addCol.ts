@@ -16,12 +16,10 @@ export default function addCol(contentState: ContentState, tableBlock: ContentBl
             rowN
         )
         const relativeOffsets = groups.map(g => g.reduce((a, v) => a + v.length + 1, 0))
-        const absoluteOffsets = [...relativeOffsets] // TODO: fix reduce
-        absoluteOffsets.forEach((_, i, arr) => {
-            // Mutable code
-            if (i === 0) return
-            arr[i] += arr[i - 1]
-        })
+        const absoluteOffsets = relativeOffsets.reduce((absoluteOffsets, relativeOffset, i) => {
+            if (i === 0) return [relativeOffset]
+            return absoluteOffsets.concat([absoluteOffsets[i - 1] + relativeOffset])
+        }, [])
         return absoluteOffsets
     })()
 
