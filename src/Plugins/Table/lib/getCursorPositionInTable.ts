@@ -8,9 +8,9 @@ export default function getCursorPositionInTable(
     tableBlock: ContentBlock,
     returnShadow?: boolean
 ) {
-    const { rowN, colN } = getTableData(tableBlock)
+    const { blockKey, rowN, colN } = getTableData(tableBlock)
 
-    if (!selectionState.isCollapsed() || tableBlock.getKey() !== selectionState.getAnchorKey())
+    if (!selectionState.isCollapsed() || blockKey !== selectionState.getAnchorKey())
         return returnShadow
             ? {
                   cell: rowN * colN - 1,

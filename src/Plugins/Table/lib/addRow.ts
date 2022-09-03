@@ -16,7 +16,7 @@ export default function addRow(contentState: ContentState, tableBlock: ContentBl
     })()
 
     const newContentState = Modifier.insertText(
-        mergeBlockData(EditorState.createWithContent(contentState), tableBlock.getKey(), {
+        mergeBlockData(EditorState.createWithContent(contentState), blockKey, {
             rowN: rowN + 1,
         }).getCurrentContent(),
         SelectionState.createEmpty(blockKey).merge({ anchorOffset: eoRowOffset, focusOffset: eoRowOffset }),

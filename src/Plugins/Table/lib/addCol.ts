@@ -29,7 +29,7 @@ export default function addCol(contentState: ContentState, tableBlock: ContentBl
             SelectionState.createEmpty(blockKey).merge({ anchorOffset: adjustedOffset, focusOffset: adjustedOffset }),
             `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`
         )
-    }, mergeBlockData(EditorState.createWithContent(contentState), tableBlock.getKey(), { colN: colN + 1 }).getCurrentContent())
+    }, mergeBlockData(EditorState.createWithContent(contentState), blockKey, { colN: colN + 1 }).getCurrentContent())
 
     return newContentState
 }

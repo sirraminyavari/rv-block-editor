@@ -7,6 +7,7 @@ import { TABLE_CELL_MARKER } from '..'
 
 export default function removeRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
     const { blockKey, rowN, colN } = getTableData(tableBlock)
+    if (rowN <= 1) return contentState
 
     const offsets = (() => {
         const skips = (anchorRow + 1) * colN
@@ -17,7 +18,13 @@ export default function removeRow(contentState: ContentState, tableBlock: Conten
         return { start, end }
     })()
 
-    const newContentState = contentState
+    const newContentState = Modifier.removeRange(
+        mergeBlockData(EditorState.createWithContent(contentState), blockKey, {
+            rowN: rowN - 1,
+        }).getCurrentContent(),
+        SelectionState.createEmpty(blockKey).merge({ anchorOffset: offsets.start, focusOffset: offsets.end }),
+        'backward'
+    )
 
     return newContentState
 }
