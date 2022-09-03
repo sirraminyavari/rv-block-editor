@@ -1,5 +1,7 @@
 .tableOuterWrapper {
     border: 1px solid grey;
+    position: relative;
+
     > * {
         display: grid;
         grid-template-rows: repeat(var(--row-n), 1fr);
@@ -12,4 +14,9 @@
 }
 
 .tableCellOptions {
+    background-color: red;
+    position: absolute;
+    top: 0;
+    inset-inline-end: 0;
+    transform: translateX(100%);
 }

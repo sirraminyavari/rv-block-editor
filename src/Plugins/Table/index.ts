@@ -7,7 +7,7 @@ import setBlockData from 'BlockEditor/Lib/setBlockData'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
-import getTableComponent, { TableCell, TableCellOptions } from './Table'
+import getTableComponent, { TableCell } from './Table'
 
 // export const TABLE_CELL_MARKER = { // https://invisible-characters.com
 //     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
@@ -39,8 +39,6 @@ export default function createTablePlugin(config: Config): EditorPlugin {
                 }),
             },
         }) as any,
-
-        OverlayComponent: TableCellOptions,
 
         blockRendererFn(contentBlock) {
             if (contentBlock.getType() !== 'table') return

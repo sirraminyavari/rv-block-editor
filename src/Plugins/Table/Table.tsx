@@ -25,6 +25,7 @@ function Table({ config, ...props }) {
                 '--col-n': colN,
             }}>
             <EditorBlock {...props} />
+            <TableOptions />
         </div>
     )
 }
@@ -34,41 +35,8 @@ export function TableCell(props) {
     return <span data-table-cell className={styles.tableCell} children={children} />
 }
 
-export function TableCellOptions(props) {
+function TableOptions(props) {
     const { editorState } = useEditorContext()
-    const {
-        rtblSelectionState: { domSelection },
-        dir,
-    } = useUiContext()
 
-    const [menuRef, setMenuRef] = useState<HTMLDivElement>(null)
-    const tableCell = useMemo(() => {
-        if (!domSelection.isCollapsed) return null
-        const tableCell = domSelection.anchorNode?.parentElement?.closest('[data-table-cell]')
-        return tableCell
-    }, [editorState, domSelection.isCollapsed, domSelection.anchorNode])
-    const virtualReference = useMemo(
-        () => ({
-            getBoundingClientRect() {
-                if (!tableCell) return new DOMRect()
-                return tableCell.getBoundingClientRect()
-            },
-        }),
-        [tableCell]
-    )
-    const popper = usePopper(virtualReference, menuRef, {
-        placement: `top-${{ ltr: 'start', rtl: 'end' }[dir]}` as any,
-    })
-
-    if (!tableCell) return null
-
-    return (
-        <div
-            ref={setMenuRef}
-            className={styles.tableCellOptions}
-            style={popper.styles.popper}
-            {...popper.attributes.popper}>
-            <Overlay>opts</Overlay>
-        </div>
-    )
+    return <Overlay className={styles.tableCellOptions}>opts</Overlay>
 }
