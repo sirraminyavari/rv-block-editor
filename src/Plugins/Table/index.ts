@@ -6,6 +6,7 @@ import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
+import { getTableData } from './lib/utils'
 
 export const TABLE_CELL_MARKER = {
     // https://invisible-characters.com
@@ -41,12 +42,10 @@ export default function createTablePlugin(config: Config): EditorPlugin {
 
         blockRendererFn(contentBlock) {
             if (contentBlock.getType() !== 'table') return
+            const { rowN, colN } = getTableData(contentBlock)
             return {
                 component: this.TableComponent,
-                props: {
-                    rowN: contentBlock.getData().get('rowN'),
-                    colN: contentBlock.getData().get('colN'),
-                },
+                props: { rowN, colN },
             }
         },
 

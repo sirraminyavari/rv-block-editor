@@ -1,4 +1,5 @@
 import { ContentBlock, SelectionState } from 'draft-js'
+import { getTableData } from './utils'
 
 import { TABLE_CELL_MARKER } from '..'
 
@@ -7,8 +8,7 @@ export default function getCursorPositionInTable(
     tableBlock: ContentBlock,
     returnShadow?: boolean
 ) {
-    const rowN = tableBlock.getData().get('rowN') as number
-    const colN = tableBlock.getData().get('colN') as number
+    const { rowN, colN } = getTableData(tableBlock)
 
     if (!selectionState.isCollapsed() || tableBlock.getKey() !== selectionState.getAnchorKey())
         return returnShadow
