@@ -1,4 +1,5 @@
-import { EditorState } from 'draft-js'
+import { EditorState, SelectionState } from 'draft-js'
+import _ from 'lodash'
 
 import { TABLE_CELL_MARKER } from '..'
 import { isSelectionInsideOneTable } from './isSelectionInsideOneTable'
@@ -9,21 +10,34 @@ export function adjustSelection(editorState: EditorState) {
     const { selection, tableBlock } = selectionStatus
 
     const text = tableBlock.getText()
-    const aOffset = selection.getAnchorOffset()
-
-    if (text[aOffset] !== TABLE_CELL_MARKER.start && text[aOffset - 1] !== TABLE_CELL_MARKER.end) return editorState
-
     const domSelection = getSelection()
+    const newSelectionState = _.chain(selection)
+        .thru(getOffsetAdjuster(text, domSelection, 'anchor'))
+        .thru(getOffsetAdjuster(text, domSelection, 'focus'))
+        .value()
+    if (newSelectionState === selection) return editorState
+
+    console.log({ old: selection.toJS(), new: newSelectionState.toJS() })
+
+    return EditorState.forceSelection(editorState, newSelectionState)
+}
+
+const isCritical = (text: string, offset: number) =>
+    text[offset] === TABLE_CELL_MARKER.start || text[offset - 1] === TABLE_CELL_MARKER.end
+
+function adjustOffset(domSelection: Selection, offset: number, text: string) {
     const cellElem = domSelection.anchorNode.parentElement.closest('[data-table-cell]')
-    if (!cellElem) return editorState
+    if (!cellElem) return offset
 
     const cellN = [...cellElem.parentElement.children].indexOf(cellElem)
-    const cellBeforeN = text.slice(0, aOffset).split(TABLE_CELL_MARKER.end).length - 1
+    const cellBeforeN = text.slice(0, offset).split(TABLE_CELL_MARKER.end).length - 1
 
-    const adjustedOffset = aOffset + (cellN >= cellBeforeN ? 1 : -1)
-
-    return EditorState.forceSelection(
-        editorState,
-        selection.merge({ anchorOffset: adjustedOffset, focusOffset: adjustedOffset })
-    )
+    return offset + (cellN >= cellBeforeN ? 1 : -1)
 }
+
+const getOffsetAdjuster =
+    (text: string, domSelection: Selection, type: 'anchor' | 'focus') => (selection: SelectionState) => {
+        const offset: number = selection[`get${_.capitalize(type)}Offset`]()
+        if (!isCritical(text, offset)) return selection
+        return selection.merge({ [`${type}Offset`]: adjustOffset(domSelection, offset, text) })
+    }
