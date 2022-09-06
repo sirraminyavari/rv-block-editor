@@ -1,4 +1,4 @@
-import { ContentBlock } from 'draft-js'
+import { ContentBlock, SelectionState } from 'draft-js'
 
 export function getTableData(tableBlock: ContentBlock) {
     const blockKey = tableBlock.getKey()
@@ -7,5 +7,3 @@ export function getTableData(tableBlock: ContentBlock) {
     const colN = data.get('colN') as number
     return { blockKey, rowN, colN }
 }
-
-export const sumSegments = (segments: string[]) => segments.reduce((a, v) => a + v.length + 1, 0)

@@ -4,13 +4,8 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
 
-import addRowAfterCursor from './lib/addRowAfterCursor'
-import addColAfterCursor from './lib/addColAfterCursor'
-import removeRowByCursor from './lib/removeRowByCursor'
-import removeColByCursor from './lib/removeColByCursor'
-import removeTable from './lib/removeTable'
-
 import * as styles from './styles.module.scss'
+import tableActions from './actions'
 import { TableIcon } from './icons'
 
 export default function getTableComponent(config) {
@@ -43,11 +38,23 @@ function TableOptions({ block }) {
 
     return (
         <Overlay className={styles.tableCellOptions}>
-            <Button Icon={TableIcon} onClick={() => setEditorState(addRowAfterCursor(editorState, block))} />
-            <Button Icon={TableIcon} onClick={() => setEditorState(addColAfterCursor(editorState, block))} />
-            <Button Icon={TableIcon} onClick={() => setEditorState(removeRowByCursor(editorState, block))} />
-            <Button Icon={TableIcon} onClick={() => setEditorState(removeColByCursor(editorState, block))} />
-            <Button Icon={TableIcon} onClick={() => setEditorState(removeTable(editorState, block))} />
+            <Button
+                Icon={TableIcon}
+                onClick={() => setEditorState(tableActions.addRowAfterCursor(editorState, block))}
+            />
+            <Button
+                Icon={TableIcon}
+                onClick={() => setEditorState(tableActions.addColAfterCursor(editorState, block))}
+            />
+            <Button
+                Icon={TableIcon}
+                onClick={() => setEditorState(tableActions.removeRowByCursor(editorState, block))}
+            />
+            <Button
+                Icon={TableIcon}
+                onClick={() => setEditorState(tableActions.removeColByCursor(editorState, block))}
+            />
+            <Button Icon={TableIcon} onClick={() => setEditorState(tableActions.removeTable(editorState, block))} />
         </Overlay>
     )
 }

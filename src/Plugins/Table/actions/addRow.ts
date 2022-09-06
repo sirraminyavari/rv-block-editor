@@ -1,11 +1,11 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
-import { getTableData } from './utils'
+import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
-export default function addRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
-    const { blockKey, rowN, colN } = getTableData(tableBlock)
+export function addRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
+    const { blockKey, rowN, colN } = tableLib.getTableData(tableBlock)
 
     const eoRowOffset = (() => {
         const skips = (anchorRow + 1) * colN

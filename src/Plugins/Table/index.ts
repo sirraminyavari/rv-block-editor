@@ -6,7 +6,7 @@ import setBlockData from 'BlockEditor/Lib/setBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
-import { getTableData } from './lib/utils'
+import tableLib from './lib'
 
 // export const TABLE_CELL_MARKER = { start: '#', end: '$' }
 export const TABLE_CELL_MARKER = {
@@ -39,7 +39,7 @@ export default function createTablePlugin(config: Config): EditorPlugin {
 
         blockRendererFn(contentBlock) {
             if (contentBlock.getType() !== 'table') return
-            const { rowN, colN } = getTableData(contentBlock)
+            const { rowN, colN } = tableLib.getTableData(contentBlock)
             return {
                 component: this.TableComponent,
                 props: { rowN, colN },

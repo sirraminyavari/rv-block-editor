@@ -1,9 +1,9 @@
 import { ContentBlock, SelectionState } from 'draft-js'
-import { getTableData } from './utils'
 
 import { TABLE_CELL_MARKER } from '..'
+import { getTableData } from './getTableData'
 
-export default function getCursorPositionInTable(
+export function getCursorPositionInTable(
     selectionState: SelectionState,
     tableBlock: ContentBlock,
     returnShadow?: boolean

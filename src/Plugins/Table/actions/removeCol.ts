@@ -1,12 +1,12 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
 import _ from 'lodash'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
-import { getTableData, sumSegments } from './utils'
+import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
-export default function removeCol(contentState: ContentState, tableBlock: ContentBlock, anchorCol: number) {
-    const { blockKey, rowN, colN } = getTableData(tableBlock)
+export function removeCol(contentState: ContentState, tableBlock: ContentBlock, anchorCol: number) {
+    const { blockKey, rowN, colN } = tableLib.getTableData(tableBlock)
     if (colN <= 1) return contentState
 
     const offsets = (() => {
@@ -15,7 +15,7 @@ export default function removeCol(contentState: ContentState, tableBlock: Conten
             0,
             rowN
         )
-        const relativeOffsets = groups.map(g => sumSegments(g))
+        const relativeOffsets = groups.map(g => tableLib.sumSegments(g))
         const absoluteOffsets: number[] = relativeOffsets.reduce((absoluteOffsets, relativeOffset, i) => {
             if (i === 0) return [relativeOffset]
             return absoluteOffsets.concat([absoluteOffsets[i - 1] + relativeOffset])

@@ -1,12 +1,12 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
 import _ from 'lodash'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
-import { getTableData, sumSegments } from './utils'
+import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
-export default function addCol(contentState: ContentState, tableBlock: ContentBlock, anchorCol: number) {
-    const { blockKey, rowN, colN } = getTableData(tableBlock)
+export function addCol(contentState: ContentState, tableBlock: ContentBlock, anchorCol: number) {
+    const { blockKey, rowN, colN } = tableLib.getTableData(tableBlock)
 
     const eoColOffsets = (() => {
         const segments = tableBlock.getText().split(TABLE_CELL_MARKER.end)
@@ -14,7 +14,7 @@ export default function addCol(contentState: ContentState, tableBlock: ContentBl
             0,
             rowN
         )
-        const relativeOffsets = groups.map(g => sumSegments(g))
+        const relativeOffsets = groups.map(g => tableLib.sumSegments(g))
         const absoluteOffsets = relativeOffsets.reduce((absoluteOffsets, relativeOffset, i) => {
             if (i === 0) return [relativeOffset]
             return absoluteOffsets.concat([absoluteOffsets[i - 1] + relativeOffset])

@@ -1,20 +1,20 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
 import _ from 'lodash'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
-import { getTableData, sumSegments } from './utils'
+import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
-export default function removeRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
-    const { blockKey, rowN, colN } = getTableData(tableBlock)
+export function removeRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
+    const { blockKey, rowN, colN } = tableLib.getTableData(tableBlock)
     if (rowN <= 1) return contentState
 
     const offsets = (() => {
         const skips = (anchorRow + 1) * colN
         const segments = tableBlock.getText().split(TABLE_CELL_MARKER.end)
         const before = segments.slice(0, skips)
-        const end = sumSegments(before)
-        const start = end - sumSegments(_.takeRight(before, colN))
+        const end = tableLib.sumSegments(before)
+        const start = end - tableLib.sumSegments(_.takeRight(before, colN))
         return { start, end }
     })()
 

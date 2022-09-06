@@ -2,7 +2,7 @@ import { ContentBlock, EditorState, Modifier, SelectionState } from 'draft-js'
 import _ from 'lodash'
 import { Map } from 'immutable'
 
-export default function removeTable(editorState: EditorState, tableBlock: ContentBlock) {
+export function removeTable(editorState: EditorState, tableBlock: ContentBlock) {
     const contentState = editorState.getCurrentContent()
     const selection = SelectionState.createEmpty(tableBlock.getKey()).merge({
         anchorOffset: 0,
