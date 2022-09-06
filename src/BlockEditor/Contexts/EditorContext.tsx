@@ -2,6 +2,8 @@ import type { FC } from 'react'
 import type { EditorState } from 'draft-js'
 import { createContext, useContext } from 'react'
 
+import { adjustSelection } from 'Plugins/Table/lib/adjustSelection'
+
 export interface EditorContext {
     editorState?: EditorState
     setEditorState?: SetState<EditorState>
@@ -25,8 +27,8 @@ export const EditorContextProvider: FC<EditorContextProviderProps> = ({ editorSt
             value={{
                 editorState,
                 setEditorState(newEditorState: EditorState) {
-                    // TODO: Implement hooks
-                    setEditorState(newEditorState)
+                    // TODO: Implement hooks // FIXME: Spaghetti code
+                    setEditorState(adjustSelection(newEditorState))
                 },
             }}
             children={children}
