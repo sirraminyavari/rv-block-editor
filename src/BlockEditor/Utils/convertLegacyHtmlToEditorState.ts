@@ -293,7 +293,7 @@ function handleMentionsAndLinks(contentState: ContentState, getMentionLink: GetM
                                   mention: {
                                       ...m,
                                       name: label,
-                                      ...(getMentionLink ? { href: getMentionLink(m) } : {}),
+                                      ...(getMentionLink ? { link: getMentionLink(m) } : {}),
                                   },
                               })
                           })()
