@@ -1,8 +1,8 @@
 import { EditorBlock } from 'draft-js'
 import cn from 'classnames'
-import useEditorContext from 'BlockEditor/Contexts/EditorContext'
-import Overlay from 'BlockEditor/Ui/Overlay'
-import Button from 'BlockEditor/Ui/Button'
+import useEditorContext from '../../BlockEditor/Contexts/EditorContext'
+import Overlay from '../../BlockEditor/Ui/Overlay'
+import Button from '../../BlockEditor/Ui/Button'
 
 import addRowAfterCursor from './lib/addRowAfterCursor'
 import addColAfterCursor from './lib/addColAfterCursor'

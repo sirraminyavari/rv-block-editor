@@ -29,7 +29,7 @@ export interface BlockEditorProps extends Omit<_BlockEditorProps, 'plugins'> {
     plugins: EditorPlugin[]
     uiPortalNode: HTMLElement
     subEditorsPortalNode: HTMLElement
-    subEditor: boolean
+    subEditor?: boolean
     debugMode?: boolean
     textarea?: boolean
     readOnly?: boolean

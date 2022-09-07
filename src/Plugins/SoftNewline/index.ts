@@ -1,7 +1,7 @@
 import { EditorState, RichUtils, Modifier } from 'draft-js'
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent'
 
-import { EditorPlugin } from 'BlockEditor'
+import { EditorPlugin } from '../../BlockEditor'
 
 export default function createSoftNewlinePlugin(): EditorPlugin {
     return {

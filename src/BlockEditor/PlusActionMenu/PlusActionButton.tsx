@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { motion } from 'framer-motion'
 
-import { TransformedPlusAction } from 'BlockEditor'
+import { TransformedPlusAction } from '../../BlockEditor'
 import useEditorContext from '../Contexts/EditorContext'
 import applyPlusActionToSelection from '../Lib/applyPlusActionToSelection'
 import useUiContext from '../Contexts/UiContext'

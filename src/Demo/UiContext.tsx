@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { Language, Direction } from 'BlockEditor'
+import { Language, Direction } from '../BlockEditor'
 
 export interface UiContext {
     showControls: boolean
@@ -18,7 +18,7 @@ export interface UiContext {
     setContentPreset: SetState<string>
 }
 
-export const UiContext = createContext<UiContext>(null)
+export const UiContext = createContext<UiContext>(null as unknown as UiContext)
 const useUiContext = () => useContext(UiContext)
 export default useUiContext
 

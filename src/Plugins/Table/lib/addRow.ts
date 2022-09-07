@@ -1,5 +1,5 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
-import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
+import mergeBlockData from '../../../BlockEditor/Lib/mergeBlockData'
 import { getTableData } from './utils'
 
 import { TABLE_CELL_MARKER } from '..'

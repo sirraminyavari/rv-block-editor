@@ -1,6 +1,6 @@
 import { CompositeDecorator } from 'draft-js'
 
-import { EditorPlugin } from 'BlockEditor'
+import { EditorPlugin } from '../../BlockEditor'
 
 import _createMentionPlugin, { MentionData } from '@draft-js-plugins/mention'
 

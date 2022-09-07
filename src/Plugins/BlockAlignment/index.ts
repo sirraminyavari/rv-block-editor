@@ -1,4 +1,4 @@
-import { EditorPlugin } from 'BlockEditor'
+import { EditorPlugin } from '../../BlockEditor'
 
 import AlignmentButtons from './AlignmentButtons'
 

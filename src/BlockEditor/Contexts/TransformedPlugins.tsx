@@ -6,12 +6,12 @@ import {
     EditorPluginFunctionArg,
     TransformedInlineStyle,
     TransformedPlusAction,
-} from 'BlockEditor'
-import useUiContext from 'BlockEditor/Contexts/UiContext'
+} from '../../BlockEditor'
+import useUiContext from '../../BlockEditor/Contexts/UiContext'
 
-import createNestingPlugin from 'BlockEditor/InternalPlugins/Nesting'
-import createBlockBreakoutPlugin from 'BlockEditor/InternalPlugins/BlockBreakout'
-import createUiHandlerPlugin from 'BlockEditor/InternalPlugins/UiHandler'
+import createNestingPlugin from '../../BlockEditor/InternalPlugins/Nesting'
+import createBlockBreakoutPlugin from '../../BlockEditor/InternalPlugins/BlockBreakout'
+import createUiHandlerPlugin from '../../BlockEditor/InternalPlugins/UiHandler'
 
 export interface TransformedPluginsContext {
     // All the Inline Styles extracted from plugins

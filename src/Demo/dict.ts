@@ -1,4 +1,4 @@
-import { Dict } from 'BlockEditor'
+import { Dict } from '../BlockEditor'
 
 const dict: Dict = {
     en: {

@@ -1,9 +1,9 @@
 import { EditorState } from 'draft-js'
 import _ from 'lodash'
 
-import { Alignment } from 'BlockEditor'
-import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
-import setBlockData from 'BlockEditor/Lib/setBlockData'
+import { Alignment } from '../../BlockEditor'
+import mergeBlockData from '../../BlockEditor/Lib/mergeBlockData'
+import setBlockData from '../../BlockEditor/Lib/setBlockData'
 
 export default function setBlockAlignment(
     align: Alignment,

@@ -1,4 +1,4 @@
-import { EditorPlugin } from 'BlockEditor'
+import { EditorPlugin } from '../../BlockEditor'
 
 import getColorSelectComponent from './ColorSelect'
 import { TextColorIcon, HighlightColorIcon } from './icons'

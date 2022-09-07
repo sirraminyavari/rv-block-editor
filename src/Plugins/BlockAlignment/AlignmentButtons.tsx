@@ -1,5 +1,5 @@
-import { InlineStyleComponent, Alignment } from 'BlockEditor'
-import Button from 'BlockEditor/Ui/Button'
+import { InlineStyleComponent, Alignment } from '../../BlockEditor'
+import Button from '../../BlockEditor/Ui/Button'
 
 import setBlockAlignment from './setBlockAlignment'
 

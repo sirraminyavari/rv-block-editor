@@ -1,5 +1,5 @@
 import type { MouseEventHandler } from 'react'
-import { DecoratorComponent } from 'BlockEditor'
+import { DecoratorComponent } from '../../BlockEditor'
 
 const Link: DecoratorComponent = ({ contentState, entityKey, children }) => {
     const onClick: MouseEventHandler<HTMLAnchorElement> = event => {

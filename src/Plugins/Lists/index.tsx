@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { Map } from 'immutable'
 
-import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
+import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
 
 import { OrderedListItem, UnorderedListItem } from './ListItems'
 

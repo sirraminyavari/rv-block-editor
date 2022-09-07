@@ -10,8 +10,8 @@ import 'prismjs/components/prism-tsx.min'
 import CodeUtils, { onTab } from 'draft-js-code'
 import createPrismPlugin from 'draft-js-prism-plugin'
 
-import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
+import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
+import mergeBlockData from '../../BlockEditor/Lib/mergeBlockData'
 
 import getCodeBlockComponent from './CodeBlock'
 import { CodeBlockIcon } from './icons'

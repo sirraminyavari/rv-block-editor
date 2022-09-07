@@ -1,8 +1,8 @@
 import { EditorState, Modifier, CompositeDecorator } from 'draft-js'
-import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
+import { EditorPlugin, withBlockWrapper } from '../../BlockEditor'
+import applyPlusActionToSelection from '../../BlockEditor/Lib/applyPlusActionToSelection'
 import { Map } from 'immutable'
-import setBlockData from 'BlockEditor/Lib/setBlockData'
+import setBlockData from '../../BlockEditor/Lib/setBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
