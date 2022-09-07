@@ -1,4 +1,4 @@
-@use 'BlockEditor/Ui/Overlay/styles.module.scss' as overlay;
+@use '../../BlockEditor/Ui/Overlay/styles.module.scss' as overlay;
 
 .mentionSuggestions {
     @extend .overlay;
