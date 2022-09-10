@@ -39,10 +39,9 @@ export default function createTablePlugin(config: Config): EditorPlugin {
 
         blockRendererFn(contentBlock) {
             if (contentBlock.getType() !== 'table') return
-            const { rowN, colN } = tableLib.getTableData(contentBlock)
             return {
                 component: this.TableComponent,
-                props: { rowN, colN },
+                props: tableLib.getTableData(contentBlock),
             }
         },
 

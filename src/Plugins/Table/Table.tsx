@@ -1,8 +1,10 @@
+import { useLayoutEffect, useRef } from 'react'
 import { EditorBlock } from 'draft-js'
 import cn from 'classnames'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
+import { Map } from 'immutable'
 
 import * as styles from './styles.module.scss'
 import tableActions from './actions'
@@ -12,19 +14,43 @@ export default function getTableComponent(config) {
     return props => <Table config={config} {...props} />
 }
 
+let tableIdCounter = -1
+const makeTableId = () => 'table-id-' + ++tableIdCounter
+
 function Table({ config, ...props }) {
-    const { rowN, colN } = props.blockProps
+    const tableId = useRef('')
+    useLayoutEffect(() => {
+        tableId.current = makeTableId()
+    }, [])
+
+    const { rowN, colN, data } = props.blockProps
     return (
-        <div
-            className={styles.tableOuterWrapper}
-            style={{
-                // @ts-expect-error
-                '--row-n': rowN,
-                '--col-n': colN,
-            }}>
-            <EditorBlock {...props} />
-            <TableOptions block={props.block} />
-        </div>
+        <>
+            <style
+                style={{ display: 'none' }}
+                dangerouslySetInnerHTML={{
+                    __html: (data.get('alignments') as Map<string, string> | undefined)
+                        ?.map(
+                            (align, cellN) =>
+                                `#${tableId.current} [data-table-cell]:nth-child(${
+                                    +cellN + 1
+                                }) { text-align: ${align}; }`
+                        )
+                        .join(' '),
+                }}
+            />
+            <div
+                id={tableId.current}
+                className={styles.tableOuterWrapper}
+                style={{
+                    // @ts-expect-error
+                    '--row-n': rowN,
+                    '--col-n': colN,
+                }}>
+                <EditorBlock {...props} />
+                <TableOptions block={props.block} />
+            </div>
+        </>
     )
 }
 

@@ -5,5 +5,5 @@ export function getTableData(tableBlock: ContentBlock) {
     const data = tableBlock.getData()
     const rowN = data.get('rowN') as number
     const colN = data.get('colN') as number
-    return { blockKey, rowN, colN }
+    return { blockKey, data, rowN, colN }
 }
