@@ -1,4 +1,3 @@
-import { RichUtils } from 'draft-js'
 import { Map } from 'immutable'
 
 import Prism from 'prismjs'
@@ -40,11 +39,14 @@ export default function createCodeBlockPlugin(config: any = {}): EditorPlugin {
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
             const editorState = getEditorState()
-            const newState = CodeUtils.hasSelectionInBlock(editorState)
-                ? CodeUtils.handleKeyCommand(editorState, command)
-                : RichUtils.handleKeyCommand(editorState, command) // FIXME: Might block other 'handleKeyCommand's
-            if (newState) setEditorState(newState)
-            return newState ? 'handled' : 'not-handled'
+            if (CodeUtils.hasSelectionInBlock(editorState)) {
+                const newState = CodeUtils.handleKeyCommand(editorState, command)
+                if (newState) {
+                    setEditorState(newState)
+                    return 'handled'
+                }
+            }
+            return 'not-handled'
         },
 
         keyBindingFn(event, { getEditorState, setEditorState }) {
