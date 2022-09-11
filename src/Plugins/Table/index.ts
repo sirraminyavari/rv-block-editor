@@ -27,7 +27,7 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             this.TableComponent = getTableComponent({ getUiContext, ...config })
         },
 
-        plusActions: [{ action: 'table', Icon: TableIcon, returnBreakout: true }],
+        plusActions: [{ action: 'table', Icon: TableIcon, returnBreakout: false }],
 
         blockRenderMap: Map({
             table: {

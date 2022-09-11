@@ -17,8 +17,6 @@ export function adjustSelection(editorState: EditorState) {
         .value()
     if (newSelectionState === selection) return editorState
 
-    console.log({ old: selection.toJS(), new: newSelectionState.toJS() })
-
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
