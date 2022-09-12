@@ -3,10 +3,12 @@ import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import { Map } from 'immutable'
 import setBlockData from 'BlockEditor/Lib/setBlockData'
+import nestAwareInsertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/nestAwareInsertEmptyBlockBelowAndFocus'
 
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
 import tableLib from './lib'
+import { isSelectionInsideOneTable } from './lib/isSelectionInsideOneTable'
 
 // export const TABLE_CELL_MARKER = { start: '#', end: '$' }
 export const TABLE_CELL_MARKER = {
@@ -45,11 +47,16 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             }
         },
 
-        keyBindingFn(event) {
+        keyBindingFn(event, { getEditorState }) {
             if (event.ctrlKey)
                 return {
                     KeyQ: 'table-create',
                 }[event.code]
+            const editorState = getEditorState()
+            if (!isSelectionInsideOneTable(editorState)) return
+            return {
+                Enter: 'enter',
+            }[event.code]
         },
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
@@ -57,6 +64,13 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             const fn = {
                 'table-create'() {
                     setEditorState(createTable(editorState))
+                },
+                enter() {
+                    const tableBlock = editorState
+                        .getCurrentContent()
+                        .getBlockForKey(editorState.getSelection().getAnchorKey())
+                    const { newEditorState } = nestAwareInsertEmptyBlockBelowAndFocus(editorState, tableBlock)
+                    setEditorState(newEditorState)
                 },
             }[command]
             fn?.()

@@ -6,7 +6,7 @@
     > *:first-child {
         flex: 1 1 auto;
         display: grid;
-        grid-template-rows: repeat(var(--row-n), 1fr);
+        grid-template-rows: repeat(var(--row-n), auto);
         grid-template-columns: repeat(var(--col-n), 1fr);
     }
 
