@@ -22,9 +22,6 @@ export default function ConfigControls({ editorState, setEditorState }) {
         contentPreset,
         setContentPreset,
     } = useUiContext()
-    window.setRo = t => {
-        setReadOnly(t)
-    }
     return (
         <div className={styles.configControls} dir="ltr">
             <label>

@@ -26,7 +26,6 @@ export interface UiContext {
     dict: Dict
     dir: Direction
     lang: Language
-    subEditor: boolean
     externalStyles: { [key: string]: string }
     debugMode: boolean
     textarea: boolean
@@ -38,7 +37,6 @@ export interface UiContext {
     innerWrapperRef: MutableRefObject<HTMLDivElement>
     blockRefs: BlockRefs
     uiPortalNode: HTMLElement
-    subEditorsPortalNode: HTMLElement
     // Block Functionality:
     blockControlsInfo: BlockControlsInfo
     setBlockControlsInfo: SetState<BlockControlsInfo>
@@ -65,19 +63,7 @@ export default useUiContext
 /**
  * Provides general information and calculated values regarding the Block Editor user interface.
  */
-export function UiContextProvider({
-    styles,
-    dict,
-    dir,
-    lang,
-    children,
-    uiPortalNode,
-    subEditorsPortalNode,
-    subEditor,
-    debugMode,
-    textarea,
-    readOnly,
-}) {
+export function UiContextProvider({ styles, dict, dir, lang, children, uiPortalNode, debugMode, textarea, readOnly }) {
     const { editorState } = useEditorContext()
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
@@ -104,8 +90,6 @@ export function UiContextProvider({
                 lang,
                 externalStyles: styles,
                 uiPortalNode,
-                subEditorsPortalNode,
-                subEditor,
                 debugMode,
                 textarea,
                 readOnly,

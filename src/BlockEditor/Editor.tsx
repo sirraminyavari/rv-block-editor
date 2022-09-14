@@ -33,7 +33,6 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
         wrapperRef,
         innerWrapperRef,
         blockLevelSelectionInfo,
-        subEditor,
         debugMode,
         textarea,
         readOnly,
@@ -43,7 +42,7 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
     const [renderRefDependentComps, setRenderRefDependentComps] = useState(false)
     useLayoutEffect(() => setRenderRefDependentComps(true), [])
 
-    // useClipboardHandlers() // FIXME: Uncomment!
+    useClipboardHandlers()
 
     // This is a hack that needs to be done otherwise no plugin decorator will work.
     const decorator = useMemo(() => {

@@ -17,7 +17,6 @@ import dict from './dict'
 import React from 'react'
 
 const uiPortalNode = document.getElementById('ui-portal')!
-const subEditorsPortalNode = document.getElementById('sub-editors-portal')!
 
 const textColors = [
     { name: 'red', color: '#D32F2F' },
@@ -91,7 +90,6 @@ export default function App() {
                 plugins={plugins}
                 styles={defaultTheme}
                 uiPortalNode={uiPortalNode}
-                subEditorsPortalNode={subEditorsPortalNode}
                 debugMode={debugMode}
                 readOnly={readOnly}
                 textarea={textarea}
