@@ -52,7 +52,7 @@ function Table({ config, ...props }) {
                     '--col-n': colN,
                 }}>
                 <EditorBlock {...props} />
-                <TableOptions block={props.block} />
+                <TableOptions block={props.block} rowN={rowN} colN={colN} />
             </div>
         </>
     )
@@ -63,7 +63,7 @@ export function TableCell(props) {
     return <span data-table-cell className={styles.tableCell} children={children} />
 }
 
-function TableOptions({ block }) {
+function TableOptions({ block, rowN, colN }) {
     const { editorState, setEditorState } = useEditorContext()
 
     return (
@@ -79,10 +79,12 @@ function TableOptions({ block }) {
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.removeRowByCursor(editorState, block))}
+                disabled={rowN <= 1}
             />
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.removeColByCursor(editorState, block))}
+                disabled={colN <= 1}
             />
             <Button Icon={TableIcon} onClick={() => setEditorState(tableActions.removeTable(editorState, block))} />
         </Overlay>

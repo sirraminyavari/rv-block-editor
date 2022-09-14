@@ -30,4 +30,9 @@
             stroke: var(--color-primary);
         }
     }
+
+    &.disabled {
+        color: rgba(black, 0.2);
+        cursor: default;
+    }
 }
