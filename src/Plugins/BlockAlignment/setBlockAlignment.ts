@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { Alignment } from 'BlockEditor'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import setBlockData from 'BlockEditor/Lib/setBlockData'
+import getObjData from 'BlockEditor/Lib/getObjData'
 
 import { isSelectionInsideOneTable } from 'Plugins/Table/lib/isSelectionInsideOneTable'
 import { getTableData } from 'Plugins/Table/lib/getTableData'
@@ -23,14 +24,15 @@ export default function setBlockAlignment(
     const currentData = contentBlock.getData()
     const currentAlignment = currentData.get('_align')
 
+    // FIXME: Spaghetti code
     if (isSelectionInsideOneTable(editorState)) {
-        // FIXME: Spaghetti code
         const text = contentBlock.getText()
         const { colN } = getTableData(contentBlock)
         const { cell: ac } = getOffsetPositionsInTable(selectionState.getAnchorOffset(), colN, text)
         const { cell: fc } = getOffsetPositionsInTable(selectionState.getFocusOffset(), colN, text)
         const [sc, ec] = [Math.min(ac, fc), Math.max(ac, fc)]
-        const alignments = { ...(currentData.get('alignments')?.toJS() ?? {}) }
+        const alignments = getObjData(currentData, 'alignments') || {}
+        console.log({ alignments })
         Array.from({ length: ec - sc + 1 })
             .fill(sc)
             .forEach((v: number, i) => {

@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef } from 'react'
 import { EditorBlock } from 'draft-js'
+import _ from 'lodash'
 import cn from 'classnames'
 import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
-import { Map } from 'immutable'
+import getObjData from 'BlockEditor/Lib/getObjData'
 
 import * as styles from './styles.module.scss'
 import tableActions from './actions'
@@ -29,14 +30,17 @@ function Table({ config, ...props }) {
             <style
                 style={{ display: 'none' }}
                 dangerouslySetInnerHTML={{
-                    __html: (data.get('alignments') as Map<string, string> | undefined)
-                        ?.map(
+                    __html: _.reduce(
+                        _.mapValues(
+                            getObjData(data, 'alignments'),
                             (align, cellN) =>
                                 `#${tableId.current} [data-table-cell]:nth-child(${
                                     +cellN + 1
                                 }) { text-align: ${align}; }`
-                        )
-                        .join(' '),
+                        ),
+                        (acc, val) => acc + ' ' + val,
+                        ''
+                    ),
                 }}
             />
             <div
