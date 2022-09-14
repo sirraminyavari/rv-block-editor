@@ -48,10 +48,6 @@ export default function createTablePlugin(config: Config): EditorPlugin {
         },
 
         keyBindingFn(event, { getEditorState }) {
-            if (event.ctrlKey)
-                return {
-                    KeyQ: 'table-create',
-                }[event.code]
             const editorState = getEditorState()
             if (!isSelectionInsideOneTable(editorState)) return
             return {
@@ -62,9 +58,6 @@ export default function createTablePlugin(config: Config): EditorPlugin {
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
             const editorState = getEditorState()
             const fn = {
-                'table-create'() {
-                    setEditorState(createTable(editorState))
-                },
                 enter() {
                     const tableBlock = editorState
                         .getCurrentContent()
@@ -100,20 +93,4 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             ]),
         ],
     })
-}
-
-function createTable(editorState: EditorState, rowN = 4, colN = 3): EditorState {
-    const editorState2 = applyPlusActionToSelection(editorState, 'table')
-    const editorState3 = setBlockData(editorState2, editorState2.getSelection().getAnchorKey(), { rowN, colN })
-
-    const selectionState = editorState3.getSelection()
-    const contentState = editorState3.getCurrentContent()
-
-    const newContentState = Modifier.insertText(
-        contentState,
-        selectionState.merge({ anchorOffset: 0, focusOffset: 0 }), // TODO: new SelectionState
-        `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(rowN * colN)
-    )
-
-    return EditorState.push(editorState, newContentState, 'change-block-type')
 }
