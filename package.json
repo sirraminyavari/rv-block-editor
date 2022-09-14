@@ -1,105 +1,106 @@
 {
-  "name": "@sirraminyavari/rv-block-editor",
-  "version": "0.3.15-dev",
-  "license": "UNLICENSED",
-  "private": false,
-  "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/module.js",
-  "types": "dist/index.d.ts",
-  "browserslist": "IE 11",
-  "scripts": {
-    "dev": "parcel --target demo",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json}\"",
-    "postbuild": "sass src:dist && node scripts/afterBuild.js && rm -rf dist/Demo",
-    "build": "tsc -p ./tsconfig.json",
-    "prepare": "husky install"
-  },
-  "publishConfig": {
-    "@sirraminyavari:registry": "https://npm.pkg.github.com"
-  },
-  "alias": {
-    "BlockEditor": "./src/BlockEditor",
-    "Demo": "./src/Demo",
-    "Plugins": "./src/Plugins"
-  },
-  "targets": {
-    "main": {
-      "isLibrary": true,
-      "context": "browser",
-      "includeNodeModules": false,
-      "outputFormat": "esmodule",
-      "source": [
-        "./src/BlockEditor/index.tsx"
-      ],
-      "distDir": "dist"
+    "name": "@sirraminyavari/rv-block-editor",
+    "version": "0.3.15-dev.4",
+    "license": "UNLICENSED",
+    "private": false,
+    "type": "module",
+    "main": "dist/index.js",
+    "module": "dist/module.js",
+    "types": "dist/index.d.ts",
+    "browserslist": "IE 11",
+    "scripts": {
+        "dev": "parcel --target demo",
+        "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json}\"",
+        "postbuild": "sass src:dist && node scripts/afterBuild.js && rm -rf dist/Demo",
+        "build": "tsc -p ./tsconfig.json",
+        "prepare": "husky install"
     },
-    "demo": {
-      "source": [
-        "./src/Demo/index.html"
-      ],
-      "distDir": "demo-dist"
+    "publishConfig": {
+        "@sirraminyavari:registry": "https://npm.pkg.github.com"
+    },
+    "alias": {
+        "BlockEditor": "./src/BlockEditor",
+        "Demo": "./src/Demo",
+        "Plugins": "./src/Plugins"
+    },
+    "targets": {
+        "main": {
+            "isLibrary": true,
+            "context": "browser",
+            "includeNodeModules": false,
+            "outputFormat": "esmodule",
+            "source": [
+                "./src/BlockEditor/index.tsx"
+            ],
+            "distDir": "dist"
+        },
+        "demo": {
+            "source": [
+                "./src/Demo/index.html"
+            ],
+            "distDir": "demo-dist"
+        }
+    },
+    "files": [
+        "/dist",
+        "README.md"
+    ],
+    "dependencies": {
+        "@draft-js-plugins/editor": "^4.1.0",
+        "@draft-js-plugins/linkify": "^4.2.0",
+        "@draft-js-plugins/mention": "^5.0.0",
+        "@parcel/transformer-react-refresh-wrap": "^2.2.1",
+        "@popperjs/core": "^2.9.2",
+        "@swc/helpers": "^0.3.2",
+        "classnames": "^2.3.1",
+        "direction": "^2.0.0",
+        "draft-js": "^0.11.7",
+        "draft-js-block-breakout-plugin": "^2.0.1",
+        "draft-js-checkable-list-plugin": "^4.0.2",
+        "draft-js-code": "^0.3.0",
+        "draft-js-export-html": "^1.4.1",
+        "draft-js-image-plugin": "^2.0.7",
+        "draft-js-modifiers": "^0.2.2",
+        "draft-js-prism-plugin": "^0.1.3",
+        "draftjs-utils": "^0.10.2",
+        "framer-motion": "^4.1.17",
+        "html-to-draftjs": "^1.5.0",
+        "immutable": "3.7.4",
+        "lodash": "^4.17.21",
+        "prismjs": "^1.25.0",
+        "react-icons": "^4.2.0",
+        "react-perfect-scrollbar": "^1.5.8",
+        "react-popper": "^2.2.5",
+        "regenerator-runtime": "^0.13.9"
+    },
+    "peerDependencies": {
+        "react": ">=17.0.0",
+        "react-dom": ">=17.0.0"
+    },
+    "devDependencies": {
+        "@parcel/transformer-sass": "^2.2.1",
+        "@parcel/transformer-typescript-types": "^2.2.1",
+        "@types/draft-js": "^0.11.3",
+        "@types/lodash": "^4.14.176",
+        "@types/node": "^15.12.4",
+        "@types/prismjs": "^1.16.6",
+        "@types/react": "^17.0.11",
+        "@types/react-dom": "^17.0.8",
+        "babel-plugin-auto-import": "^1.1.0",
+        "husky": ">=6",
+        "lint-staged": ">=10",
+        "parcel": "^2.2.1",
+        "postcss": "^8.0.0",
+        "postcss-modules": "^4.3.0",
+        "prettier": "^2.7.1",
+        "process": "^0.11.10",
+        "react": "^17.0.0",
+        "react-dom": "^17.0.0",
+        "replace-in-file": "^6.3.5",
+        "sass": "^1.35.1",
+        "typescript": "^4.3.4"
+    },
+    "lint-staged": {
+        "src/**/*.{js,jsx,ts,tsx,css,scss,json}": "prettier --write"
     }
-  },
-  "files": [
-    "/dist",
-    "README.md"
-  ],
-  "dependencies": {
-    "@draft-js-plugins/editor": "^4.1.0",
-    "@draft-js-plugins/linkify": "^4.2.0",
-    "@draft-js-plugins/mention": "^5.0.0",
-    "@parcel/transformer-react-refresh-wrap": "^2.2.1",
-    "@popperjs/core": "^2.9.2",
-    "@swc/helpers": "^0.3.2",
-    "classnames": "^2.3.1",
-    "direction": "^2.0.0",
-    "draft-js": "^0.11.7",
-    "draft-js-block-breakout-plugin": "^2.0.1",
-    "draft-js-checkable-list-plugin": "^4.0.2",
-    "draft-js-code": "^0.3.0",
-    "draft-js-export-html": "^1.4.1",
-    "draft-js-modifiers": "^0.2.2",
-    "draft-js-prism-plugin": "^0.1.3",
-    "draftjs-utils": "^0.10.2",
-    "framer-motion": "^4.1.17",
-    "html-to-draftjs": "^1.5.0",
-    "immutable": "3.7.4",
-    "lodash": "^4.17.21",
-    "prismjs": "^1.25.0",
-    "react-icons": "^4.2.0",
-    "react-perfect-scrollbar": "^1.5.8",
-    "react-popper": "^2.2.5",
-    "regenerator-runtime": "^0.13.9"
-  },
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
-  },
-  "devDependencies": {
-    "@parcel/transformer-sass": "^2.2.1",
-    "@parcel/transformer-typescript-types": "^2.2.1",
-    "@types/draft-js": "^0.11.3",
-    "@types/lodash": "^4.14.176",
-    "@types/node": "^15.12.4",
-    "@types/prismjs": "^1.16.6",
-    "@types/react": "^17.0.11",
-    "@types/react-dom": "^17.0.8",
-    "babel-plugin-auto-import": "^1.1.0",
-    "husky": ">=6",
-    "lint-staged": ">=10",
-    "parcel": "^2.2.1",
-    "postcss": "^8.0.0",
-    "postcss-modules": "^4.3.0",
-    "prettier": "^2.7.1",
-    "process": "^0.11.10",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "replace-in-file": "^6.3.5",
-    "sass": "^1.35.1",
-    "typescript": "^4.3.4"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,css,scss,json}": "prettier --write"
-  }
 }

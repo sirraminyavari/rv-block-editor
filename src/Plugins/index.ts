@@ -14,6 +14,7 @@ import createTablePlugin from './Table'
 import createTextAnnotationsPlugin from './TextAnnotations'
 import createBlockAlignmentPlugin from './BlockAlignment'
 import createMentionPlugin from './Mention'
+import createImagePlugin from './Image'
 
 export {
     createBasicInlineStylesPlugin,
@@ -30,4 +31,5 @@ export {
     createTextAnnotationsPlugin,
     createBlockAlignmentPlugin,
     createMentionPlugin,
+    createImagePlugin,
 }

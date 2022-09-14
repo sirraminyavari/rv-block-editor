@@ -56,6 +56,7 @@ const plugins = [
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),
     _plugins.createMentionPlugin({ mentions }),
+    _plugins.createImagePlugin(),
 ]
 
 export default function App() {
