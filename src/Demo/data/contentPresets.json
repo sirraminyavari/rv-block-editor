@@ -20,6 +20,22 @@
                 "data": {}
             },
             {
+                "key": "blbgq",
+                "text": "͏One᠎͏᠎͏Two᠎͏᠎͏Three᠎͏᠎͏Four᠎͏᠎͏Five᠎͏᠎͏Six᠎͏Seven᠎",
+                "type": "table",
+                "depth": 0,
+                "inlineStyleRanges": [
+                    { "offset": 16, "length": 3, "style": "TEXT-COLOR-red" },
+                    { "offset": 32, "length": 4, "style": "HIGHLIGHT-COLOR-red" }
+                ],
+                "entityRanges": [],
+                "data": {
+                    "rowN": 4,
+                    "colN": 3,
+                    "alignments": { "2": "right", "3": "right", "4": "center", "6": "right", "11": "center" }
+                }
+            },
+            {
                 "key": "csl0t",
                 "text": "Why is it so Great?",
                 "type": "header-two",
