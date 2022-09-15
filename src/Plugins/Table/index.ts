@@ -49,21 +49,25 @@ export default function createTablePlugin(config: Config): EditorPlugin {
 
         keyBindingFn(event, { getEditorState }) {
             const editorState = getEditorState()
-            if (!isSelectionInsideOneTable(editorState)) return
+            if (!isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) return
             return {
                 Enter: 'enter',
+                ArrowRight: 'selection-move-right',
             }[event.code]
         },
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
-            const editorState = getEditorState()
             const fn = {
                 enter() {
+                    const editorState = getEditorState()
                     const tableBlock = editorState
                         .getCurrentContent()
                         .getBlockForKey(editorState.getSelection().getAnchorKey())
                     const { newEditorState } = nestAwareInsertEmptyBlockBelowAndFocus(editorState, tableBlock)
                     setEditorState(newEditorState)
+                },
+                'selection-move-right'() {
+                    console.log('arrow-right')
                 },
             }[command]
             fn?.()

@@ -25,7 +25,7 @@ export default function setBlockAlignment(
     const currentAlignment = currentData.get('_align')
 
     // FIXME: Spaghetti code
-    if (isSelectionInsideOneTable(editorState)) {
+    if (isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) {
         const text = contentBlock.getText()
         const { colN } = getTableData(contentBlock)
         const { cell: ac } = getOffsetPositionsInTable(selectionState.getAnchorOffset(), colN, text)
