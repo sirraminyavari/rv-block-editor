@@ -57,95 +57,93 @@ export default function createUiHandlerPlugin(): EditorPlugin {
 
         handleKeyCommand(command, editorState, _, { setEditorState }) {
             const { setPlusActionMenuInfo, blockLevelSelectionInfo, suspendBls } = getUiContext()
-
-            return (
-                {
-                    'select-all'() {
-                        const contentState = editorState.getCurrentContent()
-                        const selectionState = editorState.getSelection()
-                        const anchorBlock = contentState.getBlockForKey(selectionState.getAnchorKey())
-                        const newSelectionState = (() => {
-                            // true: The selection is inside exactly 1 block and a part of it (not all of it)
-                            if (selectionState.isCollapsed()) return true
-                            if (selectionState.getAnchorKey() !== selectionState.getFocusKey()) return false
-                            return (
-                                selectionState.getStartOffset() > 0 ||
-                                selectionState.getEndOffset() < anchorBlock.getLength()
-                            )
-                        })()
-                            ? selectionState.merge({
+            const fn = {
+                'select-all'() {
+                    const contentState = editorState.getCurrentContent()
+                    const selectionState = editorState.getSelection()
+                    const anchorBlock = contentState.getBlockForKey(selectionState.getAnchorKey())
+                    const newSelectionState = (() => {
+                        // true: The selection is inside exactly 1 block and a part of it (not all of it)
+                        if (selectionState.isCollapsed()) return true
+                        if (selectionState.getAnchorKey() !== selectionState.getFocusKey()) return false
+                        return (
+                            selectionState.getStartOffset() > 0 ||
+                            selectionState.getEndOffset() < anchorBlock.getLength()
+                        )
+                    })()
+                        ? selectionState.merge({
+                              anchorOffset: 0,
+                              focusOffset: anchorBlock.getLength(),
+                          })
+                        : (() => {
+                              const firstBlock = contentState.getFirstBlock()
+                              const lastBlock = contentState.getLastBlock()
+                              return selectionState.merge({
+                                  anchorKey: firstBlock.getKey(),
+                                  focusKey: lastBlock.getKey(),
                                   anchorOffset: 0,
-                                  focusOffset: anchorBlock.getLength(),
+                                  focusOffset: lastBlock.getLength(),
                               })
-                            : (() => {
-                                  const firstBlock = contentState.getFirstBlock()
-                                  const lastBlock = contentState.getLastBlock()
-                                  return selectionState.merge({
-                                      anchorKey: firstBlock.getKey(),
-                                      focusKey: lastBlock.getKey(),
-                                      anchorOffset: 0,
-                                      focusOffset: lastBlock.getLength(),
-                                  })
-                              })()
-                        if (!selectionState.equals(newSelectionState))
-                            setEditorState(EditorState.forceSelection(editorState, newSelectionState))
-                    },
+                          })()
+                    if (!selectionState.equals(newSelectionState))
+                        setEditorState(EditorState.forceSelection(editorState, newSelectionState))
+                },
 
-                    'bls-disable'() {
-                        const selectionState = editorState.getSelection()
-                        const newSelectionState = new SelectionState({
-                            anchorKey: selectionState.getAnchorKey(),
-                            anchorOffset: selectionState.getAnchorOffset(),
-                            focusKey: selectionState.getAnchorKey(),
-                            focusOffset: selectionState.getAnchorOffset(),
-                            isBackward: false,
-                            hasFocus: true,
-                        })
-                        const newEditorState = EditorState.forceSelection(editorState, newSelectionState)
+                'bls-disable'() {
+                    const selectionState = editorState.getSelection()
+                    const newSelectionState = new SelectionState({
+                        anchorKey: selectionState.getAnchorKey(),
+                        anchorOffset: selectionState.getAnchorOffset(),
+                        focusKey: selectionState.getAnchorKey(),
+                        focusOffset: selectionState.getAnchorOffset(),
+                        isBackward: false,
+                        hasFocus: true,
+                    })
+                    const newEditorState = EditorState.forceSelection(editorState, newSelectionState)
 
-                        setEditorState(newEditorState)
-                        setImmediate(getUiContext().disableBls)
+                    setEditorState(newEditorState)
+                    setImmediate(getUiContext().disableBls)
 
-                        return 'handled'
-                    },
+                    return 'handled'
+                },
 
-                    'bls-goDown'() {
-                        setEditorState(NASM.goDown(editorState, blockLevelSelectionInfo))
-                        return 'handled'
-                    },
-                    'bls-goUp'() {
-                        setEditorState(NASM.goUp(editorState, blockLevelSelectionInfo))
-                        return 'handled'
-                    },
-                    'bls-goDown-singleBlock'() {
-                        setEditorState(NASM.goDownSingleBlock(editorState, blockLevelSelectionInfo))
-                        return 'handled'
-                    },
-                    'bls-goUp-singleBlock'() {
-                        setEditorState(NASM.goUpSingleBlock(editorState, blockLevelSelectionInfo))
-                        return 'handled'
-                    },
+                'bls-goDown'() {
+                    setEditorState(NASM.goDown(editorState, blockLevelSelectionInfo))
+                    return 'handled'
+                },
+                'bls-goUp'() {
+                    setEditorState(NASM.goUp(editorState, blockLevelSelectionInfo))
+                    return 'handled'
+                },
+                'bls-goDown-singleBlock'() {
+                    setEditorState(NASM.goDownSingleBlock(editorState, blockLevelSelectionInfo))
+                    return 'handled'
+                },
+                'bls-goUp-singleBlock'() {
+                    setEditorState(NASM.goUpSingleBlock(editorState, blockLevelSelectionInfo))
+                    return 'handled'
+                },
 
-                    'bls-delete'() {
-                        suspendBls.current = true
-                        // TODO: Remove 'newSelectionState' from other places, it works w/o it now
-                        const newEditorState = blsAwareDelete(editorState, blockLevelSelectionInfo)
-                        setEditorState(newEditorState)
-                        getUiContext().disableBls()
-                        setImmediate(() => {
-                            suspendBls.current = false
-                        })
-                        return 'handled'
-                    },
+                'bls-delete'() {
+                    suspendBls.current = true
+                    // TODO: Remove 'newSelectionState' from other places, it works w/o it now
+                    const newEditorState = blsAwareDelete(editorState, blockLevelSelectionInfo)
+                    setEditorState(newEditorState)
+                    getUiContext().disableBls()
+                    setImmediate(() => {
+                        suspendBls.current = false
+                    })
+                    return 'handled'
+                },
 
-                    'bls-ignore': () => 'handled',
+                'bls-ignore': () => 'handled',
 
-                    'plusActionMenu-close'() {
-                        setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
-                        return 'handled'
-                    },
-                }[command]?.() || 'not-handled'
-            )
+                'plusActionMenu-close'() {
+                    setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
+                    return 'handled'
+                },
+            }[command]
+            return (fn?.() as any) ?? 'not-handled'
         },
     })
 }
