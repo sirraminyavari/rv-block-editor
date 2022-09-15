@@ -1,4 +1,4 @@
-import { EditorState, Modifier, CompositeDecorator } from 'draft-js'
+import { EditorState, Modifier, CompositeDecorator, ContentBlock } from 'draft-js'
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
 import { Map } from 'immutable'
@@ -52,7 +52,7 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             if (!isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) return
             return {
                 Enter: 'enter',
-                ArrowRight: 'selection-move-right',
+                ArrowRight: 'selection-move-forward',
             }[event.code]
         },
 
@@ -65,13 +65,47 @@ export default function createTablePlugin(config: Config): EditorPlugin {
                         .getBlockForKey(editorState.getSelection().getAnchorKey())
                     const { newEditorState } = nestAwareInsertEmptyBlockBelowAndFocus(editorState, tableBlock)
                     setEditorState(newEditorState)
+                    return 'handled'
                 },
-                'selection-move-right'() {
-                    console.log('arrow-right')
+                'selection-move-forward'() {
+                    const editorState = getEditorState()
+                    const selectionState = editorState.getSelection()
+                    const aOffset = selectionState.getAnchorOffset()
+                    const tableBlock = editorState
+                        .getCurrentContent()
+                        .getBlockForKey(editorState.getSelection().getAnchorKey())
+                    const text = tableBlock.getText()
+
+                    if (aOffset >= text.length - 1) {
+                        // TODO: Go next block if exist if no go nowhere
+                        const nextBlock = editorState.getCurrentContent().getBlockAfter(selectionState.getAnchorKey())
+                        if (!nextBlock) return 'handled'
+                        const nextBlockKey = nextBlock.getKey()
+                        setEditorState(
+                            EditorState.forceSelection(
+                                editorState,
+                                selectionState.merge({
+                                    anchorKey: nextBlockKey,
+                                    focusKey: nextBlockKey,
+                                    anchorOffset: 0,
+                                    focusOffset: 0,
+                                })
+                            )
+                        )
+                        return 'handled'
+                    }
+
+                    const newOffset = aOffset + (text[aOffset] === TABLE_CELL_MARKER.end ? 2 : 1)
+                    setEditorState(
+                        EditorState.forceSelection(
+                            editorState,
+                            selectionState.merge({ anchorOffset: newOffset, focusOffset: newOffset })
+                        )
+                    )
+                    return 'handled'
                 },
             }[command]
-            fn?.()
-            return fn ? 'handled' : 'not-handled'
+            return (fn?.() as any) ?? 'not-handled'
         },
 
         decorators: [
