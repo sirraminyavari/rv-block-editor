@@ -24,7 +24,7 @@ const isCritical = (text: string, offset: number) =>
     text[offset] === TABLE_CELL_MARKER.start || text[offset - 1] === TABLE_CELL_MARKER.end
 
 function adjustOffset(domSelection: Selection, offset: number, text: string) {
-    const cellElem = domSelection.anchorNode.parentElement.closest('[data-table-cell]')
+    const cellElem = domSelection.anchorNode?.parentElement.closest('[data-table-cell]')
     if (!cellElem) return offset
 
     const cellN = [...cellElem.parentElement.children].indexOf(cellElem)
