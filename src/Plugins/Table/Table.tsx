@@ -65,28 +65,40 @@ export function TableCell(props) {
 
 function TableOptions({ block, rowN, colN }) {
     const { editorState, setEditorState } = useEditorContext()
+    const blockKey = block.getKey()
+    const selectionState = editorState.getSelection()
+    const isRangeInside =
+        selectionState.getAnchorKey() === blockKey &&
+        selectionState.getFocusKey() === blockKey &&
+        !selectionState.isCollapsed()
 
     return (
         <Overlay className={styles.tableCellOptions}>
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.addRowAfterCursor(editorState, block))}
+                disabled={isRangeInside}
             />
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.addColAfterCursor(editorState, block))}
+                disabled={isRangeInside}
             />
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.removeRowByCursor(editorState, block))}
-                disabled={rowN <= 1}
+                disabled={isRangeInside || rowN <= 1}
             />
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.removeColByCursor(editorState, block))}
-                disabled={colN <= 1}
+                disabled={isRangeInside || colN <= 1}
             />
-            <Button Icon={TableIcon} onClick={() => setEditorState(tableActions.removeTable(editorState, block))} />
+            <Button
+                Icon={TableIcon}
+                onClick={() => setEditorState(tableActions.removeTable(editorState, block))}
+                disabled={isRangeInside}
+            />
         </Overlay>
     )
 }

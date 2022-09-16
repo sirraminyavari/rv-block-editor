@@ -1,6 +1,5 @@
 import { forwardRef, HTMLAttributes } from 'react'
 import cn from 'classnames'
-import _ from 'lodash'
 import { IconType } from 'react-icons'
 import { motion } from 'framer-motion'
 
@@ -18,7 +17,7 @@ export interface ButtonProps extends HTMLAttributes<HTMLDivElement> {
  * Generic button UI element.
  */
 const Button = forwardRef<HTMLDivElement, ButtonProps>(
-    ({ className, Icon, active, motion: useMotion, disabled, children, ...props }, ref) => {
+    ({ className, Icon, active, motion: useMotion, disabled, children, onClick, ...props }, ref) => {
         const Comp = useMotion ? motion.div : 'div'
         return (
             <Comp
@@ -28,7 +27,13 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>(
                     [styles.disabled]: disabled,
                 })}
                 onMouseDown={e => e.preventDefault()}
-                {...(_.omit(props, disabled ? 'onClick' : '') as any)}>
+                onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    if (disabled) return
+                    onClick?.(e)
+                }}
+                {...props}>
                 {Icon && <Icon />}
                 {children && <span children={children} />}
             </Comp>

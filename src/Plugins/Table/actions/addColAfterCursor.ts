@@ -10,6 +10,8 @@ export function addColAfterCursor(editorState: EditorState, tableBlock: ContentB
     const adjustedOffset = selectionState.getAnchorOffset() + row * 2
     return EditorState.forceSelection(
         EditorState.push(editorState, newContentState, 'change-block-data'),
-        selectionState.merge({ anchorOffset: adjustedOffset, focusOffset: adjustedOffset })
+        selectionState.getAnchorKey() === tableBlock.getKey()
+            ? selectionState.merge({ anchorOffset: adjustedOffset, focusOffset: adjustedOffset })
+            : selectionState
     )
 }
