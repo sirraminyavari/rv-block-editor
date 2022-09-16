@@ -65,6 +65,8 @@ export interface PlusAction {
     returnBreakout?: boolean
     // Whether to break out of a Content Block of this Plus Action on double return. (e.g. OL)
     doubleBreakout?: boolean
+    // TODO: Docs
+    stateTransformer?: (editorState: EditorState) => EditorState
 }
 
 /**

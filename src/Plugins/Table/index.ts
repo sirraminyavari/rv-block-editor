@@ -1,8 +1,8 @@
-import { EditorState, Modifier, CompositeDecorator, ContentBlock } from 'draft-js'
+import { EditorState, Modifier, CompositeDecorator } from 'draft-js'
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
-import applyPlusActionToSelection from 'BlockEditor/Lib/applyPlusActionToSelection'
+import _ from 'lodash'
 import { Map } from 'immutable'
-import setBlockData from 'BlockEditor/Lib/setBlockData'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import nestAwareInsertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/nestAwareInsertEmptyBlockBelowAndFocus'
 
 import { TableIcon } from './icons'
@@ -18,10 +18,12 @@ export const TABLE_CELL_MARKER = {
 }
 
 export interface Config {
-    plugins: EditorPlugin[]
+    rowN?: number
+    colN?: number
 }
 
-export default function createTablePlugin(config: Config): EditorPlugin {
+export default function createTablePlugin(config: Config = {}): EditorPlugin {
+    const { rowN = 4, colN = 3 } = config
     return ({ getUiContext }) => ({
         id: 'table',
 
@@ -29,7 +31,35 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             this.TableComponent = getTableComponent({ getUiContext, ...config })
         },
 
-        plusActions: [{ action: 'table', Icon: TableIcon, returnBreakout: false }],
+        plusActions: [
+            {
+                action: 'table',
+                Icon: TableIcon,
+                returnBreakout: false,
+                stateTransformer(editorState) {
+                    const selectionState = editorState.getSelection()
+                    const newContentState = _.chain(editorState.getCurrentContent())
+                        .thru(contentState =>
+                            mergeBlockData(EditorState.createWithContent(contentState), selectionState.getAnchorKey(), {
+                                rowN,
+                                colN,
+                            }).getCurrentContent()
+                        )
+                        .thru(contentState =>
+                            Modifier.insertText(
+                                contentState,
+                                editorState.getSelection().merge({ anchorOffset: 0, focusOffset: 0 }),
+                                `${TABLE_CELL_MARKER.start}gholam${TABLE_CELL_MARKER.end}`.repeat(rowN * colN)
+                            )
+                        )
+                        .value()
+                    return EditorState.forceSelection(
+                        EditorState.set(editorState, { currentContent: newContentState }),
+                        selectionState.merge({ anchorOffset: 1, focusOffset: 1 })
+                    )
+                },
+            },
+        ],
 
         blockRenderMap: Map({
             table: {

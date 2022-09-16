@@ -16,7 +16,10 @@ export interface PlusActionButtonProps {
 /**
  * Toggles a Plus Action on the focused Content Block.
  */
-const PlusActionButton: FC<PlusActionButtonProps> = ({ action: { action, Icon, label }, blockKey }) => {
+const PlusActionButton: FC<PlusActionButtonProps> = ({
+    action: { action, Icon, label, stateTransformer = s => s },
+    blockKey,
+}) => {
     const { editorState, setEditorState } = useEditorContext()
     const { blockRefs, setBlockControlsInfo, setPlusActionMenuInfo } = useUiContext()
     return (
@@ -30,7 +33,7 @@ const PlusActionButton: FC<PlusActionButtonProps> = ({ action: { action, Icon, l
             onMouseDown={e => e.preventDefault()}
             onClick={() => {
                 setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
-                setEditorState(applyPlusActionToSelection(editorState, action))
+                setEditorState(stateTransformer(applyPlusActionToSelection(editorState, action)))
                 setImmediate(() =>
                     setBlockControlsInfo(prev => ({
                         ...prev,
