@@ -53,28 +53,19 @@ export default function createTablePlugin(config: Config): EditorPlugin {
             return {
                 Enter: 'enter',
                 ArrowRight: 'selection-move-forward',
+                ArrowLeft: 'selection-move-backward',
             }[event.code]
         },
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
             const fn = {
-                enter() {
-                    const editorState = getEditorState()
-                    const tableBlock = editorState
-                        .getCurrentContent()
-                        .getBlockForKey(editorState.getSelection().getAnchorKey())
+                enter({ editorState, tableBlock }: typeof args) {
                     const { newEditorState } = nestAwareInsertEmptyBlockBelowAndFocus(editorState, tableBlock)
                     setEditorState(newEditorState)
                     return 'handled'
                 },
-                'selection-move-forward'() {
-                    const editorState = getEditorState()
-                    const selectionState = editorState.getSelection()
+                'selection-move-forward'({ editorState, selectionState, text }: typeof args) {
                     const aOffset = selectionState.getAnchorOffset()
-                    const tableBlock = editorState
-                        .getCurrentContent()
-                        .getBlockForKey(editorState.getSelection().getAnchorKey())
-                    const text = tableBlock.getText()
 
                     if (aOffset >= text.length - 1) {
                         // TODO: Go next block if exist if no go nowhere
@@ -104,8 +95,48 @@ export default function createTablePlugin(config: Config): EditorPlugin {
                     )
                     return 'handled'
                 },
+                'selection-move-backward'({ editorState, selectionState, text }: typeof args) {
+                    const aOffset = selectionState.getAnchorOffset()
+
+                    if (aOffset <= 1) {
+                        // TODO: Go next block if exist if no go nowhere
+                        const prevBlock = editorState.getCurrentContent().getBlockBefore(selectionState.getAnchorKey())
+                        if (!prevBlock) return 'handled'
+                        const prevBlockKey = prevBlock.getKey()
+                        const length = prevBlock.getLength()
+                        setEditorState(
+                            EditorState.forceSelection(
+                                editorState,
+                                selectionState.merge({
+                                    anchorKey: prevBlockKey,
+                                    focusKey: prevBlockKey,
+                                    anchorOffset: length,
+                                    focusOffset: length,
+                                })
+                            )
+                        )
+                        return 'handled'
+                    }
+
+                    const newOffset = aOffset - (text[aOffset - 1] === TABLE_CELL_MARKER.start ? 2 : 1)
+                    setEditorState(
+                        EditorState.forceSelection(
+                            editorState,
+                            selectionState.merge({ anchorOffset: newOffset, focusOffset: newOffset })
+                        )
+                    )
+                    return 'handled'
+                },
             }[command]
-            return (fn?.() as any) ?? 'not-handled'
+            if (!fn) return 'not-handled'
+
+            const editorState = getEditorState()
+            const selectionState = editorState.getSelection()
+            const contentState = editorState.getCurrentContent()
+            const tableBlock = contentState.getBlockForKey(editorState.getSelection().getAnchorKey())
+            const text = tableBlock.getText()
+            const args = { editorState, contentState, selectionState, tableBlock, text } as const
+            return fn(args) as any
         },
 
         decorators: [
