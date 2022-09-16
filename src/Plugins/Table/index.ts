@@ -10,7 +10,6 @@ import getTableComponent, { TableCell } from './Table'
 import tableLib from './lib'
 import { isSelectionInsideOneTable } from './lib/isSelectionInsideOneTable'
 
-// export const TABLE_CELL_MARKER = { start: '#', end: '$' }
 export const TABLE_CELL_MARKER = {
     // https://invisible-characters.com
     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
@@ -49,7 +48,7 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                             Modifier.insertText(
                                 contentState,
                                 editorState.getSelection().merge({ anchorOffset: 0, focusOffset: 0 }),
-                                `${TABLE_CELL_MARKER.start}gholam${TABLE_CELL_MARKER.end}`.repeat(rowN * colN)
+                                `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(rowN * colN)
                             )
                         )
                         .value()
