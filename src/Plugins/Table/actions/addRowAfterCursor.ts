@@ -4,7 +4,11 @@ import tableLib from '../lib'
 import { addRow } from './addRow'
 
 export function addRowAfterCursor(editorState: EditorState, tableBlock: ContentBlock) {
-    const anchorRow = tableLib.getCursorPositionInTable(editorState.getSelection(), tableBlock, true).row
-    const newContentState = addRow(editorState.getCurrentContent(), tableBlock, anchorRow)
-    return EditorState.push(editorState, newContentState, 'change-block-data')
+    const selectionState = editorState.getSelection()
+    const { row } = tableLib.getCursorPositionInTable(selectionState, tableBlock, true)
+    const newContentState = addRow(editorState.getCurrentContent(), tableBlock, row)
+    return EditorState.forceSelection(
+        EditorState.push(editorState, newContentState, 'change-block-data'),
+        selectionState
+    )
 }

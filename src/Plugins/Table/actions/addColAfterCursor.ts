@@ -4,7 +4,12 @@ import tableLib from '../lib'
 import { addCol } from './addCol'
 
 export function addColAfterCursor(editorState: EditorState, tableBlock: ContentBlock) {
-    const anchorCol = tableLib.getCursorPositionInTable(editorState.getSelection(), tableBlock, true).col
-    const newContentState = addCol(editorState.getCurrentContent(), tableBlock, anchorCol)
-    return EditorState.push(editorState, newContentState, 'change-block-data')
+    const selectionState = editorState.getSelection()
+    const { row, col } = tableLib.getCursorPositionInTable(selectionState, tableBlock, true)
+    const newContentState = addCol(editorState.getCurrentContent(), tableBlock, col)
+    const adjustedOffset = selectionState.getAnchorOffset() + row * 2
+    return EditorState.forceSelection(
+        EditorState.push(editorState, newContentState, 'change-block-data'),
+        selectionState.merge({ anchorOffset: adjustedOffset, focusOffset: adjustedOffset })
+    )
 }
