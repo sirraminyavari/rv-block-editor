@@ -1,8 +1,8 @@
-import type { FC } from 'react'
+import { FC, useCallback } from 'react'
 import type { EditorState } from 'draft-js'
 import { createContext, useContext } from 'react'
 
-import { adjustSelection } from 'Plugins/Table/lib/adjustSelection'
+import useTransformedPluginsContext from './TransformedPlugins'
 
 export interface EditorContext {
     editorState?: EditorState
@@ -22,13 +22,25 @@ export interface EditorContextProviderProps {
  * Provides access to the general state of the editor for the nested components.
  */
 export const EditorContextProvider: FC<EditorContextProviderProps> = ({ editorState, setEditorState, children }) => {
+    const { allPlugins } = useTransformedPluginsContext()
+    const stateTransformer = useCallback(
+        editorState => {
+            const subTransformers = allPlugins.map(p => p.stateTransformer).filter(Boolean)
+            const stateTransformer = subTransformers.reduce(
+                (cb, transformer) => s => transformer(cb(s)),
+                s => s
+            )
+            return stateTransformer(editorState)
+        },
+        [allPlugins]
+    )
+
     return (
         <EditorContext.Provider
             value={{
                 editorState,
                 setEditorState(newEditorState: EditorState) {
-                    // TODO: Implement hooks // FIXME: Spaghetti code
-                    setEditorState(adjustSelection(newEditorState))
+                    setEditorState(stateTransformer(newEditorState))
                 },
             }}
             children={children}

@@ -1,8 +1,8 @@
-import { createContext, useContext, MutableRefObject } from 'react'
+import { FC, createContext, useContext, MutableRefObject } from 'react'
+import { EditorState } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 
-import { Language, Direction, Dict } from 'BlockEditor'
-import useEditorContext from 'BlockEditor/Contexts/EditorContext'
+import { Language, Direction, Dict as Dictionary } from 'BlockEditor'
 
 import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'
@@ -23,10 +23,10 @@ export * from 'BlockEditor/DnD/useDrag'
 
 export interface UiContext {
     // Misc:
-    dict: Dict
+    dict: Dictionary
     dir: Direction
     lang: Language
-    externalStyles: { [key: string]: string }
+    externalStyles: Record<string, string>
     debugMode: boolean
     textarea: boolean
     readOnly: boolean
@@ -60,11 +60,33 @@ export const UiContext = createContext<UiContext>(null)
 export const useUiContext = () => useContext(UiContext)
 export default useUiContext
 
+export interface UiContextProviderProps {
+    editorState: EditorState
+    styles: Record<string, string>
+    dict: Dictionary
+    dir: Direction
+    lang: Language
+    uiPortalNode: HTMLElement
+    debugMode: boolean
+    textarea: boolean
+    readOnly: boolean
+}
+
 /**
  * Provides general information and calculated values regarding the Block Editor user interface.
  */
-export function UiContextProvider({ styles, dict, dir, lang, children, uiPortalNode, debugMode, textarea, readOnly }) {
-    const { editorState } = useEditorContext()
+export const UiContextProvider: FC<UiContextProviderProps> = ({
+    editorState,
+    styles,
+    dict,
+    dir,
+    lang,
+    uiPortalNode,
+    debugMode,
+    textarea,
+    readOnly,
+    children,
+}) => {
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
 

@@ -20,6 +20,9 @@ export type Dict = {
     }
 }
 
+// TODO: Docs
+export type StateTransformer = (editorState: EditorState) => EditorState
+
 /**
  * These Props are passed to all inline-style custom components
  */
@@ -66,7 +69,7 @@ export interface PlusAction {
     // Whether to break out of a Content Block of this Plus Action on double return. (e.g. OL)
     doubleBreakout?: boolean
     // TODO: Docs
-    stateTransformer?: (editorState: EditorState) => EditorState
+    stateTransformer?: StateTransformer
 }
 
 /**
@@ -74,8 +77,8 @@ export interface PlusAction {
  * * This interface will be used throughout the internal implementation of this editor instead of `PlusAction`.
  */
 export interface TransformedPlusAction extends PlusAction {
-    // The i18ned label of the Plus Action
-    label: string
+    // TODO: Docs
+    plugin: EditorPluginObject
 }
 
 /**
@@ -91,6 +94,8 @@ export interface EditorPluginObject extends _EditorPlugin {
     plusActions?: PlusAction[]
     // A component used to display a custom UI for the plugin
     OverlayComponent?: ComponentType<ReactNode>
+    // TODO: Docs
+    stateTransformer?: StateTransformer
 }
 
 export interface EditorPluginFunctionArg {

@@ -40,7 +40,6 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
     children,
 }) => {
     const uiContext = useUiContext()
-    const { dict, lang } = uiContext
     const uiContextRef = useRef(uiContext)
     useEffect(() => void (uiContextRef.current = uiContext), [uiContext])
 
@@ -65,12 +64,12 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
                     ...acc,
                     ...(plugin.plusActions?.map(plusAction => ({
                         ...plusAction,
-                        label: dict[lang][`plugins.${plugin.id}.${plusAction.action}`],
+                        plugin,
                     })) || []),
                 ],
                 []
             ),
-        [pluginObjects, dict, lang]
+        [pluginObjects]
     )
 
     const PluginsOverlay = useCallback(() => {
@@ -84,7 +83,7 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
                 ))}
             </>
         )
-    }, [pluginObjects, dict, lang])
+    }, [pluginObjects])
 
     const allPlugins = useMemo(() => {
         const nestingPlugin = createNestingPlugin()

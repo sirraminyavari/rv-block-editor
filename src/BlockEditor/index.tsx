@@ -1,6 +1,5 @@
 // TODO: Use sass utils for: [ data-block-key ][ dir = rtl ] & {}
 
-import type { EditorContextProviderProps } from './Contexts/EditorContext'
 import * as _defaultTheme from './defaultEditorTheme.module.scss'
 
 import { forwardRef } from 'react'
@@ -55,23 +54,22 @@ const BlockEditor = forwardRef<PluginsEditor, BlockEditorProps>(
         ref
     ) => {
         return (
-            <EditorContextProvider
+            <UiContextProvider
                 editorState={editorState}
-                setEditorState={setEditorState as EditorContextProviderProps['setEditorState']}>
-                <UiContextProvider
-                    styles={styles}
-                    dict={dict}
-                    dir={dir}
-                    lang={lang}
-                    uiPortalNode={uiPortalNode}
-                    debugMode={debugMode}
-                    textarea={textarea}
-                    readOnly={readOnly}>
-                    <TransformedPluginsContextProvider plugins={plugins}>
+                styles={styles}
+                dict={dict}
+                dir={dir}
+                lang={lang}
+                uiPortalNode={uiPortalNode}
+                debugMode={debugMode}
+                textarea={textarea}
+                readOnly={readOnly}>
+                <TransformedPluginsContextProvider plugins={plugins}>
+                    <EditorContextProvider editorState={editorState} setEditorState={setEditorState}>
                         <Editor key={'rerender' + +textarea} ref={ref} {...props} />
-                    </TransformedPluginsContextProvider>
-                </UiContextProvider>
-            </EditorContextProvider>
+                    </EditorContextProvider>
+                </TransformedPluginsContextProvider>
+            </UiContextProvider>
         )
     }
 )

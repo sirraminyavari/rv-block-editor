@@ -8,7 +8,6 @@ import nestAwareInsertEmptyBlockBelowAndFocus from 'BlockEditor/Lib/nestAwareIns
 import { TableIcon } from './icons'
 import getTableComponent, { TableCell } from './Table'
 import tableLib from './lib'
-import { isSelectionInsideOneTable } from './lib/isSelectionInsideOneTable'
 
 export const TABLE_CELL_MARKER = {
     // https://invisible-characters.com
@@ -60,6 +59,10 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
             },
         ],
 
+        stateTransformer(editorState) {
+            return tableLib.adjustSelection(editorState)
+        },
+
         blockRenderMap: Map({
             table: {
                 element: withBlockWrapper('div', {
@@ -78,7 +81,7 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
 
         keyBindingFn(event, { getEditorState }) {
             const editorState = getEditorState()
-            if (!isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) return
+            if (!tableLib.isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) return
             return {
                 Enter: 'enter',
                 ArrowRight: 'selection-move-forward',
