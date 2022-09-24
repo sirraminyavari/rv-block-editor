@@ -82,21 +82,28 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
         keyBindingFn(event, { getEditorState }) {
             const editorState = getEditorState()
             if (!tableLib.isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) return
-            return {
-                Enter: 'enter',
-                ArrowRight: 'selection-move-forward',
-                ArrowLeft: 'selection-move-backward',
+            const freeAction = {
+                Enter: 'table-enter',
+                ArrowRight: 'table-selection-move-forward',
+                ArrowLeft: 'table-selection-move-backward',
             }[event.code]
+            if (freeAction) return freeAction
+            if (!editorState.getSelection().isCollapsed()) {
+                if (event.code === 'Backspace') return 'table-remove-range-backward'
+                if (event.code === 'Delete') return 'table-remove-range-forward'
+                return 'table-ignore'
+            }
         },
 
-        handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
+        // TODO: Refactor to another file
+        handleKeyCommand(command, _1, _2, { getEditorState, setEditorState }) {
             const fn = {
-                enter({ editorState, tableBlock }: typeof args) {
+                'table-enter'({ editorState, tableBlock }: typeof args) {
                     const { newEditorState } = nestAwareInsertEmptyBlockBelowAndFocus(editorState, tableBlock)
                     setEditorState(newEditorState)
                     return 'handled'
                 },
-                'selection-move-forward'({ editorState, selectionState, text }: typeof args) {
+                'table-selection-move-forward'({ editorState, selectionState, text }: typeof args) {
                     const aOffset = selectionState.getAnchorOffset()
 
                     if (aOffset >= text.length - 1) {
@@ -127,7 +134,7 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                     )
                     return 'handled'
                 },
-                'selection-move-backward'({ editorState, selectionState, text }: typeof args) {
+                'table-selection-move-backward'({ editorState, selectionState, text }: typeof args) {
                     const aOffset = selectionState.getAnchorOffset()
 
                     if (aOffset <= 1) {
@@ -159,6 +166,27 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                     )
                     return 'handled'
                 },
+                'table-remove-range-forward'({ editorState, selectionState, contentState }: typeof args) {
+                    setEditorState(
+                        EditorState.push(
+                            editorState,
+                            tableLib.removeRange(contentState, selectionState, 'forward'),
+                            'remove-range'
+                        )
+                    )
+                    return 'handled'
+                },
+                'table-remove-range-backward'({ editorState, selectionState, contentState }: typeof args) {
+                    setEditorState(
+                        EditorState.push(
+                            editorState,
+                            tableLib.removeRange(contentState, selectionState, 'backward'),
+                            'remove-range'
+                        )
+                    )
+                    return 'handled'
+                },
+                'table-ignore': () => 'handled',
             }[command]
             if (!fn) return 'not-handled'
 

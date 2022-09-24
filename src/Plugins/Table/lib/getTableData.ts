@@ -1,4 +1,4 @@
-import { ContentBlock, SelectionState } from 'draft-js'
+import { ContentBlock } from 'draft-js'
 
 export function getTableData(tableBlock: ContentBlock) {
     const blockKey = tableBlock.getKey()
