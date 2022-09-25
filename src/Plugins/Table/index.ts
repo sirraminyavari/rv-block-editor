@@ -34,7 +34,7 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                 action: 'table',
                 Icon: TableIcon,
                 returnBreakout: false,
-                stateTransformer(editorState) {
+                initialStateTransformer(editorState) {
                     const selectionState = editorState.getSelection()
                     const newContentState = _.chain(editorState.getCurrentContent())
                         .thru(contentState =>

@@ -17,7 +17,7 @@ export interface PlusActionButtonProps {
  * Toggles a Plus Action on the focused Content Block.
  */
 const PlusActionButton: FC<PlusActionButtonProps> = ({
-    action: { action, Icon, plugin, stateTransformer = s => s },
+    action: { action, Icon, plugin, initialStateTransformer: stateTransformer = s => s },
     blockKey,
 }) => {
     const { editorState, setEditorState } = useEditorContext()

@@ -69,7 +69,7 @@ export interface PlusAction {
     // Whether to break out of a Content Block of this Plus Action on double return. (e.g. OL)
     doubleBreakout?: boolean
     // TODO: Docs
-    stateTransformer?: StateTransformer
+    initialStateTransformer?: StateTransformer
 }
 
 /**
