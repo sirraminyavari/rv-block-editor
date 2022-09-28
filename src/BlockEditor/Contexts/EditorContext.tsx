@@ -24,13 +24,29 @@ export interface EditorContextProviderProps {
 export const EditorContextProvider: FC<EditorContextProviderProps> = ({ editorState, setEditorState, children }) => {
     const { allPlugins } = useTransformedPluginsContext()
     const stateTransformer = useCallback(
-        editorState => {
+        (incomingEditorState, prevEditorState) => {
             const subTransformers = allPlugins.map(p => p.stateTransformer).filter(Boolean)
-            const stateTransformer = subTransformers.reduce(
-                (cb, transformer) => s => transformer(cb(s)),
-                s => s
-            )
-            return stateTransformer(editorState)
+            const memo = []
+            function stateTransformer(
+                incomingEditorState: EditorState,
+                prevEditorState: EditorState,
+                n = subTransformers.length - 1
+            ) {
+                if (memo[n]) return memo[n]
+                if (n === 0) return subTransformers[0](incomingEditorState, prevEditorState)
+                if (n === 1)
+                    return subTransformers[1](
+                        incomingEditorState,
+                        stateTransformer(incomingEditorState, prevEditorState, 0)
+                    )
+                const nextEditorState = subTransformers[n](
+                    stateTransformer(incomingEditorState, prevEditorState, n - 1),
+                    stateTransformer(incomingEditorState, prevEditorState, n - 2)
+                )
+                memo[n] = nextEditorState
+                return nextEditorState
+            }
+            return stateTransformer(incomingEditorState, prevEditorState)
         },
         [allPlugins]
     )
@@ -40,7 +56,7 @@ export const EditorContextProvider: FC<EditorContextProviderProps> = ({ editorSt
             value={{
                 editorState,
                 setEditorState(newEditorState: EditorState) {
-                    setEditorState(stateTransformer(newEditorState))
+                    setEditorState(stateTransformer(newEditorState, editorState))
                 },
             }}
             children={children}

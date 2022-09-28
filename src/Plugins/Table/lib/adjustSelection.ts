@@ -5,6 +5,10 @@ import { TABLE_CELL_MARKER } from '..'
 import { isSelectionInsideOneTable } from './isSelectionInsideOneTable'
 
 export function adjustSelection(editorState: EditorState) {
+    return adjustSelection2(editorState)
+}
+
+function adjustSelection2(editorState: EditorState) {
     const selectionStatus = isSelectionInsideOneTable(editorState)
     if (!selectionStatus.isSelectionInsideOneTable) return editorState
     const { selection, tableBlock } = selectionStatus

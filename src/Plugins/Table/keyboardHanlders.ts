@@ -5,15 +5,23 @@ import { EditorPluginObject } from 'BlockEditor'
 import { TABLE_CELL_MARKER } from '.'
 import tableLib from './lib'
 
-export const keyBindingFn: EditorPluginObject['keyBindingFn'] = (event, { getEditorState }) => {
+export const keyBindingFn: EditorPluginObject['keyBindingFn'] = (event, { getEditorState, setEditorState }) => {
     const editorState = getEditorState()
-    if (!tableLib.isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) return
-    const freeAction = {
-        Enter: 'table-enter',
-        ArrowRight: 'table-selection-move-forward',
-        ArrowLeft: 'table-selection-move-backward',
-    }[event.code]
-    if (freeAction) return freeAction
+    const selectionStatus = tableLib.isSelectionInsideOneTable(editorState)
+    if (!selectionStatus.isSelectionInsideOneTable) return
+    if (event.code === 'Enter') return 'table-error'
+    if (['ArrowRight', 'ArrowLeft'].indexOf(event.code) >= 0)
+        return (
+            void console.log(event.ctrlKey, event.shiftKey) ||
+            tableLib.tableSelectionMoveForward(
+                editorState,
+                setEditorState,
+                selectionStatus.selection,
+                selectionStatus.tableBlock.getText(),
+                event.ctrlKey,
+                event.shiftKey
+            )
+        )
     if (!editorState.getSelection().isCollapsed()) {
         if (event.code === 'Backspace') return 'table-remove-range-backward'
         if (event.code === 'Delete') return 'table-remove-range-forward'
@@ -37,41 +45,13 @@ const handlers: Record<string, handler> = {
         return 'handled'
     },
     'table-selection-move-forward'({ editorState, setEditorState, selectionState, text }) {
-        const aOffset = selectionState.getAnchorOffset()
-
-        if (aOffset >= text.length - 1) {
-            // TODO: Go next block if exist if no go nowhere
-            const nextBlock = editorState.getCurrentContent().getBlockAfter(selectionState.getAnchorKey())
-            if (!nextBlock) return 'handled'
-            const nextBlockKey = nextBlock.getKey()
-            setEditorState(
-                EditorState.forceSelection(
-                    editorState,
-                    selectionState.merge({
-                        anchorKey: nextBlockKey,
-                        focusKey: nextBlockKey,
-                        anchorOffset: 0,
-                        focusOffset: 0,
-                    })
-                )
-            )
-            return 'handled'
-        }
-
-        const newOffset = aOffset + (text[aOffset] === TABLE_CELL_MARKER.end ? 2 : 1)
-        setEditorState(
-            EditorState.forceSelection(
-                editorState,
-                selectionState.merge({ anchorOffset: newOffset, focusOffset: newOffset })
-            )
-        )
+        tableLib.tableSelectionMoveForward(editorState, setEditorState, selectionState, text)
         return 'handled'
     },
     'table-selection-move-backward'({ editorState, setEditorState, selectionState, text }) {
         const aOffset = selectionState.getAnchorOffset()
 
         if (aOffset <= 1) {
-            // TODO: Go next block if exist if no go nowhere
             const prevBlock = editorState.getCurrentContent().getBlockBefore(selectionState.getAnchorKey())
             if (!prevBlock) return 'handled'
             const prevBlockKey = prevBlock.getKey()

@@ -33,7 +33,7 @@ const PlusActionButton: FC<PlusActionButtonProps> = ({
             onMouseDown={e => e.preventDefault()}
             onClick={() => {
                 setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
-                setEditorState(stateTransformer(applyPlusActionToSelection(editorState, action)))
+                setEditorState(stateTransformer(applyPlusActionToSelection(editorState, action), editorState))
                 setImmediate(() =>
                     setBlockControlsInfo(prev => ({
                         ...prev,

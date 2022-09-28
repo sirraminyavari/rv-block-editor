@@ -21,7 +21,7 @@ export type Dict = {
 }
 
 // TODO: Docs
-export type StateTransformer = (editorState: EditorState) => EditorState
+export type StateTransformer = (incomingEditorState: EditorState, prevEditorState: EditorState) => EditorState
 
 /**
  * These Props are passed to all inline-style custom components
