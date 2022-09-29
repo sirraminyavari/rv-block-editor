@@ -28,18 +28,24 @@ export default function setBlockAlignment(
     if (isSelectionInsideOneTable(editorState).isSelectionInsideOneTable) {
         const text = contentBlock.getText()
         const { colN } = getTableData(contentBlock)
-        const { cell: ac } = getOffsetPositionsInTable(selectionState.getAnchorOffset(), colN, text)
-        const { cell: fc } = getOffsetPositionsInTable(selectionState.getFocusOffset(), colN, text)
-        const [sc, ec] = [Math.min(ac, fc), Math.max(ac, fc)]
-        const alignments = getObjData(currentData, 'alignments') || {}
-        console.log({ alignments })
-        Array.from({ length: ec - sc + 1 })
-            .fill(sc)
-            .forEach((v: number, i) => {
-                const cellN = v + i
-                if (alignments[cellN] === align) return delete alignments[cellN]
-                alignments[cellN] = align
-            })
+        const { cell: anchorCellN } = getOffsetPositionsInTable(selectionState.getAnchorOffset(), colN, text)
+        const { cell: focusCellN } = getOffsetPositionsInTable(selectionState.getFocusOffset(), colN, text)
+        const [startCellN, endCellN] = [Math.min(anchorCellN, focusCellN), Math.max(anchorCellN, focusCellN)]
+
+        const alignments = (() => {
+            const alignments: Record<number, Alignment> = getObjData(currentData, 'alignments') || {}
+            const resetAligns = _.chain(alignments)
+                .thru(a => _.pickBy(a, (_, i: any) => i >= startCellN && i <= endCellN))
+                .thru(a => Object.values(a))
+                .thru(a => a.length && a.every(a => a === align))
+                .value()
+            for (let cellN = startCellN; cellN <= endCellN; cellN++) {
+                if (resetAligns) delete alignments[cellN]
+                else alignments[cellN] = align
+            }
+            return alignments
+        })()
+
         const newEditorState = mergeBlockData(editorState, blockKey, { alignments })
         setEditorState(newEditorState)
         return
