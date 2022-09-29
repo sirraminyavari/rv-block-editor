@@ -21,12 +21,12 @@
             },
             {
                 "key": "blbgq",
-                "text": "͏One᠎͏᠎͏Two᠎͏᠎͏Three᠎͏᠎͏Four᠎͏᠎͏Five᠎͏᠎͏Six᠎͏Seven᠎",
+                "text": "͏One᠎͏Just some text bro᠎͏Two᠎͏᠎͏Three᠎͏᠎͏Four᠎͏᠎͏Five᠎͏᠎͏Six᠎͏Seven᠎",
                 "type": "table",
                 "depth": 0,
                 "inlineStyleRanges": [
-                    { "offset": 16, "length": 3, "style": "TEXT-COLOR-red" },
-                    { "offset": 32, "length": 4, "style": "HIGHLIGHT-COLOR-red" }
+                    { "offset": 34, "length": 3, "style": "TEXT-COLOR-red" },
+                    { "offset": 50, "length": 4, "style": "HIGHLIGHT-COLOR-red" }
                 ],
                 "entityRanges": [],
                 "data": {
