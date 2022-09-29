@@ -5,6 +5,7 @@ import { TABLE_CELL_MARKER } from '..'
 import { isSelectionInsideOneTable } from './isSelectionInsideOneTable'
 
 export function adjustSelection(incEditorState: EditorState, prevEditorState: EditorState) {
+    const incContentState = incEditorState.getCurrentContent()
     const selectionStatus = isSelectionInsideOneTable(incEditorState)
     if (!selectionStatus.isSelectionInsideOneTable) return incEditorState
     const { selection: incSelectionState, tableBlock } = selectionStatus
@@ -27,6 +28,34 @@ export function adjustSelection(incEditorState: EditorState, prevEditorState: Ed
                 focusOffset: adjustedOffset,
             })
         }
+
+        if (incFocusOffset === 0) {
+            if (prevFocusOffset === 1) {
+                const prevBlock = incContentState.getBlockBefore(tableBlock.getKey())
+                if (!prevBlock) return incSelectionState.merge({ focusOffset: 1 })
+                return incSelectionState.merge({
+                    focusKey: prevBlock.getKey(),
+                    focusOffset: prevBlock.getText().length,
+                })
+            }
+            return incSelectionState.merge({
+                focusOffset: 1,
+            })
+        }
+        if (incFocusOffset === text.length) {
+            if (prevFocusOffset === text.length - 1) {
+                const nextBlock = incContentState.getBlockAfter(tableBlock.getKey())
+                if (!nextBlock) return incSelectionState.merge({ focusOffset: text.length - 1 })
+                return incSelectionState.merge({
+                    focusKey: nextBlock.getKey(),
+                    focusOffset: 0,
+                })
+            }
+            return incSelectionState.merge({
+                focusOffset: incFocusOffset - 1, // === text.length - 1
+            })
+        }
+
         return incSelectionState.merge({
             anchorOffset: adjustOffsetComp(incAnchorOffset, prevAnchorOffset),
             focusOffset: adjustOffsetComp(incFocusOffset, prevFocusOffset),
