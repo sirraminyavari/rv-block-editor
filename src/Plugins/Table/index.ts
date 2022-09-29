@@ -59,8 +59,8 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
             },
         ],
 
-        stateTransformer(editorState) {
-            return tableLib.adjustSelection(editorState)
+        stateTransformer(incomingEditorState, prevEditorState) {
+            return tableLib.adjustSelection(incomingEditorState, prevEditorState)
         },
 
         blockRenderMap: Map({
