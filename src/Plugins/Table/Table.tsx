@@ -6,6 +6,7 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
 import getObjData from 'BlockEditor/Lib/getObjData'
+import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import * as styles from './styles.module.scss'
 import tableActions from './actions'
@@ -23,8 +24,10 @@ function Table({ config, ...props }) {
     useLayoutEffect(() => {
         tableId.current = makeTableId()
     }, [])
+    const { externalStyles } = useUiContext()
 
     const { rowN, colN, data } = props.blockProps
+
     return (
         <>
             <style
@@ -45,7 +48,7 @@ function Table({ config, ...props }) {
             />
             <div
                 id={tableId.current}
-                className={styles.tableOuterWrapper}
+                className={externalStyles.table}
                 style={{
                     // @ts-expect-error
                     '--row-n': rowN,
@@ -60,11 +63,14 @@ function Table({ config, ...props }) {
 
 export function TableCell(props) {
     const { children } = props // It also has 'contentState' & 'entityKey'
-    return <span data-table-cell className={styles.tableCell} children={children} />
+    const { externalStyles } = useUiContext()
+
+    return <span data-table-cell className={externalStyles.tableCell} children={children} />
 }
 
 function TableOptions({ block, rowN, colN }) {
     const { editorState, setEditorState } = useEditorContext()
+    const { externalStyles } = useUiContext()
     const blockKey = block.getKey()
     const selectionState = editorState.getSelection()
     const isRangeInside =
@@ -73,7 +79,7 @@ function TableOptions({ block, rowN, colN }) {
         !selectionState.isCollapsed()
 
     return (
-        <Overlay className={styles.tableCellOptions}>
+        <Overlay className={externalStyles.tableCellOptions}>
             <Button
                 Icon={TableIcon}
                 onClick={() => setEditorState(tableActions.addRowAfterCursor(editorState, block))}

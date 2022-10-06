@@ -66,7 +66,10 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
         blockRenderMap: Map({
             table: {
                 element: withBlockWrapper('div', {
-                    // TODO: Styles
+                    styles: {
+                        wrapper: ['table-wrapper'],
+                        contentWrapper: ['table-content-wrapper'],
+                    },
                 }),
             },
         }) as any,
