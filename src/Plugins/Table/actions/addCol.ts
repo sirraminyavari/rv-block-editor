@@ -22,7 +22,7 @@ export function addCol(contentState: ContentState, tableBlock: ContentBlock, anc
         return absoluteOffsets
     })()
 
-    // We reverse the offsets so deletions wont affect their correctness
+    // Reverse the offsets so deletions wont affect their correctness
     const newContentState = eoColOffsets.reverse().reduce((contentState, offset) => {
         return Modifier.insertText(
             contentState,
