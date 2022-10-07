@@ -1,11 +1,12 @@
 import { EditorState, ContentState, SelectionState, ContentBlock, Modifier } from 'draft-js'
+import { Alignment } from 'BlockEditor'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
 export function addRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
-    const { blockKey, rowN, colN } = tableLib.getTableData(tableBlock)
+    const { blockKey, rowN, colN, alignments } = tableLib.getTableData(tableBlock)
 
     const eoRowOffset = (() => {
         const skips = (anchorRow + 1) * colN
@@ -18,10 +19,21 @@ export function addRow(contentState: ContentState, tableBlock: ContentBlock, anc
     const newContentState = Modifier.insertText(
         mergeBlockData(EditorState.createWithContent(contentState), blockKey, {
             rowN: rowN + 1,
+            alignments: adjustAlignments(alignments, anchorRow, rowN, colN),
         }).getCurrentContent(),
         SelectionState.createEmpty(blockKey).merge({ anchorOffset: eoRowOffset, focusOffset: eoRowOffset }),
         `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(colN)
     )
 
     return newContentState
+}
+
+function adjustAlignments(alignments: Record<number, Alignment>, anchorRow: number, rowN: number, colN: number) {
+    const newAlignments: Record<number, Alignment> = {}
+    const criticalPoint = (anchorRow + 1) * colN - 1
+    for (let n = 0, l = rowN * colN; n < l; n++) {
+        const currentAlign = alignments[n]
+        if (currentAlign) newAlignments[n + (n > criticalPoint ? colN : 0)] = alignments[n]
+    }
+    return newAlignments
 }
