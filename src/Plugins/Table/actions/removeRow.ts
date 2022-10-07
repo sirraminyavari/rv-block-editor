@@ -6,7 +6,7 @@ import tableLib from '../lib'
 import { TABLE_CELL_MARKER } from '..'
 
 export function removeRow(contentState: ContentState, tableBlock: ContentBlock, anchorRow: number) {
-    const { blockKey, rowN, colN } = tableLib.getTableData(tableBlock)
+    const { blockKey, rowN, colN, alignments } = tableLib.getTableData(tableBlock)
     if (rowN <= 1) return contentState
 
     const offsets = (() => {
@@ -21,6 +21,7 @@ export function removeRow(contentState: ContentState, tableBlock: ContentBlock, 
     const newContentState = Modifier.removeRange(
         mergeBlockData(EditorState.createWithContent(contentState), blockKey, {
             rowN: rowN - 1,
+            alignments: tableLib.adjustAlignments('row', 'remove', alignments, anchorRow, rowN, colN),
         }).getCurrentContent(),
         SelectionState.createEmpty(blockKey).merge({ anchorOffset: offsets.start, focusOffset: offsets.end }),
         'backward'

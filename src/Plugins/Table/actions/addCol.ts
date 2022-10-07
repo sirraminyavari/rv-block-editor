@@ -30,7 +30,7 @@ export function addCol(contentState: ContentState, tableBlock: ContentBlock, anc
                 alignments: tableLib.adjustAlignments('col', 'add', alignments, anchorCol, rowN, colN),
             }).getCurrentContent()
         )
-        // Reverse the offsets so deletions wont affect their correctness
+        // Reverse the offsets so additions wont affect their relative positions
         .thru(contentState =>
             eoColOffsets.reverse().reduce((contentState, offset) => {
                 return Modifier.insertText(
