@@ -1,5 +1,6 @@
 // * Barrel
 
+import * as adjustAlignments from './adjustAlignments'
 import * as adjustSelection from './adjustSelection'
 import * as getCursorPositionInTable from './getCursorPositionInTable'
 import * as getOffsetPositionsInTable from './getOffsetPositionsInTable'
@@ -10,6 +11,7 @@ import * as sumSegments from './sumSegments'
 import * as text from './text'
 
 const tableLib = {
+    ...adjustAlignments,
     ...adjustSelection,
     ...getCursorPositionInTable,
     ...getOffsetPositionsInTable,
