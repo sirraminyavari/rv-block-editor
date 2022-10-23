@@ -65,7 +65,6 @@ export default function useCollapsedBlocks(contentState: ContentState): Collapse
         cache.current = {}
     }, [])
 
-    // TODO: This shouldn't be here
     const iMap = useMemo(() => {
         const iMap = {}
         let leafs = []

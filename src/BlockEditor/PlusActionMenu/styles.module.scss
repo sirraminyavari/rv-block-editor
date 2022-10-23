@@ -18,13 +18,7 @@
             align-items: center;
             transition: all 250ms ease;
             padding: 0.75rem 1.25rem;
-            // TODO: use inline-(start-end)
-            [dir='ltr'] & {
-                padding-right: 2rem;
-            }
-            [dir='rtl'] & {
-                padding-left: 2rem;
-            }
+            padding-inline-end: 2rem;
             .iconWrapper {
                 $s: 2.5rem;
                 width: $s;

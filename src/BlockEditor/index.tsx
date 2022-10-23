@@ -1,5 +1,3 @@
-// TODO: Use sass utils for: [ data-block-key ][ dir = rtl ] & {}
-
 import * as _defaultTheme from './defaultEditorTheme.module.scss'
 
 import { forwardRef } from 'react'

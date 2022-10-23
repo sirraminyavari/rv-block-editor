@@ -126,7 +126,6 @@ export default function createUiHandlerPlugin(): EditorPlugin {
 
                 'bls-delete'() {
                     suspendBls.current = true
-                    // TODO: Remove 'newSelectionState' from other places, it works w/o it now
                     const newEditorState = blsAwareDelete(editorState, blockLevelSelectionInfo)
                     setEditorState(newEditorState)
                     getUiContext().disableBls()

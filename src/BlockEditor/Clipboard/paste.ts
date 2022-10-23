@@ -91,7 +91,6 @@ const pasteHandler: ClipboardEventHandler = (editor, getUiState, setEditorState,
         })
     })()
 
-    // TODO: Use selectionBefore & selectionAfter instead of forceSelection
     const newEditorState = EditorState.forceSelection(
         EditorState.push(editorState, newContentState, 'insert-fragment'),
         newSelectionState
@@ -104,7 +103,6 @@ export default pasteHandler
 
 /**
  * Retrive data from clipboard in an standard way.
- * TODO: Add support for pasting from other softwares. (Paste from MS Word)
  */
 function getPasteData(event: ClipboardEvent): ClipboardData | null {
     try {
