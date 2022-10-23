@@ -1,9 +1,11 @@
-import { memo } from 'react'
+import { memo, ReactChildren } from 'react'
+import { ContentBlock } from 'draft-js'
 import cn from 'classnames'
 import { direction as detectDirection } from 'direction'
 
+import { Direction } from 'BlockEditor'
 import useEditorContext from '../Contexts/EditorContext'
-import useUiContext from '../Contexts/UiContext'
+import useUiContext, { BlockRefs } from '../Contexts/UiContext'
 
 import * as styles from './styles.module.scss'
 
@@ -46,9 +48,21 @@ export default BlockWrapper
 
 /**
  * Wraps BlockWrapper's UI elements in a memo to increase performance.
- * TODO: any type
  */
-const _Block = memo<any>(
+const _Block = memo<{
+    i: number
+    block: ContentBlock
+    Comp: any
+    config: any
+    dragging: boolean
+    draggable: boolean
+    blockRefs: BlockRefs
+    externalStyles: Record<string, string>
+    dir: Direction
+    blockLevelSelected: boolean
+    debugMode: boolean
+    children: ReactChildren
+}>(
     ({
         i,
         block,
