@@ -50,25 +50,23 @@ const BlockEditor = forwardRef<PluginsEditor, BlockEditorProps>(
             ...props
         },
         ref
-    ) => {
-        return (
-            <UiContextProvider
-                editorState={editorState}
-                styles={styles}
-                dict={dict}
-                dir={dir}
-                lang={lang}
-                uiPortalNode={uiPortalNode}
-                debugMode={debugMode}
-                textarea={textarea}
-                readOnly={readOnly}>
-                <TransformedPluginsContextProvider plugins={plugins}>
-                    <EditorContextProvider editorState={editorState} setEditorState={setEditorState}>
-                        <Editor key={'rerender' + +textarea} ref={ref} {...props} />
-                    </EditorContextProvider>
-                </TransformedPluginsContextProvider>
-            </UiContextProvider>
-        )
-    }
+    ) => (
+        <UiContextProvider
+            editorState={editorState}
+            styles={styles}
+            dict={dict}
+            dir={dir}
+            lang={lang}
+            uiPortalNode={uiPortalNode}
+            debugMode={debugMode}
+            textarea={textarea}
+            readOnly={readOnly}>
+            <TransformedPluginsContextProvider plugins={plugins}>
+                <EditorContextProvider editorState={editorState} setEditorState={setEditorState}>
+                    <Editor key={'rerender' + +textarea} ref={ref} {...props} />
+                </EditorContextProvider>
+            </TransformedPluginsContextProvider>
+        </UiContextProvider>
+    )
 )
 export default BlockEditor
