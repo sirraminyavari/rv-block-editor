@@ -15,5 +15,10 @@ export function removeTable(editorState: EditorState, tableBlock: ContentBlock) 
         .thru(contentState => Modifier.removeRange(contentState, selection, 'backward'))
         .value()
 
-    return EditorState.push(editorState, newContentState, 'remove-range')
+    const newEditorState = _.chain(editorState)
+        .thru(editorState => EditorState.push(editorState, newContentState, 'remove-range'))
+        .thru(editorState => EditorState.forceSelection(editorState, selection.merge({ focusOffset: 0 })))
+        .value()
+
+    return newEditorState
 }
