@@ -20,7 +20,7 @@ export default function createLinksPlugin({ ignoredBlockTypes }: Config = {}): E
         decorators: [
             new CompositeDecorator([
                 {
-                    strategy: makeEntityStrategy('LINK'), // TODO: ignoredBlockTypes
+                    strategy: makeEntityStrategy('LINK', ignoredBlockTypes),
                     component: Link,
                 },
                 ...(createLinkifyPlugin().decorators as any),
