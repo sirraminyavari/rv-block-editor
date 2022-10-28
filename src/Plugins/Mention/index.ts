@@ -20,9 +20,14 @@ export type SuggestionsFilter =
 export interface Config {
     mentions: MentionItem[]
     suggestionsFilter?: SuggestionsFilter
+    ignoredBlockTypes?: string[]
 }
 
-export default function createMentionPlugin({ mentions, suggestionsFilter }: Config): EditorPlugin {
+export default function createMentionPlugin({
+    mentions,
+    suggestionsFilter,
+    ignoredBlockTypes = [],
+}: Config): EditorPlugin {
     const _plugin = _createMentionPlugin({
         entityMutability: 'SEGMENTED',
         mentionPrefix: '@',
@@ -35,7 +40,18 @@ export default function createMentionPlugin({ mentions, suggestionsFilter }: Con
 
         ..._plugin,
 
-        decorators: [new CompositeDecorator(_plugin.decorators as any)],
+        decorators: [
+            new CompositeDecorator(
+                _plugin.decorators.map(decorator => ({
+                    ...decorator,
+                    strategy: (contentBlock, callback, contentState) =>
+                        ignoredBlockTypes.indexOf(contentBlock.getType()) >= 0
+                            ? null
+                            : (decorator as any).strategy(contentBlock, callback, contentState),
+                })) as any
+            ),
+        ],
+
         OverlayComponent: getOverlayComponent({
             mentions,
             suggestionsFilter,

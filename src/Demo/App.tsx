@@ -51,10 +51,10 @@ const plugins = [
     _plugins.createCodeBlockPlugin({ styles: defaultTheme }),
     _plugins.createSoftNewlinePlugin(),
     _plugins.createLinksPlugin(),
-    _plugins.createTablePlugin({ rowN: 4, colN: 3 }),
+    _plugins.createTablePlugin({ rowN: 4, colN: 3 }), // FIXME: initialRowN/colN
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),
-    _plugins.createMentionPlugin({ mentions }),
+    _plugins.createMentionPlugin({ mentions, ignoredBlockTypes: ['code-block', 'table'] }),
 ]
 
 export default function App() {
