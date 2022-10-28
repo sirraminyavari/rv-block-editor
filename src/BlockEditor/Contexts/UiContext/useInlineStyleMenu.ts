@@ -8,10 +8,12 @@ import { RtblSelectionState } from './useRtblSelectionState'
 export interface InlineStyleMenuInfo {
     // Whether the Inline Style Menu is open
     isOpen: boolean
-    // The native selection object on witch the Inline Style Menu operate
+    // The native selection object on witch the Inline Style Menu operates
     domSelection?: Selection
     // @returns The Bounding Rect of @param domSelection
     getSelectionRect?: () => DOMRect | null
+    // Key of the block on which the Inline Style Menu operates
+    blockKey: string
 }
 
 export default function useInlineStyleMenu(
@@ -29,5 +31,6 @@ export default function useInlineStyleMenu(
         isOpen,
         domSelection,
         getSelectionRect: () => (domSelection.isCollapsed ? null : domSelection?.getRangeAt(0).getBoundingClientRect()),
+        blockKey: selectionState.getAnchorKey(),
     }
 }

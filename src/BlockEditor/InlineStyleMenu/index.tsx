@@ -24,7 +24,7 @@ export default InlineStyleMenu
 function Menu() {
     const { editorState, setEditorState } = useEditorContext()
     const {
-        inlineStyleMenuInfo: { getSelectionRect, domSelection },
+        inlineStyleMenuInfo: { getSelectionRect, domSelection, blockKey },
         dir,
     } = useUiContext()
     const { inlineStyles } = useTransformedPluginsContext()
@@ -41,6 +41,7 @@ function Menu() {
     })
 
     const activeInlineStyles = getSelectionInlineStyle(editorState)
+    const blockType = editorState.getCurrentContent().getBlockForKey(blockKey).getType()
 
     return (
         <motion.div
@@ -58,26 +59,31 @@ function Menu() {
                 style={{
                     transform: `translateY( calc( ${popper.styles.popper.top === '0' ? 1 : -1} * .3rem ) )`,
                 }}
-                children={inlineStyles.map((InlineStyle, i) => (
-                    <motion.div
-                        key={i}
-                        variants={{
-                            initial: { opacity: 0, scale: 0.4 },
-                            animate: { opacity: 1, scale: 1 },
-                        }}
-                        children={
-                            InlineStyle.Component ? (
-                                //@ts-expect-error
-                                <InlineStyle.Component editorState={editorState} setEditorState={setEditorState} />
-                            ) : (
-                                <ToggleInlineStyleButton
-                                    inlineStyle={InlineStyle}
-                                    active={activeInlineStyles[InlineStyle.style]}
-                                />
-                            )
-                        }
-                    />
-                ))}
+                children={inlineStyles
+                    .filter(({ ignoredBlockTypes }) => {
+                        if (!ignoredBlockTypes) return true
+                        return ignoredBlockTypes.indexOf(blockType) < 0
+                    })
+                    .map((inlineStyle, i) => (
+                        <motion.div
+                            key={i}
+                            variants={{
+                                initial: { opacity: 0, scale: 0.4 },
+                                animate: { opacity: 1, scale: 1 },
+                            }}
+                            children={
+                                inlineStyle.Component ? (
+                                    //@ts-expect-error
+                                    <inlineStyle.Component editorState={editorState} setEditorState={setEditorState} />
+                                ) : (
+                                    <ToggleInlineStyleButton
+                                        inlineStyle={inlineStyle}
+                                        active={activeInlineStyles[inlineStyle.style]}
+                                    />
+                                )
+                            }
+                        />
+                    ))}
             />
         </motion.div>
     )

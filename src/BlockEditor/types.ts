@@ -44,6 +44,8 @@ export interface InlineStyle {
     Icon?: IconType
     // The style name to get passed to `RichUtils.toggleInlineStyle`
     style?: string
+    // InlineStyle will not be displayed on thsese block types
+    ignoredBlockTypes?: string[]
 }
 
 /**

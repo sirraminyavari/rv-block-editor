@@ -7,16 +7,20 @@ import createLinkifyPlugin from '@draft-js-plugins/linkify'
 import Link from './Link'
 import LinkButton from './LinkButton'
 
-export default function createLinksPlugin(): EditorPlugin {
+export interface Config {
+    ignoredBlockTypes?: string[]
+}
+
+export default function createLinksPlugin({ ignoredBlockTypes }: Config = {}): EditorPlugin {
     return {
         id: 'links',
 
-        inlineStyles: [{ Component: LinkButton }],
+        inlineStyles: [{ Component: LinkButton, ignoredBlockTypes }],
 
         decorators: [
             new CompositeDecorator([
                 {
-                    strategy: makeEntityStrategy('LINK'),
+                    strategy: makeEntityStrategy('LINK'), // TODO: ignoredBlockTypes
                     component: Link,
                 },
                 ...(createLinkifyPlugin().decorators as any),

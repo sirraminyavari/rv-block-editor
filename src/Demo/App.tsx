@@ -50,7 +50,7 @@ const plugins = [
     _plugins.createQuotePlugin(),
     _plugins.createCodeBlockPlugin({ styles: defaultTheme }),
     _plugins.createSoftNewlinePlugin(),
-    _plugins.createLinksPlugin(),
+    _plugins.createLinksPlugin({ ignoredBlockTypes: ['code-block', 'table'] }),
     _plugins.createTablePlugin({ rowN: 4, colN: 3 }), // FIXME: initialRowN/colN
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),

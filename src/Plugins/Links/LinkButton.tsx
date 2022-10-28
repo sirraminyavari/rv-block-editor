@@ -17,9 +17,7 @@ const LinkButton: InlineStyleComponent = ({ editorState, setEditorState }) => (
             const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', { href })
             const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
             const contentStateWithLink = Modifier.applyEntity(contentStateWithEntity, selectionState, entityKey)
-            const newEditorState = EditorState.set(editorState, {
-                currentContent: contentStateWithLink,
-            })
+            const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithLink })
             setEditorState(newEditorState)
         }}
     />
