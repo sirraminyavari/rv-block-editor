@@ -16,12 +16,12 @@ export const TABLE_CELL_MARKER = {
 }
 
 export interface Config {
-    rowN?: number
-    colN?: number
+    initialRowN?: number
+    initialColN?: number
 }
 
 export default function createTablePlugin(config: Config = {}): EditorPlugin {
-    const { rowN = 4, colN = 3 } = config
+    const { initialRowN: rowN = 4, initialColN: colN = 3 } = config
     return ({ getUiContext }) => ({
         id: 'table',
 

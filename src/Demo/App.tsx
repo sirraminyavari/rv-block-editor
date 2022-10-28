@@ -51,7 +51,7 @@ const plugins = [
     _plugins.createCodeBlockPlugin({ styles: defaultTheme }),
     _plugins.createSoftNewlinePlugin(),
     _plugins.createLinksPlugin({ ignoredBlockTypes: ['code-block', 'table'] }),
-    _plugins.createTablePlugin({ rowN: 4, colN: 3 }), // FIXME: initialRowN/colN
+    _plugins.createTablePlugin({ initialRowN: 4, initialColN: 3 }),
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),
     _plugins.createMentionPlugin({ mentions, ignoredBlockTypes: ['code-block', 'table'] }),
