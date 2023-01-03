@@ -13,7 +13,9 @@ export interface Config {
     highlightColors: ColorConfig[]
 }
 
-export default function createTextAnnotationsPlugin(config: Config): EditorPlugin {
+export default function createTextAnnotationsPlugin(
+    config: Config
+): EditorPlugin {
     const { textColors, highlightColors } = config
     return {
         id: 'text-annotations',
@@ -37,7 +39,11 @@ export default function createTextAnnotationsPlugin(config: Config): EditorPlugi
 
         customStyleMap: {
             ...getStyleMap(textColors, 'TEXT-COLOR', 'color'),
-            ...getStyleMap(highlightColors, 'HIGHLIGHT-COLOR', 'backgroundColor'),
+            ...getStyleMap(
+                highlightColors,
+                'HIGHLIGHT-COLOR',
+                'backgroundColor'
+            ),
         },
     }
 }

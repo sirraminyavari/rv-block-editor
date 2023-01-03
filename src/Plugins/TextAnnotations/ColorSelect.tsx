@@ -23,7 +23,13 @@ export default function getColorSelectComponent(hocProps: HocProps) {
 
 export interface ColorSelectProps extends InlineStyleComponentProps, HocProps {}
 
-export const ColorSelect: FC<ColorSelectProps> = ({ entityName, Icon, colors, editorState, setEditorState }) => {
+export const ColorSelect: FC<ColorSelectProps> = ({
+    entityName,
+    Icon,
+    colors,
+    editorState,
+    setEditorState,
+}) => {
     const styleEntities = useMemo(
         () => Object.values(colors).map(({ name }) => `${entityName}-${name}`),
         [entityName, colors]
@@ -39,10 +45,11 @@ export const ColorSelect: FC<ColorSelectProps> = ({ entityName, Icon, colors, ed
                             style={{ backgroundColor: color.color }}
                             className={styles.button}
                             onClick={() => {
-                                const newEditorState = RichUtils.toggleInlineStyle(
-                                    editorState,
-                                    `${entityName}-${color.name}`
-                                )
+                                const newEditorState =
+                                    RichUtils.toggleInlineStyle(
+                                        editorState,
+                                        `${entityName}-${color.name}`
+                                    )
                                 setEditorState(newEditorState)
                             }}
                         />

@@ -26,11 +26,15 @@ export default function useInlineStyleMenu(
         !domSelection.isCollapsed &&
         selectionState.getHasFocus() &&
         (selectionState.getAnchorKey() !== selectionState.getFocusKey() ||
-            selectionState.getAnchorOffset() !== selectionState.getFocusOffset())
+            selectionState.getAnchorOffset() !==
+                selectionState.getFocusOffset())
     return {
         isOpen,
         domSelection,
-        getSelectionRect: () => (domSelection.isCollapsed ? null : domSelection?.getRangeAt(0).getBoundingClientRect()),
+        getSelectionRect: () =>
+            domSelection.isCollapsed
+                ? null
+                : domSelection?.getRangeAt(0).getBoundingClientRect(),
         blockKey: selectionState.getAnchorKey(),
     }
 }

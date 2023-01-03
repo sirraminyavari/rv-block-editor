@@ -17,7 +17,11 @@ import * as styles from './styles.module.scss'
  * It appears whenever there is a text selection.
  */
 const InlineStyleMenu: FC = () => {
-    return <AnimatePresence children={useUiContext().inlineStyleMenuInfo.isOpen && <Menu />} />
+    return (
+        <AnimatePresence
+            children={useUiContext().inlineStyleMenuInfo.isOpen && <Menu />}
+        />
+    )
 }
 export default InlineStyleMenu
 
@@ -41,7 +45,10 @@ function Menu() {
     })
 
     const activeInlineStyles = getSelectionInlineStyle(editorState)
-    const blockType = editorState.getCurrentContent().getBlockForKey(blockKey).getType()
+    const blockType = editorState
+        .getCurrentContent()
+        .getBlockForKey(blockKey)
+        .getType()
 
     return (
         <motion.div
@@ -57,7 +64,9 @@ function Menu() {
             <Overlay
                 className={styles.overlay}
                 style={{
-                    transform: `translateY( calc( ${popper.styles.popper.top === '0' ? 1 : -1} * .3rem ) )`,
+                    transform: `translateY( calc( ${
+                        popper.styles.popper.top === '0' ? 1 : -1
+                    } * .3rem ) )`,
                 }}
                 children={inlineStyles
                     .filter(({ ignoredBlockTypes }) => {
@@ -74,11 +83,18 @@ function Menu() {
                             children={
                                 inlineStyle.Component ? (
                                     //@ts-expect-error
-                                    <inlineStyle.Component editorState={editorState} setEditorState={setEditorState} />
+                                    <inlineStyle.Component
+                                        editorState={editorState}
+                                        setEditorState={setEditorState}
+                                    />
                                 ) : (
                                     <ToggleInlineStyleButton
                                         inlineStyle={inlineStyle}
-                                        active={activeInlineStyles[inlineStyle.style]}
+                                        active={
+                                            activeInlineStyles[
+                                                inlineStyle.style
+                                            ]
+                                        }
                                     />
                                 )
                             }

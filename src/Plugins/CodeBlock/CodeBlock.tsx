@@ -14,7 +14,11 @@ function CodeBlock({ config, ...props }) {
     return (
         <div>
             <Controls language={language} setLanguage={setLanguage} />
-            <pre className={cn('public/DraftStyleDefault/pre', config.styles?.pre)}>
+            <pre
+                className={cn(
+                    'public/DraftStyleDefault/pre',
+                    config.styles?.pre
+                )}>
                 <code>
                     <EditorBlock {...props} />
                 </code>
@@ -37,7 +41,10 @@ function Controls({ language, setLanguage }) {
                 e.nativeEvent.stopPropagation()
             }}
             contentEditable={false}>
-            <select className={styles.langSelect} value={language} onChange={e => setLanguage(e.target.value)}>
+            <select
+                className={styles.langSelect}
+                value={language}
+                onChange={e => setLanguage(e.target.value)}>
                 {supportedLanguages.map(({ name, value }) => (
                     <option key={value} value={value} children={name} />
                 ))}

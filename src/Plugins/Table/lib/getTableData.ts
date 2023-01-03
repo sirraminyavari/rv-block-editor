@@ -7,6 +7,7 @@ export function getTableData(tableBlock: ContentBlock) {
     const data = tableBlock.getData()
     const rowN: number = data.get('rowN')
     const colN: number = data.get('colN')
-    const alignments: Record<number, Alignment> = getObjData(data, 'alignments') || {}
+    const alignments: Record<number, Alignment> =
+        getObjData(data, 'alignments') || {}
     return { blockKey, data, rowN, colN, alignments }
 }

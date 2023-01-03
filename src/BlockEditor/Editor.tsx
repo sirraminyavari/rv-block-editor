@@ -1,4 +1,11 @@
-import { forwardRef, useState, useLayoutEffect, useMemo, useEffect, useCallback } from 'react'
+import {
+    forwardRef,
+    useState,
+    useLayoutEffect,
+    useMemo,
+    useEffect,
+    useCallback,
+} from 'react'
 import cn from 'classnames'
 import _ from 'lodash'
 
@@ -39,7 +46,8 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
     } = useUiContext()
     const { allPlugins, PluginsOverlay } = useTransformedPluginsContext()
 
-    const [renderRefDependentComps, setRenderRefDependentComps] = useState(false)
+    const [renderRefDependentComps, setRenderRefDependentComps] =
+        useState(false)
     useLayoutEffect(() => setRenderRefDependentComps(true), [])
 
     useClipboardHandlers()
@@ -56,7 +64,10 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
     useEffect(() => {
         setEditorState(EditorState.set(editorState, { decorator }))
     }, [decorator])
-    const allPluginsWithoutDecorators = useMemo(() => allPlugins.map(p => _.omit(p, ['decorators'])), [allPlugins])
+    const allPluginsWithoutDecorators = useMemo(
+        () => allPlugins.map(p => _.omit(p, ['decorators'])),
+        [allPlugins]
+    )
 
     const getEditorRef = useCallback(
         r => {
@@ -107,8 +118,10 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
             onMouseDown={() => editorRef.current?.focus()}
             onClick={() => editorRef.current?.focus()}
             className={cn(externalStyles.wrapper, {
-                [externalStyles.blockLevelSelection]: blockLevelSelectionInfo.enabled,
-                [styles.blockLevelSelectionHideRealSelection]: blockLevelSelectionInfo.enabled && !debugMode,
+                [externalStyles.blockLevelSelection]:
+                    blockLevelSelectionInfo.enabled,
+                [styles.blockLevelSelectionHideRealSelection]:
+                    blockLevelSelectionInfo.enabled && !debugMode,
             })}
             style={{ isolation: 'isolate', position: 'relative' }}
             dir={dir}
@@ -117,7 +130,9 @@ const BlockEditor = forwardRef<Editor, BlockEditorProps>((props, ref) => {
                 data-block-editor-inner-wrapper
                 ref={innerWrapperRef}
                 className={externalStyles.innerWrapper}
-                {...(blockLevelSelectionInfo.enabled ? { onDragStart: e => e.preventDefault() } : null)}>
+                {...(blockLevelSelectionInfo.enabled
+                    ? { onDragStart: e => e.preventDefault() }
+                    : null)}>
                 {renderEditor}
             </div>
             {!readOnly && renderRefDependentComps && (

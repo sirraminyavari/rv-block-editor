@@ -36,31 +36,49 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                 returnBreakout: false,
                 initialStateTransformer(editorState) {
                     const selectionState = editorState.getSelection()
-                    const newContentState = _.chain(editorState.getCurrentContent())
+                    const newContentState = _.chain(
+                        editorState.getCurrentContent()
+                    )
                         .thru(contentState =>
-                            mergeBlockData(EditorState.createWithContent(contentState), selectionState.getAnchorKey(), {
-                                rowN,
-                                colN,
-                            }).getCurrentContent()
+                            mergeBlockData(
+                                EditorState.createWithContent(contentState),
+                                selectionState.getAnchorKey(),
+                                {
+                                    rowN,
+                                    colN,
+                                }
+                            ).getCurrentContent()
                         )
                         .thru(contentState =>
                             Modifier.insertText(
                                 contentState,
-                                editorState.getSelection().merge({ anchorOffset: 0, focusOffset: 0 }),
-                                `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(rowN * colN)
+                                editorState
+                                    .getSelection()
+                                    .merge({ anchorOffset: 0, focusOffset: 0 }),
+                                `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(
+                                    rowN * colN
+                                )
                             )
                         )
                         .value()
                     return EditorState.forceSelection(
-                        EditorState.set(editorState, { currentContent: newContentState }),
-                        selectionState.merge({ anchorOffset: 1, focusOffset: 1 })
+                        EditorState.set(editorState, {
+                            currentContent: newContentState,
+                        }),
+                        selectionState.merge({
+                            anchorOffset: 1,
+                            focusOffset: 1,
+                        })
                     )
                 },
             },
         ],
 
         stateTransformer(incomingEditorState, prevEditorState) {
-            return tableLib.adjustSelection(incomingEditorState, prevEditorState)
+            return tableLib.adjustSelection(
+                incomingEditorState,
+                prevEditorState
+            )
         },
 
         blockRenderMap: Map({

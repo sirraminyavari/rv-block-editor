@@ -8,10 +8,15 @@ function Heading({ headingLevel, className, ...props }) {
     return (
         <Component
             {...props}
-            className={cn(className, externalStyles.heading, externalStyles[`heading${headingLevel}`])}
+            className={cn(
+                className,
+                externalStyles.heading,
+                externalStyles[`heading${headingLevel}`]
+            )}
         />
     )
 }
 
-const getHeadingComponent = headingLevel => props => <Heading headingLevel={headingLevel} {...props} />
+const getHeadingComponent = headingLevel => props =>
+    <Heading headingLevel={headingLevel} {...props} />
 export default getHeadingComponent

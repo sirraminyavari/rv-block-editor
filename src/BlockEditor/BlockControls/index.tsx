@@ -31,7 +31,11 @@ export default function BlockControls() {
     }, [editorState, hoveredBlockKey, hoveredBlockElem])
     if (!(rect && owRect && iwRect)) return null
 
-    const hoveredBlockDepth = editorState.getCurrentContent().getBlockForKey(hoveredBlockKey)?.getDepth() | 0
+    const hoveredBlockDepth =
+        editorState
+            .getCurrentContent()
+            .getBlockForKey(hoveredBlockKey)
+            ?.getDepth() | 0
 
     return (
         <div
@@ -40,8 +44,14 @@ export default function BlockControls() {
             })}
             style={{
                 // @ts-ignore
-                '--x': `calc( ${iwRect.x - owRect.x}px + var( --nest-padding ) * ${hoveredBlockDepth} )`,
-                '--y': `${rect?.y ? (rect.y + rect.bottom) / 2 - owRect.y : iwRect.y - owRect.y}px`,
+                '--x': `calc( ${
+                    iwRect.x - owRect.x
+                }px + var( --nest-padding ) * ${hoveredBlockDepth} )`,
+                '--y': `${
+                    rect?.y
+                        ? (rect.y + rect.bottom) / 2 - owRect.y
+                        : iwRect.y - owRect.y
+                }px`,
             }}>
             <div>
                 <PlusActionMenuButton blockKey={hoveredBlockKey} />

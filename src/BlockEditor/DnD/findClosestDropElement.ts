@@ -20,10 +20,15 @@ export default function findClosestDropElement(
     const tdspi = (() => {
         // Trimmed Draggables Sorted PosInfo
         const draggingBlockKey = dragInfo.block.getKey()
-        const descendentKeys = getDescendents(editorState.getCurrentContent().getBlockMap(), draggingBlockKey)
+        const descendentKeys = getDescendents(
+            editorState.getCurrentContent().getBlockMap(),
+            draggingBlockKey
+        )
             .keySeq()
             .toArray()
-        return draggablesSortedPosInfo.filter(info => !descendentKeys.some(dk => dk === info.blockKey))
+        return draggablesSortedPosInfo.filter(
+            info => !descendentKeys.some(dk => dk === info.blockKey)
+        )
     })()
 
     let prevPosInfo = null

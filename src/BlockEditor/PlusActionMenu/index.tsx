@@ -26,7 +26,12 @@ export default function PlusActionMenu() {
         <AnimatePresence
             children={
                 !!openedBlock && (
-                    <Popper blockKey={openedBlock.getKey()} plusActions={plusActions} blockRefs={blockRefs} dir={dir} />
+                    <Popper
+                        blockKey={openedBlock.getKey()}
+                        plusActions={plusActions}
+                        blockRefs={blockRefs}
+                        dir={dir}
+                    />
                 )
             }
         />
@@ -71,7 +76,11 @@ const Popper = memo(({ blockKey, plusActions, blockRefs, dir }: any) => {
                         scrollingThreshold: 400,
                     }}
                     children={plusActions.map(action => (
-                        <PlusActionButton key={action.action} action={action} blockKey={blockKey} />
+                        <PlusActionButton
+                            key={action.action}
+                            action={action}
+                            blockKey={blockKey}
+                        />
                     ))}
                 />
             </Overlay>

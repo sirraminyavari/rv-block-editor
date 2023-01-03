@@ -18,7 +18,12 @@ export default function moveBlock(
     insertionMode: DraftInsertionType
 ): ContentState {
     try {
-        return moveBlockInContentState(currentContent, blockToBeMovoed, targetBlock, insertionMode)
+        return moveBlockInContentState(
+            currentContent,
+            blockToBeMovoed,
+            targetBlock,
+            insertionMode
+        )
     } catch {
         // A block cannot be moved next to itself
         return currentContent

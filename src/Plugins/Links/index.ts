@@ -11,7 +11,9 @@ export interface Config {
     ignoredBlockTypes?: string[]
 }
 
-export default function createLinksPlugin({ ignoredBlockTypes }: Config = {}): EditorPlugin {
+export default function createLinksPlugin({
+    ignoredBlockTypes,
+}: Config = {}): EditorPlugin {
     return {
         id: 'links',
 

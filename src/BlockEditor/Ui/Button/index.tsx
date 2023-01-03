@@ -17,7 +17,19 @@ export interface ButtonProps extends HTMLAttributes<HTMLDivElement> {
  * Generic button UI element.
  */
 const Button = forwardRef<HTMLDivElement, ButtonProps>(
-    ({ className, Icon, active, motion: useMotion, disabled, children, onClick, ...props }, ref) => {
+    (
+        {
+            className,
+            Icon,
+            active,
+            motion: useMotion,
+            disabled,
+            children,
+            onClick,
+            ...props
+        },
+        ref
+    ) => {
         const Comp = useMotion ? motion.div : 'div'
         return (
             <Comp

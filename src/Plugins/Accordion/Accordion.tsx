@@ -7,7 +7,8 @@ import * as styles from './styles.module.scss'
 export default function Accordion({ ...props }) {
     const { collapsed, toggleCollapsed } = props.blockProps
     return (
-        <div className={cn(styles.accordion, { [styles.collapsed]: collapsed })}>
+        <div
+            className={cn(styles.accordion, { [styles.collapsed]: collapsed })}>
             <div
                 className={styles.chevronWrapper}
                 onMouseDown={e => e.preventDefault()}

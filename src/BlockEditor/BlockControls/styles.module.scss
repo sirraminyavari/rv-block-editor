@@ -5,10 +5,16 @@
     font-size: 1rem;
     z-index: 4;
     transition: all 100ms ease, opacity 250ms ease;
-    transform: translate(calc(var(--x) + var(--block-controls-offset)), calc(var(--y) - 50%));
+    transform: translate(
+        calc(var(--x) + var(--block-controls-offset)),
+        calc(var(--y) - 50%)
+    );
     color: rgba(black, 0.4);
     [dir='rtl'] & {
-        transform: translate(calc(var(--x) * -1 - var(--block-controls-offset)), calc(var(--y) - 50%));
+        transform: translate(
+            calc(var(--x) * -1 - var(--block-controls-offset)),
+            calc(var(--y) - 50%)
+        );
     }
 
     > div {

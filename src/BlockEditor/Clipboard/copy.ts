@@ -29,7 +29,9 @@ const copyHandler: ClipboardEventHandler = (editor, getUiState, _, event) => {
         selectedBlockKeys[selectedBlockKeys.length - 1]
     )
 
-    const copiedContentState = ContentState.createFromBlockArray(selectedBlockMap.toArray())
+    const copiedContentState = ContentState.createFromBlockArray(
+        selectedBlockMap.toArray()
+    )
     const rawContent = convertToRaw(copiedContentState)
 
     const data: ClipboardData = {

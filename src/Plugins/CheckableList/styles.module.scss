@@ -10,7 +10,8 @@
     }
 }
 
-:global(.checkable-list-item-block.is-checked .checkable-list-item-block__text) {
+:global(.checkable-list-item-block.is-checked
+        .checkable-list-item-block__text) {
     text-decoration: line-through;
     opacity: 0.5;
 }

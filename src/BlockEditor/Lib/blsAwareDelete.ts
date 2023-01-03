@@ -1,4 +1,9 @@
-import { EditorState, SelectionState, ContentState, BlockMapBuilder } from 'draft-js'
+import {
+    EditorState,
+    SelectionState,
+    ContentState,
+    BlockMapBuilder,
+} from 'draft-js'
 
 import { BlockLevelSelectionInfo } from '../Contexts/UiContext'
 
@@ -9,7 +14,10 @@ import trimCollapsedBlocks from './trimCollapsedBlocks'
 /**
  * Delete a fragment from editor state with BLS taken into account.
  */
-export default function blsAwareDelete(editorState: EditorState, blsInfo: BlockLevelSelectionInfo): EditorState {
+export default function blsAwareDelete(
+    editorState: EditorState,
+    blsInfo: BlockLevelSelectionInfo
+): EditorState {
     const contentState = editorState.getCurrentContent()
     const blockMap = contentState.getBlockMap()
 

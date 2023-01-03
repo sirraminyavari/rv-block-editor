@@ -1,4 +1,10 @@
-import { EditorState, convertFromRaw, SelectionState, ContentState, BlockMap } from 'draft-js'
+import {
+    EditorState,
+    convertFromRaw,
+    SelectionState,
+    ContentState,
+    BlockMap,
+} from 'draft-js'
 import randomizeBlockMapKeys from 'draft-js/lib/randomizeBlockMapKeys'
 
 import getSelectionDepth from '../Lib/getSelectionDepth'
@@ -10,7 +16,12 @@ import { ClipboardEventHandler, ClipboardData } from '.'
  * Pastes clipboard data into the editor state while taking block-leve selection
  * into account.
  */
-const pasteHandler: ClipboardEventHandler = (editor, getUiState, setEditorState, event) => {
+const pasteHandler: ClipboardEventHandler = (
+    editor,
+    getUiState,
+    setEditorState,
+    event
+) => {
     const { blockLevelSelectionInfo } = getUiState()
     const { getEditorState } = editor
     const editorState = getEditorState()
@@ -35,7 +46,9 @@ const pasteHandler: ClipboardEventHandler = (editor, getUiState, setEditorState,
             })
         }
         const { selectedBlockKeys } = blockLevelSelectionInfo
-        const focusBlock = blockMap.get(selectedBlockKeys[selectedBlockKeys.length - 1])
+        const focusBlock = blockMap.get(
+            selectedBlockKeys[selectedBlockKeys.length - 1]
+        )
         return selectionState.merge({
             anchorKey: selectedBlockKeys[0],
             focusKey: focusBlock.getKey(),
@@ -57,7 +70,9 @@ const pasteHandler: ClipboardEventHandler = (editor, getUiState, setEditorState,
         pastedBlockMap.last().getKey(),
         selectionDepth
     )
-    const readyPastedBlockMap = randomizeBlockMapKeys(depthAdjustedPastedBlockMap) as BlockMap
+    const readyPastedBlockMap = randomizeBlockMapKeys(
+        depthAdjustedPastedBlockMap
+    ) as BlockMap
 
     const newBlockMap = (() => {
         const startKey = targetSelectionState.getStartKey()
@@ -73,10 +88,14 @@ const pasteHandler: ClipboardEventHandler = (editor, getUiState, setEditorState,
                 : safeLeft
             return blsCorrectedLeft
         })()
-        const cutBlockMapRight = blockMap.skipUntil((_, key) => key === endKey).skip(1)
+        const cutBlockMapRight = blockMap
+            .skipUntil((_, key) => key === endKey)
+            .skip(1)
         return cutBlockMapLeft.concat(readyPastedBlockMap, cutBlockMapRight)
     })()
-    const newContentState = ContentState.createFromBlockArray(newBlockMap.toArray())
+    const newContentState = ContentState.createFromBlockArray(
+        newBlockMap.toArray()
+    )
 
     const newSelectionState = (() => {
         const firstBlock = readyPastedBlockMap.first()
@@ -106,8 +125,12 @@ export default pasteHandler
  */
 function getPasteData(event: ClipboardEvent): ClipboardData | null {
     try {
-        const jsonData = JSON.parse(event.clipboardData.getData('application/json'))
-        return jsonData.NEXTLE_blockEditor && jsonData.NEXTLE_blockEditor_BLS ? jsonData : null
+        const jsonData = JSON.parse(
+            event.clipboardData.getData('application/json')
+        )
+        return jsonData.NEXTLE_blockEditor && jsonData.NEXTLE_blockEditor_BLS
+            ? jsonData
+            : null
     } catch {
         return null
     }

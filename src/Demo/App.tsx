@@ -54,24 +54,31 @@ const plugins = [
     _plugins.createTablePlugin({ initialRowN: 4, initialColN: 3 }),
     _plugins.createTextAnnotationsPlugin({ textColors, highlightColors }),
     _plugins.createBlockAlignmentPlugin(),
-    _plugins.createMentionPlugin({ mentions, ignoredBlockTypes: ['code-block', 'table'] }),
+    _plugins.createMentionPlugin({
+        mentions,
+        ignoredBlockTypes: ['code-block', 'table'],
+    }),
 ]
 
 export default function App() {
     const [editorState, setEditorState] = useState(
         getInitialEditorState(localStorage.getItem('contentPreset') || 'empty')
     )
-    const { debugMode, readOnly, textarea, language, direction } = useUiContext()
+    const { debugMode, readOnly, textarea, language, direction } =
+        useUiContext()
 
     const editorRef = useRef<any>()
-    useLayoutEffect(() => void setImmediate(() => editorRef.current?.focus()), [])
+    useLayoutEffect(
+        () => void setImmediate(() => editorRef.current?.focus()),
+        []
+    )
 
     useAutoSave(
         editorState,
         changes =>
             console.log(
-                ...['updatedBlocks', 'createdBlocks', 'removedBlocks'].map(key =>
-                    changes[key].map((_, key) => key).toArray()
+                ...['updatedBlocks', 'createdBlocks', 'removedBlocks'].map(
+                    key => changes[key].map((_, key) => key).toArray()
                 )
             ),
         1000
@@ -79,7 +86,10 @@ export default function App() {
 
     return (
         <>
-            <ConfigControls editorState={editorState} setEditorState={setEditorState} />
+            <ConfigControls
+                editorState={editorState}
+                setEditorState={setEditorState}
+            />
             <BlockEditor
                 ref={editorRef}
                 editorState={editorState}

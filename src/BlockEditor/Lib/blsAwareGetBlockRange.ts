@@ -14,7 +14,15 @@ export default function blsAwareGetBlockRange(
     endKey: string,
     selectionDepth: number = getSelectionDepth(blockMap, startKey, endKey)
 ): BlockMap {
-    const adjustedStartKey = getFirstAncestorByDepth(blockMap, startKey, selectionDepth).getKey()
-    const adjustedEndKey = getLastCousinShallowerThan(blockMap, endKey, selectionDepth).getKey()
+    const adjustedStartKey = getFirstAncestorByDepth(
+        blockMap,
+        startKey,
+        selectionDepth
+    ).getKey()
+    const adjustedEndKey = getLastCousinShallowerThan(
+        blockMap,
+        endKey,
+        selectionDepth
+    ).getKey()
     return getBlockRange(blockMap, adjustedStartKey, adjustedEndKey)
 }

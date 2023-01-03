@@ -8,7 +8,9 @@ export function adjustAlignments(
     rowN: number,
     colN: number
 ) {
-    const adjuster = { row: adjustAlignmentsRow, col: adjustAlignmentsCol }[mode]
+    const adjuster = { row: adjustAlignmentsRow, col: adjustAlignmentsCol }[
+        mode
+    ]
     return adjuster(op, alignments, anchor, rowN, colN)
 }
 
@@ -26,7 +28,9 @@ function adjustAlignmentsRow(
     const multiplier = opN[op]
     for (let n = 0, l = rowN * colN; n < l; n++) {
         const currentAlign = alignments[n]
-        if (currentAlign) newAlignments[n + (n > criticalPoint ? colN * multiplier : 0)] = alignments[n]
+        if (currentAlign)
+            newAlignments[n + (n > criticalPoint ? colN * multiplier : 0)] =
+                alignments[n]
     }
     return newAlignments
 }

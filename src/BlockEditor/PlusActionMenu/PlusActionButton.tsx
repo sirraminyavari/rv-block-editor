@@ -17,11 +17,22 @@ export interface PlusActionButtonProps {
  * Toggles a Plus Action on the focused Content Block.
  */
 const PlusActionButton: FC<PlusActionButtonProps> = ({
-    action: { action, Icon, plugin, initialStateTransformer: stateTransformer = s => s },
+    action: {
+        action,
+        Icon,
+        plugin,
+        initialStateTransformer: stateTransformer = s => s,
+    },
     blockKey,
 }) => {
     const { editorState, setEditorState } = useEditorContext()
-    const { blockRefs, setBlockControlsInfo, setPlusActionMenuInfo, dict, lang } = useUiContext()
+    const {
+        blockRefs,
+        setBlockControlsInfo,
+        setPlusActionMenuInfo,
+        dict,
+        lang,
+    } = useUiContext()
     return (
         <motion.label
             variants={{
@@ -33,7 +44,12 @@ const PlusActionButton: FC<PlusActionButtonProps> = ({
             onMouseDown={e => e.preventDefault()}
             onClick={() => {
                 setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
-                setEditorState(stateTransformer(applyPlusActionToSelection(editorState, action), editorState))
+                setEditorState(
+                    stateTransformer(
+                        applyPlusActionToSelection(editorState, action),
+                        editorState
+                    )
+                )
                 setImmediate(() =>
                     setBlockControlsInfo(prev => ({
                         ...prev,
@@ -45,7 +61,10 @@ const PlusActionButton: FC<PlusActionButtonProps> = ({
             <div className={styles.iconWrapper}>
                 <Icon />
             </div>
-            <span className={styles.label} children={dict[lang][`plugins.${plugin.id}.${action}`]} />
+            <span
+                className={styles.label}
+                children={dict[lang][`plugins.${plugin.id}.${action}`]}
+            />
         </motion.label>
     )
 }

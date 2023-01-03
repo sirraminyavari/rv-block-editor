@@ -30,13 +30,29 @@ export default function createListsPlugin(config: any = {}): EditorPlugin {
                 element: withBlockWrapper(UnorderedListItem, {
                     sendAdditionalProps: true,
                 }),
-                wrapper: <ul className={cn('public/DraftStyleDefault/ul', config.styles?.ul, styles.ul)} />,
+                wrapper: (
+                    <ul
+                        className={cn(
+                            'public/DraftStyleDefault/ul',
+                            config.styles?.ul,
+                            styles.ul
+                        )}
+                    />
+                ),
             },
             'ordered-list-item': {
                 element: withBlockWrapper(OrderedListItem, {
                     sendAdditionalProps: true,
                 }),
-                wrapper: <ol className={cn('public/DraftStyleDefault/ol', config.styles?.ol, styles.ol)} />,
+                wrapper: (
+                    <ol
+                        className={cn(
+                            'public/DraftStyleDefault/ol',
+                            config.styles?.ol,
+                            styles.ol
+                        )}
+                    />
+                ),
             },
         }) as any,
     }

@@ -13,9 +13,15 @@ export default function setBlockRangeDepth(
     endKey: string,
     depth: number
 ): BlockMap {
-    const normalizedBlockMap = normalizeBlockRangeDepth(blockMap, startKey, endKey)
+    const normalizedBlockMap = normalizeBlockRangeDepth(
+        blockMap,
+        startKey,
+        endKey
+    )
     const range = getBlockRange(normalizedBlockMap, startKey, endKey)
-    const depthAdjustedRange = range.map(b => b.set('depth', b.getDepth() + depth)) as BlockMap
+    const depthAdjustedRange = range.map(b =>
+        b.set('depth', b.getDepth() + depth)
+    ) as BlockMap
     const depthAdjustedBlockMap = blockMap.merge(depthAdjustedRange)
     return depthAdjustedBlockMap
 }

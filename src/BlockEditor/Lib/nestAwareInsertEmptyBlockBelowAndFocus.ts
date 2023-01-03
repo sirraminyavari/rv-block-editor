@@ -22,6 +22,10 @@ export default function nestAwareInsertEmptyBlockBelowAndFocus(
         initialTargetBlockKey
     )
     const targetBlock = blockRange.last()
-    const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus(editorState, targetBlock, depth)
+    const { newEditorState, newContentBlock } = insertEmptyBlockBelowAndFocus(
+        editorState,
+        targetBlock,
+        depth
+    )
     return { newEditorState, newContentBlock }
 }

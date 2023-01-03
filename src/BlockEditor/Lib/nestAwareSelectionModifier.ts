@@ -4,7 +4,10 @@ import { BlockLevelSelectionInfo } from '../Contexts/UiContext'
 
 import trimCollapsedBlocks from './trimCollapsedBlocks'
 
-export function goDown(editorState: EditorState, blsInfo: BlockLevelSelectionInfo): EditorState {
+export function goDown(
+    editorState: EditorState,
+    blsInfo: BlockLevelSelectionInfo
+): EditorState {
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
     const blockMap = trimCollapsedBlocks(contentState.getBlockMap())
@@ -19,9 +22,13 @@ export function goDown(editorState: EditorState, blsInfo: BlockLevelSelectionInf
             const outerSelectedBlocks = trimmedSelectedBlockKeys
                 .map(k => blockMap.get(k))
                 .filter(b => b?.getDepth() === selectionDepth)
-            return outerSelectedBlocks[1] || contentState.getBlockAfter(outerSelectedBlocks[0].getKey())
+            return (
+                outerSelectedBlocks[1] ||
+                contentState.getBlockAfter(outerSelectedBlocks[0].getKey())
+            )
         } else {
-            const lastSelectedBlockKey = selectedBlockKeys[selectedBlockKeys.length - 1]
+            const lastSelectedBlockKey =
+                selectedBlockKeys[selectedBlockKeys.length - 1]
             return contentState.getBlockAfter(lastSelectedBlockKey)
         }
     })()
@@ -34,7 +41,10 @@ export function goDown(editorState: EditorState, blsInfo: BlockLevelSelectionInf
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
-export function goUp(editorState: EditorState, blsInfo: BlockLevelSelectionInfo): EditorState {
+export function goUp(
+    editorState: EditorState,
+    blsInfo: BlockLevelSelectionInfo
+): EditorState {
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
     const blockMap = trimCollapsedBlocks(contentState.getBlockMap())
@@ -51,7 +61,8 @@ export function goUp(editorState: EditorState, blsInfo: BlockLevelSelectionInfo)
             const outerSelectedBlocks = trimmedSelectedBlockKeys
                 .map(k => blockMap.get(k))
                 .filter(b => b?.getDepth() === selectionDepth)
-            const lastOuterSelectedBlockKey = outerSelectedBlocks[outerSelectedBlocks.length - 1].getKey()
+            const lastOuterSelectedBlockKey =
+                outerSelectedBlocks[outerSelectedBlocks.length - 1].getKey()
             return blockMap
                 .reverse()
                 .skipUntil((_, key) => key === lastOuterSelectedBlockKey)
@@ -68,8 +79,13 @@ export function goUp(editorState: EditorState, blsInfo: BlockLevelSelectionInfo)
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
-export function goDownSingleBlock(editorState: EditorState, blsInfo: BlockLevelSelectionInfo): EditorState {
-    const blockMap = trimCollapsedBlocks(editorState.getCurrentContent().getBlockMap())
+export function goDownSingleBlock(
+    editorState: EditorState,
+    blsInfo: BlockLevelSelectionInfo
+): EditorState {
+    const blockMap = trimCollapsedBlocks(
+        editorState.getCurrentContent().getBlockMap()
+    )
     const selectionState = editorState.getSelection()
 
     const selectedBlockKey = blsInfo.selectedBlockKeys[0]
@@ -88,8 +104,13 @@ export function goDownSingleBlock(editorState: EditorState, blsInfo: BlockLevelS
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
-export function goUpSingleBlock(editorState: EditorState, blsInfo: BlockLevelSelectionInfo): EditorState {
-    const blockMap = trimCollapsedBlocks(editorState.getCurrentContent().getBlockMap())
+export function goUpSingleBlock(
+    editorState: EditorState,
+    blsInfo: BlockLevelSelectionInfo
+): EditorState {
+    const blockMap = trimCollapsedBlocks(
+        editorState.getCurrentContent().getBlockMap()
+    )
     const selectionState = editorState.getSelection()
 
     const selectedBlockKey = blsInfo.selectedBlockKeys[0]

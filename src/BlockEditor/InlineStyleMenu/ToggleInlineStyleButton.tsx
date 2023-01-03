@@ -13,14 +13,20 @@ export interface ToggleInlineStyleButtonProps {
 /**
  * Toggles an Inline Style on the current selection.
  */
-const ToggleInlineStyleButton: FC<ToggleInlineStyleButtonProps> = ({ inlineStyle: { Icon, style }, active }) => {
+const ToggleInlineStyleButton: FC<ToggleInlineStyleButtonProps> = ({
+    inlineStyle: { Icon, style },
+    active,
+}) => {
     const { editorState, setEditorState } = useEditorContext()
     return (
         <Button
             Icon={Icon}
             active={active}
             onClick={() => {
-                const newEditorState = RichUtils.toggleInlineStyle(editorState, style)
+                const newEditorState = RichUtils.toggleInlineStyle(
+                    editorState,
+                    style
+                )
                 setEditorState(newEditorState)
             }}
         />

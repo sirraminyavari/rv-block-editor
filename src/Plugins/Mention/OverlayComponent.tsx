@@ -12,7 +12,11 @@ export interface OverlayComponentProps {
     MentionSuggestionsComp: FunctionComponent<MentionSuggestionsPubProps>
 }
 
-const OverlayComponent: FC<OverlayComponentProps> = ({ mentions = [], suggestionsFilter, MentionSuggestionsComp }) => {
+const OverlayComponent: FC<OverlayComponentProps> = ({
+    mentions = [],
+    suggestionsFilter,
+    MentionSuggestionsComp,
+}) => {
     const [isOpen, setIsOpen] = useState(false)
     const [suggestions, setSuggestions] = useState(mentions)
 
@@ -24,15 +28,24 @@ const OverlayComponent: FC<OverlayComponentProps> = ({ mentions = [], suggestion
                 suggestions={suggestions}
                 onSearchChange={({ value }) => {
                     setImmediate(async () => {
-                        const newSuggs = await (suggestionsFilter || defaultSuggestionsFilter)(value, mentions)
-                        if (suggestions.length !== newSuggs.length) return setSuggestions(newSuggs)
+                        const newSuggs = await (
+                            suggestionsFilter || defaultSuggestionsFilter
+                        )(value, mentions)
+                        if (suggestions.length !== newSuggs.length)
+                            return setSuggestions(newSuggs)
                         for (const i in suggestions)
-                            if (suggestions[i].id !== newSuggs[i].id) return setSuggestions(newSuggs)
+                            if (suggestions[i].id !== newSuggs[i].id)
+                                return setSuggestions(newSuggs)
                     })
                 }}
                 entryComponent={props => {
                     return (
-                        <div {..._.omit(props, ['isFocused', 'searchValue', 'selectMention'])}>
+                        <div
+                            {..._.omit(props, [
+                                'isFocused',
+                                'searchValue',
+                                'selectMention',
+                            ])}>
                             <span>{props.mention.name}</span>
                         </div>
                     )

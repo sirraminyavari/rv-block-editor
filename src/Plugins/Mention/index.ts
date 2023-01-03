@@ -47,7 +47,11 @@ export default function createMentionPlugin({
                     strategy: (contentBlock, callback, contentState) =>
                         ignoredBlockTypes.indexOf(contentBlock.getType()) >= 0
                             ? null
-                            : (decorator as any).strategy(contentBlock, callback, contentState),
+                            : (decorator as any).strategy(
+                                  contentBlock,
+                                  callback,
+                                  contentState
+                              ),
                 })) as any
             ),
         ],
@@ -55,7 +59,8 @@ export default function createMentionPlugin({
         OverlayComponent: getOverlayComponent({
             mentions,
             suggestionsFilter,
-            MentionSuggestionsComp: _plugin.MentionSuggestions as FunctionComponent<MentionSuggestionsPubProps>,
+            MentionSuggestionsComp:
+                _plugin.MentionSuggestions as FunctionComponent<MentionSuggestionsPubProps>,
         }),
     }
 }

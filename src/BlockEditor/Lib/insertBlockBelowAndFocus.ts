@@ -18,9 +18,24 @@ export default function insertBlockBelowAndFocus(
     blockToBeInserted: ContentBlock,
     targetBlock: ContentBlock
 ): EditorState {
-    const contentStateWithNewBlock = appendBlock(editorState.getCurrentContent(), blockToBeInserted)
-    const contentStateWithNewBlockMoved = moveBlock(contentStateWithNewBlock, blockToBeInserted, targetBlock, 'after')
-    const newEditorState = EditorState.push(editorState, contentStateWithNewBlockMoved, 'insert-fragment')
-    const editorStateAfterSelection = forceSelectionToBlock(newEditorState, blockToBeInserted.getKey())
+    const contentStateWithNewBlock = appendBlock(
+        editorState.getCurrentContent(),
+        blockToBeInserted
+    )
+    const contentStateWithNewBlockMoved = moveBlock(
+        contentStateWithNewBlock,
+        blockToBeInserted,
+        targetBlock,
+        'after'
+    )
+    const newEditorState = EditorState.push(
+        editorState,
+        contentStateWithNewBlockMoved,
+        'insert-fragment'
+    )
+    const editorStateAfterSelection = forceSelectionToBlock(
+        newEditorState,
+        blockToBeInserted.getKey()
+    )
     return editorStateAfterSelection
 }

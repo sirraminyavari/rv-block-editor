@@ -8,7 +8,10 @@ import { EditorState, SelectionState } from 'draft-js'
  *
  * @returns A new Editor State with the cursor at the beggining of the block with @param blockKey as its key.
  */
-export default function forceSelectionToBlock(editorState: EditorState, blockKey: string): EditorState {
+export default function forceSelectionToBlock(
+    editorState: EditorState,
+    blockKey: string
+): EditorState {
     const selectionState = new SelectionState({
         anchorKey: blockKey,
         anchorOffset: 0,

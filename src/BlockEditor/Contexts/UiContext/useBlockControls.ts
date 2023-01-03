@@ -1,4 +1,10 @@
-import { useState, useLayoutEffect, useRef, MutableRefObject, useCallback } from 'react'
+import {
+    useState,
+    useLayoutEffect,
+    useRef,
+    MutableRefObject,
+    useCallback,
+} from 'react'
 import { EditorState } from 'draft-js'
 
 import { BlockRefs } from './useGlobalRefs'
@@ -19,12 +25,15 @@ export default function useBlockControls(
     blockRefs: BlockRefs,
     disable: boolean
 ): [BlockControlsInfo, SetState<BlockControlsInfo>] {
-    const [blockControlsInfo, setBlockControlsInfo] = useState<BlockControlsInfo>()
+    const [blockControlsInfo, setBlockControlsInfo] =
+        useState<BlockControlsInfo>()
 
     useLayoutEffect(() => {
         // Set Block Controls on the first block initialy
         if (disable) return
-        const firstBlockElem = wrapperRef.current.querySelector('[data-block-key]') as HTMLDivElement
+        const firstBlockElem = wrapperRef.current.querySelector(
+            '[data-block-key]'
+        ) as HTMLDivElement
         setBlockControlsInfo(prev => ({
             ...prev,
             hoveredBlockElem: firstBlockElem,
@@ -50,7 +59,8 @@ export default function useBlockControls(
             }))
         const hoveredBlockKey = hoveredBlockElem.getAttribute('data-block-key')
         setBlockControlsInfo(prev =>
-            prev.hoveredBlockElem === hoveredBlockElem && prev.hoveredBlockKey === hoveredBlockKey
+            prev.hoveredBlockElem === hoveredBlockElem &&
+            prev.hoveredBlockKey === hoveredBlockKey
                 ? prev
                 : { ...prev, hoveredBlockElem, hoveredBlockKey }
         )
@@ -59,7 +69,9 @@ export default function useBlockControls(
     useLayoutEffect(() => {
         if (disable) return
         document.addEventListener('mousemove', positionBlockControls)
-        const observer = new MutationObserver(() => setBlockControlsInfo(prev => ({ ...prev })))
+        const observer = new MutationObserver(() =>
+            setBlockControlsInfo(prev => ({ ...prev }))
+        )
         observer.observe(wrapperRef.current, {
             attributes: true,
             childList: true,

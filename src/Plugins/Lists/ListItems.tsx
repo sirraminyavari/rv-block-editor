@@ -9,11 +9,20 @@ export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
     block: ContentBlock
 }
 
-export const OrderedListItem: FC<ListItemProps> = ({ i, block, className, ...props }) => {
+export const OrderedListItem: FC<ListItemProps> = ({
+    i,
+    block,
+    className,
+    ...props
+}) => {
     const depth = block.getDepth()
     return (
         <li
-            className={cn(className, styles.olItem, styles[`style-${depth % 3}`])}
+            className={cn(
+                className,
+                styles.olItem,
+                styles[`style-${depth % 3}`]
+            )}
             style={{
                 // @ts-ignore
                 '--i': i + 1,
@@ -23,7 +32,21 @@ export const OrderedListItem: FC<ListItemProps> = ({ i, block, className, ...pro
     )
 }
 
-export const UnorderedListItem: FC<ListItemProps> = ({ i, block, className, ...props }) => {
+export const UnorderedListItem: FC<ListItemProps> = ({
+    i,
+    block,
+    className,
+    ...props
+}) => {
     const depth = block.getDepth()
-    return <li className={cn(className, styles.ulItem, styles[`style-${depth % 3}`])} {...props} />
+    return (
+        <li
+            className={cn(
+                className,
+                styles.ulItem,
+                styles[`style-${depth % 3}`]
+            )}
+            {...props}
+        />
+    )
 }

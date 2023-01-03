@@ -57,7 +57,8 @@ const DragOverlay: FC = () => {
     return (
         <div
             className={cn(styles.dragOverlay, {
-                [styles.dragging]: dragInfo.dragging && dragInfo.isDraggingByHandle,
+                [styles.dragging]:
+                    dragInfo.dragging && dragInfo.isDraggingByHandle,
             })}
             onDragEnter={() => {
                 const blockMap = editorState.getCurrentContent().getBlockMap()
@@ -73,7 +74,9 @@ const DragOverlay: FC = () => {
                             elem,
                             rect,
                             centerY,
-                            notAcceptingChildren: !!contentBlock.getData().get('_collapsed'),
+                            notAcceptingChildren: !!contentBlock
+                                .getData()
+                                .get('_collapsed'),
                         }
                     })
                     .toArray()
@@ -81,21 +84,41 @@ const DragOverlay: FC = () => {
 
                 setSortedPosInfo(sortedPosInfo)
                 setWrapperRect(wrapperRef.current.getBoundingClientRect())
-                setInnerWrapperRect(innerWrapperRef.current.getBoundingClientRect())
+                setInnerWrapperRect(
+                    innerWrapperRef.current.getBoundingClientRect()
+                )
             }}
             onDragOver={event => {
                 event.preventDefault()
-                setClosestInfo(findClosestDropElement(event, editorState, dragInfo, sortedPosInfo))
-                setImmediate(() => setActiveDropSector(getDropSector(event, sectorRects, dir)))
+                setClosestInfo(
+                    findClosestDropElement(
+                        event,
+                        editorState,
+                        dragInfo,
+                        sortedPosInfo
+                    )
+                )
+                setImmediate(() =>
+                    setActiveDropSector(getDropSector(event, sectorRects, dir))
+                )
             }}
             onDrop={event => {
-                const closestDropElement = findClosestDropElement(event, editorState, dragInfo, sortedPosInfo)
+                const closestDropElement = findClosestDropElement(
+                    event,
+                    editorState,
+                    dragInfo,
+                    sortedPosInfo
+                )
                 if (closestDropElement) {
-                    const { elem: closestElem, insertionMode } = closestDropElement
+                    const { elem: closestElem, insertionMode } =
+                        closestDropElement
                     const dropSector = getDropSector(event, sectorRects, dir)
-                    const dropDepth = dropSector + calcMinDepth(closestDropElement)
-                    const draggedBlockKey = dragInfo.elem.getAttribute('data-block-key')
-                    const dropTargetKey = closestElem.getAttribute('data-block-key')
+                    const dropDepth =
+                        dropSector + calcMinDepth(closestDropElement)
+                    const draggedBlockKey =
+                        dragInfo.elem.getAttribute('data-block-key')
+                    const dropTargetKey =
+                        closestElem.getAttribute('data-block-key')
 
                     const newState = handleDrop(
                         editorRef,
@@ -134,7 +157,10 @@ const DragOverlay: FC = () => {
                         onSectorRectsChange={setSectorRects}
                         activeSector={activeDropSector}
                     />
-                    {createPortal(<div className={styles.dndShield} />, uiPortalNode)}
+                    {createPortal(
+                        <div className={styles.dndShield} />,
+                        uiPortalNode
+                    )}
                 </>
             )}
         </div>

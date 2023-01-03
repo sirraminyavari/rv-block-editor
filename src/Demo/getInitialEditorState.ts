@@ -9,5 +9,9 @@ export default function getInitialEditorState(preset) {
 
 export const contentPresets = {
     empty: () => EditorState.createEmpty(),
-    ..._.mapValues(_contentPresets, preset => () => EditorState.createWithContent(convertFromRaw(preset as any))),
+    ..._.mapValues(
+        _contentPresets,
+        preset => () =>
+            EditorState.createWithContent(convertFromRaw(preset as any))
+    ),
 }

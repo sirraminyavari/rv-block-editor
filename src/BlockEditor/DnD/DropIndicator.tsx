@@ -34,7 +34,11 @@ const DropIndicator: FC<DropIndicatorProps> = ({
     const dropIndicatorRef = useRef<HTMLDivElement>()
     useLayoutEffect(() => {
         if (!dropIndicatorRef.current) return onSectorRectsChange([])
-        const sectorElemes = [...dropIndicatorRef.current.getElementsByClassName(styles.dropSector)]
+        const sectorElemes = [
+            ...dropIndicatorRef.current.getElementsByClassName(
+                styles.dropSector
+            ),
+        ]
         const sectorRects = sectorElemes.map(s => s.getBoundingClientRect())
         onSectorRectsChange(sectorRects)
     }, [maxDepth, dropIndicatorRef.current])

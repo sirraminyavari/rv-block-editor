@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback, useRef, MutableRefObject } from 'react'
+import {
+    useState,
+    useEffect,
+    useCallback,
+    useRef,
+    MutableRefObject,
+} from 'react'
 import { EditorState } from 'draft-js'
 
 import getSelectionDepth from '../../Lib/getSelectionDepth'
@@ -28,7 +34,12 @@ export default function useBlockLevelSelection(
     rtblSelectionState: RtblSelectionState,
     updateRtblSelectionState: () => void,
     disable: boolean
-): [BlockLevelSelectionInfo, SetState<BlockLevelSelectionInfo>, () => void, MutableRefObject<boolean>] {
+): [
+    BlockLevelSelectionInfo,
+    SetState<BlockLevelSelectionInfo>,
+    () => void,
+    MutableRefObject<boolean>
+] {
     const [blockLevelSelectionInfo, setBlockLevelSelectionInfo] =
         useState<BlockLevelSelectionInfo>(defaultBlockLevelSelectionInfo)
     const suspend = useRef(false)
@@ -46,7 +57,13 @@ export default function useBlockLevelSelection(
 
     // Enable Trigger
     useEffect(() => {
-        if (disable || !hasFocus || blockLevelSelectionInfo.enabled || suspend.current) return
+        if (
+            disable ||
+            !hasFocus ||
+            blockLevelSelectionInfo.enabled ||
+            suspend.current
+        )
+            return
         const { anchorKey, focusKey } = rtblSelectionState
         if (!anchorKey || !focusKey) return
         if (anchorKey !== focusKey)
@@ -58,25 +75,43 @@ export default function useBlockLevelSelection(
 
     // Selection Handler
     useEffect(() => {
-        if (disable || !hasFocus || !blockLevelSelectionInfo.enabled || suspend.current) return
+        if (
+            disable ||
+            !hasFocus ||
+            !blockLevelSelectionInfo.enabled ||
+            suspend.current
+        )
+            return
 
         const blockMap = contentState.getBlockMap()
         const { startKey, endKey } = rtblSelectionState
         if (!startKey || !endKey) return // Just a check to increase safty and prevent bugs
         const selectionDepth = getSelectionDepth(blockMap, startKey, endKey)
-        const selectedBlocks = blsAwareGetBlockRange(blockMap, startKey, endKey, selectionDepth)
+        const selectedBlocks = blsAwareGetBlockRange(
+            blockMap,
+            startKey,
+            endKey,
+            selectionDepth
+        )
         const selectedBlockKeys = selectedBlocks.keySeq().toArray()
 
         if (
             selectionDepth !== blockLevelSelectionInfo.selectionDepth ||
-            selectedBlockKeys.join() !== blockLevelSelectionInfo.selectedBlockKeys.join()
+            selectedBlockKeys.join() !==
+                blockLevelSelectionInfo.selectedBlockKeys.join()
         )
             setBlockLevelSelectionInfo(prevState => ({
                 ...prevState,
                 selectionDepth,
                 selectedBlockKeys,
             }))
-    }, [disable, hasFocus, blockLevelSelectionInfo.enabled, rtblSelectionState, contentState])
+    }, [
+        disable,
+        hasFocus,
+        blockLevelSelectionInfo.enabled,
+        rtblSelectionState,
+        contentState,
+    ])
 
     // Disable Trigger
     const [doneInitialSelection, setDoneInitialSelection] = useState(false)
@@ -98,7 +133,8 @@ export default function useBlockLevelSelection(
             }
         }
         function selectEndHandler() {
-            if (!doneInitialSelection) setImmediate(() => setDoneInitialSelection(true))
+            if (!doneInitialSelection)
+                setImmediate(() => setDoneInitialSelection(true))
         }
         if (doneInitialSelection) {
             document.addEventListener('selectstart', disableHandler)
@@ -111,7 +147,18 @@ export default function useBlockLevelSelection(
             document.removeEventListener('selectstart', disableHandler)
             document.removeEventListener('click', disableHandler)
         }
-    }, [disable, hasFocus, blockLevelSelectionInfo.enabled, doneInitialSelection, contentState])
+    }, [
+        disable,
+        hasFocus,
+        blockLevelSelectionInfo.enabled,
+        doneInitialSelection,
+        contentState,
+    ])
 
-    return [blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls, suspend]
+    return [
+        blockLevelSelectionInfo,
+        setBlockLevelSelectionInfo,
+        disableBls,
+        suspend,
+    ]
 }

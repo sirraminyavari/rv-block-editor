@@ -11,7 +11,13 @@ export interface OverlayProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Generic overlay UI element.
  */
-const Overlay = forwardRef<HTMLDivElement, OverlayProps>(({ className, ...props }: any, ref) => (
-    <motion.div ref={ref} className={cn(styles.overlay, className)} {...props} />
-))
+const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
+    ({ className, ...props }: any, ref) => (
+        <motion.div
+            ref={ref}
+            className={cn(styles.overlay, className)}
+            {...props}
+        />
+    )
+)
 export default Overlay

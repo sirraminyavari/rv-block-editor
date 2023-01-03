@@ -23,13 +23,27 @@ const useUiContext = () => useContext(UiContext)
 export default useUiContext
 
 export function UiContextProvider({ children }) {
-    const [showControls, setShowControls] = useState<boolean>(() => localStorage.getItem('showControls') === 'true')
-    const [debugMode, setDebugMode] = useState<boolean>(() => localStorage.getItem('debugMode') === 'true')
-    const [readOnly, setReadOnly] = useState<boolean>(() => localStorage.getItem('readOnly') === 'true')
-    const [textarea, setTextarea] = useState<boolean>(() => localStorage.getItem('textarea') === 'true')
-    const [language, setLanguage] = useState<Language>(() => (localStorage.getItem('lang') as Language) || 'en')
-    const [direction, setDirection] = useState<Direction>(() => (localStorage.getItem('dir') as Direction) || 'ltr')
-    const [contentPreset, setContentPreset] = useState<string>(() => localStorage.getItem('contentPreset') || 'empty')
+    const [showControls, setShowControls] = useState<boolean>(
+        () => localStorage.getItem('showControls') === 'true'
+    )
+    const [debugMode, setDebugMode] = useState<boolean>(
+        () => localStorage.getItem('debugMode') === 'true'
+    )
+    const [readOnly, setReadOnly] = useState<boolean>(
+        () => localStorage.getItem('readOnly') === 'true'
+    )
+    const [textarea, setTextarea] = useState<boolean>(
+        () => localStorage.getItem('textarea') === 'true'
+    )
+    const [language, setLanguage] = useState<Language>(
+        () => (localStorage.getItem('lang') as Language) || 'en'
+    )
+    const [direction, setDirection] = useState<Direction>(
+        () => (localStorage.getItem('dir') as Direction) || 'ltr'
+    )
+    const [contentPreset, setContentPreset] = useState<string>(
+        () => localStorage.getItem('contentPreset') || 'empty'
+    )
 
     useEffect(() => {
         localStorage.setItem('showControls', showControls.toString())
@@ -39,7 +53,15 @@ export function UiContextProvider({ children }) {
         localStorage.setItem('lang', language)
         localStorage.setItem('dir', direction)
         localStorage.setItem('contentPreset', contentPreset)
-    }, [showControls, debugMode, readOnly, textarea, language, direction, contentPreset])
+    }, [
+        showControls,
+        debugMode,
+        readOnly,
+        textarea,
+        language,
+        direction,
+        contentPreset,
+    ])
 
     useEffect(() => {
         document.documentElement.setAttribute('dir', direction)

@@ -1,4 +1,10 @@
-import { EditorState, ContentState, ContentBlock, RichUtils, Modifier } from 'draft-js'
+import {
+    EditorState,
+    ContentState,
+    ContentBlock,
+    RichUtils,
+    Modifier,
+} from 'draft-js'
 import { getSelectedBlock } from 'draftjs-utils'
 
 /**
@@ -9,18 +15,34 @@ import { getSelectedBlock } from 'draftjs-utils'
  *
  * @returns A new Editor State with the specified Plus Action toggled.
  */
-export default function applyPlusActionToSelection(editorState: EditorState, plusAction: string): EditorState {
+export default function applyPlusActionToSelection(
+    editorState: EditorState,
+    plusAction: string
+): EditorState {
     const selectedBlock = getSelectedBlock(editorState) as ContentBlock
     const selectedBlockKey = selectedBlock.getKey()
 
-    const editorStateAfterPlusAction = RichUtils.toggleBlockType(editorState, plusAction)
+    const editorStateAfterPlusAction = RichUtils.toggleBlockType(
+        editorState,
+        plusAction
+    )
     const alteredContentState = editorStateAfterPlusAction.getCurrentContent()
-    const alteredSelectedBlock = alteredContentState.getBlockForKey(selectedBlockKey)
+    const alteredSelectedBlock =
+        alteredContentState.getBlockForKey(selectedBlockKey)
 
-    const depthAdjustedSelectedBlock = alteredSelectedBlock.set('depth', selectedBlock.getDepth()) as ContentBlock
+    const depthAdjustedSelectedBlock = alteredSelectedBlock.set(
+        'depth',
+        selectedBlock.getDepth()
+    ) as ContentBlock
     const depthAdjustedContentState = alteredContentState.merge({
-        blockMap: alteredContentState.getBlockMap().set(selectedBlockKey, depthAdjustedSelectedBlock),
+        blockMap: alteredContentState
+            .getBlockMap()
+            .set(selectedBlockKey, depthAdjustedSelectedBlock),
     }) as ContentState
 
-    return EditorState.push(editorState, depthAdjustedContentState, 'change-block-type')
+    return EditorState.push(
+        editorState,
+        depthAdjustedContentState,
+        'change-block-type'
+    )
 }

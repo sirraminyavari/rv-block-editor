@@ -13,11 +13,15 @@ export default function createNestingPlugin(): EditorPlugin {
 
         keyBindingFn(event) {
             if (!event.ctrlKey) return
-            return { BracketRight: 'indent-blocks', BracketLeft: 'outdent-blocks' }[event.code]
+            return {
+                BracketRight: 'indent-blocks',
+                BracketLeft: 'outdent-blocks',
+            }[event.code]
         },
 
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
-            if (command !== 'indent-blocks' && command !== 'outdent-blocks') return 'not-handled'
+            if (command !== 'indent-blocks' && command !== 'outdent-blocks')
+                return 'not-handled'
 
             const editorState = getEditorState()
             const contentState = editorState.getCurrentContent()
@@ -31,22 +35,35 @@ export default function createNestingPlugin(): EditorPlugin {
             )
             const adjust = { 'indent-blocks': 1, 'outdent-blocks': -1 }[command]
 
-            if (!validateNesting(contentState, selectedBlocks, adjust)) return 'not-handled'
+            if (!validateNesting(contentState, selectedBlocks, adjust))
+                return 'not-handled'
 
-            const newBlocks = selectedBlocks.map(block => block.set('depth', block.getDepth() + adjust))
-            const newBlockMap = contentState.getBlockMap().merge(newBlocks as any)
+            const newBlocks = selectedBlocks.map(block =>
+                block.set('depth', block.getDepth() + adjust)
+            )
+            const newBlockMap = contentState
+                .getBlockMap()
+                .merge(newBlocks as any)
             const newContentState = contentState.merge({
                 blockMap: newBlockMap,
             }) as ContentState
 
-            const newEditorState = EditorState.push(editorState, newContentState, 'adjust-depth')
+            const newEditorState = EditorState.push(
+                editorState,
+                newContentState,
+                'adjust-depth'
+            )
             setEditorState(newEditorState)
             return 'handled'
         },
     }
 }
 
-function validateNesting(contentState: ContentState, selectedBlocks: BlockMap, adjust: number): boolean {
+function validateNesting(
+    contentState: ContentState,
+    selectedBlocks: BlockMap,
+    adjust: number
+): boolean {
     const firstBlock = selectedBlocks.first()
     const firstBlockDepth = firstBlock.getDepth()
     if (adjust === -1) {

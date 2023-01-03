@@ -24,7 +24,10 @@ export default function createHeadingsPlugin(): EditorPlugin {
                     key: `header-${heading}`,
                     element: withBlockWrapper(getHeadingComponent(i + 1), {
                         styles: {
-                            wrapper: ['heading-wrapper', `heading${i + 1}-wrapper`],
+                            wrapper: [
+                                'heading-wrapper',
+                                `heading${i + 1}-wrapper`,
+                            ],
                         },
                     }),
                 }))

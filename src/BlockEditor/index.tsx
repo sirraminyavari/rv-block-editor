@@ -62,7 +62,9 @@ const BlockEditor = forwardRef<PluginsEditor, BlockEditorProps>(
             textarea={textarea}
             readOnly={readOnly}>
             <TransformedPluginsContextProvider plugins={plugins}>
-                <EditorContextProvider editorState={editorState} setEditorState={setEditorState}>
+                <EditorContextProvider
+                    editorState={editorState}
+                    setEditorState={setEditorState}>
                     <Editor key={'rerender' + +textarea} ref={ref} {...props} />
                 </EditorContextProvider>
             </TransformedPluginsContextProvider>

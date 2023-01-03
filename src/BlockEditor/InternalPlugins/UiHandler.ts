@@ -13,7 +13,8 @@ export default function createUiHandlerPlugin(): EditorPlugin {
         id: '__internal__ui-handler',
 
         keyBindingFn(event) {
-            const { plusActionMenuInfo, blockLevelSelectionInfo } = getUiContext()
+            const { plusActionMenuInfo, blockLevelSelectionInfo } =
+                getUiContext()
 
             if (event.ctrlKey && event.code === 'KeyA') return 'select-all'
 
@@ -22,26 +23,37 @@ export default function createUiHandlerPlugin(): EditorPlugin {
                 // Cancelation
                 if (
                     event.code === 'Escape' ||
-                    (!event.code && ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) >= 0)
+                    (!event.code &&
+                        [
+                            'ArrowDown',
+                            'ArrowUp',
+                            'ArrowLeft',
+                            'ArrowRight',
+                        ].indexOf(event.code) >= 0)
                 )
                     return 'bls-disable'
                 // Deletion
-                if (['Backspace', 'Delete'].indexOf(event.code) >= 0) return 'bls-delete'
+                if (['Backspace', 'Delete'].indexOf(event.code) >= 0)
+                    return 'bls-delete'
                 // Verified Commands
                 if (
                     event.ctrlKey &&
-                    (['KeyC', 'KeyX', 'KeyV', 'KeyZ', 'KeyY'].indexOf(event.code) >= 0 ||
+                    (['KeyC', 'KeyX', 'KeyV', 'KeyZ', 'KeyY'].indexOf(
+                        event.code
+                    ) >= 0 ||
                         (event.shiftKey && event.code === 'KeyZ'))
                 )
                     return undefined
                 // Selection Modification
                 if (event.shiftKey) {
                     if (event.code === 'ArrowDown')
-                        return blockLevelSelectionInfo.selectedBlockKeys.length > 1
+                        return blockLevelSelectionInfo.selectedBlockKeys
+                            .length > 1
                             ? 'bls-goDown'
                             : 'bls-goDown-singleBlock'
                     if (event.code === 'ArrowUp')
-                        return blockLevelSelectionInfo.selectedBlockKeys.length > 1
+                        return blockLevelSelectionInfo.selectedBlockKeys
+                            .length > 1
                             ? 'bls-goUp'
                             : 'bls-goUp-singleBlock'
                 }
@@ -56,19 +68,30 @@ export default function createUiHandlerPlugin(): EditorPlugin {
         },
 
         handleKeyCommand(command, editorState, _, { setEditorState }) {
-            const { setPlusActionMenuInfo, blockLevelSelectionInfo, suspendBls } = getUiContext()
+            const {
+                setPlusActionMenuInfo,
+                blockLevelSelectionInfo,
+                suspendBls,
+            } = getUiContext()
             const fn = {
                 'select-all'() {
                     const contentState = editorState.getCurrentContent()
                     const selectionState = editorState.getSelection()
-                    const anchorBlock = contentState.getBlockForKey(selectionState.getAnchorKey())
+                    const anchorBlock = contentState.getBlockForKey(
+                        selectionState.getAnchorKey()
+                    )
                     const newSelectionState = (() => {
                         // true: The selection is inside exactly 1 block and a part of it (not all of it)
                         if (selectionState.isCollapsed()) return true
-                        if (selectionState.getAnchorKey() !== selectionState.getFocusKey()) return false
+                        if (
+                            selectionState.getAnchorKey() !==
+                            selectionState.getFocusKey()
+                        )
+                            return false
                         return (
                             selectionState.getStartOffset() > 0 ||
-                            selectionState.getEndOffset() < anchorBlock.getLength()
+                            selectionState.getEndOffset() <
+                                anchorBlock.getLength()
                         )
                     })()
                         ? selectionState.merge({
@@ -86,7 +109,12 @@ export default function createUiHandlerPlugin(): EditorPlugin {
                               })
                           })()
                     if (!selectionState.equals(newSelectionState))
-                        setEditorState(EditorState.forceSelection(editorState, newSelectionState))
+                        setEditorState(
+                            EditorState.forceSelection(
+                                editorState,
+                                newSelectionState
+                            )
+                        )
                 },
 
                 'bls-disable'() {
@@ -99,7 +127,10 @@ export default function createUiHandlerPlugin(): EditorPlugin {
                         isBackward: false,
                         hasFocus: true,
                     })
-                    const newEditorState = EditorState.forceSelection(editorState, newSelectionState)
+                    const newEditorState = EditorState.forceSelection(
+                        editorState,
+                        newSelectionState
+                    )
 
                     setEditorState(newEditorState)
                     setImmediate(getUiContext().disableBls)
@@ -108,25 +139,42 @@ export default function createUiHandlerPlugin(): EditorPlugin {
                 },
 
                 'bls-goDown'() {
-                    setEditorState(NASM.goDown(editorState, blockLevelSelectionInfo))
+                    setEditorState(
+                        NASM.goDown(editorState, blockLevelSelectionInfo)
+                    )
                     return 'handled'
                 },
                 'bls-goUp'() {
-                    setEditorState(NASM.goUp(editorState, blockLevelSelectionInfo))
+                    setEditorState(
+                        NASM.goUp(editorState, blockLevelSelectionInfo)
+                    )
                     return 'handled'
                 },
                 'bls-goDown-singleBlock'() {
-                    setEditorState(NASM.goDownSingleBlock(editorState, blockLevelSelectionInfo))
+                    setEditorState(
+                        NASM.goDownSingleBlock(
+                            editorState,
+                            blockLevelSelectionInfo
+                        )
+                    )
                     return 'handled'
                 },
                 'bls-goUp-singleBlock'() {
-                    setEditorState(NASM.goUpSingleBlock(editorState, blockLevelSelectionInfo))
+                    setEditorState(
+                        NASM.goUpSingleBlock(
+                            editorState,
+                            blockLevelSelectionInfo
+                        )
+                    )
                     return 'handled'
                 },
 
                 'bls-delete'() {
                     suspendBls.current = true
-                    const newEditorState = blsAwareDelete(editorState, blockLevelSelectionInfo)
+                    const newEditorState = blsAwareDelete(
+                        editorState,
+                        blockLevelSelectionInfo
+                    )
                     setEditorState(newEditorState)
                     getUiContext().disableBls()
                     setImmediate(() => {
@@ -138,7 +186,10 @@ export default function createUiHandlerPlugin(): EditorPlugin {
                 'bls-ignore': () => 'handled',
 
                 'plusActionMenu-close'() {
-                    setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
+                    setPlusActionMenuInfo(prev => ({
+                        ...prev,
+                        openedBlock: null,
+                    }))
                     return 'handled'
                 },
             }[command]

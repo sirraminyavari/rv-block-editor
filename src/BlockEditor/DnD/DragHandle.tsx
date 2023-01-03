@@ -33,7 +33,9 @@ const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
                         dragging: true,
                         isDraggingByHandle: true,
                         block,
-                        elem: wrapperRef.current.querySelector(`[ data-block-key = "${blockKey}" ]`),
+                        elem: wrapperRef.current.querySelector(
+                            `[ data-block-key = "${blockKey}" ]`
+                        ),
                     }))
                 )
             }}
@@ -54,7 +56,10 @@ const DragHandle: FC<DragHandleProps> = ({ blockKey }) => {
                         isBackward: false,
                         hasFocus: true,
                     })
-                    const newEditorState = EditorState.forceSelection(editorState, newSelectionState)
+                    const newEditorState = EditorState.forceSelection(
+                        editorState,
+                        newSelectionState
+                    )
                     setEditorState(newEditorState)
                 })
             }

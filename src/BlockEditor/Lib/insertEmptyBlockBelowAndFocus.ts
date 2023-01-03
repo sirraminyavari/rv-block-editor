@@ -20,6 +20,10 @@ export default function insertEmptyBlockBelowAndFocus(
     newContentBlock: ContentBlock
 } {
     const newContentBlock = createEmptyBlock(depth)
-    const newEditorState = insertBlockBelowAndFocus(editorState, newContentBlock, targetBlock)
+    const newEditorState = insertBlockBelowAndFocus(
+        editorState,
+        newContentBlock,
+        targetBlock
+    )
     return { newEditorState, newContentBlock }
 }

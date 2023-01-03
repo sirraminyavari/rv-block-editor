@@ -7,7 +7,9 @@ export default function createQuotePlugin(): EditorPlugin {
     return {
         id: 'quote',
 
-        plusActions: [{ action: 'blockquote', Icon: QuoteIcon, returnBreakout: true }],
+        plusActions: [
+            { action: 'blockquote', Icon: QuoteIcon, returnBreakout: true },
+        ],
 
         blockRenderMap: Map({
             blockquote: {

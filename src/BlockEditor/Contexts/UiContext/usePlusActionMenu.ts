@@ -16,17 +16,21 @@ export default function usePlusActionMenu(
     selectionState: SelectionState,
     disable: boolean
 ): [PlusActionMenuInfo, SetState<PlusActionMenuInfo>] {
-    const [plusActionMenuInfo, setPlusActionMenuInfo] = useState<PlusActionMenuInfo>({})
+    const [plusActionMenuInfo, setPlusActionMenuInfo] =
+        useState<PlusActionMenuInfo>({})
 
     useEffect(() => {
         if (disable) return
         if (
             plusActionMenuInfo.openedBlock &&
             (!selectionState.getHasFocus() ||
-                plusActionMenuInfo.openedBlock.getKey() !== selectionState.getAnchorKey() ||
-                plusActionMenuInfo.openedBlock.getKey() !== selectionState.getFocusKey() ||
+                plusActionMenuInfo.openedBlock.getKey() !==
+                    selectionState.getAnchorKey() ||
+                plusActionMenuInfo.openedBlock.getKey() !==
+                    selectionState.getFocusKey() ||
                 selectionState.getAnchorOffset() !== 0 ||
-                selectionState.getAnchorOffset() !== selectionState.getFocusOffset())
+                selectionState.getAnchorOffset() !==
+                    selectionState.getFocusOffset())
         )
             setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: null }))
     }, [disable, plusActionMenuInfo, selectionState])

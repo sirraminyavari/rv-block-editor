@@ -13,7 +13,11 @@ interface DragRange {
  */
 export default function getDragRange(
     blockMap: BlockMap,
-    { enabled: blsEnabled, selectionDepth, selectedBlockKeys }: BlockLevelSelectionInfo,
+    {
+        enabled: blsEnabled,
+        selectionDepth,
+        selectedBlockKeys,
+    }: BlockLevelSelectionInfo,
     draggedBlockKey: string
 ): DragRange {
     const block = blockMap.get(draggedBlockKey)
@@ -25,7 +29,12 @@ export default function getDragRange(
             endKey: selectedBlockKeys[selectedBlockKeys.length - 1],
         }
 
-    const range = blsAwareGetBlockRange(blockMap, draggedBlockKey, draggedBlockKey, blockDepth)
+    const range = blsAwareGetBlockRange(
+        blockMap,
+        draggedBlockKey,
+        draggedBlockKey,
+        blockDepth
+    )
     return {
         startKey: range.first().getKey(),
         endKey: range.last().getKey(),

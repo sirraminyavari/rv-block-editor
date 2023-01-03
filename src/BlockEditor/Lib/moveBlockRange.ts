@@ -25,7 +25,9 @@ export default function moveBlockRange(
             }
 
         const firstInRangeKey = range.first().getKey()
-        const blockBefore = blockMap.takeUntil((_, key) => key === firstInRangeKey).last()
+        const blockBefore = blockMap
+            .takeUntil((_, key) => key === firstInRangeKey)
+            .last()
         if (blockBefore)
             return {
                 adjustedTargetKey: blockBefore.getKey(),
@@ -46,14 +48,23 @@ export default function moveBlockRange(
         throw new Error('Illegal: Moving the whole content')
     })()
 
-    const before = withoutRangeBlockMap.takeUntil((_, key) => key === adjustedTargetKey)
-    const after = withoutRangeBlockMap.skipUntil((_, key) => key === adjustedTargetKey)
+    const before = withoutRangeBlockMap.takeUntil(
+        (_, key) => key === adjustedTargetKey
+    )
+    const after = withoutRangeBlockMap.skipUntil(
+        (_, key) => key === adjustedTargetKey
+    )
 
     const borderBlock = after.first()
     const adjustedBefore =
-        adjustedInsertionMode === 'before' ? before : before.concat([[borderBlock.getKey(), borderBlock]])
-    const adjustedAfter = adjustedInsertionMode === 'before' ? after : after.skip(1)
+        adjustedInsertionMode === 'before'
+            ? before
+            : before.concat([[borderBlock.getKey(), borderBlock]])
+    const adjustedAfter =
+        adjustedInsertionMode === 'before' ? after : after.skip(1)
 
-    const newBlockMap = adjustedBefore.concat(range, adjustedAfter).toOrderedMap()
+    const newBlockMap = adjustedBefore
+        .concat(range, adjustedAfter)
+        .toOrderedMap()
     return newBlockMap
 }

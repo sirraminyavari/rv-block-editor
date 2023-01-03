@@ -1,5 +1,10 @@
 import { MutableRefObject } from 'react'
-import { EditorState, ContentState, SelectionState, DraftInsertionType } from 'draft-js'
+import {
+    EditorState,
+    ContentState,
+    SelectionState,
+    DraftInsertionType,
+} from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 
 import { BlockLevelSelectionInfo } from '../Contexts/UiContext'
@@ -26,9 +31,24 @@ export default function handleDrop(
     const contentState = editorState.getCurrentContent()
     const blockMap = contentState.getBlockMap()
 
-    const { startKey, endKey } = getDragRange(blockMap, blockLevelSelectionInfo, draggedBlockKey)
-    const depthAdjustedBlockMap = setBlockRangeDepth(blockMap, startKey, endKey, sector)
-    const movedBlockMap = moveBlockRange(depthAdjustedBlockMap, startKey, endKey, dropTargetKey, insertionMode)
+    const { startKey, endKey } = getDragRange(
+        blockMap,
+        blockLevelSelectionInfo,
+        draggedBlockKey
+    )
+    const depthAdjustedBlockMap = setBlockRangeDepth(
+        blockMap,
+        startKey,
+        endKey,
+        sector
+    )
+    const movedBlockMap = moveBlockRange(
+        depthAdjustedBlockMap,
+        startKey,
+        endKey,
+        dropTargetKey,
+        insertionMode
+    )
 
     const { anchorKey, focusKey, focusOffset } = (() => {
         const range = getBlockRange(movedBlockMap, startKey, endKey)

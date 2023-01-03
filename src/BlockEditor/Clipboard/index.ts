@@ -41,11 +41,17 @@ function registerClipboardHandlers(
     const { editor: editorElemRef } = editor.getEditorRef()
     const handlers = {}
     for (const eventName in rawHandlers) {
-        handlers[eventName] = rawHandlers[eventName].bind(null, editor, getUiState, setEditorState)
+        handlers[eventName] = rawHandlers[eventName].bind(
+            null,
+            editor,
+            getUiState,
+            setEditorState
+        )
         editorElemRef.addEventListener(eventName, handlers[eventName])
     }
     return () => {
-        for (const eventName in handlers) editorElemRef.removeEventListener(eventName, handlers[eventName])
+        for (const eventName in handlers)
+            editorElemRef.removeEventListener(eventName, handlers[eventName])
     }
 }
 
@@ -62,7 +68,10 @@ export default function useClipboardHandlers() {
         uiStateRef.current = uiState
     }, [uiState])
     useLayoutEffect(() => {
-        const unregisterClipboardHandlers = registerClipboardHandlers(uiStateRef, setEditorState)
+        const unregisterClipboardHandlers = registerClipboardHandlers(
+            uiStateRef,
+            setEditorState
+        )
         return unregisterClipboardHandlers
     }, [])
 }
@@ -77,7 +86,8 @@ export function handlePastedText(_, html, _2) {
     elem.innerHTML = html
     const wrapperDiv = elem.querySelector('div')
     if (!wrapperDiv) return 'not-handled'
-    return wrapperDiv.getAttribute('data-NEXTLE_blockEditor') && wrapperDiv.getAttribute('data-NEXTLE_blockEditor_BLS')
+    return wrapperDiv.getAttribute('data-NEXTLE_blockEditor') &&
+        wrapperDiv.getAttribute('data-NEXTLE_blockEditor_BLS')
         ? 'handled'
         : 'not-handled'
 }

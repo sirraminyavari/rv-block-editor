@@ -12,13 +12,22 @@ const icons = {
     right: AlignRightIcon,
 }
 
-const AlignmentButtons: InlineStyleComponent = ({ editorState, setEditorState }) => {
+const AlignmentButtons: InlineStyleComponent = ({
+    editorState,
+    setEditorState,
+}) => {
     return (
         <div dir="ltr" className={styles.buttonWrapper}>
             {Object.values(Alignment).map(alignmentVal => (
                 <Button
                     key={alignmentVal}
-                    onClick={() => setBlockAlignment(alignmentVal, editorState, setEditorState)}
+                    onClick={() =>
+                        setBlockAlignment(
+                            alignmentVal,
+                            editorState,
+                            setEditorState
+                        )
+                    }
                     Icon={icons[alignmentVal]}
                 />
             ))}

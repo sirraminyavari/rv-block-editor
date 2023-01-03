@@ -37,7 +37,9 @@ function Table({ config, ...props }) {
                         _.mapValues(
                             getObjData(data, 'alignments'),
                             (align, cellN) =>
-                                `#${tableId.current} [data-table-cell]:nth-child(${
+                                `#${
+                                    tableId.current
+                                } [data-table-cell]:nth-child(${
                                     +cellN + 1
                                 }) { text-align: ${align}; }`
                         ),
@@ -65,7 +67,13 @@ export function TableCell(props) {
     const { children } = props // It also has 'contentState' & 'entityKey'
     const { externalStyles } = useUiContext()
 
-    return <span data-table-cell className={externalStyles.tableCell} children={children} />
+    return (
+        <span
+            data-table-cell
+            className={externalStyles.tableCell}
+            children={children}
+        />
+    )
 }
 
 function TableOptions({ block, rowN, colN }) {
@@ -82,27 +90,45 @@ function TableOptions({ block, rowN, colN }) {
         <Overlay className={externalStyles.tableCellOptions}>
             <Button
                 Icon={TableIcon}
-                onClick={() => setEditorState(tableActions.addRowAfterCursor(editorState, block))}
+                onClick={() =>
+                    setEditorState(
+                        tableActions.addRowAfterCursor(editorState, block)
+                    )
+                }
                 disabled={isRangeInside}
             />
             <Button
                 Icon={TableIcon}
-                onClick={() => setEditorState(tableActions.addColAfterCursor(editorState, block))}
+                onClick={() =>
+                    setEditorState(
+                        tableActions.addColAfterCursor(editorState, block)
+                    )
+                }
                 disabled={isRangeInside}
             />
             <Button
                 Icon={TableIcon}
-                onClick={() => setEditorState(tableActions.removeRowByCursor(editorState, block))}
+                onClick={() =>
+                    setEditorState(
+                        tableActions.removeRowByCursor(editorState, block)
+                    )
+                }
                 disabled={isRangeInside || rowN <= 1}
             />
             <Button
                 Icon={TableIcon}
-                onClick={() => setEditorState(tableActions.removeColByCursor(editorState, block))}
+                onClick={() =>
+                    setEditorState(
+                        tableActions.removeColByCursor(editorState, block)
+                    )
+                }
                 disabled={isRangeInside || colN <= 1}
             />
             <Button
                 Icon={TableIcon}
-                onClick={() => setEditorState(tableActions.removeTable(editorState, block))}
+                onClick={() =>
+                    setEditorState(tableActions.removeTable(editorState, block))
+                }
                 disabled={isRangeInside}
             />
         </Overlay>

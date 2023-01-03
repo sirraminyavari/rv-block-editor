@@ -1,4 +1,13 @@
-import { createContext, useContext, FC, useMemo, useRef, useEffect, useCallback, ComponentType } from 'react'
+import {
+    createContext,
+    useContext,
+    FC,
+    useMemo,
+    useRef,
+    useEffect,
+    useCallback,
+    ComponentType,
+} from 'react'
 
 import {
     EditorPlugin,
@@ -24,8 +33,10 @@ export interface TransformedPluginsContext {
     allPlugins: EditorPluginObject[]
 }
 
-export const TransformedPluginsContext = createContext<TransformedPluginsContext>(null)
-export const useTransformedPluginsContext = () => useContext(TransformedPluginsContext)
+export const TransformedPluginsContext =
+    createContext<TransformedPluginsContext>(null)
+export const useTransformedPluginsContext = () =>
+    useContext(TransformedPluginsContext)
 export default useTransformedPluginsContext
 
 export interface TransformedPluginsContextProviderProps {
@@ -35,10 +46,9 @@ export interface TransformedPluginsContextProviderProps {
 /**
  * Transformes external plugins, utilizes internal plugins & provides access to them all.
  */
-export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProviderProps> = ({
-    plugins,
-    children,
-}) => {
+export const TransformedPluginsContextProvider: FC<
+    TransformedPluginsContextProviderProps
+> = ({ plugins, children }) => {
     const uiContext = useUiContext()
     const uiContextRef = useRef(uiContext)
     useEffect(() => void (uiContextRef.current = uiContext), [uiContext])
@@ -50,10 +60,17 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
         []
     )
 
-    const pluginObjects = useMemo<EditorPluginObject[]>(() => toPluginObject(plugins, pluginArgs), [plugins])
+    const pluginObjects = useMemo<EditorPluginObject[]>(
+        () => toPluginObject(plugins, pluginArgs),
+        [plugins]
+    )
 
     const inlineStyles: TransformedInlineStyle[] = useMemo(
-        () => pluginObjects.reduce((acc, plugin) => [...acc, ...(plugin.inlineStyles || [])], []),
+        () =>
+            pluginObjects.reduce(
+                (acc, plugin) => [...acc, ...(plugin.inlineStyles || [])],
+                []
+            ),
         [pluginObjects]
     )
 
@@ -73,7 +90,9 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
     )
 
     const PluginsOverlay = useCallback(() => {
-        const overlayComponents = pluginObjects.map(p => p.OverlayComponent).filter(Boolean)
+        const overlayComponents = pluginObjects
+            .map(p => p.OverlayComponent)
+            .filter(Boolean)
         // The array of components has been put in a fragment to preserve the correct TS types.
         return (
             <>
@@ -90,8 +109,15 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
         const blockBreakoutPlugin = createBlockBreakoutPlugin({ plusActions })
         const uiHandlerPlugin = createUiHandlerPlugin()
 
-        const internalPlugins = [nestingPlugin, blockBreakoutPlugin, uiHandlerPlugin]
-        const internalPluginObjects = toPluginObject(internalPlugins, pluginArgs)
+        const internalPlugins = [
+            nestingPlugin,
+            blockBreakoutPlugin,
+            uiHandlerPlugin,
+        ]
+        const internalPluginObjects = toPluginObject(
+            internalPlugins,
+            pluginArgs
+        )
         return [...pluginObjects, ...internalPluginObjects]
     }, [pluginObjects, plusActions])
 
@@ -103,6 +129,11 @@ export const TransformedPluginsContextProvider: FC<TransformedPluginsContextProv
     )
 }
 
-function toPluginObject(plugins: EditorPlugin[], args: EditorPluginFunctionArg): EditorPluginObject[] {
-    return plugins.map(plugin => (typeof plugin === 'function' ? plugin(args) : plugin))
+function toPluginObject(
+    plugins: EditorPlugin[],
+    args: EditorPluginFunctionArg
+): EditorPluginObject[] {
+    return plugins.map(plugin =>
+        typeof plugin === 'function' ? plugin(args) : plugin
+    )
 }

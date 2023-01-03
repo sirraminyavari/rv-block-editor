@@ -21,7 +21,10 @@ export type Dict = {
 }
 
 // TODO: Docs
-export type StateTransformer = (incomingEditorState: EditorState, prevEditorState: EditorState) => EditorState
+export type StateTransformer = (
+    incomingEditorState: EditorState,
+    prevEditorState: EditorState
+) => EditorState
 
 /**
  * These Props are passed to all inline-style custom components
@@ -103,7 +106,9 @@ export interface EditorPluginObject extends _EditorPlugin {
 export interface EditorPluginFunctionArg {
     getUiContext: () => UiContext
 }
-export type EditorPluginFunction = (arg: EditorPluginFunctionArg) => EditorPluginObject
+export type EditorPluginFunction = (
+    arg: EditorPluginFunctionArg
+) => EditorPluginObject
 
 export type EditorPlugin = EditorPluginObject | EditorPluginFunction
 

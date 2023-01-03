@@ -16,7 +16,11 @@ export interface NoColorSelectButtonProps extends InlineStyleComponentProps {
     styleEntities: string[]
 }
 
-const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({ styleEntities, editorState, setEditorState }) => {
+const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({
+    styleEntities,
+    editorState,
+    setEditorState,
+}) => {
     const handleClearClick = (editorState: EditorState) => {
         const selection = editorState.getSelection()
         const contentState = editorState.getCurrentContent()
@@ -25,7 +29,9 @@ const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({ styleEntities, edit
         const currentContentBlock = currentContent.getBlockForKey(anchorKey)
         const selectionStart = selection.getStartOffset()
         const selectionEnd = selection.getEndOffset()
-        const selectedText = currentContentBlock.getText().slice(selectionStart, selectionEnd)
+        const selectedText = currentContentBlock
+            .getText()
+            .slice(selectionStart, selectionEnd)
         const selectionStyles = editorState
             .getCurrentContent()
             .getBlockForKey(selection.getStartKey())
@@ -35,10 +41,14 @@ const NoColorSelectButton: FC<NoColorSelectButtonProps> = ({ styleEntities, edit
             contentState,
             selection,
             selectedText,
-            OrderedSet(selectionStyles.filter(style => !styleEntities.includes(style)))
+            OrderedSet(
+                selectionStyles.filter(style => !styleEntities.includes(style))
+            )
         )
 
-        setEditorState(EditorState.push(editorState, newState, 'change-inline-style'))
+        setEditorState(
+            EditorState.push(editorState, newState, 'change-inline-style')
+        )
     }
     return (
         <>

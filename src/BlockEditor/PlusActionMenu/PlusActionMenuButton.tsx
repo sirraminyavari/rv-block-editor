@@ -28,11 +28,12 @@ const PlusActionMenuButton: FC<PlusActionMenuButtonProps> = ({ blockKey }) => {
             onClick={() => {
                 if (block.getText()) {
                     // There is some text in the current block so we should create a new block below it and set the Plus Action type for the newly created block
-                    const { newEditorState, newContentBlock } = nestAwareInsertEmptyBlockBelowAndFocus(
-                        editorState,
-                        block,
-                        block.getDepth()
-                    )
+                    const { newEditorState, newContentBlock } =
+                        nestAwareInsertEmptyBlockBelowAndFocus(
+                            editorState,
+                            block,
+                            block.getDepth()
+                        )
                     setEditorState(newEditorState)
                     setPlusActionMenuInfo(prev => ({
                         ...prev,
@@ -41,7 +42,10 @@ const PlusActionMenuButton: FC<PlusActionMenuButtonProps> = ({ blockKey }) => {
                 } else {
                     // There is no text in the current block so we should update its type inplace
                     setEditorState(forceSelectionToBlock(editorState, blockKey))
-                    setPlusActionMenuInfo(prev => ({ ...prev, openedBlock: block }))
+                    setPlusActionMenuInfo(prev => ({
+                        ...prev,
+                        openedBlock: block,
+                    }))
                 }
             }}
         />

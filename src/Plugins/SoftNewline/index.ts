@@ -17,9 +17,15 @@ export default function createSoftNewlinePlugin(): EditorPlugin {
             }
 
             const contentState = editorState.getCurrentContent()
-            const contentWithoutSelectedText = Modifier.removeRange(contentState, selectionState, 'forward')
+            const contentWithoutSelectedText = Modifier.removeRange(
+                contentState,
+                selectionState,
+                'forward'
+            )
             const newSelection = contentWithoutSelectedText.getSelectionAfter()
-            const newBlock = contentWithoutSelectedText.getBlockForKey(newSelection.getStartKey())
+            const newBlock = contentWithoutSelectedText.getBlockForKey(
+                newSelection.getStartKey()
+            )
 
             const newContent = Modifier.insertText(
                 contentWithoutSelectedText,
@@ -29,7 +35,9 @@ export default function createSoftNewlinePlugin(): EditorPlugin {
                 null
             )
 
-            setEditorState(EditorState.push(editorState, newContent, 'insert-fragment'))
+            setEditorState(
+                EditorState.push(editorState, newContent, 'insert-fragment')
+            )
             return 'handled'
         },
     }

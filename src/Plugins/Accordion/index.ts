@@ -13,7 +13,9 @@ export default function createAccordionPlugin(): EditorPlugin {
     return ({ getUiContext }) => ({
         id: 'accordion',
 
-        plusActions: [{ action: 'accordion', doubleBreakout: true, Icon: AccordionIcon }],
+        plusActions: [
+            { action: 'accordion', doubleBreakout: true, Icon: AccordionIcon },
+        ],
 
         blockRenderMap: Map({
             accordion: {
@@ -35,8 +37,14 @@ export default function createAccordionPlugin(): EditorPlugin {
                         const blockKey = contentBlock.getKey()
                         const currentData = contentBlock.getData()
                         const newEditorState = collapsed
-                            ? setBlockData(editorState, blockKey, _.omit(currentData.toObject(), ['_collapsed']))
-                            : mergeBlockData(editorState, blockKey, { _collapsed: true })
+                            ? setBlockData(
+                                  editorState,
+                                  blockKey,
+                                  _.omit(currentData.toObject(), ['_collapsed'])
+                              )
+                            : mergeBlockData(editorState, blockKey, {
+                                  _collapsed: true,
+                              })
                         uiContext.collapsedBlocks.clearChache()
                         setEditorState(newEditorState)
                     },

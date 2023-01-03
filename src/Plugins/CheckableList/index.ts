@@ -11,7 +11,9 @@ import 'draft-js-checkable-list-plugin/lib/plugin.css'
 import { CheckableListIcon } from './icons'
 import * as styles from './styles.module.scss'
 
-export default function createCheckableListPlugin(config: any = {}): EditorPlugin {
+export default function createCheckableListPlugin(
+    config: any = {}
+): EditorPlugin {
     const _plugin = _createCheckableListPlugin()
     const _checkableListItem = _plugin.blockRenderMap.get('checkable-list-item')
 
@@ -28,7 +30,11 @@ export default function createCheckableListPlugin(config: any = {}): EditorPlugi
                     ..._checkableListItem.wrapper,
                     props: {
                         ..._checkableListItem.wrapper.props,
-                        className: cn(_checkableListItem.wrapper.props.className, config.styles?.cl, styles.cl),
+                        className: cn(
+                            _checkableListItem.wrapper.props.className,
+                            config.styles?.cl,
+                            styles.cl
+                        ),
                     },
                 },
             },
@@ -45,7 +51,11 @@ export default function createCheckableListPlugin(config: any = {}): EditorPlugi
                     onChangeChecked() {
                         if (getUiContext().readOnly) return
                         const editorState = pfs.getEditorState()
-                        const newEditorState = mergeBlockData(editorState, contentBlock.getKey(), { checked: !checked })
+                        const newEditorState = mergeBlockData(
+                            editorState,
+                            contentBlock.getKey(),
+                            { checked: !checked }
+                        )
                         pfs.setEditorState(newEditorState)
                     },
                 },

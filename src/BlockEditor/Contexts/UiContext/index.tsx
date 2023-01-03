@@ -8,8 +8,12 @@ import useGlobalRefs, { BlockRefs } from './useGlobalRefs'
 import useBlockControls, { BlockControlsInfo } from './useBlockControls'
 import usePlusActionMenu, { PlusActionMenuInfo } from './usePlusActionMenu'
 import useDrag, { DragInfo } from 'BlockEditor/DnD/useDrag'
-import useRtblSelectionState, { RtblSelectionState } from './useRtblSelectionState'
-import useBlockLevelSelection, { BlockLevelSelectionInfo } from './useBlockLevelSelection'
+import useRtblSelectionState, {
+    RtblSelectionState,
+} from './useRtblSelectionState'
+import useBlockLevelSelection, {
+    BlockLevelSelectionInfo,
+} from './useBlockLevelSelection'
 import useInlineStyleMenu, { InlineStyleMenuInfo } from './useInlineStyleMenu'
 import useCollapsedBlocks, { CollapsedBlocks } from './useCollapsedBlocks'
 
@@ -90,18 +94,37 @@ export const UiContextProvider: FC<UiContextProviderProps> = ({
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
 
-    const { editorRef, wrapperRef, innerWrapperRef, blockRefs } = useGlobalRefs()
-    const [blockControlsInfo, setBlockControlsInfo] = useBlockControls(editorState, wrapperRef, blockRefs, textarea)
-    const [plusActionMenuInfo, setPlusActionMenuInfo] = usePlusActionMenu(selectionState, textarea)
+    const { editorRef, wrapperRef, innerWrapperRef, blockRefs } =
+        useGlobalRefs()
+    const [blockControlsInfo, setBlockControlsInfo] = useBlockControls(
+        editorState,
+        wrapperRef,
+        blockRefs,
+        textarea
+    )
+    const [plusActionMenuInfo, setPlusActionMenuInfo] = usePlusActionMenu(
+        selectionState,
+        textarea
+    )
     const [dragInfo, setDragInfo] = useDrag()
-    const [rtblSelectionState, updateRtblSelectionState] = useRtblSelectionState(contentState, selectionState, textarea)
-    const [blockLevelSelectionInfo, setBlockLevelSelectionInfo, disableBls, suspendBls] = useBlockLevelSelection(
+    const [rtblSelectionState, updateRtblSelectionState] =
+        useRtblSelectionState(contentState, selectionState, textarea)
+    const [
+        blockLevelSelectionInfo,
+        setBlockLevelSelectionInfo,
+        disableBls,
+        suspendBls,
+    ] = useBlockLevelSelection(
         editorState,
         rtblSelectionState,
         updateRtblSelectionState,
         textarea
     )
-    const inlineStyleMenuInfo = useInlineStyleMenu(blockLevelSelectionInfo.enabled, selectionState, rtblSelectionState)
+    const inlineStyleMenuInfo = useInlineStyleMenu(
+        blockLevelSelectionInfo.enabled,
+        selectionState,
+        rtblSelectionState
+    )
     const collapsedBlocks = useCollapsedBlocks(contentState)
 
     return (

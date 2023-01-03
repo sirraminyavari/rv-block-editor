@@ -40,7 +40,10 @@ export default function createCodeBlockPlugin(config: any = {}): EditorPlugin {
         handleKeyCommand(command, _, _2, { getEditorState, setEditorState }) {
             const editorState = getEditorState()
             if (CodeUtils.hasSelectionInBlock(editorState)) {
-                const newState = CodeUtils.handleKeyCommand(editorState, command)
+                const newState = CodeUtils.handleKeyCommand(
+                    editorState,
+                    command
+                )
                 if (newState) {
                     setEditorState(newState)
                     return 'handled'
@@ -87,7 +90,11 @@ export default function createCodeBlockPlugin(config: any = {}): EditorPlugin {
                     setLanguage(language: string) {
                         getUiContext().editorRef.current.focus() // This is necessary to prevent a bug in Firefox
                         const editorState = getEditorState()
-                        const newEditorState = mergeBlockData(editorState, contentBlock.getKey(), { language })
+                        const newEditorState = mergeBlockData(
+                            editorState,
+                            contentBlock.getKey(),
+                            { language }
+                        )
                         setEditorState(newEditorState)
                     },
                 },

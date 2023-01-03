@@ -1,11 +1,21 @@
-import { ContentState, ContentBlock, SelectionState, Modifier, convertToRaw, RawDraftContentState } from 'draft-js'
+import {
+    ContentState,
+    ContentBlock,
+    SelectionState,
+    Modifier,
+    convertToRaw,
+    RawDraftContentState,
+} from 'draft-js'
 import htmlToDraft from 'html-to-draftjs'
 
 interface ColorConfig {
     name: string
     color: string
 }
-type GetMentionLink = (mention: { type: string; id: string }) => string | Promise<string>
+type GetMentionLink = (mention: {
+    type: string
+    id: string
+}) => string | Promise<string>
 interface Config {
     colors: {
         textColors: ColorConfig[]
@@ -24,10 +34,16 @@ interface Config {
  * * from the class reference in the target project. Doing so will result in an error
  * * throwed by DraftJS.
  */
-export function convertLegacyHtmlToEditorState(html: string, config: Config): RawDraftContentState {
+export function convertLegacyHtmlToEditorState(
+    html: string,
+    config: Config
+): RawDraftContentState {
     const modifiedHtml = modifyHtml(html, config)
     const { contentBlocks, entityMap } = htmlToDraft(modifiedHtml)
-    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)
+    const contentState = ContentState.createFromBlockArray(
+        contentBlocks,
+        entityMap
+    )
     const modifiedContentState = modifyContent(contentState, config)
     return convertToRaw(modifiedContentState)
 }
@@ -64,7 +80,9 @@ function removeBreaksAndExtraSpaces(elem: Element) {
  */
 function wrapTopLevelTextNodes(elem: Element) {
     ;[...elem.childNodes]
-        .filter(node => node.nodeType === 3 && node.textContent.trim().length > 1)
+        .filter(
+            node => node.nodeType === 3 && node.textContent.trim().length > 1
+        )
         .forEach(node => {
             const wrapper = document.createElement('p')
             node.after(wrapper)
@@ -96,23 +114,42 @@ function handleBlockquotes(elem: Element) {
  * * string into 'html-to-draftjs'.
  */
 function replaceTags(elem: Element, replaceTagsMap: object) {
-    ;[...elem.querySelectorAll(Object.keys(replaceTagsMap).join())].forEach(elem => {
-        const newElem = document.createElement(replaceTagsMap[elem.localName])
-        ;[...elem.attributes].forEach(attr => newElem.setAttribute(attr.name, attr.value))
-        newElem.innerHTML = elem.innerHTML
-        elem.after(newElem)
-        elem.remove()
-    })
+    ;[...elem.querySelectorAll(Object.keys(replaceTagsMap).join())].forEach(
+        elem => {
+            const newElem = document.createElement(
+                replaceTagsMap[elem.localName]
+            )
+            ;[...elem.attributes].forEach(attr =>
+                newElem.setAttribute(attr.name, attr.value)
+            )
+            newElem.innerHTML = elem.innerHTML
+            elem.after(newElem)
+            elem.remove()
+        }
+    )
 }
 
 /**
  * Applies some necessary changes to the ContentState returned by 'html-to-draftjs'
  * to make it completely compatible with the current block-editor.
  */
-function modifyContent(contentState: ContentState, config: Config): ContentState {
+function modifyContent(
+    contentState: ContentState,
+    config: Config
+): ContentState {
     let tempState = contentState
-    tempState = convertColorStyles(tempState, 'color', 'TEXT-COLOR', config.colors.textColors)
-    tempState = convertColorStyles(tempState, 'bgcolor', 'HIGHLIGHT-COLOR', config.colors.highlightColors)
+    tempState = convertColorStyles(
+        tempState,
+        'color',
+        'TEXT-COLOR',
+        config.colors.textColors
+    )
+    tempState = convertColorStyles(
+        tempState,
+        'bgcolor',
+        'HIGHLIGHT-COLOR',
+        config.colors.highlightColors
+    )
     tempState = handleCodeBlocks(tempState)
     tempState = handleAlignment(tempState)
     tempState = handleMentionsAndLinks(tempState, config.getMentionLink)
@@ -122,7 +159,10 @@ function modifyContent(contentState: ContentState, config: Config): ContentState
 /**
  * Calculates the distance between two 3D points (i.e. RGB colors).
  */
-const dist = (p1, p2) => Math.sqrt(p1.map((v, i) => (v - p2[i]) ** 2).reduce((acc, val) => acc + val))
+const dist = (p1, p2) =>
+    Math.sqrt(
+        p1.map((v, i) => (v - p2[i]) ** 2).reduce((acc, val) => acc + val)
+    )
 /**
  * Finds the closest color to an specified color from an array of predefined colors.
  */
@@ -142,7 +182,11 @@ function findClosesColor(colorArr, colors) {
  */
 function toRgbArr(rgbStr) {
     return rgbStr[0] === '#'
-        ? [parseInt(rgbStr.slice(1, 3), 16), parseInt(rgbStr.slice(3, 5), 16), parseInt(rgbStr.slice(5, 7), 16)]
+        ? [
+              parseInt(rgbStr.slice(1, 3), 16),
+              parseInt(rgbStr.slice(3, 5), 16),
+              parseInt(rgbStr.slice(5, 7), 16),
+          ]
         : rgbStr
               .slice(4, rgbStr.length - 1)
               .split(',')
@@ -185,7 +229,11 @@ function convertColorStyles(
                     anchorOffset: start,
                     focusOffset: end,
                 })
-                newContentState = Modifier.removeInlineStyle(newContentState, selectionState, colorStyle)
+                newContentState = Modifier.removeInlineStyle(
+                    newContentState,
+                    selectionState,
+                    colorStyle
+                )
                 newContentState = Modifier.applyInlineStyle(
                     newContentState,
                     selectionState,
@@ -229,7 +277,11 @@ function handleCodeBlocks(contentState: ContentState): ContentState {
                         anchorOffset: start,
                         focusOffset: end,
                     })
-                    newContentState = Modifier.removeInlineStyle(newContentState, selectionState, 'CODE')
+                    newContentState = Modifier.removeInlineStyle(
+                        newContentState,
+                        selectionState,
+                        'CODE'
+                    )
                 }
             )
             return newContentState
@@ -246,11 +298,20 @@ function handleAlignment(contentState: ContentState): ContentState {
     const newBlocks = blocks.map(block => {
         const align = block.getData().get('text-align')
         if (!align) return block
-        const noAlignBlock = block.set('data', block.getData().remove('text-align')) as ContentBlock
-        const standardAlignBlock = block.set('data', noAlignBlock.getData().set('_align', align)) as ContentBlock
+        const noAlignBlock = block.set(
+            'data',
+            block.getData().remove('text-align')
+        ) as ContentBlock
+        const standardAlignBlock = block.set(
+            'data',
+            noAlignBlock.getData().set('_align', align)
+        ) as ContentBlock
         return standardAlignBlock
     })
-    const newContentState = ContentState.createFromBlockArray(newBlocks.toArray(), contentState.getBlockMap())
+    const newContentState = ContentState.createFromBlockArray(
+        newBlocks.toArray(),
+        contentState.getBlockMap()
+    )
     return newContentState
 }
 
@@ -265,19 +326,25 @@ const decodeUnicode = str =>
             .join('')
     ) // https://attacomsian.com/blog/javascript-base64-encode-decode
 // Regex to find all mentions and links
-const MENTION_LINK_REGEXP = /(@)\[\[([a-zA-Z\d\-_]+):([\w\s\.\-]+):([0-9a-zA-Z\+\/\=]+)(:([0-9a-zA-Z\+\/\=]*))?\]\]/
+const MENTION_LINK_REGEXP =
+    /(@)\[\[([a-zA-Z\d\-_]+):([\w\s\.\-]+):([0-9a-zA-Z\+\/\=]+)(:([0-9a-zA-Z\+\/\=]*))?\]\]/
 /**
  * Finds all legacy mention and link annotations and transform them to their
  * corresponding entities compatible with our current block-editor.
  */
-function handleMentionsAndLinks(contentState: ContentState, getMentionLink: GetMentionLink): ContentState {
+function handleMentionsAndLinks(
+    contentState: ContentState,
+    getMentionLink: GetMentionLink
+): ContentState {
     let tempState = contentState
     contentState
         .getBlockMap()
         .keySeq()
         .forEach(blockKey => {
             while (true) {
-                const match = MENTION_LINK_REGEXP.exec(tempState.getBlockForKey(blockKey).getText())
+                const match = MENTION_LINK_REGEXP.exec(
+                    tempState.getBlockForKey(blockKey).getText()
+                )
                 if (!match) break
                 const [subStr, , ...parts] = match
                 const { index: offset } = match
@@ -285,17 +352,25 @@ function handleMentionsAndLinks(contentState: ContentState, getMentionLink: GetM
                 tempState =
                     parts[0] === 'Link'
                         ? tempState.createEntity('LINK', 'IMMUTABLE', {
-                              href: decodeUnicode(JSON.parse(decodeUnicode(parts[4])).href),
+                              href: decodeUnicode(
+                                  JSON.parse(decodeUnicode(parts[4])).href
+                              ),
                           })
                         : (() => {
                               const m = { id: parts[0], type: parts[1] }
-                              return tempState.createEntity('mention', 'SEGMENTED', {
-                                  mention: {
-                                      ...m,
-                                      name: label,
-                                      ...(getMentionLink ? { href: getMentionLink(m) } : {}),
-                                  },
-                              })
+                              return tempState.createEntity(
+                                  'mention',
+                                  'SEGMENTED',
+                                  {
+                                      mention: {
+                                          ...m,
+                                          name: label,
+                                          ...(getMentionLink
+                                              ? { href: getMentionLink(m) }
+                                              : {}),
+                                      },
+                                  }
+                              )
                           })()
                 const entityKey = tempState.getLastCreatedEntityKey()
                 tempState = Modifier.replaceText(

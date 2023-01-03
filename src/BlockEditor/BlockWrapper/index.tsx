@@ -9,15 +9,23 @@ import useUiContext, { BlockRefs } from '../Contexts/UiContext'
 
 import * as styles from './styles.module.scss'
 
-const c = (styles, classes) => (classes ? classes.map(c => styles[c]).join(' ') : '')
+const c = (styles, classes) =>
+    classes ? classes.map(c => styles[c]).join(' ') : ''
 
 /**
  * This component wraps all the Content Blocks and provides a great deal of block editing functionality to them.
  */
 const BlockWrapper = ({ Comp, config = {} as any, children, ...rest }) => {
     const { editorState } = useEditorContext()
-    const { dragInfo, blockRefs, externalStyles, dir, blockLevelSelectionInfo, debugMode, collapsedBlocks } =
-        useUiContext()
+    const {
+        dragInfo,
+        blockRefs,
+        externalStyles,
+        dir,
+        blockLevelSelectionInfo,
+        debugMode,
+        collapsedBlocks,
+    } = useUiContext()
 
     const { block: outOfSyncBlock } = children?.props || rest
     const blockKey = outOfSyncBlock.getKey()
@@ -37,9 +45,15 @@ const BlockWrapper = ({ Comp, config = {} as any, children, ...rest }) => {
             blockRefs={blockRefs}
             externalStyles={externalStyles}
             dir={dir}
-            blockLevelSelected={blockLevelSelectionInfo.selectedBlockKeys.some(k => k === blockKey)}
+            blockLevelSelected={blockLevelSelectionInfo.selectedBlockKeys.some(
+                k => k === blockKey
+            )}
             debugMode={debugMode}
-            dragging={dragInfo.dragging && dragInfo.isDraggingByHandle && dragInfo.block.getKey() === blockKey}
+            dragging={
+                dragInfo.dragging &&
+                dragInfo.isDraggingByHandle &&
+                dragInfo.block.getKey() === blockKey
+            }
             draggable={dragInfo.isDraggingByHandle}
         />
     )
@@ -87,10 +101,14 @@ const _Block = memo<{
             <div
                 ref={elem => (blockRefs.current[blockKey] = elem)}
                 data-block-key={blockKey}
-                className={cn(styles.blockWrapper, c(externalStyles, config.styles?.wrapper), {
-                    [styles.dragging]: dragging,
-                    [externalStyles.blockLevelSelected]: blockLevelSelected,
-                })}
+                className={cn(
+                    styles.blockWrapper,
+                    c(externalStyles, config.styles?.wrapper),
+                    {
+                        [styles.dragging]: dragging,
+                        [externalStyles.blockLevelSelected]: blockLevelSelected,
+                    }
+                )}
                 // @ts-ignore
                 style={{ '--depth': depth }}
                 dir={direction === 'neutral' ? dir : direction}
@@ -114,14 +132,23 @@ const _Block = memo<{
 
         // Primitive props:
         if (
-            ['i', 'dragging', 'draggable', 'dir', 'blockLevelSelected', 'debugMode'].some(
-                k => prevProps[k] !== nextProps[k]
-            )
+            [
+                'i',
+                'dragging',
+                'draggable',
+                'dir',
+                'blockLevelSelected',
+                'debugMode',
+            ].some(k => prevProps[k] !== nextProps[k])
         )
             return false
 
         // Object props:
-        if (!prevProps.block.equals(nextProps.block) || prevProps.children !== nextProps.children) return false
+        if (
+            !prevProps.block.equals(nextProps.block) ||
+            prevProps.children !== nextProps.children
+        )
+            return false
 
         return true
     }

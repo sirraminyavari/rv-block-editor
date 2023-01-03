@@ -21,7 +21,9 @@ interface Cache {
 /**
  * Provides functionality for calculating and memoizing each block's collapsion status
  */
-export default function useCollapsedBlocks(contentState: ContentState): CollapsedBlocks {
+export default function useCollapsedBlocks(
+    contentState: ContentState
+): CollapsedBlocks {
     const blockMap = contentState.getBlockMap()
     const cache = useRef<Cache>({})
 
@@ -31,7 +33,8 @@ export default function useCollapsedBlocks(contentState: ContentState): Collapse
             if (!block) return null
             const depth = block.getDepth()
             if (!depth) return null
-            if (cache.current[blockKey]) return blockMap.get(cache.current[blockKey].parent)
+            if (cache.current[blockKey])
+                return blockMap.get(cache.current[blockKey].parent)
             return blockMap
                 .reverse()
                 .skipUntil((_, k) => k === blockKey)
@@ -51,7 +54,9 @@ export default function useCollapsedBlocks(contentState: ContentState): Collapse
                 cache.current[blockKey] = { isCollapsed: false }
                 return false
             }
-            const collapsed = parent.getData().get('_collapsed') || isCollapsed(parent.getKey())
+            const collapsed =
+                parent.getData().get('_collapsed') ||
+                isCollapsed(parent.getKey())
             cache.current[blockKey] = {
                 isCollapsed: collapsed,
                 parent: parent.getKey(),
