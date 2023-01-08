@@ -23,7 +23,7 @@ export interface Config {
 
 export default function createTablePlugin(config: Config = {}): EditorPlugin {
     const { initialRowN: rowN = 4, initialColN: colN = 3 } = config
-    return ({ getUiContext }) => ({
+    return {
         id: 'table',
 
         initialize() {
@@ -125,5 +125,5 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                 },
             ]),
         ],
-    })
+    }
 }
