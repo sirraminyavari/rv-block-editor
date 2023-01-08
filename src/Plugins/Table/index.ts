@@ -5,7 +5,7 @@ import { Map } from 'immutable'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
-import getTableComponent, { TableCell } from './Table'
+import getTableComponent, { getTableCellComponent, TableCell } from './Table'
 import tableLib from './lib'
 import * as keyboardHanlders from './keyboardHanlders'
 
@@ -18,6 +18,7 @@ export const TABLE_CELL_MARKER = {
 export interface Config {
     initialRowN?: number
     initialColN?: number
+    styles?: any
 }
 
 export default function createTablePlugin(config: Config = {}): EditorPlugin {
@@ -26,7 +27,7 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
         id: 'table',
 
         initialize() {
-            this.TableComponent = getTableComponent({ getUiContext, ...config })
+            this.TableComponent = getTableComponent(config)
         },
 
         plusActions: [
@@ -120,7 +121,7 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                             }
                         })
                     },
-                    component: TableCell,
+                    component: getTableCellComponent(config),
                 },
             ]),
         ],

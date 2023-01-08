@@ -3,6 +3,7 @@ import cn from 'classnames'
 import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 function Heading({ headingLevel, className, ...props }) {
+    // ! Next line might cause a bug, if it did, refer to 'Table Plugin' and see how it solved 'externalStyles'
     const { externalStyles } = useUiContext()
     const Component = `h${headingLevel}` as any
     return (

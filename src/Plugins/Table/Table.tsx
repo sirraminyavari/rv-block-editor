@@ -6,7 +6,6 @@ import useEditorContext from 'BlockEditor/Contexts/EditorContext'
 import Overlay from 'BlockEditor/Ui/Overlay'
 import Button from 'BlockEditor/Ui/Button'
 import getObjData from 'BlockEditor/Lib/getObjData'
-import useUiContext from 'BlockEditor/Contexts/UiContext'
 
 import * as styles from './styles.module.scss'
 import tableActions from './actions'
@@ -24,7 +23,6 @@ function Table({ config, ...props }) {
     useLayoutEffect(() => {
         tableId.current = makeTableId()
     }, [])
-    const { externalStyles } = useUiContext()
 
     const { rowN, colN, data } = props.blockProps
 
@@ -50,35 +48,41 @@ function Table({ config, ...props }) {
             />
             <div
                 id={tableId.current}
-                className={externalStyles.table}
+                className={config.styles?.table}
                 style={{
                     // @ts-expect-error
                     '--row-n': rowN,
                     '--col-n': colN,
                 }}>
                 <EditorBlock {...props} />
-                <TableOptions block={props.block} rowN={rowN} colN={colN} />
+                <TableOptions
+                    className={config.styles?.tableCellOptions}
+                    block={props.block}
+                    rowN={rowN}
+                    colN={colN}
+                />
             </div>
         </>
     )
 }
 
-export function TableCell(props) {
-    const { children } = props // It also has 'contentState' & 'entityKey'
-    const { externalStyles } = useUiContext()
+export function getTableCellComponent(config) {
+    return props => <TableCell config={config} {...props} />
+}
 
+export function TableCell({ config, ...props }) {
+    const { children } = props // It also has 'contentState' & 'entityKey'
     return (
         <span
             data-table-cell
-            className={externalStyles.tableCell}
+            className={config.styles?.tableCell}
             children={children}
         />
     )
 }
 
-function TableOptions({ block, rowN, colN }) {
+function TableOptions({ className, block, rowN, colN }) {
     const { editorState, setEditorState } = useEditorContext()
-    const { externalStyles } = useUiContext()
     const blockKey = block.getKey()
     const selectionState = editorState.getSelection()
     const isRangeInside =
@@ -87,7 +91,7 @@ function TableOptions({ block, rowN, colN }) {
         !selectionState.isCollapsed()
 
     return (
-        <Overlay className={externalStyles.tableCellOptions}>
+        <Overlay className={className}>
             <Button
                 Icon={TableIcon}
                 onClick={() =>
