@@ -48,7 +48,7 @@ function Table({ config, ...props }) {
             />
             <div
                 id={tableId.current}
-                className={config.styles?.table}
+                className={cn(styles.table, config.styles?.table)}
                 style={{
                     // @ts-expect-error
                     '--row-n': rowN,
@@ -56,7 +56,10 @@ function Table({ config, ...props }) {
                 }}>
                 <EditorBlock {...props} />
                 <TableOptions
-                    className={config.styles?.tableCellOptions}
+                    className={cn(
+                        styles.tableCellOptions,
+                        config.styles?.tableCellOptions
+                    )}
                     block={props.block}
                     rowN={rowN}
                     colN={colN}
@@ -75,7 +78,7 @@ export function TableCell({ config, ...props }) {
     return (
         <span
             data-table-cell
-            className={config.styles?.tableCell}
+            className={cn(styles.tableCell, config.styles?.tableCell)}
             children={children}
         />
     )
