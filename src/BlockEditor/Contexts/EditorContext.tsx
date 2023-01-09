@@ -32,6 +32,7 @@ export const EditorContextProvider: FC<EditorContextProviderProps> = ({
             const subTransformers = allPlugins
                 .map(p => p.stateTransformer)
                 .filter(Boolean)
+            if (!subTransformers.length) return incomingEditorState
             const memo = []
             function stateTransformer(
                 incomingEditorState: EditorState,
