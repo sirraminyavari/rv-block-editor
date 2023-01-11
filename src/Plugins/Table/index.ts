@@ -5,7 +5,7 @@ import { Map } from 'immutable'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
-import getTableComponent, { getTableCellComponent, TableCell } from './Table'
+import getTableComponent, { getTableCellComponent } from './Table'
 import tableLib from './lib'
 import * as keyboardHanlders from './keyboardHanlders'
 

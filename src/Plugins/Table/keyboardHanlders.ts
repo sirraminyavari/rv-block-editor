@@ -17,14 +17,6 @@ export const keyBindingFn: EditorPluginObject['keyBindingFn'] = (
     const selectionStatus = tableLib.isSelectionInsideOneTable(editorState)
     if (!selectionStatus.isSelectionInsideOneTable) return
     if (event.code === 'Enter') return 'table-enter'
-    if (
-        !editorState.getSelection().isCollapsed() &&
-        ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].indexOf(
-            event.code
-        ) < 0 &&
-        !event.ctrlKey
-    )
-        return 'table-ignore'
 }
 
 type handler = (args: {
@@ -45,7 +37,6 @@ const handlers: Record<string, handler> = {
         setEditorState(newEditorState)
         return 'handled'
     },
-    'table-ignore': () => 'handled',
 }
 
 export const handleKeyCommand: EditorPluginObject['handleKeyCommand'] = (
