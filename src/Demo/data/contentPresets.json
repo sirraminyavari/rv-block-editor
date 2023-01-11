@@ -707,6 +707,51 @@
         ],
         "entityMap": {}
     },
+    "table": {
+        "blocks": [
+            {
+                "key": "cgunv",
+                "text": "͏One᠎͏Just some text bro᠎͏Two᠎͏᠎͏Three᠎͏᠎͏Four᠎͏᠎͏Fivdw dwd kkj kjhe ljo᠎͏᠎͏Six᠎͏Seven᠎",
+                "type": "table",
+                "depth": 0,
+                "inlineStyleRanges": [
+                    { "offset": 34, "length": 3, "style": "TEXT-COLOR-red" },
+                    {
+                        "offset": 50,
+                        "length": 22,
+                        "style": "HIGHLIGHT-COLOR-red"
+                    }
+                ],
+                "entityRanges": [],
+                "data": {
+                    "rowN": 4,
+                    "colN": 3,
+                    "alignments": {
+                        "2": "right",
+                        "3": "right",
+                        "4": "center",
+                        "6": "right",
+                        "11": "center"
+                    }
+                }
+            }
+        ],
+        "entityMap": {}
+    },
+    "table #$": {
+        "blocks": [
+            {
+                "key": "cjphn",
+                "text": "#$#$#$#$#$#$#$#$#$#$#$#$",
+                "type": "table",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": { "rowN": 4, "colN": 3 }
+            }
+        ],
+        "entityMap": {}
+    },
     "theNestedMess": {
         "blocks": [
             {
