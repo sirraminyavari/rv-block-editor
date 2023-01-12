@@ -8,11 +8,14 @@ import { TableIcon } from './icons'
 import getTableComponent, { getTableCellComponent } from './Table'
 import tableLib from './lib'
 import * as keyboardHanlders from './keyboardHanlders'
+import stateTransformer from './stateTransformer'
 
 export const TABLE_CELL_MARKER = {
     // https://invisible-characters.com
     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
     end: '᠎', // U+180E: MONGOLIAN VOWEL SEPARATOR
+    start: '#',
+    end: '$',
 }
 
 export interface Config {
@@ -75,13 +78,6 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
             },
         ],
 
-        stateTransformer(incomingEditorState, prevEditorState) {
-            return tableLib.adjustSelection(
-                incomingEditorState,
-                prevEditorState
-            )
-        },
-
         blockRenderMap: Map({
             table: {
                 element: withBlockWrapper('div', {
@@ -100,8 +96,6 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                 props: tableLib.getTableData(contentBlock),
             }
         },
-
-        ...keyboardHanlders,
 
         decorators: [
             new CompositeDecorator([
@@ -125,5 +119,8 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                 },
             ]),
         ],
+
+        ...keyboardHanlders,
+        stateTransformer,
     }
 }
