@@ -8,9 +8,7 @@ import { UiContext } from './Contexts/UiContext'
 // Supported language codes
 export type Language = 'en' | 'fa'
 
-/**
- * Layout directions.
- */
+// Layout directions
 export type Direction = 'ltr' | 'rtl'
 
 // Dictionary of labels for all supported languages
@@ -19,12 +17,6 @@ export type Dict = {
         [key: string]: string
     }
 }
-
-// TODO: Docs
-export type StateTransformer = (
-    incomingEditorState: EditorState,
-    prevEditorState: EditorState
-) => EditorState
 
 /**
  * These Props are passed to all inline-style custom components
@@ -61,6 +53,16 @@ export interface TransformedInlineStyle extends InlineStyle {
 }
 
 /**
+ * Defines a State Transformer function.
+ * A State Transformer is a function that gets called before setEditorState and
+ * insures that incomingEditorState is compatible with the corresponding plugin.
+ */
+export type StateTransformer = (
+    incomingEditorState: EditorState,
+    prevEditorState: EditorState
+) => EditorState
+
+/**
  * Defines a Plus Action.
  * * Objects of this interface will be transformed to `TransformedPlusAction`s by the TransformedPlugins Context for internal use.
  */
@@ -73,7 +75,7 @@ export interface PlusAction {
     returnBreakout?: boolean
     // Whether to break out of a Content Block of this Plus Action on double return. (e.g. OL)
     doubleBreakout?: boolean
-    // TODO: Docs
+    // This State Transformer gets called right after a Plus Action is created.
     initialStateTransformer?: StateTransformer
 }
 
@@ -82,7 +84,7 @@ export interface PlusAction {
  * * This interface will be used throughout the internal implementation of this editor instead of `PlusAction`.
  */
 export interface TransformedPlusAction extends PlusAction {
-    // TODO: Docs
+    // The plugin in which the current Plus Action is defined.
     plugin: EditorPluginObject
 }
 
@@ -99,7 +101,7 @@ export interface EditorPluginObject extends _EditorPlugin {
     plusActions?: PlusAction[]
     // A component used to display a custom UI for the plugin
     OverlayComponent?: ComponentType<ReactNode>
-    // TODO: Docs
+    // This State Transformer gets called right before every single setEditorState
     stateTransformer?: StateTransformer
 }
 
