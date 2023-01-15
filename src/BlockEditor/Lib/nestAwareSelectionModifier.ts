@@ -4,6 +4,9 @@ import { BlockLevelSelectionInfo } from '../Contexts/UiContext'
 
 import trimCollapsedBlocks from './trimCollapsedBlocks'
 
+/**
+ * Extends BLS selection one block or block group to the bottom.
+ */
 export function goDown(
     editorState: EditorState,
     blsInfo: BlockLevelSelectionInfo
@@ -41,6 +44,9 @@ export function goDown(
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
+/**
+ * Extends BLS selection one block or block group to the top.
+ */
 export function goUp(
     editorState: EditorState,
     blsInfo: BlockLevelSelectionInfo
@@ -79,6 +85,9 @@ export function goUp(
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
+/**
+ * Extends BLS selection one single block to the bottom.
+ */
 export function goDownSingleBlock(
     editorState: EditorState,
     blsInfo: BlockLevelSelectionInfo
@@ -104,6 +113,9 @@ export function goDownSingleBlock(
     return EditorState.forceSelection(editorState, newSelectionState)
 }
 
+/**
+ * Extends BLS selection one single block to the top.
+ */
 export function goUpSingleBlock(
     editorState: EditorState,
     blsInfo: BlockLevelSelectionInfo

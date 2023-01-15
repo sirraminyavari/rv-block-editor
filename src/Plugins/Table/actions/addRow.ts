@@ -10,6 +10,9 @@ import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
+/**
+ * Adds a new row to @param tableBlock after the @param anchorCol-th row
+ */
 export function addRow(
     contentState: ContentState,
     tableBlock: ContentBlock,

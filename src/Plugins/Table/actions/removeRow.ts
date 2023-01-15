@@ -11,6 +11,9 @@ import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
+/**
+ * Removes the @param anchorCol-th row from @param tableBlock .
+ */
 export function removeRow(
     contentState: ContentState,
     tableBlock: ContentBlock,

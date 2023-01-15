@@ -3,6 +3,10 @@ import { EditorState, ContentBlock } from 'draft-js'
 import tableLib from '../lib'
 import { removeCol } from './removeCol'
 
+/**
+ * Removes the column that has the cursor in it from @param tableBlock .
+ * Cursor position is extracted from @param editorState .
+ */
 export function removeColByCursor(
     editorState: EditorState,
     tableBlock: ContentBlock

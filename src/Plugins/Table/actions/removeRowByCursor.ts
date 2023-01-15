@@ -3,6 +3,10 @@ import { EditorState, ContentBlock } from 'draft-js'
 import tableLib from '../lib'
 import { removeRow } from './removeRow'
 
+/**
+ * Removes the row that has the cursor in it from @param tableBlock .
+ * Cursor position is extracted from @param editorState .
+ */
 export function removeRowByCursor(
     editorState: EditorState,
     tableBlock: ContentBlock

@@ -5,13 +5,15 @@ import {
     ContentBlock,
     Modifier,
 } from 'draft-js'
-import { Alignment } from 'BlockEditor'
 import _ from 'lodash'
 import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 import tableLib from '../lib'
 
 import { TABLE_CELL_MARKER } from '..'
 
+/**
+ * Adds a new column to @param tableBlock after the @param anchorCol-th column
+ */
 export function addCol(
     contentState: ContentState,
     tableBlock: ContentBlock,

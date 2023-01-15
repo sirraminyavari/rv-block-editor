@@ -2,6 +2,10 @@ import { ContentBlock, EditorState, Modifier, SelectionState } from 'draft-js'
 import _ from 'lodash'
 import { Map } from 'immutable'
 
+/**
+ * Removes the entire table content from @param tableBlock and sets
+ * its type back to 'unstyled'.
+ */
 export function removeTable(
     editorState: EditorState,
     tableBlock: ContentBlock

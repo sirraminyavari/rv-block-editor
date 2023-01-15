@@ -1,5 +1,9 @@
 import { TABLE_CELL_MARKER } from '..'
 
+/**
+ * Gets @param offset's position inside table text @param text, given the
+ * table's number of columns @param colN .
+ */
 export function getOffsetPositionsInTable(
     offset: number,
     colN: number,

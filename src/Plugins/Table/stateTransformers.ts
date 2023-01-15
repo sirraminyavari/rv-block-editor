@@ -1,10 +1,57 @@
 import { EditorState, Modifier } from 'draft-js'
 import _ from 'lodash'
+import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import tableLib from './lib'
 import { TABLE_CELL_MARKER } from '.'
 
-export default function stateTransformer(
+/**
+ * Initializes a newly created table block with the necessary table markers.
+ */
+export function initialStateTransformer(
+    initialRowN: number,
+    initialColN: number,
+    editorState: EditorState
+) {
+    const selectionState = editorState.getSelection()
+    const newContentState = _.chain(editorState.getCurrentContent())
+        .thru(contentState =>
+            mergeBlockData(
+                EditorState.createWithContent(contentState),
+                selectionState.getAnchorKey(),
+                {
+                    rowN: initialRowN,
+                    colN: initialColN,
+                }
+            ).getCurrentContent()
+        )
+        .thru(contentState =>
+            Modifier.insertText(
+                contentState,
+                editorState
+                    .getSelection()
+                    .merge({ anchorOffset: 0, focusOffset: 0 }),
+                `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(
+                    initialRowN * initialColN
+                )
+            )
+        )
+        .value()
+    return EditorState.forceSelection(
+        EditorState.set(editorState, {
+            currentContent: newContentState,
+        }),
+        selectionState.merge({
+            anchorOffset: 1,
+            focusOffset: 1,
+        })
+    )
+}
+
+/**
+ * Makes sure that table text and selection is always valid.
+ */
+export function continousStateTransformer(
     incEditorState: EditorState,
     prevEditorState: EditorState
 ) {
@@ -16,6 +63,9 @@ export default function stateTransformer(
         .value()
 }
 
+/**
+ * Adjusts table markers in accordance with EditorState's last change.
+ */
 function adjustMarkers(incEditorState: EditorState): EditorState {
     const lastChangeType = incEditorState.getLastChangeType()
     if (

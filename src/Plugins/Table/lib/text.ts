@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 import { TABLE_CELL_MARKER } from '..'
 
+// TODO: Docs
 const getRangeMarkers = (text: string, selectionState: SelectionState) =>
     [
         ...text.slice(
@@ -15,13 +16,19 @@ const getRangeMarkers = (text: string, selectionState: SelectionState) =>
                 [TABLE_CELL_MARKER.start, TABLE_CELL_MARKER.end].indexOf(c) >= 0
         )
         .join('')
+
+// TODO: Docs
 const moveSelection = (selectionState: SelectionState, n: number) =>
     selectionState.merge({
         anchorOffset: selectionState.getAnchorOffset() + n,
         focusOffset: selectionState.getFocusOffset() + n,
     })
 
-// Only use when the whole selection is inside 1 table
+/**
+ * TODO: Docs
+ *
+ * * Only use when the whole selection is inside 1 table
+ */
 export function insertText(
     contentState: ContentState,
     selectionState: SelectionState,
@@ -38,7 +45,11 @@ export function insertText(
     return Modifier.replaceText(contentState, selectionState, newText)
 }
 
-// Only use when the whole selection is inside 1 table
+/**
+ * TODO: Docs
+ *
+ * * Only use when the whole selection is inside 1 table
+ */
 export function removeRange(
     contentState: ContentState,
     selectionState: SelectionState,

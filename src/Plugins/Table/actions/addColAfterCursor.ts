@@ -3,6 +3,10 @@ import { EditorState, ContentBlock } from 'draft-js'
 import tableLib from '../lib'
 import { addCol } from './addCol'
 
+/**
+ * Adds a new column to @param tableBlock after selection extracted
+ * from @param editorState
+ */
 export function addColAfterCursor(
     editorState: EditorState,
     tableBlock: ContentBlock

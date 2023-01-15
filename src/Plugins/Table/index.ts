@@ -1,15 +1,18 @@
-import { EditorState, Modifier, CompositeDecorator } from 'draft-js'
+import { CompositeDecorator } from 'draft-js'
 import { EditorPlugin, withBlockWrapper } from 'BlockEditor'
 import _ from 'lodash'
 import { Map } from 'immutable'
-import mergeBlockData from 'BlockEditor/Lib/mergeBlockData'
 
 import { TableIcon } from './icons'
 import getTableComponent, { getTableCellComponent } from './Table'
 import tableLib from './lib'
 import * as keyboardHanlders from './keyboardHanlders'
-import stateTransformer from './stateTransformer'
+import {
+    initialStateTransformer,
+    continousStateTransformer,
+} from './stateTransformers'
 
+// These markers are used to enclose table cells
 export const TABLE_CELL_MARKER = {
     // https://invisible-characters.com
     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
@@ -23,7 +26,7 @@ export interface Config {
 }
 
 export default function createTablePlugin(config: Config = {}): EditorPlugin {
-    const { initialRowN: rowN = 4, initialColN: colN = 3 } = config
+    const { initialRowN = 4, initialColN = 3 } = config
     return {
         id: 'table',
 
@@ -36,43 +39,10 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
                 action: 'table',
                 Icon: TableIcon,
                 returnBreakout: false,
-                initialStateTransformer(editorState) {
-                    const selectionState = editorState.getSelection()
-                    const newContentState = _.chain(
-                        editorState.getCurrentContent()
-                    )
-                        .thru(contentState =>
-                            mergeBlockData(
-                                EditorState.createWithContent(contentState),
-                                selectionState.getAnchorKey(),
-                                {
-                                    rowN,
-                                    colN,
-                                }
-                            ).getCurrentContent()
-                        )
-                        .thru(contentState =>
-                            Modifier.insertText(
-                                contentState,
-                                editorState
-                                    .getSelection()
-                                    .merge({ anchorOffset: 0, focusOffset: 0 }),
-                                `${TABLE_CELL_MARKER.start}${TABLE_CELL_MARKER.end}`.repeat(
-                                    rowN * colN
-                                )
-                            )
-                        )
-                        .value()
-                    return EditorState.forceSelection(
-                        EditorState.set(editorState, {
-                            currentContent: newContentState,
-                        }),
-                        selectionState.merge({
-                            anchorOffset: 1,
-                            focusOffset: 1,
-                        })
-                    )
-                },
+                initialStateTransformer: initialStateTransformer.bind(
+                    initialRowN,
+                    initialColN
+                ),
             },
         ],
 
@@ -119,6 +89,6 @@ export default function createTablePlugin(config: Config = {}): EditorPlugin {
         ],
 
         ...keyboardHanlders,
-        stateTransformer,
+        stateTransformer: continousStateTransformer,
     }
 }

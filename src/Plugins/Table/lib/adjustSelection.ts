@@ -3,6 +3,10 @@ import { EditorState } from 'draft-js'
 import { TABLE_CELL_MARKER } from '..'
 import { isSelectionInsideOneTable } from './isSelectionInsideOneTable'
 
+/**
+ * Adjusts the SelectionState of @param incomingEditorState in a way that
+ * neighter anchorOffset nor focusOffset is critical.
+ */
 export function adjustSelection(
     incEditorState: EditorState,
     prevEditorState: EditorState
@@ -24,14 +28,6 @@ export function adjustSelection(
     const newSelectionState = (() => {
         if (!isIncAnchorOffsetCritical && !isIncFocusOffsetCritical)
             return incSelectionState
-
-        // if (incSelectionState.isCollapsed()) {
-        //     const adjustedOffset = incFocusOffset + Math.sign ( incFocusOffset - prevFocusOffset )
-        //     return incSelectionState.merge({
-        //         anchorOffset: adjustedOffset,
-        //         focusOffset: adjustedOffset,
-        //     })
-        // }
 
         if (incFocusOffset === 0) {
             if (prevFocusOffset !== 1)
@@ -63,14 +59,8 @@ export function adjustSelection(
         }
 
         return incSelectionState.merge({
-            anchorOffset: adjustOffsetComparative(
-                incAnchorOffset,
-                prevAnchorOffset
-            ),
-            focusOffset: adjustOffsetComparative(
-                incFocusOffset,
-                prevFocusOffset
-            ),
+            anchorOffset: adjustOffset(incAnchorOffset, prevAnchorOffset),
+            focusOffset: adjustOffset(incFocusOffset, prevFocusOffset),
         })
     })()
 
@@ -79,22 +69,34 @@ export function adjustSelection(
     return EditorState.forceSelection(incEditorState, newSelectionState)
 }
 
+/**
+ * Detects whether @param offset in @param text is critical i.e.
+ * in the wrong place relative to the table markers.
+ */
 const isCritical = (text: string, offset: number) =>
     text[offset] === TABLE_CELL_MARKER.start ||
     text[offset - 1] === TABLE_CELL_MARKER.end
 
-// function adjustOffsetDom(
-//     domSelection: Selection,
-//     offset: number,
-//     text: string
-// ) {
-//     const cellElem = domSelection.anchorNode?.parentElement.closest('[data-table-cell]')
-//     if (!cellElem) return offset
-//     const cellN = [...cellElem.parentElement.children].indexOf(cellElem)
-//     const cellBeforeN =
-//         text.slice(0, offset).split(TABLE_CELL_MARKER.end).length - 1
-//     return offset + (cellN >= cellBeforeN ? 1 : -1)
-// }
-
-const adjustOffsetComparative = (incOffset: number, prevOffset: number) =>
+/**
+ * Adjusts a critical offset.
+ */
+const adjustOffset = (incOffset: number, prevOffset: number) =>
     incOffset + Math.sign(incOffset - prevOffset)
+
+/**
+ * Adjusts table selection on critical points according to @param domSelection .
+ * ! This function is not currently used anywhere.
+ */
+export default function adjustOffsetDom(
+    domSelection: Selection,
+    offset: number,
+    text: string
+) {
+    const cellElem =
+        domSelection.anchorNode?.parentElement.closest('[data-table-cell]')
+    if (!cellElem) return offset
+    const cellN = [...cellElem.parentElement.children].indexOf(cellElem)
+    const cellBeforeN =
+        text.slice(0, offset).split(TABLE_CELL_MARKER.end).length - 1
+    return offset + (cellN >= cellBeforeN ? 1 : -1)
+}

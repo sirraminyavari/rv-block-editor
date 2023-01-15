@@ -3,6 +3,10 @@ import { EditorState, ContentBlock } from 'draft-js'
 import tableLib from '../lib'
 import { addRow } from './addRow'
 
+/**
+ * Adds a new row to @param tableBlock after selection extracted
+ * from @param editorState
+ */
 export function addRowAfterCursor(
     editorState: EditorState,
     tableBlock: ContentBlock
