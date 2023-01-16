@@ -6,6 +6,7 @@ import {
     BlockMap,
 } from 'draft-js'
 import randomizeBlockMapKeys from 'draft-js/lib/randomizeBlockMapKeys'
+import tableLib from 'Plugins/Table/lib'
 
 import getSelectionDepth from '../Lib/getSelectionDepth'
 import setBlockRangeDepth from '../Lib/setBlockRangeDepth'

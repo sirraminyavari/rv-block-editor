@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, MutableRefObject } from 'react'
 import { EditorState, RawDraftContentState } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
+import tableLib from 'Plugins/Table/lib'
 
 import useUiContext, { UiContext } from '../Contexts/UiContext'
 import useEditorContext from '../Contexts/EditorContext'
@@ -80,7 +81,10 @@ export default function useClipboardHandlers() {
  * This method tells Draft.js whether to use its own pasing logic or delegate
  * the paste operation to our custom clipboard handler.
  */
-export function handlePastedText(_, html, _2) {
+export function handlePastedText(text, html, editorState, { setEditorState }) {
+    // if ( tableLib.isTableText ( text ) ) // FIXME: Spaghetti
+    //     return 'not-handled'
+    // return 'not-handled'
     if (!html) return 'not-handled'
     const elem = document.createElement('div')
     elem.innerHTML = html

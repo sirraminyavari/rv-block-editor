@@ -17,6 +17,8 @@ export const TABLE_CELL_MARKER = {
     // https://invisible-characters.com
     start: '͏', // U+034F: COMBINING GRAPHEME JOINER
     end: '᠎', // U+180E: MONGOLIAN VOWEL SEPARATOR
+    // start: '#',
+    // end: '$',
 }
 
 export interface Config {
